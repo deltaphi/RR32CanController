@@ -4,17 +4,17 @@
 // Action lists use human numbering
 ActionList actionLists[NumActionLists] = {
     {{20, TurnoutDirection::RED},
-     {4, TurnoutDirection::RED},
-     {5, TurnoutDirection::RED}},  // 1 red
+     {4, TurnoutDirection::GREEN},
+     {5, TurnoutDirection::GREEN}},  // 1 red
     {{20, TurnoutDirection::RED},
      {4, TurnoutDirection::GREEN},
      {5, TurnoutDirection::RED}},  // 2 red
     {{20, TurnoutDirection::RED},
-     {4, TurnoutDirection::GREEN},
-     {5, TurnoutDirection::GREEN}},  // 3 red
+     {4, TurnoutDirection::RED},
+     {250, TurnoutDirection::GREEN}},  // 3 red. Last switch is a "don't care"
     {{20, TurnoutDirection::GREEN},
      {7, TurnoutDirection::GREEN},
-     {22, TurnoutDirection::RED}},  // 1 green
+     {250, TurnoutDirection::RED}},  // 1 green. Last switch is a "don't care"
     {{20, TurnoutDirection::GREEN},
      {7, TurnoutDirection::RED},
      {22, TurnoutDirection::RED}},  // 2 green

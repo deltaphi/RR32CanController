@@ -33,10 +33,14 @@ void handleMultiturnout(TurnoutLookupResult result,
     return;
   }
 
-  if (requestedDirection == TurnoutDirection::GREEN) {
+  if (requestedDirection == TurnoutDirection::RED) {
     // Add offset into the green lists
     result.address += actionListEndIndex;
   }
+
+  Serial.print("Starting Action List ");
+  Serial.println(result.address, DEC);
+    
 
 #if (LOG_ACTIONLIST == STD_ON)
   Serial.print("Requesting action list ");
