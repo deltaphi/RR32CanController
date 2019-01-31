@@ -1,6 +1,13 @@
 #include <Arduino.h>
 #include <AsyncShiftIn.h>
 #include <CAN.h>
+
+#if (DISPLAY_ATTACHED == STD_ON)
+#include <Wire.h>
+#include "SSD1306Wire.h"
+#endif
+
+
 #include "ActionListProcessor.h"
 #include "DebouncedDualKey.h"
 #include "TurnoutTypes.h"
@@ -19,6 +26,10 @@ using DebouncedKeyArray = DebouncedKeyType[SHIFT_REGISTER_LENGTH];
 DebouncedKeyArray keyArray;
 
 ActionListProcessor actionListProcessor;
+
+#if (DISPLAY_ATTACHED == STD_ON)
+SSD1306Wire display(DISPLAY_TWI_ADDRESS, TWI_SDA_PIN, TWI_SCL_PIN);
+#endif
 
 void handleMultiturnout(TurnoutLookupResult result,
                         TurnoutDirection requestedDirection) {
@@ -155,6 +166,19 @@ void setup() {
       ;
   }
 
+#if (DISPLAY_ATTACHED == STD_ON)
+  Serial.println("Starting Display");
+  // Initialize the Display
+  display.init();
+#endif
+
+#if (ENCODER_ENABLED == STD_ON)
+  Serial.println("Starting Encoder");
+  pinMode(ENCODER_LEFT_PIN, INPUT);
+  pinMode(ENCODER_RIGHT_PIN, INPUT);
+  pinMode(ENCODER_BUTTON_PIN, INPUT);
+#endif
+
   // Initializing the shift register
   initialized = false;
   shiftRegister0.init(S88_DATA_IN_PIN, S88_CLOCK_OUT_PIN, S88_PS_OUT_PIN,
@@ -172,6 +196,20 @@ void setup() {
 }
 
 void loop() {
+#if (DISPLAY_ATTACHED == STD_ON)
+  display.clear();
+
+  display.setTextAlignment(TEXT_ALIGN_LEFT);
+  display.setFont(ArialMT_Plain_10);
+  display.drawString(0, 0, "Hello world");
+  display.setFont(ArialMT_Plain_16);
+  display.drawString(0, 10, "Hello world");
+  display.setFont(ArialMT_Plain_24);
+  display.drawString(0, 26, "Hello world");
+
+  display.display();
+#endif
+
   // Process CAN Frames
   int packetSize = CAN.parsePacket();
 

@@ -1,6 +1,9 @@
-[submodule "lib/CAN"]
-	path = lib/CAN
-	url = https://github.com/sandeepmistry/arduino-CAN.git
 [submodule "lib/AsyncShiftIn"]
 	path = lib/AsyncShiftIn
 	url = https://github.com/deltaphi/AsyncShiftIn.git
+[submodule "lib/CAN"]
+	path = lib/CAN
+	url = https://github.com/sandeepmistry/arduino-CAN.git
+[submodule "lib/esp8266-oled-ssd1306"]
+	path = lib/esp8266-oled-ssd1306
+	url = https://github.com/ThingPulse/esp8266-oled-ssd1306.git
