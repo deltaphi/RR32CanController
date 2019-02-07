@@ -7,6 +7,9 @@
 #include "SSD1306Wire.h"
 #endif
 
+#if (ENCODER_ENABLED == STD_ON)
+#include "RotaryEncoder.h"
+#endif
 
 #include "ActionListProcessor.h"
 #include "DebouncedDualKey.h"
@@ -29,6 +32,10 @@ ActionListProcessor actionListProcessor;
 
 #if (DISPLAY_ATTACHED == STD_ON)
 SSD1306Wire display(DISPLAY_TWI_ADDRESS, TWI_SDA_PIN, TWI_SCL_PIN);
+#endif
+
+#if (ENCODER_ENABLED == STD_ON)
+RotaryEncoder encoder(ENCODER_A_PIN, ENCODER_B_PIN);
 #endif
 
 void handleMultiturnout(TurnoutLookupResult result,
@@ -174,8 +181,6 @@ void setup() {
 
 #if (ENCODER_ENABLED == STD_ON)
   Serial.println("Starting Encoder");
-  pinMode(ENCODER_LEFT_PIN, INPUT);
-  pinMode(ENCODER_RIGHT_PIN, INPUT);
   pinMode(ENCODER_BUTTON_PIN, INPUT);
 #endif
 
@@ -195,8 +200,8 @@ void setup() {
   Serial.println(F("Initial full sweep done."));
 }
 
-void loop() {
 #if (DISPLAY_ATTACHED == STD_ON)
+void loopDisplay() {
   display.clear();
 
   display.setTextAlignment(TEXT_ALIGN_LEFT);
@@ -208,6 +213,44 @@ void loop() {
   display.drawString(0, 26, "Hello world");
 
   display.display();
+}
+#endif
+
+#if (ENCODER_ENABLED == STD_ON)
+unsigned long lastReadTime = 0;
+int encoderPosition = 0;
+
+void loopEncoder() {
+  unsigned long now = millis();
+
+  if (lastReadTime - now > 1000) {
+    // Read at most once every 1ms
+
+    uint8_t readButton = digitalRead(ENCODER_BUTTON_PIN);
+    if (readButton == LOW) {
+      Serial.println("Pressed Button");
+    }
+
+    encoder.tick();
+
+    int newPosition = encoder.getPosition();
+    if (encoderPosition != newPosition) {
+      Serial.print("Encoder position: ");
+      Serial.print(newPosition);
+      Serial.println();
+      encoderPosition = newPosition;
+    }
+  }
+}
+#endif
+
+void loop() {
+#if (DISPLAY_ATTACHED == STD_ON)
+  loopDisplay();
+#endif
+
+#if (ENCODER_ENABLED == STD_ON)
+  loopEncoder();
 #endif
 
   // Process CAN Frames

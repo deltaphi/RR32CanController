@@ -5,7 +5,7 @@
 #define STD_ON (1U)
 
 #define DISPLAY_ATTACHED STD_ON
-#define ENCODER_ENABLED STD_OFF
+#define ENCODER_ENABLED STD_ON
 
 #define S88_DATA_IN_PIN (18)
 #define S88_CLOCK_OUT_PIN (23)
@@ -13,9 +13,9 @@
 #define S88_RESET_OUT_PIN (21)
 
 #if (ENCODER_ENABLED == STD_ON)
-#define ENCODER_LEFT_PIN (34)
-#define ENCODER_RIGHT_PIN (33)
-#define ENCODER_BUTTON_PIN (32)
+#define ENCODER_A_PIN (32)
+#define ENCODER_B_PIN (35)
+#define ENCODER_BUTTON_PIN (34)
 #endif
 
 #define TWI_SCL_PIN (26)
