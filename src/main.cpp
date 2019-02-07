@@ -177,6 +177,7 @@ void setup() {
   Serial.println("Starting Display");
   // Initialize the Display
   display.init();
+  display.flipScreenVertically();
 #endif
 
 #if (ENCODER_ENABLED == STD_ON)
