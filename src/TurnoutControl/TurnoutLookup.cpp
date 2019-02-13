@@ -1,6 +1,8 @@
 #include "TurnoutTypes.h"
 #include "config.h"
 
+namespace TurnoutControl {
+
 // Action lists use human numbering
 ActionList actionLists[NumActionLists] = {
     {{20, TurnoutDirection::RED},
@@ -121,3 +123,5 @@ TurnoutLookupResult lookupTurnout(uint8_t buttonIndex) {
 
   return result;
 }
+
+} /* namespace TurnoutControl */

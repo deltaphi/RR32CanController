@@ -1,6 +1,8 @@
 #include "ActionListProcessor.h"
 #include "config.h"
 
+namespace TurnoutControl {
+
 void ActionListProcessor::loop() {
   if (!hasActiveAction()) {
     return;  // No action list active.
@@ -75,3 +77,5 @@ bool ActionListProcessor::requestActionList(uint8_t actionListIndex) {
     return true;
   }
 }
+
+} /* namespace TurnoutControl */

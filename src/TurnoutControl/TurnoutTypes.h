@@ -3,6 +3,8 @@
 
 #include <Arduino.h>
 
+namespace TurnoutControl {
+
 enum class TurnoutAddressMode { SingleTurnout = 0, MultiTurnout };
 
 typedef struct {
@@ -26,4 +28,7 @@ constexpr uint8_t NumActionLists = 6;
 TurnoutLookupResult lookupTurnout(uint8_t buttonIndex);
 
 extern ActionList actionLists[NumActionLists];
+
+} /* namespace TurnoutControl */
+
 #endif

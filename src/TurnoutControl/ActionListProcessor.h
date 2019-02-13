@@ -3,6 +3,8 @@
 
 #include "TurnoutTypes.h"
 
+namespace TurnoutControl {
+
 // Forward declaration for this function
 void sendTurnoutPacket(uint32_t turnoutAddress, TurnoutDirection direction,
                        uint8_t power);
@@ -52,5 +54,7 @@ class ActionListProcessor {
   constexpr static unsigned long requestedSleepDuration =
       200000;  // Sleep for 200ms, i.e, 200'000us
 };
+
+} /* namespace TurnoutControl */
 
 #endif
