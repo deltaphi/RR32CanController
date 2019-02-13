@@ -21,11 +21,25 @@ namespace EngineControl {
 #if (DISPLAY_ATTACHED == STD_ON)
 extern SSD1306Wire display;
 void loopDisplay();
+
+#define STRING_CHAR_LENGTH (16)
+#define STRING_DATATYPE_LENGTH ((STRING_CHAR_LENGTH) + 1)
+
+using TextBuffer = char[2][STRING_DATATYPE_LENGTH];
+
+extern TextBuffer displayText;
+extern TextBuffer displayTextBuffer;
+
 #endif
 
 #if (ENCODER_ENABLED == STD_ON)
 extern RotaryEncoder encoder;
 void loopEncoder();
+
+enum class DisplayMode {
+  ENGINE,
+  SELECT_ENGINE
+};
 #endif
 
 void begin();
