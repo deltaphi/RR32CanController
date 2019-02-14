@@ -1,7 +1,11 @@
+#include <CAN.h>
+#include "maerklin-can.h"
+
 #include "EngineControl/EngineControl.h"
 #include "config.h"
 #include "DebouncedDualKey.h"
 #include "EngineControl/DisplayManager.h"
+
 
 namespace EngineControl {
 
@@ -44,6 +48,38 @@ void loop() {
 #endif
 }
 
+void sendQueryEngineName(uint8_t offset) {
+  Serial.print("Querying for Engines...");
+  // Just try to download the first two engines from the MS2
+  MaerklinCanIdentifier identifier;
+  // identifier.prio = 4; // Value is specified but actual implementations don't
+  // use it.
+  identifier.command = kRequestConfigData;
+  identifier.response = false;
+  identifier.computeAndSetHash(maerklinCanUUID);
+
+  // Don't bother with a data struct here.
+  constexpr static uint8_t charCount = 8;
+  constexpr static char kLocoNames[charCount + 1] = "loknamen";
+
+  // Send packet on CAN
+  CAN.beginExtendedPacket(identifier.makeIdentifier());
+  for (int i = 0; i < charCount; ++i) {
+    CAN.write(kLocoNames[i]);
+  }
+  CAN.endPacket();
+
+  CAN.beginExtendedPacket(identifier.makeIdentifier());
+  char buffer[charCount + 1];
+  uint8_t printedCharCount = snprintf(buffer, charCount, "%d %d", offset, 2);
+  for (int i = 0; i < printedCharCount; ++i) {
+    CAN.write(buffer[i]);
+  }
+  CAN.endPacket();
+
+  Serial.println(" done.");
+}
+
 #if (ENCODER_ENABLED == STD_ON)
 
 void loopEncoder() {
@@ -57,6 +93,7 @@ void loopEncoder() {
         // Switch Menu mode
         if (displayMode == DisplayMode::ENGINE) {
           displayMode = DisplayMode::SELECT_ENGINE;
+          sendQueryEngineName(0);
         } else {
           displayMode = DisplayMode::ENGINE;
         }
