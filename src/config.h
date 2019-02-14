@@ -1,6 +1,8 @@
 #ifndef __CONFIG_H__
 #define __CONFIG_H__
 
+#include <cstdint>
+
 #define STD_OFF (0U)
 #define STD_ON (1U)
 
