@@ -1,18 +1,13 @@
 #include "EngineControl/EngineControl.h"
 #include "config.h"
 #include "DebouncedDualKey.h"
+#include "EngineControl/DisplayManager.h"
 
 namespace EngineControl {
 
 #if (DISPLAY_ATTACHED == STD_ON)
-SSD1306Wire display(DISPLAY_TWI_ADDRESS, TWI_SDA_PIN, TWI_SCL_PIN);
-
+DisplayManager displayManager;
 DisplayMode displayMode = DisplayMode::ENGINE;
-
-boolean displayUpdateRequested = false;
-TextBuffer displayText;
-
-constexpr const uint8_t voffset[] = {0, 26};
 #endif
 
 #if (ENCODER_ENABLED == STD_ON)
@@ -23,17 +18,8 @@ DebouncedKey<1, 1> encoderKey;
 #endif
 
 void begin() {
-
 #if (DISPLAY_ATTACHED == STD_ON)
-  Serial.println("Starting Display");
-  // Initialize the Display
-  display.init();
-  display.flipScreenVertically();
-
-  memset(displayText, 0, sizeof(displayText));
-  strncpy(displayText[0], "Encoder:", STRING_CHAR_LENGTH);
-  snprintf(displayText[1], STRING_CHAR_LENGTH, "%d", encoderPosition);
-  displayUpdateRequested = true;
+  displayManager.begin();
 #endif
 
 #if (ENCODER_ENABLED == STD_ON)
@@ -42,41 +28,21 @@ void begin() {
 
   encoderKey.forceDebounce(HIGH);
   encoderKey.getAndResetEdgeFlag();
+#if (DISPLAY_ATTACHED == STD_ON)
+  snprintf(displayManager.getWritableBuffer(1), STRING_CHAR_LENGTH, "%d", encoderPosition);
+#endif
 #endif
 }
 
 void loop() {
 #if (DISPLAY_ATTACHED == STD_ON)
-  loopDisplay();
+  displayManager.loop();
 #endif
 
 #if (ENCODER_ENABLED == STD_ON)
   loopEncoder();
 #endif
 }
-
-
-#if (DISPLAY_ATTACHED == STD_ON)
-
-void printLine(uint8_t line) {
-  display.drawString(0, voffset[line], displayText[line]);
-}
-
-void loopDisplay() {
-  if (displayUpdateRequested) {
-    displayUpdateRequested = false;
-    display.clear();
-
-    display.setTextAlignment(TEXT_ALIGN_LEFT);
-    display.setFont(ArialMT_Plain_24);
-
-    printLine(0);
-    printLine(1);
-
-    display.display();
-  }
-}
-#endif
 
 #if (ENCODER_ENABLED == STD_ON)
 
@@ -108,8 +74,9 @@ void loopEncoder() {
         Serial.println();
         encoderPosition = newPosition;
         
-        snprintf(displayText[1], STRING_CHAR_LENGTH, "%d", encoderPosition);
-        displayUpdateRequested = true;
+#if (DISPLAY_ATTACHED == STD_ON)
+        snprintf(displayManager.getWritableBuffer(1), STRING_CHAR_LENGTH, "%d", encoderPosition);
+#endif
     }
 }
 #endif
