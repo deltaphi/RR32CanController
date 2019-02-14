@@ -92,13 +92,30 @@ void HandleMaerklinCommand(const MaerklinCanIdentifier & id, const MaerklinCanDa
       Serial.println();
       break;
 
+    case kPing:
+      Serial.print(F("Ping. Payload: 0x"));
+      data.printAsHex();
+      break;
+
     case kAccessorySwitch: 
       Serial.print(F("Accessory Switch. Details: "));
       processAccessory(data);
       break;
 
+    case kRequestConfigData:
+      Serial.print(F("Request Config Data. Payload: "));
+      data.printAsText();
+      break;
+
+    case kConfigDataStream:
+      Serial.print(F("Config Data Stream. Payload: "));
+      data.printAsText();
+      break;
+
     default:
-      Serial.print(F("unknown or not implemented."));
+      Serial.print(F("unknown or not implemented. Dump: 0x"));
+      Serial.print(id.command, HEX);
+      data.printAsHex();
       break;
   }
   Serial.println();
@@ -167,5 +184,18 @@ void MaerklinTurnoutPacket::printAll() const {
     case 1:
     Serial.print(F(" (on, button press)"));
     break;
+  }
+}
+
+void MaerklinCanData::printAsHex() const {
+  for (uint8_t i = 0; i < this->dlc; ++i) {
+    Serial.print(" ");
+    Serial.print(this->data[i], HEX);
+  }
+}
+
+void MaerklinCanData::printAsText() const {
+  for (uint8_t i = 0; i < this->dlc; ++i) {
+    Serial.print(static_cast<char>(this->data[i]));
   }
 }

@@ -67,9 +67,14 @@ class MaerklinCanIdentifier {
   void printAll() const;
 };
 
+constexpr const uint8_t CanDataMaxLength = 8;
+
 struct MaerklinCanData {
   uint8_t dlc = 0;  // Data Length C... - 4 bit
-  uint8_t data[8] = {0, 0, 0, 0, 0, 0, 0};
+  uint8_t data[CanDataMaxLength] = {0, 0, 0, 0, 0, 0, 0};
+
+  void printAsHex() const;
+  void printAsText() const;
 };
 
 void HandleMaerklinCommand(const MaerklinCanIdentifier& id,
