@@ -2,7 +2,6 @@
 #define __ENGINECONTROL_ENGINGECONTROL_H__
 
 #include <Arduino.h>
-#include <CAN.h>
 
 #if (ENCODER_ENABLED == STD_ON)
 #include "RotaryEncoder.h"

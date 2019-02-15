@@ -1,4 +1,5 @@
 #include <Arduino.h>
+#include <CAN.h>
 
 #include "TurnoutControl/TurnoutControl.h"
 #include "EngineControl/EngineControl.h"

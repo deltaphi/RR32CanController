@@ -17,6 +17,12 @@ void HandlePacket(const MaerklinCan::Identifier& id,
  */
 void HandleAccessoryPacket(const MaerklinCan::Data& data);
 
+
+void SendPacket(const MaerklinCan::Identifier& id,
+                           const MaerklinCan::Data& data);
+
+void SendAccessoryPacket(uint32_t turnoutAddress, TurnoutDirection direction,
+                       uint8_t power);
 } /* namespace MaerklinCan */
 
 #endif

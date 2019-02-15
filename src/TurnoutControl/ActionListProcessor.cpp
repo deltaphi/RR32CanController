@@ -1,6 +1,8 @@
 #include "ActionListProcessor.h"
 #include "config.h"
 
+#include "MaerklinCan/handler.h"
+
 namespace TurnoutControl {
 
 void ActionListProcessor::loop() {
@@ -55,13 +57,13 @@ void ActionListProcessor::performAction() {
   if (!buttonPressed) {
     // Generate a power on message.
     // Adjust from human to technical adressing
-    sendTurnoutPacket(action->address - 1, action->direction, 1);
+    MaerklinCan::SendAccessoryPacket(action->address - 1, action->direction, 1);
 
     buttonPressed = true;
   } else {
     // Generate a button release
     // Adjust from human to technical adressing
-    sendTurnoutPacket(action->address - 1, action->direction, 0);
+    MaerklinCan::SendAccessoryPacket(action->address - 1, action->direction, 0);
 
     buttonPressed = false;
   }

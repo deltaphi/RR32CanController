@@ -3,6 +3,8 @@
 
 #include <Arduino.h>
 
+#include "MaerklinCan/constants.h"
+
 namespace TurnoutControl {
 
 enum class TurnoutAddressMode { SingleTurnout = 0, MultiTurnout };
@@ -12,11 +14,9 @@ typedef struct {
   uint8_t address = 0;
 } TurnoutLookupResult;
 
-enum class TurnoutDirection: uint8_t { RED = 0, GREEN = 1 };
-
 typedef struct {
   uint8_t address;
-  TurnoutDirection direction;
+  MaerklinCan::TurnoutDirection direction;
 } TurnoutAction;
 
 constexpr uint8_t NumActions = 3;

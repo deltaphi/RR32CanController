@@ -1,5 +1,9 @@
 #include "MaerklinCan/handler.h"
 
+#include <CAN.h>
+
+#include "config.h"
+
 #include "MaerklinCan/TurnoutPacket.h"
 
 namespace MaerklinCan {
@@ -76,6 +80,50 @@ void HandlePacket(const MaerklinCan::Identifier & id, const MaerklinCan::Data & 
 void HandleAccessoryPacket(const MaerklinCan::Data & data) {
   MaerklinCan::TurnoutPacket turnoutPacket = MaerklinCan::TurnoutPacket::FromCanPacket(data);
   turnoutPacket.printAll();
+}
+
+
+void SendPacket(const MaerklinCan::Identifier& id,
+                           const MaerklinCan::Data& data) {
+  // Send packet on CAN
+  CAN.beginExtendedPacket(id.makeIdentifier());
+  for (int i = 0; i < data.dlc; ++i) {
+    CAN.write(data.data[i]);
+  }
+  CAN.endPacket();
+}
+
+void SendAccessoryPacket(uint32_t turnoutAddress, TurnoutDirection direction,
+                       uint8_t power) {
+                           MaerklinCan::Identifier identifier;
+  // identifier.prio = 4; // Value is specified but actual implementations don't
+  // use it.
+  identifier.command = MaerklinCan::kAccessorySwitch;
+  identifier.response = false;
+  identifier.computeAndSetHash(maerklinCanUUID);
+
+  MaerklinCan::TurnoutPacket payload;
+  payload.locid = turnoutAddress;  // Set the turnout address
+  payload.locid |= 0x3000;  // whatever this does. The MS2 does it, though.
+  payload.position =
+      (direction == TurnoutDirection::RED ? 0
+                                          : 1);  // Set the turnout direction
+  payload.power = power;
+
+  // Serialize the CAN packet and send it
+  MaerklinCan::Data data;
+  payload.serialize(data);
+                  
+#if (LOG_CAN_OUT_MSG == STD_ON)
+  Serial.print("Setting turnout ");
+  Serial.print(payload.locid & (~0x3000));
+  Serial.print(" to position ");
+  Serial.print(payload.position == 0 ? "RED  " : "GREEN ");
+  Serial.println(payload.power ? "(ON) " : "(OFF)");
+#endif
+
+  SendPacket(identifier, data);
+
 }
 
 } /* namespace MaerklinCan */

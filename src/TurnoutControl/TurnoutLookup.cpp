@@ -5,24 +5,24 @@ namespace TurnoutControl {
 
 // Action lists use human numbering
 ActionList actionLists[NumActionLists] = {
-    {{20, TurnoutDirection::RED},
-     {4, TurnoutDirection::GREEN},
-     {5, TurnoutDirection::GREEN}},  // 1 red
-    {{20, TurnoutDirection::RED},
-     {4, TurnoutDirection::GREEN},
-     {5, TurnoutDirection::RED}},  // 2 red
-    {{20, TurnoutDirection::RED},
-     {4, TurnoutDirection::RED},
-     {250, TurnoutDirection::GREEN}},  // 3 red. Last switch is a "don't care"
-    {{20, TurnoutDirection::GREEN},
-     {7, TurnoutDirection::GREEN},
-     {250, TurnoutDirection::RED}},  // 1 green. Last switch is a "don't care"
-    {{20, TurnoutDirection::GREEN},
-     {7, TurnoutDirection::RED},
-     {22, TurnoutDirection::RED}},  // 2 green
-    {{20, TurnoutDirection::GREEN},
-     {7, TurnoutDirection::RED},
-     {22, TurnoutDirection::GREEN}},  // 3 green
+    {{20, MaerklinCan::TurnoutDirection::RED},
+     {4, MaerklinCan::TurnoutDirection::GREEN},
+     {5, MaerklinCan::TurnoutDirection::GREEN}},  // 1 red
+    {{20, MaerklinCan::TurnoutDirection::RED},
+     {4, MaerklinCan::TurnoutDirection::GREEN},
+     {5, MaerklinCan::TurnoutDirection::RED}},  // 2 red
+    {{20, MaerklinCan::TurnoutDirection::RED},
+     {4, MaerklinCan::TurnoutDirection::RED},
+     {250, MaerklinCan::TurnoutDirection::GREEN}},  // 3 red. Last switch is a "don't care"
+    {{20, MaerklinCan::TurnoutDirection::GREEN},
+     {7, MaerklinCan::TurnoutDirection::GREEN},
+     {250, MaerklinCan::TurnoutDirection::RED}},  // 1 green. Last switch is a "don't care"
+    {{20, MaerklinCan::TurnoutDirection::GREEN},
+     {7, MaerklinCan::TurnoutDirection::RED},
+     {22, MaerklinCan::TurnoutDirection::RED}},  // 2 green
+    {{20, MaerklinCan::TurnoutDirection::GREEN},
+     {7, MaerklinCan::TurnoutDirection::RED},
+     {22, MaerklinCan::TurnoutDirection::GREEN}},  // 3 green
 };
 
 TurnoutLookupResult lookupTurnout(uint8_t buttonIndex) {

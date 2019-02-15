@@ -25,9 +25,8 @@ extern ActionListProcessor actionListProcessor;
 void begin();
 void loop();
 
-void sendTurnoutPacket(uint32_t turnoutAddress, TurnoutDirection direction, uint8_t power);
 void handleButton(uint8_t buttonIndex, uint8_t buttonState);
-void handleMultiturnout(TurnoutLookupResult result, TurnoutDirection requestedDirection);
+void handleMultiturnout(TurnoutLookupResult result, MaerklinCan::TurnoutDirection requestedDirection);
 
 } /* namespace TurnoutControl */
 

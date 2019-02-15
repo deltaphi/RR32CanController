@@ -6,6 +6,7 @@
 #include "MaerklinCan/Constants.h"
 #include "MaerklinCan/Data.h"
 #include "MaerklinCan/TurnoutPacket.h"
+#include "MaerklinCan/handler.h"
 
 namespace TurnoutControl {
 
@@ -41,7 +42,7 @@ void loop() {
 }
 
 void handleMultiturnout(TurnoutLookupResult result,
-                        TurnoutDirection requestedDirection) {
+                        MaerklinCan::TurnoutDirection requestedDirection) {
   --result.address;  // Simple mapping to index into actionLists
   constexpr uint8_t actionListEndIndex =
       (NumActionLists /
@@ -53,7 +54,7 @@ void handleMultiturnout(TurnoutLookupResult result,
     return;
   }
 
-  if (requestedDirection == TurnoutDirection::RED) {
+  if (requestedDirection == MaerklinCan::TurnoutDirection::RED) {
     // Add offset into the green lists
     result.address += actionListEndIndex;
   }
@@ -96,16 +97,16 @@ void handleButton(uint8_t buttonIndex, uint8_t buttonState) {
   switch (turnoutIndex.mode) {
     case TurnoutAddressMode::SingleTurnout: {
       // Single turnout - send out a packet right away.
-      TurnoutDirection direction = buttonIndex % 2 == 0
-                                       ? TurnoutDirection::RED
-                                       : TurnoutDirection::GREEN;
+      MaerklinCan::TurnoutDirection direction = buttonIndex % 2 == 0
+                                       ? MaerklinCan::TurnoutDirection::RED
+                                       : MaerklinCan::TurnoutDirection::GREEN;
       direction =
-          (direction == TurnoutDirection::RED
-               ? TurnoutDirection::GREEN
-               : TurnoutDirection::RED);  // invert, as my wires are connected
+          (direction == MaerklinCan::TurnoutDirection::RED
+               ? MaerklinCan::TurnoutDirection::GREEN
+               : MaerklinCan::TurnoutDirection::RED);  // invert, as my wires are connected
                                           // in the opposite order
 
-      sendTurnoutPacket(turnoutIndex.address, direction,
+      MaerklinCan::SendAccessoryPacket(turnoutIndex.address, direction,
                         (buttonState == HIGH ? 1 : 0));
       break;
     }
@@ -113,49 +114,12 @@ void handleButton(uint8_t buttonIndex, uint8_t buttonState) {
       // Only start multi-turnout actions on button press, not release.
       if (buttonState == HIGH) {
         handleMultiturnout(turnoutIndex,
-                           (buttonIndex % 2 == 0 ? TurnoutDirection::RED
-                                                 : TurnoutDirection::GREEN));
+                           (buttonIndex % 2 == 0 ? MaerklinCan::TurnoutDirection::RED
+                                                 : MaerklinCan::TurnoutDirection::GREEN));
       }
       break;
     }
   }
-}
-
-void sendTurnoutPacket(uint32_t turnoutAddress, TurnoutDirection direction,
-                       uint8_t power) {
-  MaerklinCan::Identifier identifier;
-  // identifier.prio = 4; // Value is specified but actual implementations don't
-  // use it.
-  identifier.command = MaerklinCan::kAccessorySwitch;
-  identifier.response = false;
-  identifier.computeAndSetHash(maerklinCanUUID);
-
-  MaerklinCan::TurnoutPacket payload;
-  payload.locid = turnoutAddress;  // Set the turnout address
-  payload.locid |= 0x3000;  // whatever this does. The MS2 does it, though.
-  payload.position =
-      (direction == TurnoutDirection::RED ? 0
-                                          : 1);  // Set the turnout direction
-  payload.power = power;
-
-  // Serialize the CAN packet and send it
-  MaerklinCan::Data data;
-  payload.serialize(data);
-
-#if (LOG_CAN_OUT_MSG == STD_ON)
-  Serial.print("Setting turnout ");
-  Serial.print(payload.locid & (~0x3000));
-  Serial.print(" to position ");
-  Serial.print(payload.position == 0 ? "RED  " : "GREEN ");
-  Serial.println(payload.power ? "(ON) " : "(OFF)");
-#endif
-
-  // Send packet on CAN
-  CAN.beginExtendedPacket(identifier.makeIdentifier());
-  for (int i = 0; i < data.dlc; ++i) {
-    CAN.write(data.data[i]);
-  }
-  CAN.endPacket();
 }
 
 } /* namespace TurnoutControl */

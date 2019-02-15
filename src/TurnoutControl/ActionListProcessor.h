@@ -5,15 +5,11 @@
 
 namespace TurnoutControl {
 
-// Forward declaration for this function
-void sendTurnoutPacket(uint32_t turnoutAddress, TurnoutDirection direction,
-                       uint8_t power);
-
 class ActionListProcessor {
  public:
   typedef struct {
     uint8_t address;
-    TurnoutDirection direction;
+    MaerklinCan::TurnoutDirection direction;
   } Action;
 
   bool hasActiveAction() const { return actionListIndex != kActionListNotStarted; }
