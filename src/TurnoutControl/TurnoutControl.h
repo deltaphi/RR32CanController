@@ -1,7 +1,6 @@
 #ifndef __TURNOUTCONTROL_TURNOUTCONTROL_H__
 #define __TURNOUTCONTROL_TURNOUTCONTROL_H__
 
-
 #include <Arduino.h>
 #include <AsyncShiftIn.h>
 
@@ -26,7 +25,8 @@ void begin();
 void loop();
 
 void handleButton(uint8_t buttonIndex, uint8_t buttonState);
-void handleMultiturnout(TurnoutLookupResult result, MaerklinCan::TurnoutDirection requestedDirection);
+void handleMultiturnout(TurnoutLookupResult result,
+                        MaerklinCan::TurnoutDirection requestedDirection);
 
 } /* namespace TurnoutControl */
 

@@ -19,15 +19,17 @@ class DisplayManager {
   using LineBuffer = char[STRING_DATATYPE_LENGTH];
 
   void begin();
-  
+
   /**
-   * \brief Return a buffer to be written to and set the flag that a change needs to be printed in the next loop.
-   * 
-   * \param lineNumber The index of the line (0-based) to be rewritten. Out-of-bounds values will wrap.
+   * \brief Return a buffer to be written to and set the flag that a change
+   * needs to be printed in the next loop.
+   *
+   * \param lineNumber The index of the line (0-based) to be rewritten.
+   * Out-of-bounds values will wrap.
    */
   LineBuffer& getWritableBuffer(uint8_t lineNumber) {
-      updateRequired = true;
-      return buffer[lineNumber % DISPLAY_LINES];
+    updateRequired = true;
+    return buffer[lineNumber % DISPLAY_LINES];
   }
 
   void loop();

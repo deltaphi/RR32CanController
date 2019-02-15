@@ -12,7 +12,9 @@ class ActionListProcessor {
     MaerklinCan::TurnoutDirection direction;
   } Action;
 
-  bool hasActiveAction() const { return actionListIndex != kActionListNotStarted; }
+  bool hasActiveAction() const {
+    return actionListIndex != kActionListNotStarted;
+  }
 
   bool requestActionList(uint8_t actionListIndex);
 

@@ -2,17 +2,18 @@
 
 namespace MaerklinCan {
 
-TurnoutPacket TurnoutPacket::FromCanPacket(const Data & data) {
+TurnoutPacket TurnoutPacket::FromCanPacket(const Data& data) {
   TurnoutPacket turnoutPacket;
-  
-  turnoutPacket.locid = data.data[3] | (data.data[2] << 8) | (data.data[1] << 16) | (data.data[0] << 24); 
+
+  turnoutPacket.locid = data.data[3] | (data.data[2] << 8) |
+                        (data.data[1] << 16) | (data.data[0] << 24);
   turnoutPacket.position = data.data[4];
   turnoutPacket.power = data.data[5];
 
   return turnoutPacket;
 }
 
-void TurnoutPacket::serialize(Data & data) const {
+void TurnoutPacket::serialize(Data& data) const {
   data.dlc = 6;
   data.data[0] = (locid >> 24) & 0xFF;
   data.data[1] = (locid >> 16) & 0xFF;
@@ -33,33 +34,33 @@ void TurnoutPacket::printAll() const {
 
   Serial.print(F(" Human Value: "));
   Serial.print(this->PositionAsHumanValue(), DEC);
-  
+
   Serial.print(F(" Position: "));
   Serial.print(this->position, DEC);
   switch (this->position) {
-  case 0:
-    Serial.print(F(" (off, round, red)"));
-    break;
-  case 1:
-    Serial.print(F(" (on, straight, green)"));
-    break;
-  case 2:
-    Serial.print(F(" (yellow, left)"));
-    break;
-  case 3:
-    Serial.print(F(" (white)"));
-    break;
+    case 0:
+      Serial.print(F(" (off, round, red)"));
+      break;
+    case 1:
+      Serial.print(F(" (on, straight, green)"));
+      break;
+    case 2:
+      Serial.print(F(" (yellow, left)"));
+      break;
+    case 3:
+      Serial.print(F(" (white)"));
+      break;
   }
 
   Serial.print(F(" Power: "));
   Serial.print(this->power, DEC);
   switch (this->power) {
     case 0:
-    Serial.print(F(" (off, button release)"));
-    break;
+      Serial.print(F(" (off, button release)"));
+      break;
     case 1:
-    Serial.print(F(" (on, button press)"));
-    break;
+      Serial.print(F(" (on, button press)"));
+      break;
   }
 }
 

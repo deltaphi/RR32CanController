@@ -12,7 +12,6 @@ namespace MaerklinCan {
  */
 class TurnoutPacket {
  public:
-
   /// Turnout-address (0-based)
   uint32_t locid = 0;
 
@@ -24,7 +23,7 @@ class TurnoutPacket {
 
   /**
    * \brief Parse a CAN payload into a turnout packet.
-   * 
+   *
    * This does not check the type of the contents of Data.
    */
   static TurnoutPacket FromCanPacket(const Data& data);
@@ -35,7 +34,7 @@ class TurnoutPacket {
   void serialize(Data& data) const;
 
   /**
-   * \brief Obtain the human-readable turnout address (1-based) 
+   * \brief Obtain the human-readable turnout address (1-based)
    */
   uint32_t PositionAsHumanValue() const;
 

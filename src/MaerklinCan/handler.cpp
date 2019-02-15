@@ -8,7 +8,8 @@
 
 namespace MaerklinCan {
 
-void HandlePacket(const MaerklinCan::Identifier & id, const MaerklinCan::Data & data) {
+void HandlePacket(const MaerklinCan::Identifier& id,
+                  const MaerklinCan::Data& data) {
   id.printAll();
   Serial.println();
 
@@ -18,32 +19,35 @@ void HandlePacket(const MaerklinCan::Identifier & id, const MaerklinCan::Data & 
       Serial.print(F("System Command. Subcommand: "));
       switch (data.data[4]) {
         case MaerklinCan::kSubcommandSystemGo:
-        Serial.print(F("GO!"));
-        //MaerklinSystem.systemOn = true; // TODO: Bring back the System class
-        break;
+          Serial.print(F("GO!"));
+          // MaerklinSystem.systemOn = true; // TODO: Bring back the System
+          // class
+          break;
         case MaerklinCan::kSubcommandSystemHalt:
-        Serial.print(F("Halt!"));
-        break;
+          Serial.print(F("Halt!"));
+          break;
         case MaerklinCan::kSubcommandSystemStop:
-        Serial.print(F("STOP!"));
-        //MaerklinSystem.systemOn = false; // TODO: Bring back the System class
-        break;
+          Serial.print(F("STOP!"));
+          // MaerklinSystem.systemOn = false; // TODO: Bring back the System
+          // class
+          break;
         case MaerklinCan::kSubcommandSystemIdentifier:
-        Serial.print(F("Identifier"));
-        break;
+          Serial.print(F("Identifier"));
+          break;
         case MaerklinCan::kSubcommandSystemOverload:
-        Serial.print(F("OVERLOAD!"));
-        break;
+          Serial.print(F("OVERLOAD!"));
+          break;
         case MaerklinCan::kSubcommandSystemReset:
-        Serial.print(F("Reset"));
-        //MaerklinSystem.systemOn = false; // TODO: Bring back the System class
-        break;
+          Serial.print(F("Reset"));
+          // MaerklinSystem.systemOn = false; // TODO: Bring back the System
+          // class
+          break;
         case MaerklinCan::kSubcommandSystemStatus:
-        Serial.print(F("Status"));
-        break;
+          Serial.print(F("Status"));
+          break;
         default:
-        Serial.print(F("unknown"));
-        break;
+          Serial.print(F("unknown"));
+          break;
       }
       Serial.println();
       break;
@@ -53,7 +57,7 @@ void HandlePacket(const MaerklinCan::Identifier & id, const MaerklinCan::Data & 
       data.printAsHex();
       break;
 
-    case MaerklinCan::kAccessorySwitch: 
+    case MaerklinCan::kAccessorySwitch:
       Serial.print(F("Accessory Switch. Details: "));
       HandleAccessoryPacket(data);
       break;
@@ -77,14 +81,14 @@ void HandlePacket(const MaerklinCan::Identifier & id, const MaerklinCan::Data & 
   Serial.println();
 }
 
-void HandleAccessoryPacket(const MaerklinCan::Data & data) {
-  MaerklinCan::TurnoutPacket turnoutPacket = MaerklinCan::TurnoutPacket::FromCanPacket(data);
+void HandleAccessoryPacket(const MaerklinCan::Data& data) {
+  MaerklinCan::TurnoutPacket turnoutPacket =
+      MaerklinCan::TurnoutPacket::FromCanPacket(data);
   turnoutPacket.printAll();
 }
 
-
 void SendPacket(const MaerklinCan::Identifier& id,
-                           const MaerklinCan::Data& data) {
+                const MaerklinCan::Data& data) {
   // Send packet on CAN
   CAN.beginExtendedPacket(id.makeIdentifier());
   for (int i = 0; i < data.dlc; ++i) {
@@ -94,7 +98,7 @@ void SendPacket(const MaerklinCan::Identifier& id,
 }
 
 void SendAccessoryPacket(uint32_t turnoutAddress, TurnoutDirection direction,
-                       uint8_t power) {
+                         uint8_t power) {
   MaerklinCan::Identifier identifier;
   // identifier.prio = 4; // Value is specified but actual implementations don't
   // use it.
@@ -113,7 +117,7 @@ void SendAccessoryPacket(uint32_t turnoutAddress, TurnoutDirection direction,
   // Serialize the CAN packet and send it
   MaerklinCan::Data data;
   payload.serialize(data);
-                  
+
 #if (LOG_CAN_OUT_MSG == STD_ON)
   Serial.print("Setting turnout ");
   Serial.print(payload.locid & (~0x3000));
@@ -123,7 +127,6 @@ void SendAccessoryPacket(uint32_t turnoutAddress, TurnoutDirection direction,
 #endif
 
   SendPacket(identifier, data);
-
 }
 
 void SendRequestConfigDataPacket(const char* data, uint8_t charCount) {
@@ -137,7 +140,7 @@ void SendRequestConfigDataPacket(const char* data, uint8_t charCount) {
 
   // Send packet on CAN
   CAN.beginExtendedPacket(identifier.makeIdentifier());
-  
+
   if (charCount > CanDataMaxLength) {
     charCount = CanDataMaxLength;
   }

@@ -13,10 +13,12 @@ ActionList actionLists[NumActionLists] = {
      {5, MaerklinCan::TurnoutDirection::RED}},  // 2 red
     {{20, MaerklinCan::TurnoutDirection::RED},
      {4, MaerklinCan::TurnoutDirection::RED},
-     {250, MaerklinCan::TurnoutDirection::GREEN}},  // 3 red. Last switch is a "don't care"
+     {250, MaerklinCan::TurnoutDirection::GREEN}},  // 3 red. Last switch is a
+                                                    // "don't care"
     {{20, MaerklinCan::TurnoutDirection::GREEN},
      {7, MaerklinCan::TurnoutDirection::GREEN},
-     {250, MaerklinCan::TurnoutDirection::RED}},  // 1 green. Last switch is a "don't care"
+     {250, MaerklinCan::TurnoutDirection::RED}},  // 1 green. Last switch is a
+                                                  // "don't care"
     {{20, MaerklinCan::TurnoutDirection::GREEN},
      {7, MaerklinCan::TurnoutDirection::RED},
      {22, MaerklinCan::TurnoutDirection::RED}},  // 2 green

@@ -9,8 +9,9 @@ namespace MaerklinCan {
 
 /**
  * \brief Class to represent the payload of a Marklin CAN packet.
- * 
- * This class represents the untyped payload and can be sent or received from CAN.
+ *
+ * This class represents the untyped payload and can be sent or received from
+ * CAN.
  */
 struct Data {
   /// Data Length C... . actual calue ist 4 bit only.

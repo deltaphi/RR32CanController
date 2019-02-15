@@ -1,8 +1,8 @@
 #include <Arduino.h>
 #include <CAN.h>
 
-#include "TurnoutControl/TurnoutControl.h"
 #include "EngineControl/EngineControl.h"
+#include "TurnoutControl/TurnoutControl.h"
 
 #include "MaerklinCan/handler.h"
 
@@ -37,7 +37,6 @@ void loop() {
 
   TurnoutControl::loop();
 }
-
 
 void CanInputLoop(void) {
   // Process CAN Frames

@@ -15,15 +15,11 @@ namespace EngineControl {
 extern RotaryEncoder encoder;
 void loopEncoder();
 
-enum class DisplayMode {
-  ENGINE,
-  SELECT_ENGINE
-};
+enum class DisplayMode { ENGINE, SELECT_ENGINE };
 #endif
 
 void begin();
 void loop();
-
 
 } /* namespace EngineControl */
 

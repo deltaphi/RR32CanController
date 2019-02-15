@@ -2,9 +2,9 @@
 
 #include "TurnoutControl/TurnoutControl.h"
 
-#include "MaerklinCan/Identifier.h"
 #include "MaerklinCan/Constants.h"
 #include "MaerklinCan/Data.h"
+#include "MaerklinCan/Identifier.h"
 #include "MaerklinCan/TurnoutPacket.h"
 #include "MaerklinCan/handler.h"
 
@@ -16,7 +16,6 @@ DebouncedKeyArray keyArray;
 ActionListProcessor actionListProcessor;
 
 void begin() {
-    
   // Initializing the shift register
   initialized = false;
   shiftRegister0.init(S88_DATA_IN_PIN, S88_CLOCK_OUT_PIN, S88_PS_OUT_PIN,
@@ -61,7 +60,6 @@ void handleMultiturnout(TurnoutLookupResult result,
 
   Serial.print("Starting Action List ");
   Serial.println(result.address, DEC);
-    
 
 #if (LOG_ACTIONLIST == STD_ON)
   Serial.print("Requesting action list ");
@@ -97,25 +95,27 @@ void handleButton(uint8_t buttonIndex, uint8_t buttonState) {
   switch (turnoutIndex.mode) {
     case TurnoutAddressMode::SingleTurnout: {
       // Single turnout - send out a packet right away.
-      MaerklinCan::TurnoutDirection direction = buttonIndex % 2 == 0
-                                       ? MaerklinCan::TurnoutDirection::RED
-                                       : MaerklinCan::TurnoutDirection::GREEN;
+      MaerklinCan::TurnoutDirection direction =
+          buttonIndex % 2 == 0 ? MaerklinCan::TurnoutDirection::RED
+                               : MaerklinCan::TurnoutDirection::GREEN;
       direction =
           (direction == MaerklinCan::TurnoutDirection::RED
                ? MaerklinCan::TurnoutDirection::GREEN
-               : MaerklinCan::TurnoutDirection::RED);  // invert, as my wires are connected
-                                          // in the opposite order
+               : MaerklinCan::TurnoutDirection::RED);  // invert, as my wires
+                                                       // are connected in the
+                                                       // opposite order
 
       MaerklinCan::SendAccessoryPacket(turnoutIndex.address, direction,
-                        (buttonState == HIGH ? 1 : 0));
+                                       (buttonState == HIGH ? 1 : 0));
       break;
     }
     case TurnoutAddressMode::MultiTurnout: {
       // Only start multi-turnout actions on button press, not release.
       if (buttonState == HIGH) {
-        handleMultiturnout(turnoutIndex,
-                           (buttonIndex % 2 == 0 ? MaerklinCan::TurnoutDirection::RED
-                                                 : MaerklinCan::TurnoutDirection::GREEN));
+        handleMultiturnout(
+            turnoutIndex,
+            (buttonIndex % 2 == 0 ? MaerklinCan::TurnoutDirection::RED
+                                  : MaerklinCan::TurnoutDirection::GREEN));
       }
       break;
     }
@@ -140,8 +140,9 @@ void AsyncShiftIn_reset(const AsyncShiftIn* asyncShiftIn) {
   // Print the debounced Keys
   for (int i = 0; i < SHIFT_REGISTER_LENGTH; ++i) {
     Serial.print(i);
-    Serial.print((TurnoutControl::keyArray[i].getDebouncedValue() == HIGH ? ":HIGH/CLOSE "
-                                                          : ":LOW/PRESS "));
+    Serial.print((TurnoutControl::keyArray[i].getDebouncedValue() == HIGH
+                      ? ":HIGH/CLOSE "
+                      : ":LOW/PRESS "));
   }
   Serial.println();
 #endif
@@ -149,7 +150,8 @@ void AsyncShiftIn_reset(const AsyncShiftIn* asyncShiftIn) {
   // Now that we have debounced inputs, translate them to turnout requests
   for (int i = 0; i < SHIFT_REGISTER_LENGTH; ++i) {
     if (TurnoutControl::keyArray[i].getAndResetEdgeFlag()) {
-      TurnoutControl::handleButton(i, TurnoutControl::keyArray[i].getDebouncedValue());
+      TurnoutControl::handleButton(
+          i, TurnoutControl::keyArray[i].getDebouncedValue());
     }
   }
 }

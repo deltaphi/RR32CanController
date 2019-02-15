@@ -33,7 +33,8 @@ class Identifier {
   void computeAndSetHash(uint32_t deviceUuid);
 
   /**
-   * \brief convert this Marklin Identifier into a 29bit CAN extended identifier.
+   * \brief convert this Marklin Identifier into a 29bit CAN extended
+   * identifier.
    */
   unsigned long makeIdentifier() const;
 

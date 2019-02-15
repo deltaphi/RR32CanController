@@ -3,20 +3,20 @@
 namespace MaerklinCan {
 
 Identifier Identifier::GetIdentifier(unsigned long packetId) {
-	Identifier id;
+  Identifier id;
 
-	id.hash = static_cast<uint16_t>(packetId & 0xFFFF);
-	packetId >>= 16; // Shift away hash
-  
+  id.hash = static_cast<uint16_t>(packetId & 0xFFFF);
+  packetId >>= 16;  // Shift away hash
+
   id.response = (packetId & 0x01) != 0;
-  packetId >>= 1; // Shift away response bit
-  
+  packetId >>= 1;  // Shift away response bit
+
   id.command = static_cast<uint8_t>(packetId & 0xFF);
-  packetId >>= 8; // Shift away command bit
-  
+  packetId >>= 8;  // Shift away command bit
+
   id.prio = static_cast<uint8_t>(packetId & 0x0F);
 
-	return id;
+  return id;
 }
 
 unsigned long Identifier::makeIdentifier() const {
@@ -40,13 +40,13 @@ void Identifier::computeAndSetHash(uint32_t uid) {
 void Identifier::printAll() const {
   Serial.print(F("Prio: 0x"));
   Serial.print(this->prio, HEX);
-  
+
   Serial.print(F(" Command: 0x"));
   Serial.print(this->command, HEX);
-  
+
   Serial.print(F(" Response: 0x"));
   Serial.print(this->response, HEX);
-  
+
   Serial.print(F(" Hash: 0x"));
   Serial.print(this->hash, HEX);
 }
