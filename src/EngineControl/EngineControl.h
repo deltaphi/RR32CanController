@@ -8,7 +8,6 @@
 #include "RotaryEncoder.h"
 #endif
 
-#include "maerklin-can.h"
 #include "config.h"
 
 namespace EngineControl {

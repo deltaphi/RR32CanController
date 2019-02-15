@@ -1,11 +1,9 @@
 #include <Arduino.h>
 
-
-#include "maerklin-can.h"
-
 #include "TurnoutControl/TurnoutControl.h"
 #include "EngineControl/EngineControl.h"
 
+#include "MaerklinCan/handler.h"
 
 void setup() {
   // Start serial and wait for its initialization
@@ -29,10 +27,18 @@ void setup() {
   TurnoutControl::begin();
 }
 
+void CanInputLoop(void);
 
 void loop() {
   EngineControl::loop();
 
+  CanInputLoop();
+
+  TurnoutControl::loop();
+}
+
+
+void CanInputLoop(void) {
   // Process CAN Frames
   int packetSize = CAN.parsePacket();
 
@@ -84,8 +90,6 @@ void loop() {
 
     MaerklinCan::Identifier maerklinIdentifier =
         MaerklinCan::Identifier::GetIdentifier(packetId);
-    HandleMaerklinCommand(maerklinIdentifier, maerklinData);
+    MaerklinCan::HandlePacket(maerklinIdentifier, maerklinData);
   }
-
-  TurnoutControl::loop();
 }

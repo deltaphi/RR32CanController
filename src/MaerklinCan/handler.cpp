@@ -1,13 +1,10 @@
-#include "maerklin-can.h"
+#include "MaerklinCan/handler.h"
 
-#include "MaerklinCan/Data.h"
 #include "MaerklinCan/TurnoutPacket.h"
 
-// Global instance of the system
-MaerklinSystemClass MaerklinSystem;
+namespace MaerklinCan {
 
-
-void HandleMaerklinCommand(const MaerklinCan::Identifier & id, const MaerklinCan::Data & data) {
+void HandlePacket(const MaerklinCan::Identifier & id, const MaerklinCan::Data & data) {
   id.printAll();
   Serial.println();
 
@@ -18,14 +15,14 @@ void HandleMaerklinCommand(const MaerklinCan::Identifier & id, const MaerklinCan
       switch (data.data[4]) {
         case MaerklinCan::kSubcommandSystemGo:
         Serial.print(F("GO!"));
-        MaerklinSystem.systemOn = true;
+        //MaerklinSystem.systemOn = true; // TODO: Bring back the System class
         break;
         case MaerklinCan::kSubcommandSystemHalt:
         Serial.print(F("Halt!"));
         break;
         case MaerklinCan::kSubcommandSystemStop:
         Serial.print(F("STOP!"));
-        MaerklinSystem.systemOn = false;
+        //MaerklinSystem.systemOn = false; // TODO: Bring back the System class
         break;
         case MaerklinCan::kSubcommandSystemIdentifier:
         Serial.print(F("Identifier"));
@@ -35,7 +32,7 @@ void HandleMaerklinCommand(const MaerklinCan::Identifier & id, const MaerklinCan
         break;
         case MaerklinCan::kSubcommandSystemReset:
         Serial.print(F("Reset"));
-        MaerklinSystem.systemOn = false;
+        //MaerklinSystem.systemOn = false; // TODO: Bring back the System class
         break;
         case MaerklinCan::kSubcommandSystemStatus:
         Serial.print(F("Status"));
@@ -54,7 +51,7 @@ void HandleMaerklinCommand(const MaerklinCan::Identifier & id, const MaerklinCan
 
     case MaerklinCan::kAccessorySwitch: 
       Serial.print(F("Accessory Switch. Details: "));
-      processAccessory(data);
+      HandleAccessoryPacket(data);
       break;
 
     case MaerklinCan::kRequestConfigData:
@@ -76,9 +73,9 @@ void HandleMaerklinCommand(const MaerklinCan::Identifier & id, const MaerklinCan
   Serial.println();
 }
 
-
-void processAccessory(const MaerklinCan::Data & data) {
+void HandleAccessoryPacket(const MaerklinCan::Data & data) {
   MaerklinCan::TurnoutPacket turnoutPacket = MaerklinCan::TurnoutPacket::FromCanPacket(data);
   turnoutPacket.printAll();
 }
 
+} /* namespace MaerklinCan */
