@@ -95,7 +95,7 @@ void SendPacket(const MaerklinCan::Identifier& id,
 
 void SendAccessoryPacket(uint32_t turnoutAddress, TurnoutDirection direction,
                        uint8_t power) {
-                           MaerklinCan::Identifier identifier;
+  MaerklinCan::Identifier identifier;
   // identifier.prio = 4; // Value is specified but actual implementations don't
   // use it.
   identifier.command = MaerklinCan::kAccessorySwitch;
@@ -124,6 +124,28 @@ void SendAccessoryPacket(uint32_t turnoutAddress, TurnoutDirection direction,
 
   SendPacket(identifier, data);
 
+}
+
+void SendRequestConfigDataPacket(const char* data, uint8_t charCount) {
+  // Just try to download the first two engines from the MS2
+  MaerklinCan::Identifier identifier;
+  // identifier.prio = 4; // Value is specified but actual implementations don't
+  // use it.
+  identifier.command = MaerklinCan::kRequestConfigData;
+  identifier.response = false;
+  identifier.computeAndSetHash(maerklinCanUUID);
+
+  // Send packet on CAN
+  CAN.beginExtendedPacket(identifier.makeIdentifier());
+  
+  if (charCount > CanDataMaxLength) {
+    charCount = CanDataMaxLength;
+  }
+
+  for (int i = 0; i < charCount; ++i) {
+    CAN.write(data[i]);
+  }
+  CAN.endPacket();
 }
 
 } /* namespace MaerklinCan */

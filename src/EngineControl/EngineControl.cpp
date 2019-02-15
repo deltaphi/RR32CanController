@@ -5,9 +5,8 @@
 #include "DebouncedDualKey.h"
 #include "EngineControl/DisplayManager.h"
 
-#include "MaerklinCan/Identifier.h"
-#include "MaerklinCan/Constants.h"
-#include "MaerklinCan/Data.h"
+#include "MaerklinCan/handler.h"
+#include "MaerklinCan/constants.h"
 
 
 namespace EngineControl {
@@ -53,32 +52,12 @@ void loop() {
 
 void sendQueryEngineName(uint8_t offset) {
   Serial.print("Querying for Engines...");
-  // Just try to download the first two engines from the MS2
-  MaerklinCan::Identifier identifier;
-  // identifier.prio = 4; // Value is specified but actual implementations don't
-  // use it.
-  identifier.command = MaerklinCan::kRequestConfigData;
-  identifier.response = false;
-  identifier.computeAndSetHash(maerklinCanUUID);
 
-  // Don't bother with a data struct here.
-  constexpr static uint8_t charCount = 8;
-  constexpr static char kLocoNames[charCount + 1] = "loknamen";
+  MaerklinCan::SendRequestConfigDataPacket("loknamen", 8);
 
-  // Send packet on CAN
-  CAN.beginExtendedPacket(identifier.makeIdentifier());
-  for (int i = 0; i < charCount; ++i) {
-    CAN.write(kLocoNames[i]);
-  }
-  CAN.endPacket();
-
-  CAN.beginExtendedPacket(identifier.makeIdentifier());
-  char buffer[charCount + 1];
-  uint8_t printedCharCount = snprintf(buffer, charCount, "%d %d", offset, 2);
-  for (int i = 0; i < printedCharCount; ++i) {
-    CAN.write(buffer[i]);
-  }
-  CAN.endPacket();
+  char buffer[MaerklinCan::CanDataMaxLength + 1];
+  uint8_t printedCharCount = snprintf(buffer, MaerklinCan::CanDataMaxLength, "%d %d", offset, 2);
+  MaerklinCan::SendRequestConfigDataPacket(buffer, printedCharCount);
 
   Serial.println(" done.");
 }
