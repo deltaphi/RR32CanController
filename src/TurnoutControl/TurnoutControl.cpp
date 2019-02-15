@@ -3,6 +3,11 @@
 #include "TurnoutControl/TurnoutControl.h"
 #include "maerklin-can.h"
 
+#include "MaerklinCan/Identifier.h"
+#include "MaerklinCan/Constants.h"
+#include "MaerklinCan/Data.h"
+#include "MaerklinCan/TurnoutPacket.h"
+
 namespace TurnoutControl {
 
 boolean initialized = false;
@@ -119,14 +124,14 @@ void handleButton(uint8_t buttonIndex, uint8_t buttonState) {
 
 void sendTurnoutPacket(uint32_t turnoutAddress, TurnoutDirection direction,
                        uint8_t power) {
-  MaerklinCanIdentifier identifier;
+  MaerklinCan::Identifier identifier;
   // identifier.prio = 4; // Value is specified but actual implementations don't
   // use it.
-  identifier.command = kAccessorySwitch;
+  identifier.command = MaerklinCan::kAccessorySwitch;
   identifier.response = false;
   identifier.computeAndSetHash(maerklinCanUUID);
 
-  MaerklinTurnoutPacket payload;
+  MaerklinCan::TurnoutPacket payload;
   payload.locid = turnoutAddress;  // Set the turnout address
   payload.locid |= 0x3000;  // whatever this does. The MS2 does it, though.
   payload.position =
@@ -135,7 +140,7 @@ void sendTurnoutPacket(uint32_t turnoutAddress, TurnoutDirection direction,
   payload.power = power;
 
   // Serialize the CAN packet and send it
-  MaerklinCanData data;
+  MaerklinCan::Data data;
   payload.serialize(data);
 
 #if (LOG_CAN_OUT_MSG == STD_ON)

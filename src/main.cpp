@@ -69,7 +69,7 @@ void loop() {
 
     // Read the data bytes into a local buffer.
     // Maerklin does not use remote frames, so we don't care about them.
-    MaerklinCanData maerklinData;
+    MaerklinCan::Data maerklinData;
     maerklinData.dlc = packetSize;
     for (int i = 0; i < maerklinData.dlc && CAN.available(); ++i) {
       maerklinData.data[i] = (char)CAN.read();
@@ -82,8 +82,8 @@ void loop() {
     Serial.println();
 #endif
 
-    MaerklinCanIdentifier maerklinIdentifier =
-        MaerklinCanIdentifier::GetIdentifier(packetId);
+    MaerklinCan::Identifier maerklinIdentifier =
+        MaerklinCan::Identifier::GetIdentifier(packetId);
     HandleMaerklinCommand(maerklinIdentifier, maerklinData);
   }
 

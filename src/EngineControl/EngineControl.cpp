@@ -6,6 +6,10 @@
 #include "DebouncedDualKey.h"
 #include "EngineControl/DisplayManager.h"
 
+#include "MaerklinCan/Identifier.h"
+#include "MaerklinCan/Constants.h"
+#include "MaerklinCan/Data.h"
+
 
 namespace EngineControl {
 
@@ -51,10 +55,10 @@ void loop() {
 void sendQueryEngineName(uint8_t offset) {
   Serial.print("Querying for Engines...");
   // Just try to download the first two engines from the MS2
-  MaerklinCanIdentifier identifier;
+  MaerklinCan::Identifier identifier;
   // identifier.prio = 4; // Value is specified but actual implementations don't
   // use it.
-  identifier.command = kRequestConfigData;
+  identifier.command = MaerklinCan::kRequestConfigData;
   identifier.response = false;
   identifier.computeAndSetHash(maerklinCanUUID);
 
