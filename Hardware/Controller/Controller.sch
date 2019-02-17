@@ -37,7 +37,7 @@ F 3 "~" H 10000 6050 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Mechanical:MountingHole H6
+L Mechanical:MountingHole_Pad H6
 U 1 1 5C67C6B3
 P 10000 5750
 F 0 "H6" H 10100 5796 50  0000 L CNN
@@ -48,7 +48,7 @@ F 3 "~" H 10000 5750 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Mechanical:MountingHole H5
+L Mechanical:MountingHole_Pad H5
 U 1 1 5C67C6E9
 P 10000 5500
 F 0 "H5" H 10100 5546 50  0000 L CNN
@@ -59,7 +59,7 @@ F 3 "~" H 10000 5500 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Mechanical:MountingHole H4
+L Mechanical:MountingHole_Pad H4
 U 1 1 5C67C721
 P 10000 5250
 F 0 "H4" H 10100 5296 50  0000 L CNN
@@ -70,7 +70,7 @@ F 3 "~" H 10000 5250 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Mechanical:MountingHole H3
+L Mechanical:MountingHole_Pad H3
 U 1 1 5C67C753
 P 10000 5000
 F 0 "H3" H 10100 5046 50  0000 L CNN
@@ -134,4 +134,307 @@ F 3 "~" V 1900 6775 50  0001 C CNN
 	1    1900 6750
 	1    0    0    -1  
 $EndComp
+$Comp
+L Device:Rotary_Encoder_Switch SW1
+U 1 1 5C69437E
+P 5950 1350
+F 0 "SW1" H 5950 1717 50  0000 C CNN
+F 1 "Rotary_Encoder_Switch" H 5950 1626 50  0000 C CNN
+F 2 "Rotary_Encoder:RotaryEncoder_Alps_EC11E-Switch_Vertical_H20mm" H 5800 1510 50  0001 C CNN
+F 3 "~" H 5950 1610 50  0001 C CNN
+	1    5950 1350
+	1    0    0    -1  
+$EndComp
+$Comp
+L Switch:SW_Push_Dual SW2
+U 1 1 5C6944B8
+P 5950 2050
+F 0 "SW2" H 5950 2335 50  0000 C CNN
+F 1 "SW_Push_Dual" H 5950 2244 50  0000 C CNN
+F 2 "Button_Switch_THT:SW_TH_Tactile_Omron_B3F-10xx" H 5950 2250 50  0001 C CNN
+F 3 "" H 5950 2250 50  0001 C CNN
+	1    5950 2050
+	1    0    0    -1  
+$EndComp
+$Comp
+L Switch:SW_Push_Dual SW3
+U 1 1 5C694536
+P 5950 2700
+F 0 "SW3" H 5950 2985 50  0000 C CNN
+F 1 "SW_Push_Dual" H 5950 2894 50  0000 C CNN
+F 2 "Button_Switch_THT:SW_TH_Tactile_Omron_B3F-10xx" H 5950 2900 50  0001 C CNN
+F 3 "" H 5950 2900 50  0001 C CNN
+	1    5950 2700
+	1    0    0    -1  
+$EndComp
+$Comp
+L Switch:SW_Push_Dual SW4
+U 1 1 5C694574
+P 5950 3300
+F 0 "SW4" H 5950 3585 50  0000 C CNN
+F 1 "SW_Push_Dual" H 5950 3494 50  0000 C CNN
+F 2 "Button_Switch_THT:SW_TH_Tactile_Omron_B3F-10xx" H 5950 3500 50  0001 C CNN
+F 3 "" H 5950 3500 50  0001 C CNN
+	1    5950 3300
+	1    0    0    -1  
+$EndComp
+$Comp
+L Switch:SW_Push_Dual SW5
+U 1 1 5C6945BA
+P 5950 3950
+F 0 "SW5" H 5950 4235 50  0000 C CNN
+F 1 "SW_Push_Dual" H 5950 4144 50  0000 C CNN
+F 2 "Button_Switch_THT:SW_TH_Tactile_Omron_B3F-10xx" H 5950 4150 50  0001 C CNN
+F 3 "" H 5950 4150 50  0001 C CNN
+	1    5950 3950
+	1    0    0    -1  
+$EndComp
+$Comp
+L Switch:SW_Push_Dual SW6
+U 1 1 5C69460C
+P 5950 4600
+F 0 "SW6" H 5950 4885 50  0000 C CNN
+F 1 "SW_Push_Dual" H 5950 4794 50  0000 C CNN
+F 2 "Button_Switch_THT:SW_TH_Tactile_Omron_B3F-10xx" H 5950 4800 50  0001 C CNN
+F 3 "" H 5950 4800 50  0001 C CNN
+	1    5950 4600
+	1    0    0    -1  
+$EndComp
+$Comp
+L Switch:SW_Push_Dual SW7
+U 1 1 5C694662
+P 5950 5250
+F 0 "SW7" H 5950 5535 50  0000 C CNN
+F 1 "Shift" H 5950 5444 50  0000 C CNN
+F 2 "Button_Switch_THT:SW_TH_Tactile_Omron_B3F-10xx" H 5950 5450 50  0001 C CNN
+F 3 "" H 5950 5450 50  0001 C CNN
+	1    5950 5250
+	1    0    0    -1  
+$EndComp
+$Comp
+L Switch:SW_Push_Dual SW8
+U 1 1 5C6946AE
+P 5950 5950
+F 0 "SW8" H 5950 6235 50  0000 C CNN
+F 1 "Stop" H 5950 6144 50  0000 C CNN
+F 2 "Button_Switch_THT:SW_TH_Tactile_Omron_B3F-10xx" H 5950 6150 50  0001 C CNN
+F 3 "" H 5950 6150 50  0001 C CNN
+	1    5950 5950
+	1    0    0    -1  
+$EndComp
+$Comp
+L Connector:Conn_01x04_Female J2
+U 1 1 5C694C1B
+P 5000 5550
+F 0 "J2" H 5027 5526 50  0000 L CNN
+F 1 "LCD Header" H 5027 5435 50  0000 L CNN
+F 2 "Connector_PinHeader_2.54mm:PinHeader_1x04_P2.54mm_Vertical" H 5000 5550 50  0001 C CNN
+F 3 "~" H 5000 5550 50  0001 C CNN
+	1    5000 5550
+	1    0    0    -1  
+$EndComp
+$Comp
+L Connector:USB_B_Micro J3
+U 1 1 5C694D46
+P 7550 1450
+F 0 "J3" H 7605 1917 50  0000 C CNN
+F 1 "USB_B_Micro" H 7605 1826 50  0000 C CNN
+F 2 "Connector_USB:USB_Micro-B_Amphenol_10103594-0001LF_Horizontal" H 7700 1400 50  0001 C CNN
+F 3 "~" H 7700 1400 50  0001 C CNN
+	1    7550 1450
+	1    0    0    -1  
+$EndComp
+$Comp
+L Interface_CAN_LIN:TJA1051T U2
+U 1 1 5C6951BB
+P 8000 3100
+F 0 "U2" H 8000 3678 50  0000 C CNN
+F 1 "TJA1051T" H 8000 3587 50  0000 C CNN
+F 2 "Package_SO:SOIC-8_3.9x4.9mm_P1.27mm" H 8000 2600 50  0001 C CIN
+F 3 "http://www.nxp.com/documents/data_sheet/TJA1051.pdf" H 8000 3100 50  0001 C CNN
+	1    8000 3100
+	1    0    0    -1  
+$EndComp
+$Comp
+L Connector_Generic:Conn_01x06 J4
+U 1 1 5C69531D
+P 9000 1400
+F 0 "J4" H 9079 1392 50  0000 L CNN
+F 1 "S88 ShiftRegister" H 9079 1301 50  0000 L CNN
+F 2 "Connector_Molex:Molex_Micro-Latch_53254-0670_1x06_P2.00mm_Horizontal" H 9000 1400 50  0001 C CNN
+F 3 "~" H 9000 1400 50  0001 C CNN
+	1    9000 1400
+	1    0    0    -1  
+$EndComp
+$Comp
+L 74xx_IEEE:74HC36 U3
+U 1 1 5C69542D
+P 9650 2300
+F 0 "U3" H 9650 2766 50  0000 C CNN
+F 1 "74HC36" H 9650 2675 50  0000 C CNN
+F 2 "Package_DIP:DIP-14_W7.62mm_Socket" H 9650 2300 50  0001 C CNN
+F 3 "" H 9650 2300 50  0001 C CNN
+	1    9650 2300
+	1    0    0    -1  
+$EndComp
+$Comp
+L 74xx_IEEE:74HC36 U3
+U 2 1 5C6954E6
+P 9650 3000
+F 0 "U3" H 9650 3466 50  0000 C CNN
+F 1 "74HC36" H 9650 3375 50  0000 C CNN
+F 2 "Package_DIP:DIP-14_W7.62mm_Socket" H 9650 3000 50  0001 C CNN
+F 3 "" H 9650 3000 50  0001 C CNN
+	2    9650 3000
+	1    0    0    -1  
+$EndComp
+$Comp
+L 74xx_IEEE:74HC36 U3
+U 3 1 5C69559B
+P 9650 3700
+F 0 "U3" H 9650 4166 50  0000 C CNN
+F 1 "74HC36" H 9650 4075 50  0000 C CNN
+F 2 "Package_DIP:DIP-14_W7.62mm_Socket" H 9650 3700 50  0001 C CNN
+F 3 "" H 9650 3700 50  0001 C CNN
+	3    9650 3700
+	1    0    0    -1  
+$EndComp
+$Comp
+L 74xx_IEEE:74HC36 U3
+U 4 1 5C69562C
+P 9650 4350
+F 0 "U3" H 9650 4816 50  0000 C CNN
+F 1 "74HC36" H 9650 4725 50  0000 C CNN
+F 2 "Package_DIP:DIP-14_W7.62mm_Socket" H 9650 4350 50  0001 C CNN
+F 3 "" H 9650 4350 50  0001 C CNN
+	4    9650 4350
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR0102
+U 1 1 5C6959A4
+P 3800 4800
+F 0 "#PWR0102" H 3800 4550 50  0001 C CNN
+F 1 "GND" H 3805 4627 50  0000 C CNN
+F 2 "" H 3800 4800 50  0001 C CNN
+F 3 "" H 3800 4800 50  0001 C CNN
+	1    3800 4800
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR0103
+U 1 1 5C6959F6
+P 6200 6400
+F 0 "#PWR0103" H 6200 6150 50  0001 C CNN
+F 1 "GND" H 6205 6227 50  0000 C CNN
+F 2 "" H 6200 6400 50  0001 C CNN
+F 3 "" H 6200 6400 50  0001 C CNN
+	1    6200 6400
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	6150 2050 6150 2250
+Wire Wire Line
+	6150 6400 6200 6400
+Connection ~ 6150 2250
+Wire Wire Line
+	6150 2250 6150 2700
+Connection ~ 6150 2700
+Wire Wire Line
+	6150 2700 6150 2900
+Connection ~ 6150 2900
+Wire Wire Line
+	6150 2900 6150 3300
+Connection ~ 6150 3300
+Wire Wire Line
+	6150 3300 6150 3500
+Connection ~ 6150 3500
+Wire Wire Line
+	6150 3500 6150 3950
+Connection ~ 6150 3950
+Wire Wire Line
+	6150 3950 6150 4150
+Connection ~ 6150 4150
+Wire Wire Line
+	6150 4150 6150 4600
+Connection ~ 6150 4600
+Wire Wire Line
+	6150 4600 6150 4800
+Connection ~ 6150 4800
+Wire Wire Line
+	6150 4800 6150 5250
+Connection ~ 6150 5250
+Wire Wire Line
+	6150 5250 6150 5450
+Connection ~ 6150 5450
+Wire Wire Line
+	6150 5450 6150 5950
+Connection ~ 6150 5950
+Wire Wire Line
+	6150 5950 6150 6150
+Connection ~ 6150 6150
+Wire Wire Line
+	6150 6150 6150 6400
+Wire Wire Line
+	6150 2050 6250 2050
+Wire Wire Line
+	6250 2050 6250 1850
+Connection ~ 6150 2050
+Wire Wire Line
+	5650 1350 5550 1350
+Wire Wire Line
+	5550 1350 5550 1650
+Wire Wire Line
+	5550 1650 6250 1650
+Connection ~ 6250 1650
+Wire Wire Line
+	6250 1650 6250 1450
+Wire Wire Line
+	7550 1850 7450 1850
+Wire Wire Line
+	7450 1850 6250 1850
+Connection ~ 7450 1850
+Connection ~ 6250 1850
+Wire Wire Line
+	6250 1850 6250 1650
+Wire Wire Line
+	3800 4600 3800 4800
+$Comp
+L power:VCC #PWR0104
+U 1 1 5C697535
+P 3800 1450
+F 0 "#PWR0104" H 3800 1300 50  0001 C CNN
+F 1 "VCC" H 3817 1623 50  0000 C CNN
+F 2 "" H 3800 1450 50  0001 C CNN
+F 3 "" H 3800 1450 50  0001 C CNN
+	1    3800 1450
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:VCC #PWR0105
+U 1 1 5C697587
+P 5250 1100
+F 0 "#PWR0105" H 5250 950 50  0001 C CNN
+F 1 "VCC" H 5267 1273 50  0000 C CNN
+F 2 "" H 5250 1100 50  0001 C CNN
+F 3 "" H 5250 1100 50  0001 C CNN
+	1    5250 1100
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	3800 1450 3800 1800
+Wire Wire Line
+	5750 2050 5750 2250
+Wire Wire Line
+	5750 2700 5750 2900
+Wire Wire Line
+	5750 3300 5750 3500
+Wire Wire Line
+	5750 3950 5750 4150
+Wire Wire Line
+	5750 4600 5750 4800
+Wire Wire Line
+	5750 5250 5750 5450
+Wire Wire Line
+	5750 5950 5750 6150
 $EndSCHEMATC
