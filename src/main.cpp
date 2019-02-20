@@ -2,9 +2,9 @@
 #include <CAN.h>
 
 #include "EngineControl/EngineControl.h"
-#include "TurnoutControl/TurnoutControl.h"
-
 #include "MaerklinCan/handler.h"
+#include "TurnoutControl/TurnoutControl.h"
+#include "wifiManager.h"
 
 void setup() {
   // Start serial and wait for its initialization
@@ -23,6 +23,8 @@ void setup() {
       ;
   }
 
+  setupWifi();
+
   EngineControl::begin();
 
   TurnoutControl::begin();
@@ -34,6 +36,8 @@ void loop() {
   EngineControl::loop();
 
   CanInputLoop();
+
+  WifiInputLoop();
 
   TurnoutControl::loop();
 }
@@ -93,3 +97,27 @@ void CanInputLoop(void) {
     MaerklinCan::HandlePacket(maerklinIdentifier, maerklinData);
   }
 }
+
+namespace MaerklinCan {
+
+void SendPacket(const MaerklinCan::Identifier& id,
+                const MaerklinCan::Data& data) {
+  if (!wifiConnected) {
+    Serial.println("Wifi not connected. Not sending packet.");
+    return;
+  }
+
+  Serial.println("Sending packet via WiFi.");
+  // Send packet on WIFI
+  udpSendSocket.beginPacket(canGwAddress, canGwPort);
+  uint32_t canId = id.makeIdentifier();
+  udpSendSocket.write(canId >> 24);
+  udpSendSocket.write(canId >> 16);
+  udpSendSocket.write(canId >> 8);
+  udpSendSocket.write(canId);
+  udpSendSocket.write(data.dlc);
+  udpSendSocket.write(data.data, 8);
+  udpSendSocket.endPacket();
+}
+
+} /* namespace MaerklinCan */

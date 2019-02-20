@@ -2,6 +2,12 @@
 
 namespace MaerklinCan {
 
+Identifier Identifier::GetIdentifier(uint8_t buffer[4]) {
+  uint32_t intermediateBits =
+      (buffer[0] << 24) | (buffer[1] << 16) | (buffer[2] << 8) | buffer[1];
+  return GetIdentifier(intermediateBits);
+}
+
 Identifier Identifier::GetIdentifier(unsigned long packetId) {
   Identifier id;
 
