@@ -87,7 +87,7 @@ void HandleAccessoryPacket(const MaerklinCan::Data& data) {
       MaerklinCan::TurnoutPacket::FromCanPacket(data);
   turnoutPacket.printAll();
 }
-/*
+
 void SendPacket(const MaerklinCan::Identifier& id,
                 const MaerklinCan::Data& data) {
   // Send packet on CAN
@@ -97,7 +97,7 @@ void SendPacket(const MaerklinCan::Identifier& id,
   }
   CAN.endPacket();
 }
-*/
+
 void SendAccessoryPacket(uint32_t turnoutAddress, TurnoutDirection direction,
                          uint8_t power) {
   MaerklinCan::Identifier identifier;
