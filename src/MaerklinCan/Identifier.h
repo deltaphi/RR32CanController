@@ -28,6 +28,11 @@ class Identifier {
   static Identifier GetIdentifier(unsigned long packetId);
 
   /**
+   * \brief Turn a 4-byte buffer from LAN into a Marklin Identifier
+   */
+  static Identifier GetIdentifier(uint8_t buffer[4]);
+
+  /**
    * \brief Determine the correct hash value given the address of this component
    */
   void computeAndSetHash(uint32_t deviceUuid);
