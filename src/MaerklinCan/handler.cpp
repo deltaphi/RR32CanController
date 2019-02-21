@@ -4,6 +4,7 @@
 
 #include "config.h"
 
+#include "MaerklinCan/Data.h"
 #include "MaerklinCan/TurnoutPacket.h"
 
 namespace MaerklinCan {
@@ -86,7 +87,7 @@ void HandleAccessoryPacket(const MaerklinCan::Data& data) {
       MaerklinCan::TurnoutPacket::FromCanPacket(data);
   turnoutPacket.printAll();
 }
-
+/*
 void SendPacket(const MaerklinCan::Identifier& id,
                 const MaerklinCan::Data& data) {
   // Send packet on CAN
@@ -96,7 +97,7 @@ void SendPacket(const MaerklinCan::Identifier& id,
   }
   CAN.endPacket();
 }
-
+*/
 void SendAccessoryPacket(uint32_t turnoutAddress, TurnoutDirection direction,
                          uint8_t power) {
   MaerklinCan::Identifier identifier;
@@ -129,7 +130,7 @@ void SendAccessoryPacket(uint32_t turnoutAddress, TurnoutDirection direction,
   SendPacket(identifier, data);
 }
 
-void SendRequestConfigDataPacket(const char* data, uint8_t charCount) {
+void SendRequestConfigDataPacket(const char* textData, uint8_t charCount) {
   // Just try to download the first two engines from the MS2
   MaerklinCan::Identifier identifier;
   // identifier.prio = 4; // Value is specified but actual implementations don't
@@ -138,17 +139,16 @@ void SendRequestConfigDataPacket(const char* data, uint8_t charCount) {
   identifier.response = false;
   identifier.computeAndSetHash(maerklinCanUUID);
 
-  // Send packet on CAN
-  CAN.beginExtendedPacket(identifier.makeIdentifier());
+  MaerklinCan::Data data;
 
   if (charCount > CanDataMaxLength) {
     charCount = CanDataMaxLength;
   }
 
-  for (int i = 0; i < charCount; ++i) {
-    CAN.write(data[i]);
-  }
-  CAN.endPacket();
+  data.dlc = charCount;
+  memcpy(data.data, textData, charCount);
+
+  SendPacket(identifier, data);
 }
 
 } /* namespace MaerklinCan */
