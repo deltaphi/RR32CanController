@@ -347,3 +347,24 @@ TEST_F(BufferManagerFixtureWithData, subBuffer_offset_17) {
   EXPECT_EQ(subMgr.length(), 0);
   EXPECT_EQ(subMgr.capacity(), 0);
 }
+
+TEST_F(BufferManagerFixtureWithData, subBuffer_offset_5_len_3) {
+  MaerklinCan::BufferManager subMgr = mgr->subBufferManager(5, 8);
+  EXPECT_EQ(subMgr.data(), mgr->data() + 5);
+  EXPECT_EQ(subMgr.length(), 3);
+  EXPECT_EQ(subMgr.capacity(), 11);
+}
+
+TEST_F(BufferManagerFixtureWithData, subBuffer_offset_5_len_5) {
+  MaerklinCan::BufferManager subMgr = mgr->subBufferManager(5, 10);
+  EXPECT_EQ(subMgr.data(), mgr->data() + 5);
+  EXPECT_EQ(subMgr.length(), 5);
+  EXPECT_EQ(subMgr.capacity(), 11);
+}
+
+TEST_F(BufferManagerFixtureWithData, subBuffer_offset_5_len_negative) {
+  MaerklinCan::BufferManager subMgr = mgr->subBufferManager(5, 3);
+  EXPECT_EQ(subMgr.data(), mgr->data() + 5);
+  EXPECT_EQ(subMgr.length(), 0);
+  EXPECT_EQ(subMgr.capacity(), 11);
+}

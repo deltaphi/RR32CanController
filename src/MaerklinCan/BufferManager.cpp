@@ -58,14 +58,27 @@ BufferManager::size_type BufferManager::move_back(BufferManager& otherBuffer) {
   return movedBytes;
 }
 
-BufferManager BufferManager::subBufferManager(size_type offset) const {
-  if (offset >= maxBufferLength) {
-    offset = maxBufferLength;
+BufferManager BufferManager::subBufferManager(size_type start_offset) const {
+  return subBufferManager(start_offset, length());
+}
+
+BufferManager BufferManager::subBufferManager(size_type start_offset,
+                                              size_type end_offset) const {
+  if (start_offset > maxBufferLength) {
+    start_offset = maxBufferLength;
   }
-  BufferManager mgr(buffer + offset, maxBufferLength - offset);
-  if (currentBufferLength >= offset) {
-    mgr.currentBufferLength = currentBufferLength - offset;
+
+  if (end_offset > maxBufferLength) {
+    end_offset = maxBufferLength;
   }
+
+  if (end_offset < start_offset) {
+    end_offset = start_offset;
+  }
+
+  BufferManager mgr(buffer + start_offset, maxBufferLength - start_offset,
+                    end_offset - start_offset);
+
   return mgr;
 }
 

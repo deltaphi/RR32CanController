@@ -12,8 +12,16 @@ class BufferManager {
 
   constexpr static const size_type npos = -1;
 
+  constexpr BufferManager() : BufferManager(nullptr, 0, 0) {}
+
   constexpr BufferManager(value_type* buffer, size_type bufferLength)
-      : buffer(buffer), currentBufferLength(0), maxBufferLength(bufferLength) {}
+      : BufferManager(buffer, bufferLength, 0) {}
+
+  constexpr BufferManager(value_type* buffer, size_type bufferLength,
+                          size_type currentBufferLength)
+      : buffer(buffer),
+        currentBufferLength(currentBufferLength),
+        maxBufferLength(bufferLength) {}
 
   BufferManager(const BufferManager&) = delete;
   BufferManager& operator=(const BufferManager&) = delete;
@@ -88,7 +96,9 @@ class BufferManager {
    * Do not use the returned buffer for modificatoins of the underlying memory.
    * Results will definitely be surprising.
    */
-  BufferManager subBufferManager(size_type offset) const;
+  BufferManager subBufferManager(size_type start_offset) const;
+  BufferManager subBufferManager(size_type start_offset,
+                                 size_type end_offset) const;
 
  private:
   value_type* buffer;
