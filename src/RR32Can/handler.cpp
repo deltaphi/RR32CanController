@@ -9,8 +9,7 @@
 
 namespace RR32Can {
 
-void HandlePacket(const RR32Can::Identifier& id,
-                  const RR32Can::Data& data) {
+void HandlePacket(const RR32Can::Identifier& id, const RR32Can::Data& data) {
   id.printAll();
   Serial.println();
 
@@ -88,8 +87,7 @@ void HandleAccessoryPacket(const RR32Can::Data& data) {
   turnoutPacket.printAll();
 }
 
-void SendPacket(const RR32Can::Identifier& id,
-                const RR32Can::Data& data) {
+void SendPacket(const RR32Can::Identifier& id, const RR32Can::Data& data) {
   // Send packet on CAN
   CAN.beginExtendedPacket(id.makeIdentifier());
   for (int i = 0; i < data.dlc; ++i) {

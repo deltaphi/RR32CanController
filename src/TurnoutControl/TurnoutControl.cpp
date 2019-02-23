@@ -102,11 +102,11 @@ void handleButton(uint8_t buttonIndex, uint8_t buttonState) {
           (direction == RR32Can::TurnoutDirection::RED
                ? RR32Can::TurnoutDirection::GREEN
                : RR32Can::TurnoutDirection::RED);  // invert, as my wires
-                                                       // are connected in the
-                                                       // opposite order
+                                                   // are connected in the
+                                                   // opposite order
 
       RR32Can::SendAccessoryPacket(turnoutIndex.address, direction,
-                                       (buttonState == HIGH ? 1 : 0));
+                                   (buttonState == HIGH ? 1 : 0));
       break;
     }
     case TurnoutAddressMode::MultiTurnout: {
