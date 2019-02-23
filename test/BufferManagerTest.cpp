@@ -285,6 +285,64 @@ TEST_F(BufferManagerFixtureWithData, find_first_of_pasttheend) {
   EXPECT_EQ(RR32Can::BufferManager::npos, mgr->findFirstOf('9', 10));
 }
 
+TEST_F(BufferManagerFixtureWithData, multi_find_first_of) {
+  EXPECT_EQ(0, mgr->findFirstOf("0123"));
+  EXPECT_EQ(1, mgr->findFirstOf("123"));
+  EXPECT_EQ(0, mgr->findFirstOf("3210"));
+
+  EXPECT_EQ(4, mgr->findFirstOf("4"));
+
+  EXPECT_EQ(4, mgr->findFirstOf("4567"));
+  EXPECT_EQ(5, mgr->findFirstOf("567"));
+  EXPECT_EQ(4, mgr->findFirstOf("7645"));
+}
+
+TEST_F(BufferManagerFixtureWithData, multi_find_first_of_zero) {
+  EXPECT_EQ(0, mgr->findFirstOf("0123", 0));
+  EXPECT_EQ(1, mgr->findFirstOf("123", 0));
+  EXPECT_EQ(0, mgr->findFirstOf("3210", 0));
+
+  EXPECT_EQ(4, mgr->findFirstOf("4", 0));
+
+  EXPECT_EQ(4, mgr->findFirstOf("4567", 0));
+  EXPECT_EQ(5, mgr->findFirstOf("567", 0));
+  EXPECT_EQ(4, mgr->findFirstOf("7645", 0));
+}
+
+TEST_F(BufferManagerFixtureWithData, multi_find_first_of_middle) {
+  EXPECT_EQ(RR32Can::BufferManager::npos, mgr->findFirstOf("0123", 4));
+  EXPECT_EQ(RR32Can::BufferManager::npos, mgr->findFirstOf("123", 4));
+  EXPECT_EQ(RR32Can::BufferManager::npos, mgr->findFirstOf("3210", 4));
+
+  EXPECT_EQ(4, mgr->findFirstOf("4", 4));
+}
+
+TEST_F(BufferManagerFixtureWithData, multi_find_first_of_end) {
+  EXPECT_EQ(RR32Can::BufferManager::npos, mgr->findFirstOf("0", 9));
+  EXPECT_EQ(RR32Can::BufferManager::npos, mgr->findFirstOf("1", 9));
+  EXPECT_EQ(RR32Can::BufferManager::npos, mgr->findFirstOf("2", 9));
+  EXPECT_EQ(RR32Can::BufferManager::npos, mgr->findFirstOf("3", 9));
+  EXPECT_EQ(RR32Can::BufferManager::npos, mgr->findFirstOf("4", 9));
+  EXPECT_EQ(RR32Can::BufferManager::npos, mgr->findFirstOf("5", 9));
+  EXPECT_EQ(RR32Can::BufferManager::npos, mgr->findFirstOf("6", 9));
+  EXPECT_EQ(RR32Can::BufferManager::npos, mgr->findFirstOf("7", 9));
+  EXPECT_EQ(RR32Can::BufferManager::npos, mgr->findFirstOf("8", 9));
+  EXPECT_EQ(9, mgr->findFirstOf("9", 9));
+}
+
+TEST_F(BufferManagerFixtureWithData, multi_find_first_of_pasttheend) {
+  EXPECT_EQ(RR32Can::BufferManager::npos, mgr->findFirstOf("0", 10));
+  EXPECT_EQ(RR32Can::BufferManager::npos, mgr->findFirstOf("1", 10));
+  EXPECT_EQ(RR32Can::BufferManager::npos, mgr->findFirstOf("2", 10));
+  EXPECT_EQ(RR32Can::BufferManager::npos, mgr->findFirstOf("3", 10));
+  EXPECT_EQ(RR32Can::BufferManager::npos, mgr->findFirstOf("4", 10));
+  EXPECT_EQ(RR32Can::BufferManager::npos, mgr->findFirstOf("5", 10));
+  EXPECT_EQ(RR32Can::BufferManager::npos, mgr->findFirstOf("6", 10));
+  EXPECT_EQ(RR32Can::BufferManager::npos, mgr->findFirstOf("7", 10));
+  EXPECT_EQ(RR32Can::BufferManager::npos, mgr->findFirstOf("8", 10));
+  EXPECT_EQ(RR32Can::BufferManager::npos, mgr->findFirstOf("9", 10));
+}
+
 TEST_F(BufferManagerFixtureWithData, subBuffer_offset_0) {
   RR32Can::BufferManager subMgr = mgr->subBufferManager(0);
   EXPECT_EQ(subMgr.data(), mgr->data());

@@ -17,6 +17,24 @@ BufferManager::size_type BufferManager::findFirstOf(value_type character,
   return npos;
 }
 
+BufferManager::size_type BufferManager::findFirstOf(const value_type* chars,
+                                                    size_type offset) const {
+  if (offset >= currentBufferLength) {
+    return npos;
+  }
+
+  size_type numChars = strlen(chars);
+
+  for (size_type i = offset; i < currentBufferLength; ++i) {
+    for (size_type j = 0; j < numChars; ++j) {
+      if (buffer[i] == chars[j]) {
+        return i;
+      }
+    }
+  }
+  return npos;
+}
+
 void BufferManager::erase() {
   memset(buffer, '\0', maxBufferLength);
   currentBufferLength = 0;
