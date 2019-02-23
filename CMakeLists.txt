@@ -37,9 +37,12 @@ endif()
 include_directories("src")
 add_executable(RR32CanTest
     test/BufferManagerTest.cpp
+    test/TextParserTest.cpp
     
     src/RR32Can/BufferManager.h
     src/RR32Can/BufferManager.cpp
+    src/RR32Can/TextParser.h
+    src/RR32Can/TextParser.cpp
     )
 target_link_libraries(RR32CanTest gtest_main gmock)
 add_test(NAME gtest_rr32can_test COMMAND RR32CanTest)

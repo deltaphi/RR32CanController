@@ -47,6 +47,7 @@ class BufferManager {
   value_type& at(size_type index) { return buffer[limitIndex(index)]; }
 
   size_type findFirstOf(value_type character, size_type offset = 0) const;
+  size_type findFirstOf(const value_type* chars, size_type offset = 0) const;
 
   void erase();
 
@@ -103,7 +104,7 @@ class BufferManager {
  private:
   value_type* buffer;
   size_type currentBufferLength;
-  const size_type maxBufferLength;
+  size_type maxBufferLength;
 };
 
 } /* namespace RR32Can */
