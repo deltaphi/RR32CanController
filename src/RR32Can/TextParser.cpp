@@ -11,7 +11,7 @@ TextParser::TextParser()
 }
 
 void TextParser::reset() {
-  parserState = State::LOOKING_FOR_SECTION_START;
+  parserState = State::LOOKING_FOR_KEY_OR_SECTION_START;
   buffer.erase();
   section.erase();
   key.erase();
@@ -24,13 +24,11 @@ void TextParser::reportParseError() {
   section.set(msg);
   key.set(msg);
   value.set(msg);
-  // handleValue(section, key, value);
   RR32CanValueHandler(section, key, value);
-  reset();
 }
 
 void TextParser::addText(const BufferManager& input) {
-  if (input.length() > kBufferLength) {
+  if (input.length() > kBufferLength || parserState == State::ERROR) {
     // input won't fit.
     // TODO: Better checking, if the input can be handled in chunks
     reportParseError();
@@ -40,7 +38,7 @@ void TextParser::addText(const BufferManager& input) {
   uint8_t inputConsumed = 0;
 
   while (inputConsumed < input.length()) {
-    if (buffer.full()) {
+    if (buffer.full() || parserState == State::ERROR) {
       // Buffer full at the start of a parse - no progress wil be made.
       reportParseError();
       return;
@@ -48,96 +46,74 @@ void TextParser::addText(const BufferManager& input) {
 
     inputConsumed += buffer.push_back(input.subBufferManager(inputConsumed));
 
-    uint8_t consumedBufferBytes = consumeBuffer();
+    uint8_t consumedBufferBytes = this->processBuffer();
 
     buffer.pop_front(consumedBufferBytes);
   }
 }
 
-TextParser::Result TextParser::consumeToCharacter(uint8_t offset, char character, BufferManager & destinationBuffer) {
-	Result result;
-	result.consumed =
-		buffer.findFirstOf(kSectionStop, offset);
-	result.success = result.consumed != BufferManager::npos;
-	BufferManager partial;
-	uint8_t pushedBytes = 0;
-	if (result.success) {
-		// Section end found
-		partial = buffer.subBufferManager(offset, result.consumed - 1);
-		pushedBytes = destinationBuffer.push_back(partial);
-		
-	}
-	else {
-
-		// Section end not contained in the current buffer. Consume it completely
-		partial = buffer.subBufferManager(offset);
-		result.consumed = buffer.length();
-	}
-
-	pushedBytes = destinationBuffer.push_back(partial);
-	if (pushedBytes < partial.length()) {
-		// found token did not fit
-		reportParseError();
-		result.success = false;
-		return result;
-	}
-}
-
-uint8_t TextParser::consumeBuffer() {
-  uint8_t consumedBytes = 0;
+TextParser::size_type TextParser::processBuffer() {
+  size_type consumedBytes = 0;
 
   while (consumedBytes < buffer.length()) {
-	  Result parseResult;
+    FindTokenResult parseResult;
     switch (parserState) {
-      case State::LOOKING_FOR_SECTION_START: {
-		  parseResult = consumeToCharacter(consumedBytes, kSectionStart);
-		  if (parseResult.success) {
-			  parserState = State::PARSING_SECTION;
-		  }
-		  consumedBytes = parseResult.consumed;
+      case State::LOOKING_FOR_KEY_OR_SECTION_START: {
+        parseResult = findToken(consumedBytes, kKeyOrSectionStart, nullptr);
+        if (parseResult.success) {
+          if (buffer[parseResult.consumed - 1] == kSectionStart) {
+            section.erase();
+            parserState = State::PARSING_SECTION;
+          } else if (buffer[parseResult.consumed - 1] == kKeyStart) {
+            parserState = State::PARSING_KEY;
+          } else {
+            reportParseError();
+            return consumedBytes;
+          }
+        }
+        consumedBytes = parseResult.consumed;
         break;
       }
       case State::PARSING_SECTION: {
-		  parseResult = consumeToCharacter(consumedBytes, kSectionStart);
-		  if (parseResult.success) {
-			  parserState = State::LOOKING_FOR_KEY_START;
-		  }
-		  consumedBytes = parseResult.consumed;
-		  break;
+        parseResult = findToken(consumedBytes, kSectionStop, &section);
+        if (parseResult.success) {
+          parserState = State::LOOKING_FOR_KEY_OR_SECTION_START;
+        }
+        consumedBytes = parseResult.consumed;
+        break;
       }
-	  case State::LOOKING_FOR_KEY_START: {
-		  parseResult = consumeToCharacter(consumedBytes, kKeyStart);
-		  if (parseResult.success) {
-			  parserState = State::PARSING_KEY;
-		  }
-		  consumedBytes = parseResult.consumed;
-		  break;
-	  }
-	  case State::PARSING_KEY: {
-		  parseResult = consumeToCharacter(consumedBytes, kKeyStop);
-		  if (parseResult.success) {
-			  parserState = State::PARSING_KEY;
-		  }
-		  consumedBytes = parseResult.consumed;
-		  break;
-	  }
-
-	  case State::LOOKING_FOR_VALUE_START: {
-		  parseResult = consumeToCharacter(consumedBytes, k);
-		  if (parseResult.success) {
-			  parserState = State::PARSING_KEY;
-		  }
-		  consumedBytes = parseResult.consumed;
-		  break;
-	  }
-	  case State::PARSING_VALUE: {
-		  parseResult = consumeToCharacter(consumedBytes, kValueStop);
-		  if (parseResult.success) {
-			  parserState = State::PARSING_KEY;
-		  }
-		  consumedBytes = parseResult.consumed;
-		  break;
-	  }
+      case State::PARSING_KEY: {
+        parseResult = findToken(consumedBytes, kKeyStop, &key);
+        if (parseResult.success) {
+          parserState = State::PARSING_VALUE;
+        }
+        consumedBytes = parseResult.consumed;
+        break;
+      }
+        /*
+              case State::LOOKING_FOR_VALUE_START: {
+                parseResult =
+                    findToken(consumedBytes, kKeyStop,
+                              nullptr);  // TBD: Do we even need to find here?
+           This
+                                         // might be the current or the next
+           character. if (parseResult.success) { parserState =
+           State::PARSING_KEY;
+                }
+                consumedBytes = parseResult.consumed;
+                break;
+              }*/
+      case State::PARSING_VALUE: {
+        parseResult = findToken(consumedBytes, kValueStop, &value);
+        if (parseResult.success) {
+          RR32CanValueHandler(section, key, value);
+          key.erase();
+          value.erase();
+          parserState = State::LOOKING_FOR_KEY_OR_SECTION_START;
+        }
+        consumedBytes = parseResult.consumed;
+        break;
+      }
       default:
         // TBD: Consume everything.
         consumedBytes = buffer.length();
@@ -145,6 +121,35 @@ uint8_t TextParser::consumeBuffer() {
   }
 
   return consumedBytes;
+}
+
+TextParser::FindTokenResult TextParser::findToken(
+    uint8_t offset, const char* chars, BufferManager* destinationBuffer) {
+  FindTokenResult result;
+  result.consumed = buffer.findFirstOf(chars, offset);
+
+  if (result.consumed == BufferManager::npos) {
+    result.success = false;
+    result.consumed = buffer.length();
+  } else {
+    result.success = true;
+  }
+
+  if (destinationBuffer != nullptr) {
+    BufferManager partial = buffer.subBufferManager(offset, result.consumed);
+    size_type pushedBytes = destinationBuffer->push_back(partial);
+    if (pushedBytes < partial.length()) {
+      // found token did not fit
+      reportParseError();
+      result.success = false;
+    }
+  }
+
+  if (result.success) {
+    result.consumed += 1;  // convert offset from find to length
+  }
+
+  return result;
 }
 
 } /* namespace RR32Can */
