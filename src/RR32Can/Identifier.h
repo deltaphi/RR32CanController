@@ -1,9 +1,9 @@
-#ifndef __MAERKLINCAN_IDENTIFIER_H__
-#define __MAERKLINCAN_IDENTIFIER_H__
+#ifndef __RR32Can_IDENTIFIER_H__
+#define __RR32Can_IDENTIFIER_H__
 
 #include <Arduino.h>
 
-namespace MaerklinCan {
+namespace RR32Can {
 
 /**
  * \brief Reflects the deserialized form of a CAN identifier as used by Marklin
@@ -49,6 +49,6 @@ class Identifier {
   void printAll() const;
 };
 
-} /* namespace MaerklinCan */
+} /* namespace RR32Can */
 
 #endif

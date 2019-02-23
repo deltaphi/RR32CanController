@@ -26,7 +26,7 @@ void loop();
 
 void handleButton(uint8_t buttonIndex, uint8_t buttonState);
 void handleMultiturnout(TurnoutLookupResult result,
-                        MaerklinCan::TurnoutDirection requestedDirection);
+                        RR32Can::TurnoutDirection requestedDirection);
 
 } /* namespace TurnoutControl */
 

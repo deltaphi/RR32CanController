@@ -1,11 +1,11 @@
-#ifndef __MAERKLINCAN__DATA_H__
-#define __MAERKLINCAN__DATA_H__
+#ifndef __RR32Can__DATA_H__
+#define __RR32Can__DATA_H__
 
 #include <Arduino.h>
 
-#include "MaerklinCan/constants.h"
+#include "RR32Can/constants.h"
 
-namespace MaerklinCan {
+namespace RR32Can {
 
 /**
  * \brief Class to represent the payload of a Marklin CAN packet.
@@ -29,6 +29,6 @@ struct Data {
   void printAsText() const;
 };
 
-} /* namespace MaerklinCan */
+} /* namespace RR32Can */
 
 #endif

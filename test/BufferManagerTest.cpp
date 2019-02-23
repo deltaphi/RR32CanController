@@ -2,19 +2,19 @@
 
 #include <memory>
 
-#include "MaerklinCan/BufferManager.h"
+#include "RR32Can/BufferManager.h"
 
 class BufferManagerFixture : public ::testing::Test {
  protected:
   void SetUp() {
     memset(buffer, 0, bufferSize);
-    mgr = std::make_unique<MaerklinCan::BufferManager>(buffer, bufferSize);
+    mgr = std::make_unique<RR32Can::BufferManager>(buffer, bufferSize);
   }
 
   constexpr static const uint8_t bufferSize = 16;
   char buffer[bufferSize];
 
-  std::unique_ptr<MaerklinCan::BufferManager> mgr;
+  std::unique_ptr<RR32Can::BufferManager> mgr;
 };
 
 class BufferManagerFixtureWithData : public BufferManagerFixture {
@@ -24,14 +24,14 @@ class BufferManagerFixtureWithData : public BufferManagerFixture {
     mgr->set("0123456789");
     EXPECT_EQ(10, mgr->length());
 
-    mgr2 = std::make_unique<MaerklinCan::BufferManager>(buffer2, bufferSize);
+    mgr2 = std::make_unique<RR32Can::BufferManager>(buffer2, bufferSize);
     mgr2->set("abcdefghij");
     EXPECT_EQ(10, mgr2->length());
   }
 
   char buffer2[bufferSize];
 
-  std::unique_ptr<MaerklinCan::BufferManager> mgr2;
+  std::unique_ptr<RR32Can::BufferManager> mgr2;
 };
 
 TEST_F(BufferManagerFixture, initialized) {
@@ -247,11 +247,11 @@ TEST_F(BufferManagerFixtureWithData, find_first_of_zero) {
 }
 
 TEST_F(BufferManagerFixtureWithData, find_first_of_middle) {
-  EXPECT_EQ(MaerklinCan::BufferManager::npos, mgr->findFirstOf('0', 5));
-  EXPECT_EQ(MaerklinCan::BufferManager::npos, mgr->findFirstOf('1', 5));
-  EXPECT_EQ(MaerklinCan::BufferManager::npos, mgr->findFirstOf('2', 5));
-  EXPECT_EQ(MaerklinCan::BufferManager::npos, mgr->findFirstOf('3', 5));
-  EXPECT_EQ(MaerklinCan::BufferManager::npos, mgr->findFirstOf('4', 5));
+  EXPECT_EQ(RR32Can::BufferManager::npos, mgr->findFirstOf('0', 5));
+  EXPECT_EQ(RR32Can::BufferManager::npos, mgr->findFirstOf('1', 5));
+  EXPECT_EQ(RR32Can::BufferManager::npos, mgr->findFirstOf('2', 5));
+  EXPECT_EQ(RR32Can::BufferManager::npos, mgr->findFirstOf('3', 5));
+  EXPECT_EQ(RR32Can::BufferManager::npos, mgr->findFirstOf('4', 5));
   EXPECT_EQ(5, mgr->findFirstOf('5', 5));
   EXPECT_EQ(6, mgr->findFirstOf('6', 5));
   EXPECT_EQ(7, mgr->findFirstOf('7', 5));
@@ -260,110 +260,110 @@ TEST_F(BufferManagerFixtureWithData, find_first_of_middle) {
 }
 
 TEST_F(BufferManagerFixtureWithData, find_first_of_end) {
-  EXPECT_EQ(MaerklinCan::BufferManager::npos, mgr->findFirstOf('0', 9));
-  EXPECT_EQ(MaerklinCan::BufferManager::npos, mgr->findFirstOf('1', 9));
-  EXPECT_EQ(MaerklinCan::BufferManager::npos, mgr->findFirstOf('2', 9));
-  EXPECT_EQ(MaerklinCan::BufferManager::npos, mgr->findFirstOf('3', 9));
-  EXPECT_EQ(MaerklinCan::BufferManager::npos, mgr->findFirstOf('4', 9));
-  EXPECT_EQ(MaerklinCan::BufferManager::npos, mgr->findFirstOf('5', 9));
-  EXPECT_EQ(MaerklinCan::BufferManager::npos, mgr->findFirstOf('6', 9));
-  EXPECT_EQ(MaerklinCan::BufferManager::npos, mgr->findFirstOf('7', 9));
-  EXPECT_EQ(MaerklinCan::BufferManager::npos, mgr->findFirstOf('8', 9));
+  EXPECT_EQ(RR32Can::BufferManager::npos, mgr->findFirstOf('0', 9));
+  EXPECT_EQ(RR32Can::BufferManager::npos, mgr->findFirstOf('1', 9));
+  EXPECT_EQ(RR32Can::BufferManager::npos, mgr->findFirstOf('2', 9));
+  EXPECT_EQ(RR32Can::BufferManager::npos, mgr->findFirstOf('3', 9));
+  EXPECT_EQ(RR32Can::BufferManager::npos, mgr->findFirstOf('4', 9));
+  EXPECT_EQ(RR32Can::BufferManager::npos, mgr->findFirstOf('5', 9));
+  EXPECT_EQ(RR32Can::BufferManager::npos, mgr->findFirstOf('6', 9));
+  EXPECT_EQ(RR32Can::BufferManager::npos, mgr->findFirstOf('7', 9));
+  EXPECT_EQ(RR32Can::BufferManager::npos, mgr->findFirstOf('8', 9));
   EXPECT_EQ(9, mgr->findFirstOf('9', 9));
 }
 
 TEST_F(BufferManagerFixtureWithData, find_first_of_pasttheend) {
-  EXPECT_EQ(MaerklinCan::BufferManager::npos, mgr->findFirstOf('0', 10));
-  EXPECT_EQ(MaerklinCan::BufferManager::npos, mgr->findFirstOf('1', 10));
-  EXPECT_EQ(MaerklinCan::BufferManager::npos, mgr->findFirstOf('2', 10));
-  EXPECT_EQ(MaerklinCan::BufferManager::npos, mgr->findFirstOf('3', 10));
-  EXPECT_EQ(MaerklinCan::BufferManager::npos, mgr->findFirstOf('4', 10));
-  EXPECT_EQ(MaerklinCan::BufferManager::npos, mgr->findFirstOf('5', 10));
-  EXPECT_EQ(MaerklinCan::BufferManager::npos, mgr->findFirstOf('6', 10));
-  EXPECT_EQ(MaerklinCan::BufferManager::npos, mgr->findFirstOf('7', 10));
-  EXPECT_EQ(MaerklinCan::BufferManager::npos, mgr->findFirstOf('8', 10));
-  EXPECT_EQ(MaerklinCan::BufferManager::npos, mgr->findFirstOf('9', 10));
+  EXPECT_EQ(RR32Can::BufferManager::npos, mgr->findFirstOf('0', 10));
+  EXPECT_EQ(RR32Can::BufferManager::npos, mgr->findFirstOf('1', 10));
+  EXPECT_EQ(RR32Can::BufferManager::npos, mgr->findFirstOf('2', 10));
+  EXPECT_EQ(RR32Can::BufferManager::npos, mgr->findFirstOf('3', 10));
+  EXPECT_EQ(RR32Can::BufferManager::npos, mgr->findFirstOf('4', 10));
+  EXPECT_EQ(RR32Can::BufferManager::npos, mgr->findFirstOf('5', 10));
+  EXPECT_EQ(RR32Can::BufferManager::npos, mgr->findFirstOf('6', 10));
+  EXPECT_EQ(RR32Can::BufferManager::npos, mgr->findFirstOf('7', 10));
+  EXPECT_EQ(RR32Can::BufferManager::npos, mgr->findFirstOf('8', 10));
+  EXPECT_EQ(RR32Can::BufferManager::npos, mgr->findFirstOf('9', 10));
 }
 
 TEST_F(BufferManagerFixtureWithData, subBuffer_offset_0) {
-  MaerklinCan::BufferManager subMgr = mgr->subBufferManager(0);
+  RR32Can::BufferManager subMgr = mgr->subBufferManager(0);
   EXPECT_EQ(subMgr.data(), mgr->data());
   EXPECT_EQ(subMgr.length(), mgr->length());
   EXPECT_EQ(subMgr.capacity(), mgr->capacity());
 }
 
 TEST_F(BufferManagerFixtureWithData, subBuffer_offset_1) {
-  MaerklinCan::BufferManager subMgr = mgr->subBufferManager(1);
+  RR32Can::BufferManager subMgr = mgr->subBufferManager(1);
   EXPECT_EQ(subMgr.data(), mgr->data() + 1);
   EXPECT_EQ(subMgr.length(), 9);
   EXPECT_EQ(subMgr.capacity(), 15);
 }
 
 TEST_F(BufferManagerFixtureWithData, subBuffer_offset_5) {
-  MaerklinCan::BufferManager subMgr = mgr->subBufferManager(5);
+  RR32Can::BufferManager subMgr = mgr->subBufferManager(5);
   EXPECT_EQ(subMgr.data(), mgr->data() + 5);
   EXPECT_EQ(subMgr.length(), 5);
   EXPECT_EQ(subMgr.capacity(), 11);
 }
 
 TEST_F(BufferManagerFixtureWithData, subBuffer_offset_9) {
-  MaerklinCan::BufferManager subMgr = mgr->subBufferManager(9);
+  RR32Can::BufferManager subMgr = mgr->subBufferManager(9);
   EXPECT_EQ(subMgr.data(), mgr->data() + 9);
   EXPECT_EQ(subMgr.length(), 1);
   EXPECT_EQ(subMgr.capacity(), 7);
 }
 
 TEST_F(BufferManagerFixtureWithData, subBuffer_offset_10) {
-  MaerklinCan::BufferManager subMgr = mgr->subBufferManager(10);
+  RR32Can::BufferManager subMgr = mgr->subBufferManager(10);
   EXPECT_EQ(subMgr.data(), mgr->data() + 10);
   EXPECT_EQ(subMgr.length(), 0);
   EXPECT_EQ(subMgr.capacity(), 6);
 }
 
 TEST_F(BufferManagerFixtureWithData, subBuffer_offset_11) {
-  MaerklinCan::BufferManager subMgr = mgr->subBufferManager(11);
+  RR32Can::BufferManager subMgr = mgr->subBufferManager(11);
   EXPECT_EQ(subMgr.data(), mgr->data() + 11);
   EXPECT_EQ(subMgr.length(), 0);
   EXPECT_EQ(subMgr.capacity(), 5);
 }
 
 TEST_F(BufferManagerFixtureWithData, subBuffer_offset_15) {
-  MaerklinCan::BufferManager subMgr = mgr->subBufferManager(15);
+  RR32Can::BufferManager subMgr = mgr->subBufferManager(15);
   EXPECT_EQ(subMgr.data(), mgr->data() + 15);
   EXPECT_EQ(subMgr.length(), 0);
   EXPECT_EQ(subMgr.capacity(), 1);
 }
 
 TEST_F(BufferManagerFixtureWithData, subBuffer_offset_16) {
-  MaerklinCan::BufferManager subMgr = mgr->subBufferManager(16);
+  RR32Can::BufferManager subMgr = mgr->subBufferManager(16);
   EXPECT_EQ(subMgr.data(), mgr->data() + 16);
   EXPECT_EQ(subMgr.length(), 0);
   EXPECT_EQ(subMgr.capacity(), 0);
 }
 
 TEST_F(BufferManagerFixtureWithData, subBuffer_offset_17) {
-  MaerklinCan::BufferManager subMgr = mgr->subBufferManager(17);
+  RR32Can::BufferManager subMgr = mgr->subBufferManager(17);
   EXPECT_EQ(subMgr.data(), mgr->data() + 16);
   EXPECT_EQ(subMgr.length(), 0);
   EXPECT_EQ(subMgr.capacity(), 0);
 }
 
 TEST_F(BufferManagerFixtureWithData, subBuffer_offset_5_len_3) {
-  MaerklinCan::BufferManager subMgr = mgr->subBufferManager(5, 8);
+  RR32Can::BufferManager subMgr = mgr->subBufferManager(5, 8);
   EXPECT_EQ(subMgr.data(), mgr->data() + 5);
   EXPECT_EQ(subMgr.length(), 3);
   EXPECT_EQ(subMgr.capacity(), 11);
 }
 
 TEST_F(BufferManagerFixtureWithData, subBuffer_offset_5_len_5) {
-  MaerklinCan::BufferManager subMgr = mgr->subBufferManager(5, 10);
+  RR32Can::BufferManager subMgr = mgr->subBufferManager(5, 10);
   EXPECT_EQ(subMgr.data(), mgr->data() + 5);
   EXPECT_EQ(subMgr.length(), 5);
   EXPECT_EQ(subMgr.capacity(), 11);
 }
 
 TEST_F(BufferManagerFixtureWithData, subBuffer_offset_5_len_negative) {
-  MaerklinCan::BufferManager subMgr = mgr->subBufferManager(5, 3);
+  RR32Can::BufferManager subMgr = mgr->subBufferManager(5, 3);
   EXPECT_EQ(subMgr.data(), mgr->data() + 5);
   EXPECT_EQ(subMgr.length(), 0);
   EXPECT_EQ(subMgr.capacity(), 11);

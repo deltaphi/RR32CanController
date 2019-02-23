@@ -1,6 +1,6 @@
-#include "MaerklinCan/Identifier.h"
+#include "RR32Can/Identifier.h"
 
-namespace MaerklinCan {
+namespace RR32Can {
 
 Identifier Identifier::GetIdentifier(uint8_t buffer[4]) {
   uint32_t intermediateBits =
@@ -57,4 +57,4 @@ void Identifier::printAll() const {
   Serial.print(this->hash, HEX);
 }
 
-} /* namespace MaerklinCan */
+} /* namespace RR32Can */

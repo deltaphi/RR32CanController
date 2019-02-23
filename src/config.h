@@ -41,7 +41,7 @@
 #define KEYS_DEBOUNCE STD_OFF
 #define LOG_KEYS_DEBOUNCE STD_OFF
 
-constexpr uint32_t maeklinPrivateBaseUUID = 0x00001800;
-constexpr uint32_t maerklinCanUUID = (maeklinPrivateBaseUUID + 10);
+constexpr uint32_t RR32CanPrivateBaseUUID = 0x00001800;
+constexpr uint32_t RR32CanUUID = (RR32CanPrivateBaseUUID + 10);
 
 #endif

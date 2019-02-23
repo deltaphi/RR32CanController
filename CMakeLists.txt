@@ -35,11 +35,11 @@ endif()
 
 # Now simply link against gtest or gtest_main as needed. Eg
 include_directories("src")
-add_executable(MaerklinEsp32Test
+add_executable(RR32CanTest
     test/BufferManagerTest.cpp
     
-    src/MaerklinCan/BufferManager.h
-    src/MaerklinCan/BufferManager.cpp
+    src/RR32Can/BufferManager.h
+    src/RR32Can/BufferManager.cpp
     )
-target_link_libraries(MaerklinEsp32Test gtest_main)
-add_test(NAME gtest_maerklinesp32_test COMMAND MaerklinEsp32Test)
+target_link_libraries(RR32CanTest gtest_main gmock)
+add_test(NAME gtest_rr32can_test COMMAND RR32CanTest)

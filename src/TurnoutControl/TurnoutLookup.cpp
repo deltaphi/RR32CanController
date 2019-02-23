@@ -5,26 +5,26 @@ namespace TurnoutControl {
 
 // Action lists use human numbering
 ActionList actionLists[NumActionLists] = {
-    {{20, MaerklinCan::TurnoutDirection::RED},
-     {4, MaerklinCan::TurnoutDirection::GREEN},
-     {5, MaerklinCan::TurnoutDirection::GREEN}},  // 1 red
-    {{20, MaerklinCan::TurnoutDirection::RED},
-     {4, MaerklinCan::TurnoutDirection::GREEN},
-     {5, MaerklinCan::TurnoutDirection::RED}},  // 2 red
-    {{20, MaerklinCan::TurnoutDirection::RED},
-     {4, MaerklinCan::TurnoutDirection::RED},
-     {250, MaerklinCan::TurnoutDirection::GREEN}},  // 3 red. Last switch is a
+    {{20, RR32Can::TurnoutDirection::RED},
+     {4, RR32Can::TurnoutDirection::GREEN},
+     {5, RR32Can::TurnoutDirection::GREEN}},  // 1 red
+    {{20, RR32Can::TurnoutDirection::RED},
+     {4, RR32Can::TurnoutDirection::GREEN},
+     {5, RR32Can::TurnoutDirection::RED}},  // 2 red
+    {{20, RR32Can::TurnoutDirection::RED},
+     {4, RR32Can::TurnoutDirection::RED},
+     {250, RR32Can::TurnoutDirection::GREEN}},  // 3 red. Last switch is a
                                                     // "don't care"
-    {{20, MaerklinCan::TurnoutDirection::GREEN},
-     {7, MaerklinCan::TurnoutDirection::GREEN},
-     {250, MaerklinCan::TurnoutDirection::RED}},  // 1 green. Last switch is a
+    {{20, RR32Can::TurnoutDirection::GREEN},
+     {7, RR32Can::TurnoutDirection::GREEN},
+     {250, RR32Can::TurnoutDirection::RED}},  // 1 green. Last switch is a
                                                   // "don't care"
-    {{20, MaerklinCan::TurnoutDirection::GREEN},
-     {7, MaerklinCan::TurnoutDirection::RED},
-     {22, MaerklinCan::TurnoutDirection::RED}},  // 2 green
-    {{20, MaerklinCan::TurnoutDirection::GREEN},
-     {7, MaerklinCan::TurnoutDirection::RED},
-     {22, MaerklinCan::TurnoutDirection::GREEN}},  // 3 green
+    {{20, RR32Can::TurnoutDirection::GREEN},
+     {7, RR32Can::TurnoutDirection::RED},
+     {22, RR32Can::TurnoutDirection::RED}},  // 2 green
+    {{20, RR32Can::TurnoutDirection::GREEN},
+     {7, RR32Can::TurnoutDirection::RED},
+     {22, RR32Can::TurnoutDirection::GREEN}},  // 3 green
 };
 
 TurnoutLookupResult lookupTurnout(uint8_t buttonIndex) {

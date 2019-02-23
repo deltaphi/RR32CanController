@@ -2,11 +2,11 @@
 
 #include "TurnoutControl/TurnoutControl.h"
 
-#include "MaerklinCan/Constants.h"
-#include "MaerklinCan/Data.h"
-#include "MaerklinCan/Identifier.h"
-#include "MaerklinCan/TurnoutPacket.h"
-#include "MaerklinCan/handler.h"
+#include "RR32Can/Constants.h"
+#include "RR32Can/Data.h"
+#include "RR32Can/Identifier.h"
+#include "RR32Can/TurnoutPacket.h"
+#include "RR32Can/handler.h"
 
 namespace TurnoutControl {
 
@@ -41,7 +41,7 @@ void loop() {
 }
 
 void handleMultiturnout(TurnoutLookupResult result,
-                        MaerklinCan::TurnoutDirection requestedDirection) {
+                        RR32Can::TurnoutDirection requestedDirection) {
   --result.address;  // Simple mapping to index into actionLists
   constexpr uint8_t actionListEndIndex =
       (NumActionLists /
@@ -53,7 +53,7 @@ void handleMultiturnout(TurnoutLookupResult result,
     return;
   }
 
-  if (requestedDirection == MaerklinCan::TurnoutDirection::RED) {
+  if (requestedDirection == RR32Can::TurnoutDirection::RED) {
     // Add offset into the green lists
     result.address += actionListEndIndex;
   }
@@ -95,17 +95,17 @@ void handleButton(uint8_t buttonIndex, uint8_t buttonState) {
   switch (turnoutIndex.mode) {
     case TurnoutAddressMode::SingleTurnout: {
       // Single turnout - send out a packet right away.
-      MaerklinCan::TurnoutDirection direction =
-          buttonIndex % 2 == 0 ? MaerklinCan::TurnoutDirection::RED
-                               : MaerklinCan::TurnoutDirection::GREEN;
+      RR32Can::TurnoutDirection direction =
+          buttonIndex % 2 == 0 ? RR32Can::TurnoutDirection::RED
+                               : RR32Can::TurnoutDirection::GREEN;
       direction =
-          (direction == MaerklinCan::TurnoutDirection::RED
-               ? MaerklinCan::TurnoutDirection::GREEN
-               : MaerklinCan::TurnoutDirection::RED);  // invert, as my wires
+          (direction == RR32Can::TurnoutDirection::RED
+               ? RR32Can::TurnoutDirection::GREEN
+               : RR32Can::TurnoutDirection::RED);  // invert, as my wires
                                                        // are connected in the
                                                        // opposite order
 
-      MaerklinCan::SendAccessoryPacket(turnoutIndex.address, direction,
+      RR32Can::SendAccessoryPacket(turnoutIndex.address, direction,
                                        (buttonState == HIGH ? 1 : 0));
       break;
     }
@@ -114,8 +114,8 @@ void handleButton(uint8_t buttonIndex, uint8_t buttonState) {
       if (buttonState == HIGH) {
         handleMultiturnout(
             turnoutIndex,
-            (buttonIndex % 2 == 0 ? MaerklinCan::TurnoutDirection::RED
-                                  : MaerklinCan::TurnoutDirection::GREEN));
+            (buttonIndex % 2 == 0 ? RR32Can::TurnoutDirection::RED
+                                  : RR32Can::TurnoutDirection::GREEN));
       }
       break;
     }

@@ -1,9 +1,9 @@
-#ifndef __MAERKLINCAN__BUFFERMANAGER_H__
-#define __MAERKLINCAN__BUFFERMANAGER_H__
+#ifndef __RR32Can__BUFFERMANAGER_H__
+#define __RR32Can__BUFFERMANAGER_H__
 
 #include <cstdint>
 
-namespace MaerklinCan {
+namespace RR32Can {
 
 class BufferManager {
  public:
@@ -106,6 +106,6 @@ class BufferManager {
   const size_type maxBufferLength;
 };
 
-} /* namespace MaerklinCan */
+} /* namespace RR32Can */
 
 #endif

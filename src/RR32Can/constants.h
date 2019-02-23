@@ -1,9 +1,9 @@
-#ifndef __MAERKLINCAN__CONSTANTS_H__
-#define __MAERKLINCAN__CONSTANTS_H__
+#ifndef __RR32Can__CONSTANTS_H__
+#define __RR32Can__CONSTANTS_H__
 
 #include <Arduino.h>
 
-namespace MaerklinCan {
+namespace RR32Can {
 
 // these are the command values as defined by Marklin
 // CAN Identifier values are shifted left by one bit.
@@ -60,6 +60,6 @@ enum class TurnoutDirection : uint8_t { RED = 0, GREEN = 1 };
 /// Maximum CAN payload length
 constexpr const uint8_t CanDataMaxLength = 8;
 
-} /* namespace MaerklinCan */
+} /* namespace RR32Can */
 
 #endif

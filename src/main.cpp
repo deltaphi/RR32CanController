@@ -4,7 +4,7 @@
 #include "EngineControl/EngineControl.h"
 #include "TurnoutControl/TurnoutControl.h"
 
-#include "MaerklinCan/handler.h"
+#include "RR32Can/handler.h"
 
 void setup() {
   // Start serial and wait for its initialization
@@ -75,7 +75,7 @@ void CanInputLoop(void) {
 
     // Read the data bytes into a local buffer.
     // Maerklin does not use remote frames, so we don't care about them.
-    MaerklinCan::Data maerklinData;
+    RR32Can::Data maerklinData;
     maerklinData.dlc = packetSize;
     for (int i = 0; i < maerklinData.dlc && CAN.available(); ++i) {
       maerklinData.data[i] = (char)CAN.read();
@@ -88,8 +88,8 @@ void CanInputLoop(void) {
     Serial.println();
 #endif
 
-    MaerklinCan::Identifier maerklinIdentifier =
-        MaerklinCan::Identifier::GetIdentifier(packetId);
-    MaerklinCan::HandlePacket(maerklinIdentifier, maerklinData);
+    RR32Can::Identifier maerklinIdentifier =
+        RR32Can::Identifier::GetIdentifier(packetId);
+    RR32Can::HandlePacket(maerklinIdentifier, maerklinData);
   }
 }

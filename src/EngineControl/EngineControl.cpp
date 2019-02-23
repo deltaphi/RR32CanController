@@ -5,8 +5,8 @@
 #include "EngineControl/EngineControl.h"
 #include "config.h"
 
-#include "MaerklinCan/constants.h"
-#include "MaerklinCan/handler.h"
+#include "RR32Can/constants.h"
+#include "RR32Can/handler.h"
 
 namespace EngineControl {
 
@@ -53,12 +53,12 @@ void loop() {
 void sendQueryEngineName(uint8_t offset) {
   Serial.print("Querying for Engines...");
 
-  MaerklinCan::SendRequestConfigDataPacket("loknamen", 8);
+  RR32Can::SendRequestConfigDataPacket("loknamen", 8);
 
-  char buffer[MaerklinCan::CanDataMaxLength + 1];
+  char buffer[RR32Can::CanDataMaxLength + 1];
   uint8_t printedCharCount =
-      snprintf(buffer, MaerklinCan::CanDataMaxLength, "%d %d", offset, 2);
-  MaerklinCan::SendRequestConfigDataPacket(buffer, printedCharCount);
+      snprintf(buffer, RR32Can::CanDataMaxLength, "%d %d", offset, 2);
+  RR32Can::SendRequestConfigDataPacket(buffer, printedCharCount);
 
   Serial.println(" done.");
 }

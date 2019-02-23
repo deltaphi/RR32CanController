@@ -1,27 +1,27 @@
-#ifndef __MAERKLINCAN__HANDLER_H__
-#define __MAERKLINCAN__HANDLER_H__
+#ifndef __RR32Can__HANDLER_H__
+#define __RR32Can__HANDLER_H__
 
-#include "MaerklinCan/Data.h"
-#include "MaerklinCan/Identifier.h"
+#include "RR32Can/Data.h"
+#include "RR32Can/Identifier.h"
 
-namespace MaerklinCan {
+namespace RR32Can {
 
 /**
  * \brief handle an incoming packet
  */
-void HandlePacket(const MaerklinCan::Identifier& id,
-                  const MaerklinCan::Data& data);
+void HandlePacket(const RR32Can::Identifier& id,
+                  const RR32Can::Data& data);
 
 /**
  * \brief Handle an incoming accessory command
  */
-void HandleAccessoryPacket(const MaerklinCan::Data& data);
+void HandleAccessoryPacket(const RR32Can::Data& data);
 
 /**
  * \brief Send an arbitrary packet via CAN
  */
-void SendPacket(const MaerklinCan::Identifier& id,
-                const MaerklinCan::Data& data);
+void SendPacket(const RR32Can::Identifier& id,
+                const RR32Can::Data& data);
 
 /**
  * \brief Construct a Accessory command packet and send via CAN
@@ -38,6 +38,6 @@ void SendAccessoryPacket(uint32_t turnoutAddress, TurnoutDirection direction,
  */
 void SendRequestConfigDataPacket(const char* data, uint8_t charCount);
 
-} /* namespace MaerklinCan */
+} /* namespace RR32Can */
 
 #endif

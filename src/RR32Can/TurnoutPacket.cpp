@@ -1,6 +1,6 @@
-#include "MaerklinCan/TurnoutPacket.h"
+#include "RR32Can/TurnoutPacket.h"
 
-namespace MaerklinCan {
+namespace RR32Can {
 
 TurnoutPacket TurnoutPacket::FromCanPacket(const Data& data) {
   TurnoutPacket turnoutPacket;
@@ -64,4 +64,4 @@ void TurnoutPacket::printAll() const {
   }
 }
 
-} /* namespace MaerklinCan */
+} /* namespace RR32Can */

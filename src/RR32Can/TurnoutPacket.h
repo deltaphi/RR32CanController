@@ -1,11 +1,11 @@
-#ifndef __MAERKLINCAN__TURNOUTPACKET_H__
-#define __MAERKLINCAN__TURNOUTPACKET_H__
+#ifndef __RR32Can__TURNOUTPACKET_H__
+#define __RR32Can__TURNOUTPACKET_H__
 
 #include <Arduino.h>
 
-#include "MaerklinCan/Data.h"
+#include "RR32Can/Data.h"
 
-namespace MaerklinCan {
+namespace RR32Can {
 
 /**
  * \brief Resembles a turnout command.
@@ -44,6 +44,6 @@ class TurnoutPacket {
   void printAll() const;
 };
 
-} /* namespace MaerklinCan */
+} /* namespace RR32Can */
 
 #endif

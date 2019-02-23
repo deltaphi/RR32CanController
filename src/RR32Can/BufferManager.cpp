@@ -1,8 +1,8 @@
 #include <cstring>
 
-#include "MaerklinCan/BufferManager.h"
+#include "RR32Can/BufferManager.h"
 
-namespace MaerklinCan {
+namespace RR32Can {
 
 BufferManager::size_type BufferManager::findFirstOf(value_type character,
                                                     size_type offset) const {
@@ -82,4 +82,4 @@ BufferManager BufferManager::subBufferManager(size_type start_offset,
   return mgr;
 }
 
-} /* namespace MaerklinCan */
+} /* namespace RR32Can */

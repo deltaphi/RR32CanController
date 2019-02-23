@@ -9,7 +9,7 @@ class ActionListProcessor {
  public:
   typedef struct {
     uint8_t address;
-    MaerklinCan::TurnoutDirection direction;
+    RR32Can::TurnoutDirection direction;
   } Action;
 
   bool hasActiveAction() const {

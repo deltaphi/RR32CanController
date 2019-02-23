@@ -1,6 +1,6 @@
-#include "MaerklinCan/Data.h"
+#include "RR32Can/Data.h"
 
-namespace MaerklinCan {
+namespace RR32Can {
 
 void Data::printAsHex() const {
   for (uint8_t i = 0; i < this->dlc; ++i) {
@@ -15,4 +15,4 @@ void Data::printAsText() const {
   }
 }
 
-} /* namespace MaerklinCan */
+} /* namespace RR32Can */

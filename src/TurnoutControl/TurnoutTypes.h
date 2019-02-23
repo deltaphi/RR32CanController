@@ -3,7 +3,7 @@
 
 #include <Arduino.h>
 
-#include "MaerklinCan/constants.h"
+#include "RR32Can/constants.h"
 
 namespace TurnoutControl {
 
@@ -16,7 +16,7 @@ typedef struct {
 
 typedef struct {
   uint8_t address;
-  MaerklinCan::TurnoutDirection direction;
+  RR32Can::TurnoutDirection direction;
 } TurnoutAction;
 
 constexpr uint8_t NumActions = 3;
