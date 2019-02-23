@@ -49,7 +49,7 @@ BufferManager::size_type BufferManager::push_back(
 void BufferManager::set(const char* str) {
   erase();
   strncpy(buffer, str, maxBufferLength - 1);  // ensure a 0-byte
-  currentBufferLength = strlen(buffer);
+  currentBufferLength = static_cast<size_type>(strlen(buffer));
 }
 
 BufferManager::size_type BufferManager::move_back(BufferManager& otherBuffer) {
