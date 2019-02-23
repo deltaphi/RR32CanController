@@ -7,7 +7,24 @@
 #include "RR32Can/Data.h"
 #include "RR32Can/TurnoutPacket.h"
 
+#include "RR32Can/BufferManager.h"
+#include "RR32Can/TextParser.h"
+
+void RR32CanValueHandler(const RR32Can::BufferManager& section,
+                         const RR32Can::BufferManager& key,
+                         const RR32Can::BufferManager& value) {
+  Serial.print("  Config Data: ");
+  Serial.print(section.data());
+  Serial.print(", ");
+  Serial.print(key.data());
+  Serial.print(", ");
+  Serial.print(value.data());
+  Serial.println(".");
+}
+
 namespace RR32Can {
+
+static TextParser configDataParser;
 
 void HandlePacket(const RR32Can::Identifier& id, const RR32Can::Data& data) {
   id.printAll();
@@ -68,8 +85,8 @@ void HandlePacket(const RR32Can::Identifier& id, const RR32Can::Data& data) {
       break;
 
     case RR32Can::kConfigDataStream:
-      Serial.print(F("Config Data Stream. Payload: "));
-      data.printAsText();
+      Serial.print(F("Config Data Stream. "));
+      HandleConfigDataStream(data);
       break;
 
     default:
@@ -79,6 +96,36 @@ void HandlePacket(const RR32Can::Identifier& id, const RR32Can::Data& data) {
       break;
   }
   Serial.println();
+}
+
+void HandleConfigDataStream(const RR32Can::Data& data) {
+  if (data.dlc < 8) {
+    // Initial uncompressed
+    uint32_t streamLength = (data.data[0] << 24) | (data.data[1] << 16) |
+                            (data.data[2] << 8) | (data.data[3]);
+    uint16_t crc = (data.data[4] << 8) | (data.data[5]);
+    Serial.print("Stream length: ");
+    Serial.print(streamLength, DEC);
+    Serial.print(" Bytes. CRC: ");
+    Serial.print(crc, HEX);
+    if (data.dlc == 7) {
+      // Initial compressed
+      Serial.println(". Compressed Data!");
+    }
+  } else if (data.dlc == 8) {
+    // regular data packet
+    Serial.print('"');
+    data.printAsText();
+    Serial.print('"');
+
+    // TODO: Remove this string copy. Requires BufferManager to be constructible
+    // on a const char*
+    char buffer[CanDataMaxLength];
+    strncpy(buffer, data.dataAsString(), CanDataMaxLength);
+
+    BufferManager input(buffer, data.dlc, CanDataMaxLength);
+    configDataParser.addText(input);
+  }
 }
 
 void HandleAccessoryPacket(const RR32Can::Data& data) {
@@ -129,6 +176,8 @@ void SendAccessoryPacket(uint32_t turnoutAddress, TurnoutDirection direction,
 }
 
 void SendRequestConfigDataPacket(const char* textData, uint8_t charCount) {
+  configDataParser.reset();
+
   // Just try to download the first two engines from the MS2
   RR32Can::Identifier identifier;
   // identifier.prio = 4; // Value is specified but actual implementations don't

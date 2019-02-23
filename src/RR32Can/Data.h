@@ -27,6 +27,16 @@ struct Data {
    * \brief Print the Payload as characters.
    */
   void printAsText() const;
+
+  const char* dataAsString() const {
+    const uint8_t* ptr = data;
+    return reinterpret_cast<const char*>(ptr);
+  }
+
+  char* dataAsString() {
+    uint8_t* ptr = data;
+    return reinterpret_cast<char*>(ptr);
+  }
 };
 
 } /* namespace RR32Can */

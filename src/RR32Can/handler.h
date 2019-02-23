@@ -17,6 +17,11 @@ void HandlePacket(const RR32Can::Identifier& id, const RR32Can::Data& data);
 void HandleAccessoryPacket(const RR32Can::Data& data);
 
 /**
+ * \brief Handle incoming config data
+ */
+void HandleConfigDataStream(const RR32Can::Data& data);
+
+/**
  * \brief Send an arbitrary packet via CAN
  */
 void SendPacket(const RR32Can::Identifier& id, const RR32Can::Data& data);
