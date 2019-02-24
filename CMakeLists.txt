@@ -1,5 +1,5 @@
 cmake_minimum_required (VERSION 3.6)
-project (MarklinEspSwitchboardTest)
+project (RR32CanControllerTest)
 
 # Download and unpack googletest at configure time
 configure_file(CMakeLists.txt.in googletest-download/CMakeLists.txt)
