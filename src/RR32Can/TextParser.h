@@ -9,7 +9,9 @@ extern void RR32CanValueHandler(const RR32Can::BufferManager& section,
                                 const RR32Can::BufferManager& key,
                                 const RR32Can::BufferManager& value);
 
+// Forward-declarations so that we can friend testcases
 class TextParserFixture;
+class TextParserFixture_FindToken_01_Test;
 
 namespace RR32Can {
 
@@ -53,7 +55,7 @@ class TextParser {
 
   State getState() const { return parserState; }
 
- public:
+ private:
   /// Run the statemachine on the current buffer
   size_type processBuffer();
 
@@ -87,6 +89,7 @@ class TextParser {
   BufferManager value;
 
   friend class TextParserFixture;
+  friend class TextParserFixture_FindToken_01_Test;
 };
 
 } /* namespace RR32Can */
