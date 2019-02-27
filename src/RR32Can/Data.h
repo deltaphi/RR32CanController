@@ -14,9 +14,12 @@ namespace RR32Can {
  * CAN.
  */
 struct Data {
+  constexpr static const uint8_t kDataBufferLength = CanDataMaxLength + 1;
+
   /// Data Length C... . actual calue ist 4 bit only.
   uint8_t dlc = 0;
-  uint8_t data[CanDataMaxLength] = {0, 0, 0, 0, 0, 0, 0};
+  /// Actual data. An extra byte is prepared to allow for the use of snprintf.
+  uint8_t data[kDataBufferLength] = {0, 0, 0, 0, 0, 0, 0, 0};
 
   /**
    * \brief Print the DLC and Data field as Hex values.
