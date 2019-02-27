@@ -57,8 +57,16 @@ constexpr uint8_t kSubcommandSystemReset = 0x80;
 /// Maximum CAN payload length
 constexpr const uint8_t CanDataMaxLength = 8;
 
+/// Maximum length of an Engine name. TODO: Is this value sufficient?
+constexpr const uint8_t kEngineNameLength = 32;
+
 /// Base UUID for enthusiast devices
 constexpr const uint32_t enthusiastStationBaseUUID = 0x00001800;
+
+/// Maximum number of engines stored concurrently
+constexpr const uint8_t kMaxNumEnginesKnown = 10;
+
+constexpr const uint8_t kNumEngineNamesDownload = 2;
 
 } /* namespace RR32Can */
 
