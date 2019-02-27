@@ -2,6 +2,7 @@
 #define __CONFIG_H__
 
 #include <cstdint>
+#include "RR32Can/constants.h"
 
 #define STD_OFF (0U)
 #define STD_ON (1U)
@@ -41,7 +42,6 @@
 #define KEYS_DEBOUNCE STD_OFF
 #define LOG_KEYS_DEBOUNCE STD_OFF
 
-constexpr uint32_t RR32CanPrivateBaseUUID = 0x00001800;
-constexpr uint32_t RR32CanUUID = (RR32CanPrivateBaseUUID + 10);
+constexpr uint32_t RR32CanUUID = (RR32Can::enthusiastStationBaseUUID + 10);
 
 #endif

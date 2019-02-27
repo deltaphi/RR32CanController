@@ -3,7 +3,7 @@
 
 #include <Arduino.h>
 
-#include "RR32Can/constants.h"
+#include "RR32Can/types.h"
 
 namespace TurnoutControl {
 

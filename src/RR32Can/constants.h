@@ -1,7 +1,7 @@
 #ifndef __RR32Can__CONSTANTS_H__
 #define __RR32Can__CONSTANTS_H__
 
-#include <Arduino.h>
+#include <cstdint>
 
 namespace RR32Can {
 
@@ -54,11 +54,11 @@ constexpr uint8_t kSubcommandSystemIdentifier = 0x0C;
 constexpr uint8_t kSubcommandMfxSeek = 0x30;
 constexpr uint8_t kSubcommandSystemReset = 0x80;
 
-/// Accessory direction
-enum class TurnoutDirection : uint8_t { RED = 0, GREEN = 1 };
-
 /// Maximum CAN payload length
 constexpr const uint8_t CanDataMaxLength = 8;
+
+/// Base UUID for enthusiast devices
+constexpr const uint32_t enthusiastStationBaseUUID = 0x00001800;
 
 } /* namespace RR32Can */
 

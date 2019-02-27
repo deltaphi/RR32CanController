@@ -1,6 +1,8 @@
 #ifndef __ACTION_LIST_PROCESSOR_H__
 #define __ACTION_LIST_PROCESSOR_H__
 
+#include "RR32Can/types.h"
+
 #include "TurnoutTypes.h"
 
 namespace TurnoutControl {
