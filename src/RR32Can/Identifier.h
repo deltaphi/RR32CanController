@@ -24,6 +24,9 @@ class Identifier {
   /// The hash of the packet
   uint16_t hash = 0;
 
+  Identifier() = default;
+  Identifier(uint8_t command, uint16_t hash): command(command), hash(hash) {};
+
   /**
    * \brief Turn a 32-bit CAN identifier into a Marklin Identifier
    */
