@@ -1,7 +1,9 @@
 #ifndef __RR32Can_IDENTIFIER_H__
 #define __RR32Can_IDENTIFIER_H__
 
-#include <Arduino.h>
+#include <cstdint>
+
+#include "RR32Can/utils.h"
 
 namespace RR32Can {
 
@@ -35,7 +37,9 @@ class Identifier {
   /**
    * \brief Determine the correct hash value given the address of this component
    */
-  void computeAndSetHash(uint32_t deviceUuid);
+  void computeAndSetHash(uint32_t deviceUuid) {
+    hash = computeSenderHash(deviceUuid);
+  }
 
   /**
    * \brief convert this Marklin Identifier into a 29bit CAN extended

@@ -1,4 +1,8 @@
+#include <Arduino.h>
+
 #include "RR32Can/Identifier.h"
+
+#include "RR32Can/utils.h"
 
 namespace RR32Can {
 
@@ -34,13 +38,6 @@ unsigned long Identifier::makeIdentifier() const {
   packetId |= hash;
 
   return packetId;
-}
-
-void Identifier::computeAndSetHash(uint32_t uid) {
-  uid = ((uid >> 3) & 0xFFFFFF00) | (uid & 0x7F);
-  uint16_t lowBytes = uid;
-  uint16_t highBytes = (uid >> 16);
-  hash = lowBytes ^ highBytes;
 }
 
 void Identifier::printAll() const {
