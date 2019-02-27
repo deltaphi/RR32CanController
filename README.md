@@ -5,6 +5,43 @@ Sketch for a Switchboard talking the Maerklin CAN protocol based on the ESP32 No
 
 This project is built using PlatformIO. It makes use of some features that may not be easily portable to other Arduino-supported MCUs.
 
+### Menuing
+
+#### General concept
+
+General: Shift + Direction Change enters the menu or leaves the menu without applying any changes.
+
+#### Menuing for Accessories
+
+Menuing is required to map turnout input buttons to turnouts or action lists.
+
+TODO: Design.
+
+#### Menuing for Engine Control
+
+Menuing is required for selecting an engine to control. This involves the following usecases:
+
+* Select locally known engine
+    * Show list of locally known Engines
+    * Select engine
+    * Selected Engine is now the active engine
+
+* Select locally unknown engine
+    * Verify that at least one local slot for an engine is open
+    * If not:
+        * Promt the user to remove an engine from the local database to be able to download a new one.
+        * Show list of locally known Engines
+        * Select an engine.
+        * Selected Engine is marked for replacement
+    * If yes:
+        * Empty engine slot with lowest index is marked for replacement
+    * Download list of Engines & total number of known engines from the master controller.
+    * Either: Select engine from the master list
+        * Details of Selected engine are downloaded.
+    * Either: Scroll up/down beyond the currently known set of engine names.
+        * If the engine name is unknown, download list of engines from the master controller.
+    * Once the download is complete, the selected engine is now the active engine
+
 ### Unit Testing
 
 This project includes a CMake project.
