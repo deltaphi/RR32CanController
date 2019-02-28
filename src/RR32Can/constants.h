@@ -66,7 +66,18 @@ constexpr const uint32_t enthusiastStationBaseUUID = 0x00001800;
 /// Maximum number of engines stored concurrently
 constexpr const uint8_t kMaxNumEnginesKnown = 10;
 
+/// Number of engine names to request for download at once
 constexpr const uint8_t kNumEngineNamesDownload = 2;
+
+/**
+ * \brief Number of engines stored in the engine browser.
+ *
+ * Should be greater or equal than kNumEngineNamesDownload.
+ */
+constexpr const uint8_t kEngineBrowserEntries = kNumEngineNamesDownload;
+
+static_assert(kEngineBrowserEntries >= kNumEngineNamesDownload,
+              "Cannot store all downloaded Engine enries");
 
 } /* namespace RR32Can */
 

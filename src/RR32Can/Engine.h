@@ -10,16 +10,18 @@ namespace RR32Can {
 /*
  * \brief Class Engine
  */
-class Engine {
+class EngineShortInfo {
  public:
   enum class AvailabilityStatus { EMPTY = 0, NAME_KNOWN, FULL_DETAILS };
 
-  Engine() { reset(); }
+  EngineShortInfo() : availability(AvailabilityStatus::EMPTY), number(0) {
+    eraseName();
+  }
 
-  void reset() {
+  virtual void reset() {
     availability = AvailabilityStatus::EMPTY;
     number = 0;
-    memset(this->name, '\0', kEngineNameLength + 1);
+    eraseName();
   }
 
   void setName(uint8_t number, const char* name) {
@@ -34,9 +36,7 @@ class Engine {
 
   AvailabilityStatus getAvailability() const { return availability; }
   bool isNameKnown() const { return availability != AvailabilityStatus::EMPTY; }
-  bool isFullDetailsKnown() const {
-    return availability == AvailabilityStatus::FULL_DETAILS;
-  }
+
   bool isNameOnlyKnown() const {
     return availability == AvailabilityStatus::NAME_KNOWN;
   }
@@ -45,6 +45,23 @@ class Engine {
   AvailabilityStatus availability;
   uint8_t number;
   char name[kEngineNameLength + 1];
+
+  void eraseName() { memset(this->name, '\0', kEngineNameLength + 1); }
+};
+
+class Engine : public EngineShortInfo {
+ public:
+  using EngineShortInfo::EngineShortInfo;
+
+  void reset() {
+    // Remove all data of this class
+  }
+
+    bool isFullDetailsKnown() const {
+    return availability == AvailabilityStatus::FULL_DETAILS;
+  }
+
+  protected:
 };
 
 }  // namespace RR32Can

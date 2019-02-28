@@ -34,6 +34,8 @@ class Station {
   /* Engine Database */
   uint8_t numEnginesKnownByMaster;
   Engine engineDatabase[kMaxNumEnginesKnown];
+
+  EngineShortInfo engineBrowser[kEngineBrowserEntries];
 };
 
 }  // namespace RR32Can
