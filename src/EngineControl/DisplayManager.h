@@ -54,7 +54,7 @@ class DisplayManager {
       updateRequired = true;
     }
   }
-  
+
   uint8_t getCursorLine() const { return cursorLine; }
 
  private:

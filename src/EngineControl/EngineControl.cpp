@@ -151,11 +151,41 @@ void loopEncoder() {
                encoderPosition);
 #endif
     } else {
-      // SELECT_ENGINE. Move the cursor by one. TODO: If the cursor goes out of bounds, request new data download.
-      int cursorPosition = encoderPosition % DISPLAY_LINES;
-            
-      if (cursorPosition < 0) {
-        cursorPosition *= -1;
+      // SELECT_ENGINE. Move the cursor by one. If the cursor goes out of
+      // bounds, request new data download.
+      RR32Can::EngineBrowser& browser = RR32Can::RR32Can.getEngineBrowser();
+
+      // int cursorPosition = encoderPosition - browser.getStreamOffset();
+
+      int cursorPosition;
+
+      if (encoderPosition < browser.getStreamOffset()) {
+        // Try to go up in the list
+        if (browser.getStreamOffset() == 0) {
+          // can't go further. reject the change.
+          cursorPosition = 0;
+          forceEncoderPosition(cursorPosition);
+        } else {
+          RR32Can::RR32Can.RequestEngineList(browser.getStreamOffset() -
+                                             RR32Can::kNumEngineNamesDownload);
+          setDisplayPending();
+          cursorPosition = encoderPosition - browser.getStreamOffset();
+        }
+      } else if (encoderPosition >=
+                 browser.getStreamOffset() + RR32Can::kEngineBrowserEntries) {
+        // Try to go down in the list
+
+        if (encoderPosition >= browser.getNumEnginesKnownByMaster()) {
+          forceEncoderPosition(browser.getNumEnginesKnownByMaster() - 1);
+          cursorPosition = encoderPosition - browser.getStreamOffset();
+        } else {
+          RR32Can::RR32Can.RequestEngineList(browser.getStreamOffset() +
+                                             RR32Can::kNumEngineNamesDownload);
+          cursorPosition = encoderPosition - browser.getStreamOffset();
+          setDisplayPending();
+        }
+      } else {
+        cursorPosition = encoderPosition - browser.getStreamOffset();
       }
 
       displayManager.setCursorLine(cursorPosition);

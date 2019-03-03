@@ -51,6 +51,7 @@ void EngineBrowser::reset() {
   }
   numEnginesKnownByMaster = 0;
   streamComplete = false;
+  cursor = 0;
 }
 
 void EngineBrowser::printAll() const {

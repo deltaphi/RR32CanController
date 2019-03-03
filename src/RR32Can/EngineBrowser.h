@@ -22,6 +22,10 @@ class EngineBrowser : public ConfigDataConsumer {
   EngineBrowser& operator=(EngineBrowser&&) = delete;
   ~EngineBrowser() = default;
 
+  void setStreamOffset(uint8_t offset) { this->cursor = offset; }
+
+  uint8_t getStreamOffset() const { return cursor; }
+
   void consumeConfigData(BufferManager& section, BufferManager& key,
                          BufferManager& value) override;
   void setStreamComplete() override { streamComplete = true; }
@@ -35,6 +39,8 @@ class EngineBrowser : public ConfigDataConsumer {
 
   const EngineInfoSet& getEngineInfos() const { return engineInfo; }
 
+  uint8_t getNumEnginesKnownByMaster() const { return numEnginesKnownByMaster; }
+
   static const char* kFilenameEngineNames;
   static const char* kSectionNumEngines;
   static const char* kGenericValue;
@@ -43,6 +49,9 @@ class EngineBrowser : public ConfigDataConsumer {
   bool streamComplete;
   EngineInfoSet engineInfo;
   uint8_t numEnginesKnownByMaster;
+
+  /// Offset at which the download was started
+  uint8_t cursor;
 
   EngineShortInfo* findFirstFreeEntry() {
     for (EngineShortInfo& info : engineInfo) {

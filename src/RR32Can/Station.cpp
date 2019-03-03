@@ -62,6 +62,7 @@ void Station::RequestEngineList(uint8_t offset) {
   if (data2.dlc <= CanDataMaxLength) {
     expectedConfigData = ConfigDataStreamType::LOKNAMEN;
     activeConfigDataConsumer = &engineBrowser;
+    engineBrowser.setStreamOffset(offset);
     configDataParser.startStream(&engineBrowser);
     SendPacket(id, data1);
     SendPacket(id, data2);
