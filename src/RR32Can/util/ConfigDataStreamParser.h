@@ -15,6 +15,14 @@ namespace RR32Can {
  */
 class ConfigDataStreamParser {
  public:
+
+  enum class StreamState {
+    IDLE = 0,
+    WAITING_FIRST_PACKET,
+    WAITING_DATA_PACKET,
+    STREAM_DONE
+  };
+
   void startStream(ConfigDataConsumer* consumer) {
     this->consumer = consumer;
     textParser.setConsumer(consumer);
@@ -39,13 +47,11 @@ class ConfigDataStreamParser {
     consumer = nullptr;
   }
 
+  StreamState getStreamState() const {
+    return streamState;
+  }
+
  private:
-  enum class StreamState {
-    IDLE = 0,
-    WAITING_FIRST_PACKET,
-    WAITING_DATA_PACKET,
-    STREAM_DONE
-  };
 
   StreamState streamState = StreamState::IDLE;
   uint32_t remainingBytes = 0;

@@ -48,8 +48,8 @@ void startDisplayModeSelectEngine() {
 }
 
 void displayModeSelectEngineLoop() {
-  RR32Can::EngineBrowser & engineBrowser = RR32Can::RR32Can.getEngineBrowser();
-  if (engineBrowser.isStreamComplete()) {
+  if (RR32Can::RR32Can.getConfigStreamState() == RR32Can::ConfigDataStreamParser::StreamState::STREAM_DONE) {
+    RR32Can::EngineBrowser & engineBrowser = RR32Can::RR32Can.getEngineBrowser();
     Serial.print("Engine Browser done, copying line to display:");
     // Copy interesting entries to display
     uint8_t line = 0;
@@ -58,12 +58,12 @@ void displayModeSelectEngineLoop() {
       DisplayManager::LineBuffer& buffer =
           displayManager.getWritableBuffer(line);
       strncpy(&buffer[0], info.getName(), STRING_DATATYPE_LENGTH);
-      Serial.print(' ');
+      Serial.print(" '");
       Serial.print(&buffer[0]);
+      Serial.print("'");
       ++line;
     }
     RR32Can::RR32Can.notifyConfigStreamReceived();
-    engineBrowser.reset();
     Serial.println();
   }
 }

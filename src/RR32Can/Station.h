@@ -35,6 +35,10 @@ class Station {
     configDataParser.reset();
   };
 
+  ConfigDataStreamParser::StreamState getConfigStreamState() const {
+    return configDataParser.getStreamState();
+  }
+
  private:
   /* Initialization & Infrastructure */
   uint16_t senderHash;
