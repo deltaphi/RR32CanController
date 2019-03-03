@@ -39,12 +39,18 @@ void begin() {
 #endif
 }
 
-void startDisplayModeSelectEngine() {
-  displayMode = DisplayMode::SELECT_ENGINE;
-  RR32Can::RR32Can.RequestEngineList(0);
+void setDisplayPending() {
   for (uint8_t i = 0; i < DISPLAY_LINES; ++i) {
     strncpy(displayManager.getWritableBuffer(i), "...", STRING_CHAR_LENGTH);
   }
+}
+
+void startDisplayModeSelectEngine() {
+  displayMode = DisplayMode::SELECT_ENGINE;
+  RR32Can::EngineBrowser& engineBrowser = RR32Can::RR32Can.getEngineBrowser();
+  engineBrowser.reset();
+  RR32Can::RR32Can.RequestEngineList(0);
+  setDisplayPending();
 }
 
 void displayModeSelectEngineLoop() {
