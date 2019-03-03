@@ -16,8 +16,7 @@ void Station::begin(uint16_t stationUUID) {
   senderHash = computeSenderHash(stationUUID);
 }
 
-void Station::loop() {
-}
+void Station::loop() {}
 
 void Station::AbortCurrentConfigRequest() {
   if (activeConfigDataConsumer != nullptr) {

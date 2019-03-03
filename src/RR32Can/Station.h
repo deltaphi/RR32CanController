@@ -29,11 +29,9 @@ class Station {
   void RequestEngine(Engine& engine);
   void RequestEngineList(uint8_t offset);
 
-  EngineBrowser & getEngineBrowser() { return engineBrowser; }
+  EngineBrowser& getEngineBrowser() { return engineBrowser; }
 
-  void notifyConfigStreamReceived() {
-    configDataParser.reset();
-  };
+  void notifyConfigStreamReceived() { configDataParser.reset(); };
 
   ConfigDataStreamParser::StreamState getConfigStreamState() const {
     return configDataParser.getStreamState();

@@ -14,9 +14,7 @@ class EngineShortInfo {
  public:
   enum class AvailabilityStatus { EMPTY = 0, NAME_KNOWN, FULL_DETAILS };
 
-  EngineShortInfo() : availability(AvailabilityStatus::EMPTY) {
-    eraseName();
-  }
+  EngineShortInfo() : availability(AvailabilityStatus::EMPTY) { eraseName(); }
 
   virtual void reset() {
     availability = AvailabilityStatus::EMPTY;

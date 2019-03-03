@@ -48,8 +48,9 @@ void startDisplayModeSelectEngine() {
 }
 
 void displayModeSelectEngineLoop() {
-  if (RR32Can::RR32Can.getConfigStreamState() == RR32Can::ConfigDataStreamParser::StreamState::STREAM_DONE) {
-    RR32Can::EngineBrowser & engineBrowser = RR32Can::RR32Can.getEngineBrowser();
+  if (RR32Can::RR32Can.getConfigStreamState() ==
+      RR32Can::ConfigDataStreamParser::StreamState::STREAM_DONE) {
+    RR32Can::EngineBrowser& engineBrowser = RR32Can::RR32Can.getEngineBrowser();
     Serial.print("Engine Browser done, copying line to display:");
     // Copy interesting entries to display
     uint8_t line = 0;
