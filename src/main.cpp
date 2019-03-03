@@ -95,6 +95,6 @@ void CanInputLoop(void) {
 
     RR32Can::Identifier maerklinIdentifier =
         RR32Can::Identifier::GetIdentifier(packetId);
-    RR32Can::HandlePacket(maerklinIdentifier, maerklinData);
+    RR32Can::RR32Can.HandlePacket(maerklinIdentifier, maerklinData);
   }
 }

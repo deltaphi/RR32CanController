@@ -3,7 +3,7 @@
 #include "TurnoutControl/TurnoutControl.h"
 
 #include "RR32Can/Constants.h"
-#include "RR32Can/handler.h"
+#include "RR32Can/RR32Can.h"
 #include "RR32Can/messages/Data.h"
 #include "RR32Can/messages/Identifier.h"
 #include "RR32Can/messages/TurnoutPacket.h"
@@ -105,7 +105,7 @@ void handleButton(uint8_t buttonIndex, uint8_t buttonState) {
                                                    // are connected in the
                                                    // opposite order
 
-      RR32Can::SendAccessoryPacket(turnoutIndex.address, direction,
+      RR32Can::RR32Can.SendAccessoryPacket(turnoutIndex.address, direction,
                                    (buttonState == HIGH ? 1 : 0));
       break;
     }

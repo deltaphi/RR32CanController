@@ -6,6 +6,7 @@
 #include "RR32Can/Engine.h"
 #include "RR32Can/EngineBrowser.h"
 #include "RR32Can/messages/Data.h"
+#include "RR32Can/messages/Identifier.h"
 #include "RR32Can/types.h"
 #include "RR32Can/util/ConfigDataConsumer.h"
 #include "RR32Can/util/ConfigDataStreamParser.h"
@@ -22,7 +23,24 @@ class Station {
   void loop();
 
   /* Generic message handling */
+
+  /**
+   * \brief handle an incoming packet
+   */
+  void HandlePacket(const RR32Can::Identifier& id, const RR32Can::Data& data);
+
+  /**
+   * \brief Handle an incoming accessory command
+   */
+  void HandleAccessoryPacket(const RR32Can::Data& data);
+
   void HandleConfigDataStream(const RR32Can::Data& data);
+
+  /**
+   * \brief Construct a Accessory command packet and send via CAN
+   */
+  void SendAccessoryPacket(uint32_t turnoutAddress, TurnoutDirection direction,
+                           uint8_t power);
 
   /* Engine Database */
   void AbortCurrentConfigRequest();
