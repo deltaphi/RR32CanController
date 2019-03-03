@@ -14,7 +14,6 @@
 
 namespace RR32Can {
 
-
 void SendPacket(const RR32Can::Identifier& id, const RR32Can::Data& data) {
   // Send packet on CAN
   CAN.beginExtendedPacket(id.makeIdentifier());

@@ -57,13 +57,15 @@ void ActionListProcessor::performAction() {
   if (!buttonPressed) {
     // Generate a power on message.
     // Adjust from human to technical adressing
-    RR32Can::RR32Can.SendAccessoryPacket(action->address - 1, action->direction, 1);
+    RR32Can::RR32Can.SendAccessoryPacket(action->address - 1, action->direction,
+                                         1);
 
     buttonPressed = true;
   } else {
     // Generate a button release
     // Adjust from human to technical adressing
-    RR32Can::RR32Can.SendAccessoryPacket(action->address - 1, action->direction, 0);
+    RR32Can::RR32Can.SendAccessoryPacket(action->address - 1, action->direction,
+                                         0);
 
     buttonPressed = false;
   }

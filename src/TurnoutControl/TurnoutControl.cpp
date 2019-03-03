@@ -106,7 +106,7 @@ void handleButton(uint8_t buttonIndex, uint8_t buttonState) {
                                                    // opposite order
 
       RR32Can::RR32Can.SendAccessoryPacket(turnoutIndex.address, direction,
-                                   (buttonState == HIGH ? 1 : 0));
+                                           (buttonState == HIGH ? 1 : 0));
       break;
     }
     case TurnoutAddressMode::MultiTurnout: {
