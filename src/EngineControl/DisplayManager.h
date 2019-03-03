@@ -34,8 +34,34 @@ class DisplayManager {
 
   void loop();
 
+  void enableCursor() {
+    if (!cursorEnabled) {
+      cursorEnabled = true;
+      updateRequired = true;
+    }
+  }
+
+  void disableCursor() {
+    if (cursorEnabled) {
+      cursorEnabled = false;
+      updateRequired = true;
+    }
+  }
+
+  void setCursorLine(uint8_t line) {
+    if (this->cursorLine != line) {
+      this->cursorLine = line;
+      updateRequired = true;
+    }
+  }
+  
+  uint8_t getCursorLine() const { return cursorLine; }
+
  private:
-  static constexpr const uint8_t voffset[] = {0, 26};
+  bool cursorEnabled;
+  uint8_t cursorLine;
+  static const uint8_t voffset[];
+  static const uint8_t baselineOffset[];
 
   using TextBuffer = LineBuffer[DISPLAY_LINES];
 

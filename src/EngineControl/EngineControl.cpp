@@ -39,6 +39,11 @@ void begin() {
 #endif
 }
 
+void forceEncoderPosition(uint8_t position) {
+  encoderPosition = position;
+  encoder.setPosition(position);
+}
+
 void setDisplayPending() {
   for (uint8_t i = 0; i < DISPLAY_LINES; ++i) {
     strncpy(displayManager.getWritableBuffer(i), "...", STRING_CHAR_LENGTH);
@@ -51,6 +56,9 @@ void startDisplayModeSelectEngine() {
   engineBrowser.reset();
   RR32Can::RR32Can.RequestEngineList(0);
   setDisplayPending();
+  forceEncoderPosition(0);
+  displayManager.enableCursor();
+  displayManager.setCursorLine(0);
 }
 
 void displayModeSelectEngineLoop() {
@@ -80,6 +88,8 @@ void startDisplayModeEngine() {
 #if (DISPLAY_ATTACHED == STD_ON)
   strncpy(displayManager.getWritableBuffer(0), "Encoder:", STRING_CHAR_LENGTH);
 #endif
+  displayManager.disableCursor();
+  forceEncoderPosition(0);
 }
 
 void displayModeEngineLoop() {
@@ -135,10 +145,21 @@ void loopEncoder() {
     Serial.println();
     encoderPosition = newPosition;
 
+    if (displayMode == DisplayMode::ENGINE) {
 #if (DISPLAY_ATTACHED == STD_ON)
-    snprintf(displayManager.getWritableBuffer(1), STRING_CHAR_LENGTH, "%d",
-             encoderPosition);
+      snprintf(displayManager.getWritableBuffer(1), STRING_CHAR_LENGTH, "%d",
+               encoderPosition);
 #endif
+    } else {
+      // SELECT_ENGINE. Move the cursor by one. TODO: If the cursor goes out of bounds, request new data download.
+      int cursorPosition = encoderPosition % DISPLAY_LINES;
+            
+      if (cursorPosition < 0) {
+        cursorPosition *= -1;
+      }
+
+      displayManager.setCursorLine(cursorPosition);
+    }
   }
 }
 #endif

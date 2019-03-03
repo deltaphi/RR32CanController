@@ -6,6 +6,9 @@
 
 namespace EngineControl {
 
+const uint8_t DisplayManager::voffset[] = {0, 26};
+const uint8_t DisplayManager::baselineOffset[] = {24, 50};
+
 void DisplayManager::begin() {
   Serial.println("Starting Display");
   // Initialize the Display
@@ -25,6 +28,9 @@ void DisplayManager::loop() {
 
     for (uint8_t line = 0; line < DISPLAY_LINES; ++line) {
       display.drawString(0, voffset[line], buffer[line]);
+      if (cursorEnabled && cursorLine == line) {
+        display.drawHorizontalLine(0, baselineOffset[line], display.getWidth());
+      }
     }
 
     display.display();
