@@ -3,10 +3,10 @@
 #include "TurnoutControl/TurnoutControl.h"
 
 #include "RR32Can/Constants.h"
+#include "RR32Can/handler.h"
 #include "RR32Can/messages/Data.h"
 #include "RR32Can/messages/Identifier.h"
 #include "RR32Can/messages/TurnoutPacket.h"
-#include "RR32Can/handler.h"
 
 namespace TurnoutControl {
 

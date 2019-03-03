@@ -5,15 +5,18 @@
 
 #include "RR32Can/util/BufferManager.h"
 
-extern void RR32CanValueHandler(const RR32Can::BufferManager& section,
-                                const RR32Can::BufferManager& key,
-                                const RR32Can::BufferManager& value);
-
 // Forward-declarations so that we can friend testcases
 class TextParserFixture;
 class TextParserFixture_FindToken_01_Test;
 
 namespace RR32Can {
+
+class TextParserConsumer {
+ public:
+  virtual ~TextParserConsumer() = default;
+  virtual void consumeConfigData(BufferManager& section, BufferManager& key,
+                                 BufferManager& value) = 0;
+};
 
 class TextParser {
  public:
@@ -47,6 +50,8 @@ class TextParser {
 
   TextParser();
 
+  void setConsumer(TextParserConsumer* consumer) { this->consumer = consumer; }
+
   /// Erase all buffers and set the parser to the initial state
   void reset();
 
@@ -75,6 +80,7 @@ class TextParser {
                             BufferManager* destinationBuffer);
 
   State parserState;
+  TextParserConsumer* consumer = nullptr;
 
   BufferManager::value_type rawbuffer[kBufferLength + 1];
   BufferManager buffer;

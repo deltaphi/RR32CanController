@@ -5,8 +5,8 @@
 #include "EngineControl/EngineControl.h"
 #include "config.h"
 
+#include "RR32Can/RR32Can.h"
 #include "RR32Can/constants.h"
-#include "RR32Can/handler.h"
 
 namespace EngineControl {
 
@@ -50,19 +50,6 @@ void loop() {
 #endif
 }
 
-void sendQueryEngineName(uint8_t offset) {
-  Serial.print("Querying for Engines...");
-
-  RR32Can::SendRequestConfigDataPacket("loknamen", 8);
-
-  char buffer[RR32Can::CanDataMaxLength + 1];
-  uint8_t printedCharCount =
-      snprintf(buffer, RR32Can::CanDataMaxLength, "%d %d", offset, 2);
-  RR32Can::SendRequestConfigDataPacket(buffer, printedCharCount);
-
-  Serial.println(" done.");
-}
-
 #if (ENCODER_ENABLED == STD_ON)
 
 void loopEncoder() {
@@ -76,7 +63,7 @@ void loopEncoder() {
       // Switch Menu mode
       if (displayMode == DisplayMode::ENGINE) {
         displayMode = DisplayMode::SELECT_ENGINE;
-        sendQueryEngineName(0);
+        RR32Can::RR32Can.RequestEngineList(0);
       } else {
         displayMode = DisplayMode::ENGINE;
       }

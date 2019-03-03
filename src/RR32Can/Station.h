@@ -3,8 +3,11 @@
 
 #include <cstdint>
 
-#include "RR32Can/messages/Data.h"
+#include "RR32Can/ConfigDataConsumer.h"
+#include "RR32Can/ConfigDataStreamParser.h"
 #include "RR32Can/Engine.h"
+#include "RR32Can/EngineBrowser.h"
+#include "RR32Can/messages/Data.h"
 #include "RR32Can/types.h"
 
 namespace RR32Can {
@@ -16,11 +19,13 @@ class Station {
  public:
   /* Initialization & Infrastructure */
   void begin(uint16_t stationUUID);
+  void loop();
 
   /* Generic message handling */
   void HandleConfigDataStream(const RR32Can::Data& data);
 
   /* Engine Database */
+  void AbortCurrentConfigRequest();
   void RequestEngine(Engine& engine);
   void RequestEngineList(uint8_t offset);
 
@@ -30,12 +35,14 @@ class Station {
 
   /* Generic message handling */
   ConfigDataStreamType expectedConfigData;
+  ConfigDataStreamParser configDataParser;
+  ConfigDataConsumer* activeConfigDataConsumer = nullptr;
 
   /* Engine Database */
-  uint8_t numEnginesKnownByMaster;
   Engine engineDatabase[kMaxNumEnginesKnown];
 
-  EngineShortInfo engineBrowser[kEngineBrowserEntries];
+  /* Engine browser */
+  EngineBrowser engineBrowser;
 };
 
 }  // namespace RR32Can

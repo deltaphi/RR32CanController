@@ -18,11 +18,6 @@ void HandlePacket(const RR32Can::Identifier& id, const RR32Can::Data& data);
 void HandleAccessoryPacket(const RR32Can::Data& data);
 
 /**
- * \brief Handle incoming config data
- */
-void HandleConfigDataStream(const RR32Can::Data& data);
-
-/**
  * \brief Send an arbitrary packet via CAN
  */
 void SendPacket(const RR32Can::Identifier& id, const RR32Can::Data& data);
@@ -32,15 +27,6 @@ void SendPacket(const RR32Can::Identifier& id, const RR32Can::Data& data);
  */
 void SendAccessoryPacket(uint32_t turnoutAddress, TurnoutDirection direction,
                          uint8_t power);
-
-/**
- * \brief Construct a data query packet with the given payload and send via CAN.
- *
- * \param data The payload data to be sent. Exactly charCount bytes are sent.
- * \param charCount the number of bytes to send. Must not be greater than 8.
- * Additional bytes are silently discarded.
- */
-void SendRequestConfigDataPacket(const char* data, uint8_t charCount);
 
 } /* namespace RR32Can */
 

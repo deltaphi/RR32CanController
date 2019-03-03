@@ -41,6 +41,10 @@ class EngineShortInfo {
     return availability == AvailabilityStatus::NAME_KNOWN;
   }
 
+  bool isFree() const { return availability == AvailabilityStatus::EMPTY; }
+
+  void print() const;
+
  protected:
   AvailabilityStatus availability;
   uint8_t number;
@@ -57,11 +61,11 @@ class Engine : public EngineShortInfo {
     // Remove all data of this class
   }
 
-    bool isFullDetailsKnown() const {
+  bool isFullDetailsKnown() const {
     return availability == AvailabilityStatus::FULL_DETAILS;
   }
 
-  protected:
+ protected:
 };
 
 }  // namespace RR32Can

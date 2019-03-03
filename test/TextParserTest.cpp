@@ -4,32 +4,23 @@
 #include <functional>
 #include <memory>
 
-#include "RR32Can/TextParser.h"
+#include "RR32Can/util/TextParser.h"
 
 constexpr uint8_t testData1NumChunks = 9;
 char testData1[testData1NumChunks][8 + 1] = {
     "[lokname",  "n]\n  .we", "rt=BR 96", " 1234\n  ", ".wert=ET",
     " 515\n[nu", "mloks]\n ", " .wert=1", "2\n"};
 
-std::function<void(const RR32Can::BufferManager&, const RR32Can::BufferManager&,
-                   const RR32Can::BufferManager&)>
-    CanValueHandler;
-
-class CallbackMockBase {
- public:
-  virtual void mocked_method(const char*, const char*, const char*) = 0;
-  /*
-  void operator()(const RR32Can::BufferManager& section,
-                  const RR32Can::BufferManager& key,
-                  const RR32Can::BufferManager& value) {
-    this->mocked_method(section.data(), key.data(), value.data());
-  }*/
-};
-
-class CallbackMock : public CallbackMockBase {
+class CallbackMock : public RR32Can::TextParserConsumer {
  public:
   MOCK_METHOD3(mocked_method,
                void(const char* section, const char* key, const char* value));
+
+  void consumeConfigData(RR32Can::BufferManager& section,
+                         RR32Can::BufferManager& key,
+                         RR32Can::BufferManager& value) {
+    mocked_method(section.data(), key.data(), value.data());
+  }
 };
 
 class TextParserFixture : public ::testing::Test {
@@ -41,21 +32,11 @@ class TextParserFixture : public ::testing::Test {
 
   void SetUp() {
     mock = std::make_unique<::testing::StrictMock<CallbackMock>>();
-    CanValueHandler = [this](const RR32Can::BufferManager& section,
-                             const RR32Can::BufferManager& key,
-                             const RR32Can::BufferManager& value) {
-      this->mock->mocked_method(section.data(), key.data(), value.data());
-    };
+    parser.setConsumer(mock.get());
     EXPECT_EQ(RR32Can::TextParser::State::LOOKING_FOR_KEY_OR_SECTION_START,
               parser.getState());
   }
 };
-
-void RR32CanValueHandler(const RR32Can::BufferManager& section,
-                         const RR32Can::BufferManager& key,
-                         const RR32Can::BufferManager& value) {
-  CanValueHandler(section, key, value);
-}
 
 TEST_F(TextParserFixture, reportError) {
   EXPECT_CALL(

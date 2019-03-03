@@ -22,6 +22,7 @@ class Crc {
   value_type getCrc() const { return accumulator; }
 
   void loadReference(value_type referenceCrc) { reference = referenceCrc; }
+  value_type getReference() const { return reference; }
 
   bool isCrcValid() const { return accumulator == reference; }
 

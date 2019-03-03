@@ -2,6 +2,8 @@
 #define SRC_RR32CAN_UTIL_BUFFERMANAGER_H_
 
 #include <cstdint>
+#include <cstdlib>
+#include <cstring>
 
 namespace RR32Can {
 
@@ -38,6 +40,10 @@ class BufferManager {
     return buffer[limitIndex(index)];
   }
 
+  bool strncmp(const char* other) {
+    return 0 == (::strncmp(buffer, other, currentBufferLength));
+  }
+
   /*
    * \brief Get a reference to the character at the index.
    *
@@ -70,6 +76,8 @@ class BufferManager {
   constexpr size_type length() const { return currentBufferLength; }
 
   constexpr value_type* data() const { return buffer; }
+
+  uint8_t asUint8() const { return strtol(buffer, nullptr, 10); }
 
   /*
    * \brief Read as many bytes as possible from the otherBuffer.

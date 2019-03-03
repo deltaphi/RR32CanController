@@ -1,6 +1,6 @@
 #include "gtest/gtest.h"
 
-#include "RR32Can/Crc.h"
+#include "RR32Can/util/Crc.h"
 
 TEST(Crc, empty) {
   RR32Can::Crc crc;

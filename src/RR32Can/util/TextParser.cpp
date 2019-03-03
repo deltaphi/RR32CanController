@@ -12,6 +12,7 @@ TextParser::TextParser()
 
 void TextParser::reset() {
   parserState = State::LOOKING_FOR_KEY_OR_SECTION_START;
+  consumer = nullptr;
   buffer.erase();
   section.erase();
   key.erase();
@@ -24,7 +25,9 @@ void TextParser::reportParseError() {
   section.set(msg);
   key.set(msg);
   value.set(msg);
-  RR32CanValueHandler(section, key, value);
+  if (consumer != nullptr) {
+    consumer->consumeConfigData(section, key, value);
+  }
 }
 
 void TextParser::addText(const BufferManager& input) {
@@ -106,7 +109,9 @@ TextParser::size_type TextParser::processBuffer() {
       case State::PARSING_VALUE: {
         parseResult = findToken(consumedBytes, kValueStop, &value);
         if (parseResult.success) {
-          RR32CanValueHandler(section, key, value);
+          if (consumer != nullptr) {
+            consumer->consumeConfigData(section, key, value);
+          }
           key.erase();
           value.erase();
           parserState = State::LOOKING_FOR_KEY_OR_SECTION_START;

@@ -4,6 +4,7 @@
 #include "EngineControl/EngineControl.h"
 #include "TurnoutControl/TurnoutControl.h"
 
+#include <RR32Can/RR32Can.h>
 #include "RR32Can/handler.h"
 
 void setup() {
@@ -23,6 +24,8 @@ void setup() {
       ;
   }
 
+  RR32Can::RR32Can.begin(RR32CanUUID);
+
   EngineControl::begin();
 
   TurnoutControl::begin();
@@ -31,6 +34,8 @@ void setup() {
 void CanInputLoop(void);
 
 void loop() {
+  RR32Can::RR32Can.loop();
+
   EngineControl::loop();
 
   CanInputLoop();

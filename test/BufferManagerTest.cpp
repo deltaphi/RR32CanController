@@ -2,7 +2,7 @@
 
 #include <memory>
 
-#include "RR32Can/BufferManager.h"
+#include "RR32Can/util/BufferManager.h"
 
 class BufferManagerFixture : public ::testing::Test {
  protected:
