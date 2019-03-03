@@ -1,3 +1,4 @@
+#include <Arduino.h>
 #include <CAN.h>
 
 #include "DebouncedDualKey.h"
@@ -25,6 +26,7 @@ DebouncedKey<1, 1> encoderKey;
 void begin() {
 #if (DISPLAY_ATTACHED == STD_ON)
   displayManager.begin();
+  strncpy(displayManager.getWritableBuffer(0), "Encoder:", STRING_CHAR_LENGTH);
 #endif
 
 #if (ENCODER_ENABLED == STD_ON)
@@ -33,14 +35,60 @@ void begin() {
 
   encoderKey.forceDebounce(HIGH);
   encoderKey.getAndResetEdgeFlag();
+
+#endif
+}
+
+void startDisplayModeSelectEngine() {
+  displayMode = DisplayMode::SELECT_ENGINE;
+  RR32Can::RR32Can.RequestEngineList(0);
+  for (uint8_t i = 0; i < DISPLAY_LINES; ++i) {
+    strncpy(displayManager.getWritableBuffer(i), "...", STRING_CHAR_LENGTH);
+  }
+}
+
+void displayModeSelectEngineLoop() {
+  RR32Can::EngineBrowser & engineBrowser = RR32Can::RR32Can.getEngineBrowser();
+  if (engineBrowser.isStreamComplete()) {
+    Serial.print("Engine Browser done, copying line to display:");
+    // Copy interesting entries to display
+    uint8_t line = 0;
+    for (const RR32Can::EngineShortInfo& info :
+         engineBrowser.getEngineInfos()) {
+      DisplayManager::LineBuffer& buffer =
+          displayManager.getWritableBuffer(line);
+      strncpy(&buffer[0], info.getName(), STRING_DATATYPE_LENGTH);
+      Serial.print(' ');
+      Serial.print(&buffer[0]);
+      ++line;
+    }
+    RR32Can::RR32Can.notifyConfigStreamReceived();
+    engineBrowser.reset();
+    Serial.println();
+  }
+}
+
+void startDisplayModeEngine() {
+  displayMode = DisplayMode::ENGINE;
+#if (DISPLAY_ATTACHED == STD_ON)
+  strncpy(displayManager.getWritableBuffer(0), "Encoder:", STRING_CHAR_LENGTH);
+#endif
+}
+
+void displayModeEngineLoop() {
 #if (DISPLAY_ATTACHED == STD_ON)
   snprintf(displayManager.getWritableBuffer(1), STRING_CHAR_LENGTH, "%d",
            encoderPosition);
 #endif
-#endif
 }
 
 void loop() {
+  if (displayMode == DisplayMode::SELECT_ENGINE) {
+    displayModeSelectEngineLoop();
+  } else {
+    displayModeEngineLoop();
+  }
+
 #if (DISPLAY_ATTACHED == STD_ON)
   displayManager.loop();
 #endif
@@ -62,10 +110,9 @@ void loopEncoder() {
 
       // Switch Menu mode
       if (displayMode == DisplayMode::ENGINE) {
-        displayMode = DisplayMode::SELECT_ENGINE;
-        RR32Can::RR32Can.RequestEngineList(0);
+        startDisplayModeSelectEngine();
       } else {
-        displayMode = DisplayMode::ENGINE;
+        startDisplayModeEngine();
       }
     } else {
       Serial.println("Released Encoder Button");

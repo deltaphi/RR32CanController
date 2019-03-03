@@ -13,6 +13,15 @@ namespace RR32Can {
  */
 class EngineBrowser : public ConfigDataConsumer {
  public:
+  using EngineInfoSet = std::array<EngineShortInfo, kEngineBrowserEntries>;
+
+  EngineBrowser() = default;
+  EngineBrowser(const EngineBrowser&) = delete;
+  EngineBrowser& operator=(const EngineBrowser&) = delete;
+  EngineBrowser(EngineBrowser&&) = delete;
+  EngineBrowser& operator=(EngineBrowser&&) = delete;
+  ~EngineBrowser() = default;
+
   void consumeConfigData(BufferManager& section, BufferManager& key,
                          BufferManager& value) override;
   void setStreamComplete() override { streamComplete = true; }
@@ -24,13 +33,15 @@ class EngineBrowser : public ConfigDataConsumer {
 
   void printAll() const;
 
+  const EngineInfoSet& getEngineInfos() const { return engineInfo; }
+
   static const char* kFilenameEngineNames;
   static const char* kSectionNumEngines;
   static const char* kGenericValue;
 
  private:
   bool streamComplete;
-  std::array<EngineShortInfo, kEngineBrowserEntries> engineInfo;
+  EngineInfoSet engineInfo;
   uint8_t numEnginesKnownByMaster;
 
   EngineShortInfo* findFirstFreeEntry() {

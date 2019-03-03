@@ -29,6 +29,12 @@ class Station {
   void RequestEngine(Engine& engine);
   void RequestEngineList(uint8_t offset);
 
+  EngineBrowser & getEngineBrowser() { return engineBrowser; }
+
+  void notifyConfigStreamReceived() {
+    configDataParser.reset();
+  };
+
  private:
   /* Initialization & Infrastructure */
   uint16_t senderHash;

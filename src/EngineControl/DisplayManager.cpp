@@ -13,7 +13,6 @@ void DisplayManager::begin() {
   display.flipScreenVertically();
 
   memset(buffer, 0, sizeof(buffer));
-  strncpy(getWritableBuffer(0), "Encoder:", STRING_CHAR_LENGTH);
 }
 
 void DisplayManager::loop() {

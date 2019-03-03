@@ -17,10 +17,6 @@ void Station::begin(uint16_t stationUUID) {
 }
 
 void Station::loop() {
-  if (engineBrowser.isStreamComplete()) {
-    engineBrowser.printAll();
-    engineBrowser.reset();
-  }
 }
 
 void Station::AbortCurrentConfigRequest() {
