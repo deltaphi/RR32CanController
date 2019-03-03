@@ -14,24 +14,21 @@ class EngineShortInfo {
  public:
   enum class AvailabilityStatus { EMPTY = 0, NAME_KNOWN, FULL_DETAILS };
 
-  EngineShortInfo() : availability(AvailabilityStatus::EMPTY), number(0) {
+  EngineShortInfo() : availability(AvailabilityStatus::EMPTY) {
     eraseName();
   }
 
   virtual void reset() {
     availability = AvailabilityStatus::EMPTY;
-    number = 0;
     eraseName();
   }
 
-  void setName(uint8_t number, const char* name) {
+  void setName(const char* name) {
     reset();
     availability = AvailabilityStatus::NAME_KNOWN;
-    number = number;
     strncpy(this->name, name, kEngineNameLength);
   }
 
-  uint8_t getNumber() const { return number; }
   const char* getName() const { return name; }
 
   AvailabilityStatus getAvailability() const { return availability; }
@@ -47,7 +44,6 @@ class EngineShortInfo {
 
  protected:
   AvailabilityStatus availability;
-  uint8_t number;
   char name[kEngineNameLength + 1];
 
   void eraseName() { memset(this->name, '\0', kEngineNameLength + 1); }

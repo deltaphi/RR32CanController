@@ -30,7 +30,7 @@ void EngineBrowser::consumeConfigData(BufferManager& section,
       Serial.println("No free Engine buffer found.");
       return;
     }
-    freeEngine->setName(0, value.data());  // TODO: Number is unused
+    freeEngine->setName(value.data());  // TODO: Number is unused
 
   } else if (section.strncmp(kSectionNumEngines)) {
     // Overall engine count
