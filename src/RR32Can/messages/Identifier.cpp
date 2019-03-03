@@ -1,8 +1,8 @@
 #include <Arduino.h>
 
-#include "RR32Can/Identifier.h"
+#include "RR32Can/messages/Identifier.h"
 
-#include "RR32Can/utils.h"
+#include "RR32Can/util/utils.h"
 
 namespace RR32Can {
 

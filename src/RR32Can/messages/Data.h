@@ -1,5 +1,5 @@
-#ifndef __RR32Can__DATA_H__
-#define __RR32Can__DATA_H__
+#ifndef SRC_RR32CAN_MESSAGES_DATA_H_
+#define SRC_RR32CAN_MESSAGES_DATA_H_
 
 #include <Arduino.h>
 
@@ -44,4 +44,4 @@ struct Data {
 
 } /* namespace RR32Can */
 
-#endif
+#endif  // SRC_RR32CAN_MESSAGES_DATA_H_

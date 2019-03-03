@@ -1,9 +1,9 @@
 #include "RR32Can/Station.h"
 
-#include "RR32Can/Data.h"
+#include "RR32Can/messages/Data.h"
 #include "RR32Can/Handler.h"
-#include "RR32Can/Identifier.h"
-#include "RR32Can/utils.h"
+#include "RR32Can/messages/Identifier.h"
+#include "RR32Can/util/utils.h"
 
 #include <Arduino.h>
 

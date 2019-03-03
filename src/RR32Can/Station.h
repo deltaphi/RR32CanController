@@ -3,7 +3,7 @@
 
 #include <cstdint>
 
-#include "RR32Can/Data.h"
+#include "RR32Can/messages/Data.h"
 #include "RR32Can/Engine.h"
 #include "RR32Can/types.h"
 

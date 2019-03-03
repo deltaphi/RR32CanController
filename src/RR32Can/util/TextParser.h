@@ -1,9 +1,9 @@
-#ifndef __RR32Can__TEXTPARSER_H__
-#define __RR32Can__TEXTPARSER_H__
+#ifndef SRC_RR32CAN_UTIL_TEXTPARSER_H_
+#define SRC_RR32CAN_UTIL_TEXTPARSER_H_
 
 #include <cstdint>
 
-#include "RR32Can/BufferManager.h"
+#include "RR32Can/util/BufferManager.h"
 
 extern void RR32CanValueHandler(const RR32Can::BufferManager& section,
                                 const RR32Can::BufferManager& key,
@@ -94,4 +94,4 @@ class TextParser {
 
 } /* namespace RR32Can */
 
-#endif
+#endif  // SRC_RR32CAN_UTIL_TEXTPARSER_H_

@@ -1,8 +1,8 @@
 #ifndef __RR32Can__HANDLER_H__
 #define __RR32Can__HANDLER_H__
 
-#include "RR32Can/Data.h"
-#include "RR32Can/Identifier.h"
+#include "RR32Can/messages/Data.h"
+#include "RR32Can/messages/Identifier.h"
 #include "RR32Can/types.h"
 
 namespace RR32Can {

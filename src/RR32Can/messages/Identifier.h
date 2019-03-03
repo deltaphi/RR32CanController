@@ -1,9 +1,9 @@
-#ifndef __RR32Can_IDENTIFIER_H__
-#define __RR32Can_IDENTIFIER_H__
+#ifndef SRC_RR32CAN_MESSAGES_IDENTIFIER_H_
+#define SRC_RR32CAN_MESSAGES_IDENTIFIER_H_
 
 #include <cstdint>
 
-#include "RR32Can/utils.h"
+#include "RR32Can/util/utils.h"
 
 namespace RR32Can {
 
@@ -25,7 +25,7 @@ class Identifier {
   uint16_t hash = 0;
 
   Identifier() = default;
-  Identifier(uint8_t command, uint16_t hash) : command(command), hash(hash){};
+  Identifier(uint8_t command, uint16_t hash) : command(command), hash(hash){}
 
   /**
    * \brief Turn a 32-bit CAN identifier into a Marklin Identifier
@@ -58,4 +58,4 @@ class Identifier {
 
 } /* namespace RR32Can */
 
-#endif
+#endif  // SRC_RR32CAN_MESSAGES_IDENTIFIER_H_

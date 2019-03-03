@@ -1,6 +1,6 @@
 #include <cstring>
 
-#include "RR32Can/BufferManager.h"
+#include "RR32Can/util/BufferManager.h"
 
 namespace RR32Can {
 

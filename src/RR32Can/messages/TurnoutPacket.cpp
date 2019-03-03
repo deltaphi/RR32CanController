@@ -1,4 +1,4 @@
-#include "RR32Can/TurnoutPacket.h"
+#include "RR32Can/messages/TurnoutPacket.h"
 
 namespace RR32Can {
 

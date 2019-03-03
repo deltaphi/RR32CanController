@@ -1,5 +1,5 @@
-#ifndef __RR32Can__BUFFERMANAGER_H__
-#define __RR32Can__BUFFERMANAGER_H__
+#ifndef SRC_RR32CAN_UTIL_BUFFERMANAGER_H_
+#define SRC_RR32CAN_UTIL_BUFFERMANAGER_H_
 
 #include <cstdint>
 
@@ -109,4 +109,4 @@ class BufferManager {
 
 } /* namespace RR32Can */
 
-#endif
+#endif  // SRC_RR32CAN_UTIL_BUFFERMANAGER_H_

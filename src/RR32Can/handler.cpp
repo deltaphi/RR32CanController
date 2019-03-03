@@ -4,11 +4,11 @@
 
 #include "config.h"
 
-#include "RR32Can/Data.h"
-#include "RR32Can/TurnoutPacket.h"
+#include "RR32Can/messages/Data.h"
+#include "RR32Can/messages/TurnoutPacket.h"
 
-#include "RR32Can/BufferManager.h"
-#include "RR32Can/TextParser.h"
+#include "RR32Can/util/BufferManager.h"
+#include "RR32Can/util/TextParser.h"
 
 void RR32CanValueHandler(const RR32Can::BufferManager& section,
                          const RR32Can::BufferManager& key,
@@ -114,7 +114,8 @@ void HandleConfigDataStream(const RR32Can::Data& data) {
     }
   } else if (data.dlc == 8) {
     // regular data packet
-    Serial.print('"');
+    data.printAsHex();
+    Serial.print(" \"");
     data.printAsText();
     Serial.print('"');
 

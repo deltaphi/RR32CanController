@@ -1,5 +1,5 @@
-#ifndef __RR32Can__TEXTPARSER_H__
-#define __RR32Can__TEXTPARSER_H__
+#ifndef SRC_RR32CAN_UTIL_CRC_H_
+#define SRC_RR32CAN_UTIL_CRC_H_
 
 #include <cstdint>
 
@@ -32,4 +32,4 @@ class Crc {
 
 } /* namespace RR32Can */
 
-#endif
+#endif  // SRC_RR32CAN_UTIL_CRC_H_

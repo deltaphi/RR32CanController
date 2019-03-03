@@ -1,9 +1,9 @@
-#ifndef __RR32Can__TURNOUTPACKET_H__
-#define __RR32Can__TURNOUTPACKET_H__
+#ifndef SRC_RR32CAN_MESSAGES_TURNOUTPACKET_H_
+#define SRC_RR32CAN_MESSAGES_TURNOUTPACKET_H_
 
 #include <Arduino.h>
 
-#include "RR32Can/Data.h"
+#include "RR32Can/messages/Data.h"
 
 namespace RR32Can {
 
@@ -46,4 +46,4 @@ class TurnoutPacket {
 
 } /* namespace RR32Can */
 
-#endif
+#endif  // SRC_RR32CAN_MESSAGES_TURNOUTPACKET_H_
