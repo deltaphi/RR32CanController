@@ -3,8 +3,8 @@
 
 #include <array>
 
-#include "RR32Can/ConfigDataConsumer.h"
 #include "RR32Can/Engine.h"
+#include "RR32Can/util/ConfigDataConsumer.h"
 
 namespace RR32Can {
 

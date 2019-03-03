@@ -3,12 +3,12 @@
 
 #include <cstdint>
 
-#include "RR32Can/ConfigDataConsumer.h"
-#include "RR32Can/ConfigDataStreamParser.h"
 #include "RR32Can/Engine.h"
 #include "RR32Can/EngineBrowser.h"
 #include "RR32Can/messages/Data.h"
 #include "RR32Can/types.h"
+#include "RR32Can/util/ConfigDataConsumer.h"
+#include "RR32Can/util/ConfigDataStreamParser.h"
 
 namespace RR32Can {
 

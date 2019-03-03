@@ -3,8 +3,8 @@
 
 #include "RR32Can/messages/Data.h"
 
-#include "RR32Can/ConfigDataConsumer.h"
 #include "RR32Can/util/BufferManager.h"
+#include "RR32Can/util/ConfigDataConsumer.h"
 #include "RR32Can/util/Crc.h"
 #include "RR32Can/util/TextParser.h"
 
