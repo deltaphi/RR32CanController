@@ -1,0 +1,8 @@
+EESchema-DOCLIB  Version 2.0
+#
+$CMP XM1584
+D XM1584 Switching Voltage Regulator Module
+K Regulator DCDC
+$ENDCMP
+#
+#End Doc Library

@@ -1,0 +1,3 @@
+(sym_lib_table
+  (lib (name ControllerParts)(type Legacy)(uri C:/Users/Damian/Documents/PlatformIO/Projects/esp32-can/Hardware/Controller/ControllerParts.lib)(options "")(descr ""))
+)
