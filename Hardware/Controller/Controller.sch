@@ -111,17 +111,6 @@ Connection ~ 9850 5350
 Wire Wire Line
 	9850 5350 9850 5600
 $Comp
-L RF_Module:ESP32-WROOM-32 U1
-U 1 1 5C688B86
-P 1750 2700
-F 0 "U1" H 1750 4278 50  0000 C CNN
-F 1 "ESP32-WROOM-32" H 1750 4187 50  0000 C CNN
-F 2 "RF_Module:ESP32-WROOM-32" H 1750 1200 50  0001 C CNN
-F 3 "https://www.espressif.com/sites/default/files/documentation/esp32-wroom-32d_esp32-wroom-32u_datasheet_en.pdf" H 1450 2750 50  0001 C CNN
-	1    1750 2700
-	1    0    0    -1  
-$EndComp
-$Comp
 L Connector:8P8C J1
 U 1 1 5C688D10
 P 950 5950
@@ -939,11 +928,11 @@ F 3 "" H 1650 4700 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
-	2400 3300 2400 4750
+	2400 3400 2400 4750
 Wire Wire Line
 	2400 4750 1500 4750
 Wire Wire Line
-	2450 3400 2450 4850
+	2450 3300 2450 4850
 Wire Wire Line
 	2450 4850 1500 4850
 $Comp
@@ -1307,7 +1296,6 @@ F 3 "" H 750 1800 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	750  1500 1150 1500
-Connection ~ 1150 1500
 Wire Wire Line
 	6600 2900 2350 2900
 Wire Wire Line
@@ -1603,10 +1591,6 @@ Wire Wire Line
 	8550 5650 8550 6100
 Wire Wire Line
 	9850 5850 9850 6300
-Wire Wire Line
-	2450 3400 2350 3400
-Wire Wire Line
-	2400 3300 2350 3300
 Text Label 6900 2250 0    50   ~ 0
 F0
 Text Label 6950 2850 0    50   ~ 0
@@ -1708,4 +1692,20 @@ Wire Wire Line
 Wire Wire Line
 	6100 1150 5650 1150
 NoConn ~ 4800 -400
+Connection ~ 1150 1500
+$Comp
+L RF_Module:ESP32-WROOM-32 U1
+U 1 1 5C688B86
+P 1750 2700
+F 0 "U1" H 1750 4278 50  0000 C CNN
+F 1 "ESP32-WROOM-32" H 1750 4187 50  0000 C CNN
+F 2 "RF_Module:ESP32-WROOM-32" H 1750 1200 50  0001 C CNN
+F 3 "https://www.espressif.com/sites/default/files/documentation/esp32-wroom-32d_esp32-wroom-32u_datasheet_en.pdf" H 1450 2750 50  0001 C CNN
+	1    1750 2700
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	2400 3400 2350 3400
+Wire Wire Line
+	2450 3300 2350 3300
 $EndSCHEMATC
