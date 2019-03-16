@@ -237,7 +237,7 @@ U 1 1 5C69531D
 P 6300 1150
 F 0 "J4" H 6379 1142 50  0000 L CNN
 F 1 "S88" H 6379 1051 50  0000 L CNN
-F 2 "Connector_Molex:Molex_Micro-Latch_53254-0670_1x06_P2.00mm_Horizontal" H 6300 1150 50  0001 C CNN
+F 2 "Connector_PinHeader_2.54mm:PinHeader_1x06_P2.54mm_Horizontal" H 6300 1150 50  0001 C CNN
 F 3 "~" H 6300 1150 50  0001 C CNN
 	1    6300 1150
 	1    0    0    -1  
@@ -908,33 +908,29 @@ Wire Wire Line
 $Comp
 L power:GND #PWR0116
 U 1 1 5C737C70
-P 1600 5050
-F 0 "#PWR0116" H 1600 4800 50  0001 C CNN
-F 1 "GND" H 1605 4877 50  0000 C CNN
-F 2 "" H 1600 5050 50  0001 C CNN
-F 3 "" H 1600 5050 50  0001 C CNN
-	1    1600 5050
+P 1950 5050
+F 0 "#PWR0116" H 1950 4800 50  0001 C CNN
+F 1 "GND" H 1955 4877 50  0000 C CNN
+F 2 "" H 1950 5050 50  0001 C CNN
+F 3 "" H 1950 5050 50  0001 C CNN
+	1    1950 5050
 	1    0    0    -1  
 $EndComp
 $Comp
 L power:VCC #PWR0117
 U 1 1 5C737D53
-P 1650 4700
-F 0 "#PWR0117" H 1650 4550 50  0001 C CNN
-F 1 "VCC" H 1667 4873 50  0000 C CNN
-F 2 "" H 1650 4700 50  0001 C CNN
-F 3 "" H 1650 4700 50  0001 C CNN
-	1    1650 4700
+P 1050 4350
+F 0 "#PWR0117" H 1050 4200 50  0001 C CNN
+F 1 "VCC" H 1067 4523 50  0000 C CNN
+F 2 "" H 1050 4350 50  0001 C CNN
+F 3 "" H 1050 4350 50  0001 C CNN
+	1    1050 4350
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
-	2400 3400 2400 4750
+	2400 3400 2400 4550
 Wire Wire Line
-	2400 4750 1500 4750
-Wire Wire Line
-	2450 3300 2450 4850
-Wire Wire Line
-	2450 4850 1500 4850
+	2450 3300 2450 4700
 $Comp
 L power:GND #PWR0118
 U 1 1 5C74DC98
@@ -1314,7 +1310,7 @@ U 1 1 5C8635C7
 P 6550 7300
 F 0 "J5" H 6630 7342 50  0000 L CNN
 F 1 "Screw_Terminal_01x05" H 6630 7251 50  0000 L CNN
-F 2 "TerminalBlock_RND:TerminalBlock_RND_205-00015_1x05_P5.00mm_Horizontal" H 6550 7300 50  0001 C CNN
+F 2 "TerminalBlock_4Ucon:TerminalBlock_4Ucon_1x05_P3.50mm_Vertical" H 6550 7300 50  0001 C CNN
 F 3 "~" H 6550 7300 50  0001 C CNN
 	1    6550 7300
 	1    0    0    -1  
@@ -1420,26 +1416,19 @@ Wire Wire Line
 	4250 6700 4250 7300
 Wire Wire Line
 	4250 7300 6350 7300
-Wire Wire Line
-	1500 5050 1600 5050
 $Comp
 L Connector:Conn_01x04_Female J2
 U 1 1 5C694C1B
-P 1300 4950
-F 0 "J2" H 1327 4926 50  0000 L CNN
-F 1 "LCD Header" H 1327 4835 50  0000 L CNN
-F 2 "Connector_PinHeader_2.54mm:PinHeader_1x04_P2.54mm_Vertical" H 1300 4950 50  0001 C CNN
-F 3 "~" H 1300 4950 50  0001 C CNN
-	1    1300 4950
+P 600 4950
+F 0 "J2" H 627 4926 50  0000 L CNN
+F 1 "LCD Header" V 627 4835 50  0000 L CNN
+F 2 "Connector_PinHeader_2.54mm:PinHeader_1x04_P2.54mm_Vertical" H 600 4950 50  0001 C CNN
+F 3 "~" H 600 4950 50  0001 C CNN
+	1    600  4950
 	-1   0    0    1   
 $EndComp
 Wire Wire Line
-	1500 4950 1650 4950
-Wire Wire Line
-	1650 4950 1650 4700
-Wire Wire Line
-	1600 5050 2500 5050
-Connection ~ 1600 5050
+	1950 5050 2500 5050
 Wire Wire Line
 	1400 6950 2150 6950
 Wire Wire Line
@@ -1708,4 +1697,61 @@ Wire Wire Line
 	2400 3400 2350 3400
 Wire Wire Line
 	2450 3300 2350 3300
+$Comp
+L Jumper:SolderJumper_3_Open JP1
+U 1 1 5C9758C6
+P 1050 5050
+F 0 "JP1" V 1004 5117 50  0000 L CNN
+F 1 "PIN1" V 1095 5117 50  0000 L CNN
+F 2 "Jumper:SolderJumper-3_P1.3mm_Open_Pad1.0x1.5mm_NumberLabels" H 1050 5050 50  0001 C CNN
+F 3 "~" H 1050 5050 50  0001 C CNN
+	1    1050 5050
+	0    1    1    0   
+$EndComp
+$Comp
+L Jumper:SolderJumper_3_Open JP2
+U 1 1 5C98D090
+P 1450 4950
+F 0 "JP2" V 1404 5017 50  0000 L CNN
+F 1 "PIN2" V 1495 5017 50  0000 L CNN
+F 2 "Jumper:SolderJumper-3_P1.3mm_Open_Pad1.0x1.5mm_NumberLabels" H 1450 4950 50  0001 C CNN
+F 3 "~" H 1450 4950 50  0001 C CNN
+	1    1450 4950
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	800  5050 900  5050
+Wire Wire Line
+	800  4950 1300 4950
+Wire Wire Line
+	1050 4850 1050 4750
+Wire Wire Line
+	1450 4750 1050 4750
+Connection ~ 1050 4750
+Wire Wire Line
+	1050 4750 1050 4350
+Wire Wire Line
+	1950 5050 1650 5050
+Wire Wire Line
+	1650 5050 1650 5150
+Wire Wire Line
+	1650 5150 1450 5150
+Wire Wire Line
+	1250 5150 1250 5250
+Wire Wire Line
+	1250 5250 1050 5250
+Connection ~ 1950 5050
+Connection ~ 1450 5150
+Wire Wire Line
+	1450 5150 1250 5150
+Wire Wire Line
+	900  4550 2400 4550
+Wire Wire Line
+	800  4700 2450 4700
+Wire Wire Line
+	900  4550 900  4850
+Wire Wire Line
+	900  4850 800  4850
+Wire Wire Line
+	800  4700 800  4750
 $EndSCHEMATC
