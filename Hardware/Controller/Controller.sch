@@ -1316,17 +1316,6 @@ F 3 "~" H 6550 7300 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Device:D_Schottky D3
-U 1 1 5C8637C0
-P 4500 6700
-F 0 "D3" H 4500 6916 50  0000 C CNN
-F 1 "D_Schottky" H 4500 6825 50  0000 C CNN
-F 2 "Diode_SMD:D_0603_1608Metric_Pad1.05x0.95mm_HandSolder" H 4500 6700 50  0001 C CNN
-F 3 "~" H 4500 6700 50  0001 C CNN
-	1    4500 6700
-	-1   0    0    1   
-$EndComp
-$Comp
 L Device:D_Schottky D2
 U 1 1 5C86388C
 P 4500 6350
@@ -1410,12 +1399,6 @@ Wire Wire Line
 Connection ~ 4650 6350
 Wire Wire Line
 	4650 6350 4650 6700
-Wire Wire Line
-	4350 6700 4250 6700
-Wire Wire Line
-	4250 6700 4250 7300
-Wire Wire Line
-	4250 7300 6350 7300
 $Comp
 L Connector:Conn_01x04_Female J2
 U 1 1 5C694C1B
@@ -1438,15 +1421,11 @@ Wire Wire Line
 Wire Wire Line
 	4000 6100 4000 6350
 Wire Wire Line
-	4000 6350 4350 6350
-Wire Wire Line
 	1350 5950 1350 6050
 Wire Wire Line
 	1350 6050 4000 6050
 Wire Wire Line
 	4000 6050 4000 5950
-Wire Wire Line
-	4000 5950 4350 5950
 Connection ~ 1350 6050
 Wire Wire Line
 	6350 7200 6250 7200
@@ -1482,7 +1461,6 @@ Wire Wire Line
 	4850 6600 4850 6700
 Wire Wire Line
 	4650 6700 4850 6700
-Connection ~ 4650 6700
 Connection ~ 4850 6700
 Wire Wire Line
 	5550 6700 5550 6600
@@ -1612,9 +1590,9 @@ Text Label 4650 6000 0    50   ~ 0
 VinCommon
 Text Label 4400 7300 0    50   ~ 0
 VinTerminal
-Text Label 4050 6350 0    50   ~ 0
+Text Label 4150 6350 0    50   ~ 0
 VinUsb
-Text Label 4050 5950 0    50   ~ 0
+Text Label 4150 5950 0    50   ~ 0
 VinCAN
 Text Label 1500 7150 0    50   ~ 0
 USB+
@@ -1754,4 +1732,15 @@ Wire Wire Line
 	900  4850 800  4850
 Wire Wire Line
 	800  4700 800  4750
+Wire Wire Line
+	4050 7300 6350 7300
+Wire Wire Line
+	4000 5950 4050 5950
+Wire Wire Line
+	4000 6350 4350 6350
+Wire Wire Line
+	4050 7300 4050 5950
+Connection ~ 4050 5950
+Wire Wire Line
+	4050 5950 4350 5950
 $EndSCHEMATC
