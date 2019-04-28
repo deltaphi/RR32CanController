@@ -4,6 +4,8 @@
 
 #include "RR32Can/util/BufferManager.h"
 
+namespace RR32Can {
+
 class BufferManagerFixture : public ::testing::Test {
  protected:
   void SetUp() {
@@ -426,3 +428,5 @@ TEST_F(BufferManagerFixtureWithData, subBuffer_offset_5_len_negative) {
   EXPECT_EQ(subMgr.length(), 0);
   EXPECT_EQ(subMgr.capacity(), 11);
 }
+
+} /* namespace RR32Can */

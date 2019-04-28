@@ -1,6 +1,10 @@
 cmake_minimum_required (VERSION 3.6)
 project (RR32CanControllerTest)
 
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
+
 # Download and unpack googletest at configure time
 configure_file(CMakeLists.txt.in googletest-download/CMakeLists.txt)
 execute_process(COMMAND ${CMAKE_COMMAND} -G "${CMAKE_GENERATOR}" .
@@ -36,9 +40,9 @@ endif()
 # Now simply link against gtest or gtest_main as needed. Eg
 include_directories("src")
 add_executable(RR32CanTest
-    test/BufferManagerTest.cpp
-    test/TextParserTest.cpp
-    test/CrcTest.cpp
+    test/RR32Can/BufferManagerTest.cpp
+    test/RR32Can/TextParserTest.cpp
+    test/RR32Can/CrcTest.cpp
     
     src/RR32Can/util/BufferManager.h
     src/RR32Can/util/BufferManager.cpp

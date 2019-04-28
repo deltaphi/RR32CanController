@@ -2,6 +2,8 @@
 
 #include "RR32Can/util/Crc.h"
 
+namespace RR32Can {
+
 TEST(Crc, empty) {
   RR32Can::Crc crc;
   crc.reset();
@@ -64,3 +66,5 @@ TEST(Crc, data1) {
 
   EXPECT_TRUE(crc.isCrcValid());
 }
+
+} /* namespace RR32Can */

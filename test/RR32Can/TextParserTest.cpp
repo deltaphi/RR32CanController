@@ -6,6 +6,8 @@
 
 #include "RR32Can/util/TextParser.h"
 
+namespace RR32Can {
+
 constexpr uint8_t testData1NumChunks = 9;
 char testData1[testData1NumChunks][8 + 1] = {
     "[lokname",  "n]\n  .we", "rt=BR 96", " 1234\n  ", ".wert=ET",
@@ -183,3 +185,5 @@ TEST_F(TextParserFixture, testData1) {
   EXPECT_EQ(RR32Can::TextParser::State::LOOKING_FOR_KEY_OR_SECTION_START,
             parser.getState());
 }
+
+} /* namespace RR32Can */
