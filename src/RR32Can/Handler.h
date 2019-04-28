@@ -3,7 +3,7 @@
 
 #include "RR32Can/messages/Data.h"
 #include "RR32Can/messages/Identifier.h"
-#include "RR32Can/types.h"
+#include "RR32Can/Types.h"
 
 namespace RR32Can {
 

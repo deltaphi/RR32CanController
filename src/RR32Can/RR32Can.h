@@ -2,8 +2,8 @@
 #define __RR32CAN__RR32CAN_H__
 
 #include "RR32Can/Station.h"
-#include "RR32Can/constants.h"
-#include "RR32Can/types.h"
+#include "RR32Can/Constants.h"
+#include "RR32Can/Types.h"
 
 namespace RR32Can {
 

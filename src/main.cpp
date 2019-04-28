@@ -5,7 +5,7 @@
 #include "TurnoutControl/TurnoutControl.h"
 
 #include <RR32Can/RR32Can.h>
-#include "RR32Can/handler.h"
+#include "RR32Can/Handler.h"
 
 void setup() {
   // Start serial and wait for its initialization

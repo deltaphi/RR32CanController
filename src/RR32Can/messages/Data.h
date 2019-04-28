@@ -3,7 +3,7 @@
 
 #include <Arduino.h>
 
-#include "RR32Can/constants.h"
+#include "RR32Can/Constants.h"
 
 namespace RR32Can {
 

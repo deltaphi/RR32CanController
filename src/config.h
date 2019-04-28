@@ -2,7 +2,7 @@
 #define __CONFIG_H__
 
 #include <cstdint>
-#include "RR32Can/constants.h"
+#include "RR32Can/Constants.h"
 
 #define STD_OFF (0U)
 #define STD_ON (1U)

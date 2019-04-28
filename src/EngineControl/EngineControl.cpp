@@ -7,7 +7,7 @@
 #include "config.h"
 
 #include "RR32Can/RR32Can.h"
-#include "RR32Can/constants.h"
+#include "RR32Can/Constants.h"
 
 namespace EngineControl {
 
