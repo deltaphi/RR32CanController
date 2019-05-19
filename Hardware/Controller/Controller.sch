@@ -1229,15 +1229,11 @@ Connection ~ 4250 650
 Wire Wire Line
 	4250 650  4800 650 
 Wire Wire Line
-	2350 1800 3700 1800
-Wire Wire Line
-	3700 1800 3700 6650
+	2350 1800 3150 1800
 Wire Wire Line
 	3700 6650 3450 6650
 Wire Wire Line
-	2350 1600 3650 1600
-Wire Wire Line
-	3650 1600 3650 6550
+	2350 1600 3150 1600
 Wire Wire Line
 	3650 6550 3450 6550
 Wire Wire Line
@@ -1578,11 +1574,11 @@ Text Label 6650 1650 0    50   ~ 0
 EncoderB
 Text Label 9500 1050 0    50   ~ 0
 Encoder_Button
-Text Label 2850 1600 0    50   ~ 0
-TX0
-Text Label 2850 1800 0    50   ~ 0
-RX0
-Text Label 2850 1500 0    50   ~ 0
+Text Label 2700 1600 0    50   ~ 0
+BOARD_TX0
+Text Label 2700 1800 0    50   ~ 0
+BOARD_RX0
+Text Label 2700 1500 0    50   ~ 0
 GPIO0
 Text Label 2850 700  0    50   ~ 0
 EN
@@ -1743,4 +1739,8 @@ Wire Wire Line
 Connection ~ 4050 5950
 Wire Wire Line
 	4050 5950 4350 5950
+Text Label 3500 6650 0    50   ~ 0
+BOARD_TX0
+Text Label 3500 6550 0    50   ~ 0
+BOARD_RX0
 $EndSCHEMATC

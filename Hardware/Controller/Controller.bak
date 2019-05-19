@@ -1229,15 +1229,11 @@ Connection ~ 4250 650
 Wire Wire Line
 	4250 650  4800 650 
 Wire Wire Line
-	2350 1800 3700 1800
-Wire Wire Line
-	3700 1800 3700 6650
+	2350 1800 3150 1800
 Wire Wire Line
 	3700 6650 3450 6650
 Wire Wire Line
-	2350 1600 3650 1600
-Wire Wire Line
-	3650 1600 3650 6550
+	2350 1600 3150 1600
 Wire Wire Line
 	3650 6550 3450 6550
 Wire Wire Line
@@ -1421,15 +1417,11 @@ Wire Wire Line
 Wire Wire Line
 	4000 6100 4000 6350
 Wire Wire Line
-	4000 6350 4050 6350
-Wire Wire Line
 	1350 5950 1350 6050
 Wire Wire Line
 	1350 6050 4000 6050
 Wire Wire Line
 	4000 6050 4000 5950
-Wire Wire Line
-	4000 5950 4050 5950
 Connection ~ 1350 6050
 Wire Wire Line
 	6350 7200 6250 7200
@@ -1582,11 +1574,11 @@ Text Label 6650 1650 0    50   ~ 0
 EncoderB
 Text Label 9500 1050 0    50   ~ 0
 Encoder_Button
-Text Label 2850 1600 0    50   ~ 0
-TX0
-Text Label 2850 1800 0    50   ~ 0
-RX0
-Text Label 2850 1500 0    50   ~ 0
+Text Label 2700 1600 0    50   ~ 0
+BOARD_TX0
+Text Label 2700 1800 0    50   ~ 0
+BOARD_RX0
+Text Label 2700 1500 0    50   ~ 0
 GPIO0
 Text Label 2850 700  0    50   ~ 0
 EN
@@ -1737,15 +1729,48 @@ Wire Wire Line
 Wire Wire Line
 	800  4700 800  4750
 Wire Wire Line
-	4050 7300 4050 6350
-Wire Wire Line
 	4050 7300 6350 7300
+Wire Wire Line
+	4000 5950 4050 5950
+Wire Wire Line
+	4000 6350 4350 6350
+Wire Wire Line
+	4050 7300 4050 5950
 Connection ~ 4050 5950
 Wire Wire Line
 	4050 5950 4350 5950
-Connection ~ 4050 6350
+Text Label 3500 6650 0    50   ~ 0
+USB_RX
+Text Label 3500 6550 0    50   ~ 0
+USB_TX
+$Comp
+L Jumper:SolderJumper_2_Open JP3
+U 1 1 5CE2C695
+P 3300 1600
+F 0 "JP3" H 3300 1805 50  0000 C CNN
+F 1 "TX0" H 3300 1714 50  0000 C CNN
+F 2 "Jumper:SolderJumper-2_P1.3mm_Open_Pad1.0x1.5mm" H 3300 1600 50  0001 C CNN
+F 3 "~" H 3300 1600 50  0001 C CNN
+	1    3300 1600
+	1    0    0    -1  
+$EndComp
+$Comp
+L Jumper:SolderJumper_2_Open JP4
+U 1 1 5CE5E963
+P 3300 1800
+F 0 "JP4" H 3300 2005 50  0000 C CNN
+F 1 "RX0" H 3300 1914 50  0000 C CNN
+F 2 "Jumper:SolderJumper-2_P1.3mm_Open_Pad1.0x1.5mm" H 3300 1800 50  0001 C CNN
+F 3 "~" H 3300 1800 50  0001 C CNN
+	1    3300 1800
+	1    0    0    -1  
+$EndComp
 Wire Wire Line
-	4050 6350 4350 6350
+	3450 1600 3550 1600
 Wire Wire Line
-	4050 6350 4050 5950
+	3450 1800 3550 1800
+Text Label 3500 1800 0    50   ~ 0
+USB_TX
+Text Label 3500 1600 0    50   ~ 0
+USB_RX
 $EndSCHEMATC
