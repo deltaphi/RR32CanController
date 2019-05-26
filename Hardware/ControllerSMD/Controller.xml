@@ -893,7 +893,7 @@
       <uri>D:\Program Files\KiCad\share\kicad\library/Connector_Generic.lib</uri>
     </library>
     <library logical="ControllerParts">
-      <uri>C:/Users/Damian/Documents/PlatformIO/Projects/esp32-can/Hardware/Controller/ControllerParts.lib</uri>
+      <uri>C:/Users/Damian/Documents/PlatformIO/Projects/esp32-can/Hardware/ControllerSMD/ControllerParts.lib</uri>
     </library>
     <library logical="Device">
       <uri>D:\Program Files\KiCad\share\kicad\library/Device.lib</uri>

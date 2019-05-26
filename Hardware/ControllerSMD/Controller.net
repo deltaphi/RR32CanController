@@ -771,7 +771,7 @@
     (library (logical Connector_Generic)
       (uri "D:\\Program Files\\KiCad\\share\\kicad\\library/Connector_Generic.lib"))
     (library (logical ControllerParts)
-      (uri C:/Users/Damian/Documents/PlatformIO/Projects/esp32-can/Hardware/Controller/ControllerParts.lib))
+      (uri C:/Users/Damian/Documents/PlatformIO/Projects/esp32-can/Hardware/ControllerSMD/ControllerParts.lib))
     (library (logical Device)
       (uri "D:\\Program Files\\KiCad\\share\\kicad\\library/Device.lib"))
     (library (logical Interface_CAN_LIN)
