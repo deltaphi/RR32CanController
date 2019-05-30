@@ -1,4 +1,5 @@
 EESchema Schematic File Version 4
+LIBS:ESP32Breakout-cache
 EELAYER 29 0
 EELAYER END
 $Descr A4 11693 8268
@@ -19,7 +20,7 @@ U 1 1 5C67C6B3
 P 10650 5750
 F 0 "H6" H 10750 5796 50  0000 L CNN
 F 1 "PCB Screw" H 10750 5705 50  0000 L CNN
-F 2 "MountingHole:MountingHole_2.5mm_Pad_Via" H 10650 5750 50  0001 C CNN
+F 2 "MountingHole:MountingHole_3.2mm_M3_Pad_Via" H 10650 5750 50  0001 C CNN
 F 3 "~" H 10650 5750 50  0001 C CNN
 	1    10650 5750
 	1    0    0    -1  
@@ -30,7 +31,7 @@ U 1 1 5C67C6E9
 P 10650 5500
 F 0 "H5" H 10750 5546 50  0000 L CNN
 F 1 "PCB Screw" H 10750 5455 50  0000 L CNN
-F 2 "MountingHole:MountingHole_2.5mm_Pad_Via" H 10650 5500 50  0001 C CNN
+F 2 "MountingHole:MountingHole_3.2mm_M3_Pad_Via" H 10650 5500 50  0001 C CNN
 F 3 "~" H 10650 5500 50  0001 C CNN
 	1    10650 5500
 	1    0    0    -1  
@@ -41,7 +42,7 @@ U 1 1 5C67C721
 P 10650 5250
 F 0 "H4" H 10750 5296 50  0000 L CNN
 F 1 "PCB Screw" H 10750 5205 50  0000 L CNN
-F 2 "MountingHole:MountingHole_2.5mm_Pad_Via" H 10650 5250 50  0001 C CNN
+F 2 "MountingHole:MountingHole_3.2mm_M3_Pad_Via" H 10650 5250 50  0001 C CNN
 F 3 "~" H 10650 5250 50  0001 C CNN
 	1    10650 5250
 	1    0    0    -1  
@@ -52,7 +53,7 @@ U 1 1 5C67C753
 P 10650 5000
 F 0 "H3" H 10750 5046 50  0000 L CNN
 F 1 "PCB Screw" H 10750 4955 50  0000 L CNN
-F 2 "MountingHole:MountingHole_2.5mm_Pad_Via" H 10650 5000 50  0001 C CNN
+F 2 "MountingHole:MountingHole_3.2mm_M3_Pad_Via" H 10650 5000 50  0001 C CNN
 F 3 "~" H 10650 5000 50  0001 C CNN
 	1    10650 5000
 	1    0    0    -1  
