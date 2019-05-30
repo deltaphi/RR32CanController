@@ -8,3 +8,7 @@
 .vscode/ipch
 
 src/wificonfig.h
+Hardware/ControllerSMD/fp-info-cache
+Hardware/ControllerTHT/fp-info-cache
+Hardware/ControllerTHT/fp-lib-table
+Hardware/ControllerTHT/sym-lib-table
