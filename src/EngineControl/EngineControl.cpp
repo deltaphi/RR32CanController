@@ -134,9 +134,9 @@ void loop() {
 #endif
 
 #if (ENCODER_ENABLED == STD_ON)
-  loopEncoder();
-
   loopButtons();
+
+  loopEncoder();
 #endif
 }
 
@@ -150,12 +150,18 @@ void loopEncoder() {
     if (encoderKey.getDebouncedValue() == LOW) {
       Serial.println("Pressed Encoder Button");
 
-      // Switch Menu mode
-      if (displayMode == DisplayMode::ENGINE) {
-        startDisplayModeSelectEngine();
+      if (shiftKey.getDebouncedValue() == LOW) {
+        // Shift was pressed as well - switch menu mode.
+        if (displayMode == DisplayMode::ENGINE) {
+          startDisplayModeSelectEngine();
+        } else {
+          startDisplayModeEngine();
+        }
       } else {
-        startDisplayModeEngine();
+        // Shift was not pressed - probably reverse direction?
+        // TODO
       }
+
     } else {
       Serial.println("Released Encoder Button");
     }
