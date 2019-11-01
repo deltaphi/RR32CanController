@@ -13,8 +13,9 @@ void DisplayManager::begin() {
   Serial.println("Starting Display");
   // Initialize the Display
   display.init();
+#if (DISPLAY_FLIP_SCREEN == STD_ON)
   display.flipScreenVertically();
-
+#endif
   memset(buffer, 0, sizeof(buffer));
 }
 
