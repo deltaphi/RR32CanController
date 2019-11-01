@@ -14,6 +14,7 @@ namespace EngineControl {
 #if (ENCODER_ENABLED == STD_ON)
 extern RotaryEncoder encoder;
 void loopEncoder();
+void loopButtons();
 
 enum class DisplayMode { ENGINE, SELECT_ENGINE };
 #endif

@@ -21,6 +21,12 @@ RotaryEncoder encoder(ENCODER_A_PIN, ENCODER_B_PIN);
 int encoderPosition = 0;
 
 DebouncedKey<1, 1> encoderKey;
+
+
+DebouncedKey<1, 1> stopKey;
+DebouncedKey<1, 1> shiftKey;
+using FKeys_t = std::array<DebouncedKey<1, 1>, NUM_FBUTTONS>;
+FKeys_t fKeys;
 #endif
 
 void begin() {
@@ -36,6 +42,23 @@ void begin() {
   encoderKey.forceDebounce(HIGH);
   encoderKey.getAndResetEdgeFlag();
 
+  pinMode(STOP_BUTTON_PIN, INPUT);
+  stopKey.forceDebounce(HIGH);
+  stopKey.getAndResetEdgeFlag();
+  pinMode(SHIFT_BUTTON_PIN, INPUT);
+  shiftKey.forceDebounce(HIGH);
+  shiftKey.getAndResetEdgeFlag();
+
+  pinMode(F0_BUTTON_PIN, INPUT);
+  pinMode(F1_BUTTON_PIN, INPUT);
+  pinMode(F2_BUTTON_PIN, INPUT);
+  pinMode(F3_BUTTON_PIN, INPUT);
+  //pinMode(F4_BUTTON_PIN, INPUT);
+
+  for (FKeys_t::value_type & fkey: fKeys) {
+    fkey.forceDebounce(HIGH);
+    fkey.getAndResetEdgeFlag();
+  }
 #endif
 }
 
@@ -112,6 +135,8 @@ void loop() {
 
 #if (ENCODER_ENABLED == STD_ON)
   loopEncoder();
+
+  loopButtons();
 #endif
 }
 
@@ -191,6 +216,32 @@ void loopEncoder() {
       displayManager.setCursorLine(cursorPosition);
     }
   }
+}
+
+void checkAndPrint(DebouncedKey<1, 1> & key, const char * key_name, uint8_t keyPin) {
+  uint8_t readValue = digitalRead(keyPin);
+  key.cycle(readValue);
+  if (key.getAndResetEdgeFlag()) {
+    Serial.print("Button '");
+    Serial.print(key_name);
+    Serial.print("' was ");
+    if (key.getDebouncedValue() == HIGH) {
+      Serial.println("released.");
+    } else {
+      Serial.println("pressed.");
+
+    }
+  }
+}
+
+void loopButtons() {
+  checkAndPrint(stopKey, "STOP", STOP_BUTTON_PIN);
+  checkAndPrint(shiftKey, "SHIFT", SHIFT_BUTTON_PIN);
+  checkAndPrint(fKeys[0], "F0", F0_BUTTON_PIN);
+  checkAndPrint(fKeys[1], "F1", F1_BUTTON_PIN);
+  checkAndPrint(fKeys[2], "F2", F2_BUTTON_PIN);
+  checkAndPrint(fKeys[3], "F3", F3_BUTTON_PIN);
+  //checkAndPrint(fKeys[4], "F4", F4_BUTTON_PIN);
 }
 #endif
 

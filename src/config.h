@@ -23,6 +23,21 @@
 #define ENCODER_A_PIN (32)
 #define ENCODER_B_PIN (35)
 #define ENCODER_BUTTON_PIN (34)
+
+// Should be 5
+#define NUM_FBUTTONS (4)
+
+#define STOP_BUTTON_PIN (19)
+// F0 should be at 2, but that pin doesn't work for some reason.
+//#define F0_BUTTON_PIN (2)
+// Use F0 at 14 instead.
+#define F0_BUTTON_PIN (14)
+#define F1_BUTTON_PIN (15)
+#define F2_BUTTON_PIN (33)
+#define F3_BUTTON_PIN (25)
+// Temporarily disabled to reuse the pin for F0
+//#define F4_BUTTON_PIN (14)
+#define SHIFT_BUTTON_PIN (13)
 #endif
 
 #define TWI_SCL_PIN (26)
