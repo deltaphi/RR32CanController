@@ -68,6 +68,16 @@ class DebouncedKey {
 
   KeyStateType getDebouncedValue() const { return this->debouncedKeyState; }
 
+ /**
+  * \brief Returns whether an edge was observed since the last call to this
+  * method.
+  * 
+  * Note that the last read debounced state and the current debounced state may
+  * be identical, even though an edge occured, as there may have been several
+  * edges occuring.
+  * 
+  * \return true if an edge was observed, false otherwise.
+  */
   bool getAndResetEdgeFlag() {
     bool tempEdge = edge;
     edge = false;
