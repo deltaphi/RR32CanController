@@ -15,6 +15,10 @@
 #define S88_PS_OUT_PIN (22)
 #define S88_RESET_OUT_PIN (21)
 
+// CAN pins use default driver values
+// #define CAN_RX_PIN (4)
+// #define CAN_TX_PIN (5)
+
 #if (ENCODER_ENABLED == STD_ON)
 #define ENCODER_A_PIN (32)
 #define ENCODER_B_PIN (35)
