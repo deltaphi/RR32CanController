@@ -18,6 +18,12 @@ class DisplayManager {
  public:
   using LineBuffer = char[STRING_DATATYPE_LENGTH];
 
+  enum class Direction {
+    FORWARD = 0,
+    REVERSE = 1,
+    UNKNOWN = 2
+  };
+
   void begin();
 
   /**
@@ -57,11 +63,49 @@ class DisplayManager {
 
   uint8_t getCursorLine() const { return cursorLine; }
 
+  /**
+   * \brief Set the current speed value to be displayed. Value is mapped to 0..100 range.
+   */
+  void setSpeedValue(uint8_t speed) {
+    uint8_t newSpeed = map(speed, 0, 127, 0, 100);
+    if (newSpeed != this->speed) {
+      this->speed = newSpeed;
+      updateRequired = true;
+    }
+  }
+
+  void setDirection(Direction direction) {
+    if (this->direction != direction) {
+      this->direction = direction;
+      updateRequired = true;
+    }
+  }
+
+  void setWifi(bool onOff) {
+    if (wifiOn != onOff) {
+      wifiOn = onOff;
+      updateRequired = true;
+    }
+  }
+
+  void setCan(bool onOff) {
+    if (canOn != onOff) {
+      canOn = onOff;
+      updateRequired = true;
+    }
+  }
+
  private:
   bool cursorEnabled;
   uint8_t cursorLine;
   static const uint8_t voffset[];
   static const uint8_t baselineOffset[];
+
+  uint8_t speed;
+  Direction direction;
+
+  bool wifiOn = true;
+  bool canOn = true;
 
   using TextBuffer = LineBuffer[DISPLAY_LINES];
 
@@ -72,5 +116,5 @@ class DisplayManager {
 
 } /* namespace EngineControl */
 
-#endif
-#endif
+#endif /* Display attached */
+#endif /* header guard */
