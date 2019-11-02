@@ -50,7 +50,7 @@ void DisplayManager::begin() {
 #endif
   memset(buffer, 0, sizeof(buffer));
   setSpeedValue(0);
-  setDirection(Direction::UNKNOWN);
+  setDirection(RR32Can::EngineDirection::UNKNOWN);
   setFunctionBits(0u);
 }
 
@@ -112,14 +112,14 @@ void DisplayManager::loop() {
 
     display.setFont(SYMBOL_FONT_PTR);
     display.setTextAlignment(TEXT_ALIGN_LEFT);
-    if (direction == Direction::REVERSE) {
+    if (direction == RR32Can::EngineDirection::REVERSE) {
       display.drawString(0, voffset[3], "\2");
     } else {
       display.drawString(0, voffset[3], "\1");
     }
 
     display.setTextAlignment(TEXT_ALIGN_RIGHT);
-    if (direction == Direction::FORWARD) {
+    if (direction == RR32Can::EngineDirection::FORWARD) {
       display.drawString(128, voffset[3], "\4");
     } else {
       display.drawString(128, voffset[3], "\3");

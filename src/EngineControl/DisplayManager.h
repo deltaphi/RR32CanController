@@ -3,6 +3,7 @@
 
 #include <Arduino.h>
 #include "config.h"
+#include "RR32Can/Types.h"
 
 #if (DISPLAY_ATTACHED == STD_ON)
 
@@ -17,12 +18,6 @@ namespace EngineControl {
 class DisplayManager {
  public:
   using LineBuffer = char[STRING_DATATYPE_LENGTH];
-
-  enum class Direction {
-    FORWARD = 0,
-    REVERSE = 1,
-    UNKNOWN = 2
-  };
 
   void begin();
 
@@ -74,7 +69,7 @@ class DisplayManager {
     }
   }
 
-  void setDirection(Direction direction) {
+  void setDirection(RR32Can::EngineDirection direction) {
     if (this->direction != direction) {
       this->direction = direction;
       updateRequired = true;
@@ -110,7 +105,7 @@ class DisplayManager {
 
   uint8_t speed;
   uint8_t functionBits;
-  Direction direction;
+  RR32Can::EngineDirection direction;
 
   bool wifiOn = true;
   bool canOn = true;
