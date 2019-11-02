@@ -27,6 +27,15 @@ class EngineShortInfo {
     strncpy(this->name, name, kEngineNameLength);
   }
 
+  /**
+   * \brief Sets the name only when it is different from the current name.
+   */
+  void setNameConditional(const char* name) {
+    if (strncmp(name, this->name, sizeof(this->name)) != 0) {
+      setName(name);
+    }
+  }
+
   const char* getName() const { return name; }
 
   AvailabilityStatus getAvailability() const { return availability; }
