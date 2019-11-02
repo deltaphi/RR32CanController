@@ -10,6 +10,8 @@ namespace RR32Can {
 
 /*
  * \brief Class EngineBrowser
+ * 
+ * Responsible for message handling from/to the master controller.
  */
 class EngineBrowser : public ConfigDataConsumer {
  public:
