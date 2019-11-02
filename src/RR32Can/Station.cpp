@@ -77,6 +77,9 @@ void Station::RequestEngine(Engine& engine) {
   if (!engine.isNameKnown() ||
       expectedConfigData != ConfigDataStreamType::NONE) {
     /* Given an empty engine slot or a request is already in progress. Abort. */
+  #if LOG_CAN_OUT_MSG == STD_ON
+    Serial.println("Station::RequestEngine: Request in progress or no Engine Name, dropping request.");
+  #endif
     return;
   }
 
