@@ -78,24 +78,21 @@ void ConfigDataStreamParser::addMessage(const Data& data) {
         if (remainingBytes == 0) {
           if (crc.isCrcValid()) {
             streamState = StreamState::STREAM_DONE;
-
 #if (LOG_CONFIG_DATA_STREAM_PROCESSING == STD_ON)
             Serial.println("Stream complete!");
 #endif
-
             if (consumer != nullptr) {
               consumer->setStreamComplete();
             }
+
           } else {
             streamState = StreamState::IDLE;
-
 #if (LOG_CONFIG_DATA_STREAM_PROCESSING == STD_ON)
             Serial.print("CRC Error - Stream aborted. CRC requested: ");
             Serial.print(crc.getReference(), HEX);
             Serial.print(" CRC actual: ");
             Serial.println(crc.getCrc(), HEX);
 #endif
-
             if (consumer != nullptr) {
               consumer->setStreamAborted();
             }

@@ -19,13 +19,19 @@ void Station::begin(uint16_t stationUUID) {
 
 void Station::loop() {}
 
-void Station::AbortCurrentConfigRequest() {
+void Station::FinishCurrentConfigRequest() {
   if (activeConfigDataConsumer != nullptr) {
-    activeConfigDataConsumer->setStreamAborted();
     activeConfigDataConsumer = nullptr;
   }
   expectedConfigData = ConfigDataStreamType::NONE;
   configDataParser.reset();
+}
+
+void Station::AbortCurrentConfigRequest() {
+  if (activeConfigDataConsumer != nullptr) {
+    activeConfigDataConsumer->setStreamAborted();
+  }
+  FinishCurrentConfigRequest();
 }
 
 void Station::HandleConfigDataStream(const RR32Can::Data& data) {
@@ -74,11 +80,17 @@ void Station::RequestEngineList(uint8_t offset) {
 }
 
 void Station::RequestEngine(Engine& engine) {
-  if (!engine.isNameKnown() ||
-      expectedConfigData != ConfigDataStreamType::NONE) {
+  if (!engine.isNameKnown()) {
+#if LOG_CAN_OUT_MSG == STD_ON
+    Serial.println("Station::RequestEngine: No Engine Name given, dropping request.");
+#endif
+    return;  
+  }
+  
+  if (expectedConfigData != ConfigDataStreamType::NONE) {
     /* Given an empty engine slot or a request is already in progress. Abort. */
   #if LOG_CAN_OUT_MSG == STD_ON
-    Serial.println("Station::RequestEngine: Request in progress or no Engine Name, dropping request.");
+    Serial.println("Station::RequestEngine: Request in progress, dropping request.");
   #endif
     return;
   }

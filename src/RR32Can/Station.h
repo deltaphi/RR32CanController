@@ -43,13 +43,14 @@ class Station {
                            uint8_t power);
 
   /* Engine Database */
+  void FinishCurrentConfigRequest();
   void AbortCurrentConfigRequest();
   void RequestEngine(Engine& engine);
   void RequestEngineList(uint8_t offset);
 
   EngineBrowser& getEngineBrowser() { return engineBrowser; }
 
-  void notifyConfigStreamReceived() { configDataParser.reset(); };
+  void notifyConfigStreamReceived() { FinishCurrentConfigRequest(); }
 
   ConfigDataStreamParser::StreamState getConfigStreamState() const {
     return configDataParser.getStreamState();
