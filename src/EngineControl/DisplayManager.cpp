@@ -51,6 +51,7 @@ void DisplayManager::begin() {
   memset(buffer, 0, sizeof(buffer));
   setSpeedValue(0);
   setDirection(Direction::UNKNOWN);
+  setFunctionBits(0u);
 }
 
 void DisplayManager::loop() {
@@ -83,6 +84,28 @@ void DisplayManager::loop() {
       display.setFont(ArialMT_Plain_10);    
       display.setTextAlignment(TEXT_ALIGN_RIGHT);
       display.drawString(128 - (SYMBOL_FONT_PTR[0] + 4 /* 4 pixels distance */), voffset[0], "CAN");
+    }
+
+    // Draw the function bits
+
+    uint8_t tmpFunctionBits = functionBits;
+    constexpr const uint8_t rectHeight = 4;
+    constexpr const uint8_t rectWidth = 10;
+    constexpr const uint8_t rectDistance = 6;
+
+    const uint8_t rectvoffset = voffset[3] - 2 - rectHeight;
+
+    for (uint8_t i = 0; i < 8; ++i) {
+      bool functionOn = (tmpFunctionBits & 0x01) == 1;
+
+      uint8_t recthoffset = (i*(rectWidth + rectDistance)) + (rectDistance / 2);
+      if (functionOn) {
+        display.fillRect(recthoffset, rectvoffset, rectWidth, rectHeight);
+      } else {
+        display.drawRect(recthoffset, rectvoffset, rectWidth, rectHeight);
+      }
+
+      tmpFunctionBits <<= 1;
     }
 
     // Draw assets in the bottom line

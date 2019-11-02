@@ -95,6 +95,13 @@ class DisplayManager {
     }
   }
 
+  void setFunctionBits(uint8_t functionBits) {
+    if (this->functionBits != functionBits) {
+      this->functionBits = functionBits;
+      updateRequired = true;
+    }
+  }
+
  private:
   bool cursorEnabled;
   uint8_t cursorLine;
@@ -102,6 +109,7 @@ class DisplayManager {
   static const uint8_t baselineOffset[];
 
   uint8_t speed;
+  uint8_t functionBits;
   Direction direction;
 
   bool wifiOn = true;
