@@ -48,8 +48,10 @@ class ConfigDataStreamParser {
 
   StreamState getStreamState() const { return streamState; }
 
-  bool isProcessing() const { return streamState != StreamState::IDLE 
-                              && streamState != StreamState::STREAM_DONE; }
+  bool isProcessing() const {
+    return streamState != StreamState::IDLE &&
+           streamState != StreamState::STREAM_DONE;
+  }
 
  private:
   StreamState streamState = StreamState::IDLE;

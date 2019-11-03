@@ -10,7 +10,7 @@ namespace RR32Can {
 
 /*
  * \brief Class EngineBrowser
- * 
+ *
  * Responsible for message handling from/to the master controller.
  */
 class EngineBrowser : public ConfigDataConsumer {
@@ -44,7 +44,7 @@ class EngineBrowser : public ConfigDataConsumer {
 
   uint8_t getNumEnginesKnownByMaster() const { return numEnginesKnownByMaster; }
 
-  //void fetchEngine(Engine& engine);
+  // void fetchEngine(Engine& engine);
 
   static const char* kFilenameEngineNames;
   static const char* kSectionNumEngines;
@@ -57,7 +57,7 @@ class EngineBrowser : public ConfigDataConsumer {
 
   /**
    * \brief Offset at which the download was started
-   * 
+   *
    * The cursor is an index into the engine list of the bus master.
    * It points to the entry that is currently displayed at the top of the list.
    */

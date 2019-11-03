@@ -29,11 +29,12 @@ class EngineShortInfo {
 
   /**
    * \brief Sets the name only when it is different from the current name.
-   * 
+   *
    * \return True if the engine was changed, false otherwise.
    */
   bool setNameConditional(const char* name) {
-    if (availability == AvailabilityStatus::EMPTY || strncmp(name, this->name, kEngineNameLength) != 0) {
+    if (availability == AvailabilityStatus::EMPTY ||
+        strncmp(name, this->name, kEngineNameLength) != 0) {
       setName(name);
       return true;
     } else {

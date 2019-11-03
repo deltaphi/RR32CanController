@@ -6,9 +6,9 @@
 #include "RR32Can/Engine.h"
 #include "RR32Can/EngineBrowser.h"
 #include "RR32Can/EngineControl.h"
+#include "RR32Can/Types.h"
 #include "RR32Can/messages/Data.h"
 #include "RR32Can/messages/Identifier.h"
-#include "RR32Can/Types.h"
 #include "RR32Can/util/ConfigDataConsumer.h"
 #include "RR32Can/util/ConfigDataStreamParser.h"
 
@@ -49,10 +49,10 @@ class Station {
 
   /**
    * \brief Sends a request for the information of a specific engine.
-   * 
+   *
    * All incoming results will be directed towards the given engine (i.e., a
    * reference is kept).
-   * 
+   *
    * \param engine An engine with its name set.
    */
   void RequestEngine(Engine& engine);

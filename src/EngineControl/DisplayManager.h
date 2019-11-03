@@ -2,8 +2,8 @@
 #define __ENGINECONTROL_DISPLAYMANAGER_H__
 
 #include <Arduino.h>
-#include "config.h"
 #include "RR32Can/Types.h"
+#include "config.h"
 
 #if (DISPLAY_ATTACHED == STD_ON)
 
@@ -59,7 +59,8 @@ class DisplayManager {
   uint8_t getCursorLine() const { return cursorLine; }
 
   /**
-   * \brief Set the current speed value to be displayed. Value is mapped to 0..100 range.
+   * \brief Set the current speed value to be displayed. Value is mapped to
+   * 0..100 range.
    */
   void setSpeedValue(uint8_t speed) {
     uint8_t newSpeed = map(speed, 0, 127, 0, 100);

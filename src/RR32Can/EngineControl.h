@@ -9,7 +9,7 @@ namespace RR32Can {
 
 /*
  * \brief Class EngineControl
- * 
+ *
  * Responsible for message handling from/to the master controller.
  */
 class EngineControl {
@@ -18,9 +18,7 @@ class EngineControl {
     return currentEngine.isFullDetailsKnown() && !currentEngine.isFree();
   }
 
-  Engine& getEngine() {
-    return currentEngine;
-  }
+  Engine& getEngine() { return currentEngine; }
 
   const char* getEngineName() const {
     if (isValid()) {

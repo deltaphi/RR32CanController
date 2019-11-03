@@ -24,9 +24,7 @@ void Station::FinishCurrentConfigRequest() {
   configDataParser.reset();
 }
 
-void Station::AbortCurrentConfigRequest() {
-  FinishCurrentConfigRequest();
-}
+void Station::AbortCurrentConfigRequest() { FinishCurrentConfigRequest(); }
 
 void Station::HandleConfigDataStream(const RR32Can::Data& data) {
   if (configDataParser.isProcessing()) {
@@ -75,15 +73,17 @@ void Station::RequestEngineList(uint8_t offset) {
 void Station::RequestEngine(Engine& engine) {
   if (!engine.isNameKnown()) {
 #if LOG_CAN_OUT_MSG == STD_ON
-    Serial.println("Station::RequestEngine: No Engine Name given, dropping request.");
+    Serial.println(
+        "Station::RequestEngine: No Engine Name given, dropping request.");
 #endif
-    return;  
+    return;
   }
-  
+
   if (expectedConfigData != ConfigDataStreamType::NONE) {
     /* Given an empty engine slot or a request is already in progress. Abort. */
 #if LOG_CAN_OUT_MSG == STD_ON
-    Serial.println("Station::RequestEngine: Request in progress, dropping request.");
+    Serial.println(
+        "Station::RequestEngine: Request in progress, dropping request.");
 #endif
     return;
   }
@@ -113,7 +113,8 @@ void Station::RequestEngine(Engine& engine) {
   data.reset();
   data.dlc = 8;
   if (engineNameLength > CanDataMaxLength) {
-    strncpy(data.dataAsString(), engineName + CanDataMaxLength, CanDataMaxLength);
+    strncpy(data.dataAsString(), engineName + CanDataMaxLength,
+            CanDataMaxLength);
   }
 
   SendPacket(id, data);
@@ -152,7 +153,7 @@ void Station::HandlePacket(const RR32Can::Identifier& id,
   id.printAll();
   Serial.println();
 #endif
-  
+
   switch (id.command) {
     case RR32Can::kSystemCommand:
       Serial.print(F("System Command. Subcommand: "));

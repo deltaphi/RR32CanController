@@ -6,8 +6,8 @@
 #include "EngineControl/EngineControl.h"
 #include "config.h"
 
-#include "RR32Can/RR32Can.h"
 #include "RR32Can/Constants.h"
+#include "RR32Can/RR32Can.h"
 
 namespace EngineControl {
 
@@ -21,7 +21,6 @@ RotaryEncoder encoder(ENCODER_A_PIN, ENCODER_B_PIN);
 int encoderPosition = 0;
 
 DebouncedKey<1, 1> encoderKey;
-
 
 DebouncedKey<1, 1> stopKey;
 DebouncedKey<1, 1> shiftKey;
@@ -53,9 +52,9 @@ void begin() {
   pinMode(F1_BUTTON_PIN, INPUT);
   pinMode(F2_BUTTON_PIN, INPUT);
   pinMode(F3_BUTTON_PIN, INPUT);
-  //pinMode(F4_BUTTON_PIN, INPUT);
+  // pinMode(F4_BUTTON_PIN, INPUT);
 
-  for (FKeys_t::value_type & fkey: fKeys) {
+  for (FKeys_t::value_type& fkey : fKeys) {
     fkey.forceDebounce(HIGH);
     fkey.getAndResetEdgeFlag();
   }
@@ -147,7 +146,6 @@ void loopEncoder() {
   encoder.tick();
   long newEncoderPosition = encoder.getPosition();
 
-
   uint8_t readButton = digitalRead(ENCODER_BUTTON_PIN);
   encoderKey.cycle(readButton);
   if (encoderKey.getAndResetEdgeFlag()) {
@@ -174,10 +172,11 @@ void loopEncoder() {
           // Commit the selected engine
           Serial.print("ENGINE_CONTROL (Commit).");
           RR32Can::EngineControl& control = RR32Can::RR32Can.getEngineControl();
-          RR32Can::Engine & engine = control.getEngine();
+          RR32Can::Engine& engine = control.getEngine();
           RR32Can::EngineBrowser& browser = RR32Can::RR32Can.getEngineBrowser();
           uint8_t engineIndex = newEncoderPosition - browser.getStreamOffset();
-          const RR32Can::EngineBrowser::EngineInfoSet& infoSet = browser.getEngineInfos();
+          const RR32Can::EngineBrowser::EngineInfoSet& infoSet =
+              browser.getEngineInfos();
 
           const RR32Can::EngineShortInfo& engineInfo = infoSet[engineIndex];
           if (engine.setNameConditional(engineInfo.getName())) {
@@ -207,13 +206,14 @@ void loopEncoder() {
     encoderPosition = newEncoderPosition;
 
     if (displayMode == DisplayMode::ENGINE) {
-      // CONTROL ENGINE. 
-      //RR32Can::EngineControl& control = RR32Can::RR32Can.getEngineControl();
+      // CONTROL ENGINE.
+      // RR32Can::EngineControl& control = RR32Can::RR32Can.getEngineControl();
 
       // TBD: Move state to EngineController.
       // TBD: Initialize state only when a new engine is selected.
-      
-      // Limit newPosition to 0..128 and reset the encoder appropriately, if necessary.
+
+      // Limit newPosition to 0..128 and reset the encoder appropriately, if
+      // necessary.
       if (encoderPosition < 0) {
         encoderPosition = 0;
         forceEncoderPosition(encoderPosition);
@@ -225,10 +225,12 @@ void loopEncoder() {
       }
 
 #if (DISPLAY_ATTACHED == STD_ON)
-      // TBD: Only do this when the name actually changes, i.e., when a new engine is selected.
-      //strncpy(displayManager.getWritableBuffer(0), control.getEngineName(), STRING_CHAR_LENGTH);
+      // TBD: Only do this when the name actually changes, i.e., when a new
+      // engine is selected.
+      // strncpy(displayManager.getWritableBuffer(0), control.getEngineName(),
+      // STRING_CHAR_LENGTH);
 
-      /* TBD: Download actual engine data. 
+      /* TBD: Download actual engine data.
       displayManager.setSpeedValue(control.getSpeed());
       displayManager.setDirection(control.getDirection());
       */
@@ -284,7 +286,8 @@ void loopEncoder() {
   }
 }
 
-void checkAndPrint(DebouncedKey<1, 1> & key, const char * key_name, uint8_t keyPin) {
+void checkAndPrint(DebouncedKey<1, 1>& key, const char* key_name,
+                   uint8_t keyPin) {
   uint8_t readValue = digitalRead(keyPin);
   key.cycle(readValue);
   if (key.getAndResetEdgeFlag()) {
@@ -295,7 +298,6 @@ void checkAndPrint(DebouncedKey<1, 1> & key, const char * key_name, uint8_t keyP
       Serial.println("released.");
     } else {
       Serial.println("pressed.");
-
     }
   }
 }
@@ -307,7 +309,7 @@ void loopButtons() {
   checkAndPrint(fKeys[1], "F1", F1_BUTTON_PIN);
   checkAndPrint(fKeys[2], "F2", F2_BUTTON_PIN);
   checkAndPrint(fKeys[3], "F3", F3_BUTTON_PIN);
-  //checkAndPrint(fKeys[4], "F4", F4_BUTTON_PIN);
+  // checkAndPrint(fKeys[4], "F4", F4_BUTTON_PIN);
 }
 #endif
 

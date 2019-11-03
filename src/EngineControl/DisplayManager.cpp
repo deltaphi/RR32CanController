@@ -34,12 +34,17 @@ constexpr const uint8_t textLinePixelDistance = 2;
 constexpr const uint8_t textLineFirst = 1;
 constexpr const uint8_t textLineLast = 2;
 
-const uint8_t DisplayManager::voffset[] = {0,
-                                           0+statusFontHeight+statusLinePixelDistance,
-                                           static_cast<uint8_t>(FONT_HEIGHT)+textLinePixelDistance+statusFontHeight+statusLinePixelDistance,
-                                           63 - statusFontHeight};
+const uint8_t DisplayManager::voffset[] = {
+    0, 0 + statusFontHeight + statusLinePixelDistance,
+    static_cast<uint8_t>(FONT_HEIGHT) + textLinePixelDistance +
+        statusFontHeight + statusLinePixelDistance,
+    63 - statusFontHeight};
 
-const uint8_t DisplayManager::baselineOffset[] = {0, static_cast<uint8_t>(FONT_HEIGHT)+voffset[1], (2u*static_cast<uint8_t>(FONT_HEIGHT))+voffset[1]+textLinePixelDistance, 0};
+const uint8_t DisplayManager::baselineOffset[] = {
+    0, static_cast<uint8_t>(FONT_HEIGHT) + voffset[1],
+    (2u * static_cast<uint8_t>(FONT_HEIGHT)) + voffset[1] +
+        textLinePixelDistance,
+    0};
 
 void DisplayManager::begin() {
   Serial.println("Starting Display");
@@ -63,27 +68,30 @@ void DisplayManager::loop() {
     display.setFont(FONT_PTR);
 
     for (uint8_t line = 0; line < DISPLAY_LINES; ++line) {
-      display.drawString(0, voffset[line+textLineFirst], buffer[line]);
+      display.drawString(0, voffset[line + textLineFirst], buffer[line]);
       if (cursorEnabled && cursorLine == line) {
-        display.drawHorizontalLine(0, baselineOffset[line+textLineFirst], display.getWidth());
+        display.drawHorizontalLine(0, baselineOffset[line + textLineFirst],
+                                   display.getWidth());
       }
     }
 
     // Draw assets in the top line
-    
+
     // WIFI Symbol
     if (wifiOn) {
       display.setFont(SYMBOL_FONT_PTR);
       display.setTextAlignment(TEXT_ALIGN_RIGHT);
-      constexpr const char topLineString[] = {static_cast<char>(RR32SymbolNames::WIFI), '\0'};
+      constexpr const char topLineString[] = {
+          static_cast<char>(RR32SymbolNames::WIFI), '\0'};
       display.drawString(128, voffset[0], topLineString);
     }
 
     // CAN text
     if (canOn) {
-      display.setFont(ArialMT_Plain_10);    
+      display.setFont(ArialMT_Plain_10);
       display.setTextAlignment(TEXT_ALIGN_RIGHT);
-      display.drawString(128 - (SYMBOL_FONT_PTR[0] + 4 /* 4 pixels distance */), voffset[0], "CAN");
+      display.drawString(128 - (SYMBOL_FONT_PTR[0] + 4 /* 4 pixels distance */),
+                         voffset[0], "CAN");
     }
 
     // Draw the function bits
@@ -98,7 +106,8 @@ void DisplayManager::loop() {
     for (uint8_t i = 0; i < 8; ++i) {
       bool functionOn = (tmpFunctionBits & 0x01) == 1;
 
-      uint8_t recthoffset = (i*(rectWidth + rectDistance)) + (rectDistance / 2);
+      uint8_t recthoffset =
+          (i * (rectWidth + rectDistance)) + (rectDistance / 2);
       if (functionOn) {
         display.fillRect(recthoffset, rectvoffset, rectWidth, rectHeight);
       } else {
@@ -125,9 +134,11 @@ void DisplayManager::loop() {
       display.drawString(128, voffset[3], "\3");
     }
 
-    constexpr const uint8_t progressBarOffset = ((3*(SYMBOL_FONT_PTR[0]))/2);
-    constexpr const uint8_t progressBarWidth = (128 - (2*progressBarOffset));
-    display.drawProgressBar(progressBarOffset, voffset[3]+2, progressBarWidth, 6, speed);
+    constexpr const uint8_t progressBarOffset =
+        ((3 * (SYMBOL_FONT_PTR[0])) / 2);
+    constexpr const uint8_t progressBarWidth = (128 - (2 * progressBarOffset));
+    display.drawProgressBar(progressBarOffset, voffset[3] + 2, progressBarWidth,
+                            6, speed);
 
     display.display();
   }
