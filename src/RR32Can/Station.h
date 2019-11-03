@@ -5,6 +5,7 @@
 
 #include "RR32Can/Engine.h"
 #include "RR32Can/EngineBrowser.h"
+#include "RR32Can/EngineControl.h"
 #include "RR32Can/messages/Data.h"
 #include "RR32Can/messages/Identifier.h"
 #include "RR32Can/Types.h"
@@ -49,6 +50,7 @@ class Station {
   void RequestEngineList(uint8_t offset);
 
   EngineBrowser& getEngineBrowser() { return engineBrowser; }
+  EngineControl& getEngineControl() { return engineControl; }
 
   void notifyConfigStreamReceived() { FinishCurrentConfigRequest(); }
 
@@ -70,6 +72,9 @@ class Station {
 
   /* Engine browser */
   EngineBrowser engineBrowser;
+
+  /* Single-Engine Controller */
+  EngineControl engineControl;
 };
 
 }  // namespace RR32Can

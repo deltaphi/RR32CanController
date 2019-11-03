@@ -163,11 +163,24 @@ void loopEncoder() {
       } else {
         // Shift was not pressed - probably reverse direction?
         if (displayMode == DisplayMode::ENGINE) {
-        // TODO
+          // TODO
           Serial.println("not implemented");
         } else {
           // Commit the selected engine
           Serial.print("ENGINE_CONTROL (Commit). Engine Name: '");
+          RR32Can::EngineControl& control = RR32Can::RR32Can.getEngineControl();
+          RR32Can::Engine & engine = control.getEngine();
+          RR32Can::EngineBrowser& browser = RR32Can::RR32Can.getEngineBrowser();
+          Serial.print(browser.getCursorEngineName());
+          if (engine.setNameConditional(browser.getCursorEngineName())) {
+            Serial.print("'. Requesting Engine Data for '");
+            Serial.print(engine.getName());
+            Serial.println("'");
+            RR32Can::RR32Can.RequestEngine(engine);
+          }
+          browser.printAll();
+          // Return to ENGINE control mode.
+          startDisplayModeEngine();
         }
       }
 
@@ -178,7 +191,9 @@ void loopEncoder() {
 
   encoder.tick();
 
-  int newPosition = encoder.getPosition();
+  long newPosition = encoder.getPosition();
+
+  // See if there was an effective change to the reported encoder position
   if (encoderPosition != newPosition) {
     Serial.print("Encoder position: ");
     Serial.print(newPosition);
@@ -186,7 +201,32 @@ void loopEncoder() {
     encoderPosition = newPosition;
 
     if (displayMode == DisplayMode::ENGINE) {
+      // CONTROL ENGINE. 
+      //RR32Can::EngineControl& control = RR32Can::RR32Can.getEngineControl();
+
+      // TBD: Move state to EngineController.
+      // TBD: Initialize state only when a new engine is selected.
+      
+      // Limit newPosition to 0..128 and reset the encoder appropriately, if necessary.
+      if (encoderPosition < 0) {
+        encoderPosition = 0;
+        forceEncoderPosition(encoderPosition);
+      }
+
+      if (encoderPosition > 127) {
+        encoderPosition = 127;
+        forceEncoderPosition(encoderPosition);
+      }
+
 #if (DISPLAY_ATTACHED == STD_ON)
+      // TBD: Only do this when the name actually changes, i.e., when a new engine is selected.
+      //strncpy(displayManager.getWritableBuffer(0), control.getEngineName(), STRING_CHAR_LENGTH);
+
+      /* TBD: Download actual engine data. 
+      displayManager.setSpeedValue(control.getSpeed());
+      displayManager.setDirection(control.getDirection());
+      */
+
       snprintf(displayManager.getWritableBuffer(1), STRING_CHAR_LENGTH, "%d",
                encoderPosition);
 #endif
@@ -196,6 +236,9 @@ void loopEncoder() {
       RR32Can::EngineBrowser& browser = RR32Can::RR32Can.getEngineBrowser();
 
       // int cursorPosition = encoderPosition - browser.getStreamOffset();
+
+      // TBD: Move state to EngineBrowser instance.
+      // TBD: Initialize state when engine browser is opened.
 
       int cursorPosition;
 

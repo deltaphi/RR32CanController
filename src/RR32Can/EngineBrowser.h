@@ -43,6 +43,18 @@ class EngineBrowser : public ConfigDataConsumer {
 
   uint8_t getNumEnginesKnownByMaster() const { return numEnginesKnownByMaster; }
 
+  const char* getCursorEngineName() const {
+    Serial.print(" Cursor: ");
+    Serial.print(cursor, DEC);
+    Serial.print(" engineInfo.size(): ");
+    Serial.print(engineInfo.size(), DEC);
+    Serial.print(" Index: ");
+    Serial.println(cursor % engineInfo.size(), DEC);
+    return engineInfo[cursor % engineInfo.size()].getName();
+  }
+
+  //void fetchEngine(Engine& engine);
+
   static const char* kFilenameEngineNames;
   static const char* kSectionNumEngines;
   static const char* kGenericValue;
