@@ -3,6 +3,6 @@
 namespace RR32Can {
 
 const char* kFilenameEngine =
-    "lokinfo ";  // TODO: This padding is going to cause problems here.
+    "lokinfo\0";  // TODO: This padding is going to cause problems here.
 
 }  // namespace RR32Can
