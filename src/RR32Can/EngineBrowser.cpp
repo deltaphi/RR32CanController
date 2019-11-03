@@ -48,10 +48,14 @@ void EngineBrowser::consumeConfigData(BufferManager& section,
   }
 }
 
-void EngineBrowser::reset() {
+void EngineBrowser::clearTable() {
   for (EngineShortInfo& info : engineInfo) {
     info.reset();
   }
+}
+
+void EngineBrowser::reset() {
+  clearTable();
   numEnginesKnownByMaster = 0;
   streamComplete = false;
   cursor = 0;

@@ -34,6 +34,7 @@ class EngineBrowser : public ConfigDataConsumer {
   void setStreamAborted() override { reset(); }
 
   void reset();
+  void clearTable();
 
   bool isStreamComplete() const { return streamComplete; }
 

@@ -249,6 +249,7 @@ void loopEncoder() {
           cursorPosition = 0;
           forceEncoderPosition(cursorPosition);
         } else {
+          browser.clearTable();
           RR32Can::RR32Can.RequestEngineList(browser.getStreamOffset() -
                                              RR32Can::kNumEngineNamesDownload);
           setDisplayPending();
@@ -262,6 +263,7 @@ void loopEncoder() {
           forceEncoderPosition(browser.getNumEnginesKnownByMaster() - 1);
           cursorPosition = encoderPosition - browser.getStreamOffset();
         } else {
+          browser.clearTable();
           RR32Can::RR32Can.RequestEngineList(browser.getStreamOffset() +
                                              RR32Can::kNumEngineNamesDownload);
           cursorPosition = encoderPosition - browser.getStreamOffset();
