@@ -20,22 +20,16 @@ void Station::begin(uint16_t stationUUID) {
 void Station::loop() {}
 
 void Station::FinishCurrentConfigRequest() {
-  if (activeConfigDataConsumer != nullptr) {
-    activeConfigDataConsumer = nullptr;
-  }
   expectedConfigData = ConfigDataStreamType::NONE;
   configDataParser.reset();
 }
 
 void Station::AbortCurrentConfigRequest() {
-  if (activeConfigDataConsumer != nullptr) {
-    activeConfigDataConsumer->setStreamAborted();
-  }
   FinishCurrentConfigRequest();
 }
 
 void Station::HandleConfigDataStream(const RR32Can::Data& data) {
-  if (activeConfigDataConsumer != nullptr) {
+  if (configDataParser.isProcessing()) {
 #if (LOG_CONFIG_DATA_STREAM_PROCESSING == STD_ON)
     data.printAsHex();
     Serial.print(" '");
@@ -68,7 +62,6 @@ void Station::RequestEngineList(uint8_t offset) {
                        offset, kNumEngineNamesDownload);
   if (data2.dlc <= CanDataMaxLength) {
     expectedConfigData = ConfigDataStreamType::LOKNAMEN;
-    activeConfigDataConsumer = &engineBrowser;
     engineBrowser.setStreamOffset(offset);
     configDataParser.startStream(&engineBrowser);
     SendPacket(id, data1);

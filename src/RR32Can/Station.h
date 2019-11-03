@@ -46,6 +46,15 @@ class Station {
   /* Engine Database */
   void FinishCurrentConfigRequest();
   void AbortCurrentConfigRequest();
+
+  /**
+   * \brief Sends a request for the information of a specific engine.
+   * 
+   * All incoming results will be directed towards the given engine (i.e., a
+   * reference is kept).
+   * 
+   * \param engine An engine with its name set.
+   */
   void RequestEngine(Engine& engine);
   void RequestEngineList(uint8_t offset);
 
@@ -65,7 +74,6 @@ class Station {
   /* Generic message handling */
   ConfigDataStreamType expectedConfigData;
   ConfigDataStreamParser configDataParser;
-  ConfigDataConsumer* activeConfigDataConsumer = nullptr;
 
   /* Engine Database */
   Engine engineDatabase[kMaxNumEnginesKnown];
