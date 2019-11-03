@@ -29,6 +29,9 @@ void EngineBrowser::consumeConfigData(BufferManager& section,
     if (freeEngine == nullptr) {
       Serial.println("No free Engine buffer found.");
       return;
+    } else {
+      Serial.print("Storing Engine ");
+      Serial.println(value.data());
     }
     freeEngine->setName(value.data());  // TODO: Number is unused
 

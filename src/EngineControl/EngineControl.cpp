@@ -148,18 +148,27 @@ void loopEncoder() {
   if (encoderKey.getAndResetEdgeFlag()) {
     // There was an edge
     if (encoderKey.getDebouncedValue() == LOW) {
-      Serial.println("Pressed Encoder Button");
+      Serial.print("Pressed Encoder Button: Switch to ");
 
       if (shiftKey.getDebouncedValue() == LOW) {
         // Shift was pressed as well - switch menu mode.
         if (displayMode == DisplayMode::ENGINE) {
+          Serial.println("ENGINE_SELECT");
           startDisplayModeSelectEngine();
         } else {
+          // Abort selection and return to Engine Control with current Engine.
+          Serial.println("ENGINE_CONTROL (Abort)");
           startDisplayModeEngine();
         }
       } else {
         // Shift was not pressed - probably reverse direction?
+        if (displayMode == DisplayMode::ENGINE) {
         // TODO
+          Serial.println("not implemented");
+        } else {
+          // Commit the selected engine
+          Serial.print("ENGINE_CONTROL (Commit). Engine Name: '");
+        }
       }
 
     } else {
