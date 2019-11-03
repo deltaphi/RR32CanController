@@ -44,16 +44,6 @@ class EngineBrowser : public ConfigDataConsumer {
 
   uint8_t getNumEnginesKnownByMaster() const { return numEnginesKnownByMaster; }
 
-  const char* getCursorEngineName() const {
-    Serial.print(" Cursor: ");
-    Serial.print(cursor, DEC);
-    Serial.print(" engineInfo.size(): ");
-    Serial.print(engineInfo.size(), DEC);
-    Serial.print(" Index: ");
-    Serial.println(cursor % engineInfo.size(), DEC);
-    return engineInfo[cursor % engineInfo.size()].getName();
-  }
-
   //void fetchEngine(Engine& engine);
 
   static const char* kFilenameEngineNames;
@@ -65,7 +55,12 @@ class EngineBrowser : public ConfigDataConsumer {
   EngineInfoSet engineInfo;
   uint8_t numEnginesKnownByMaster;
 
-  /// Offset at which the download was started
+  /**
+   * \brief Offset at which the download was started
+   * 
+   * The cursor is an index into the engine list of the bus master.
+   * It points to the entry that is currently displayed at the top of the list.
+   */
   uint8_t cursor;
 
   EngineShortInfo* findFirstFreeEntry() {

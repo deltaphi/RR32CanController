@@ -143,6 +143,11 @@ void loop() {
 #if (ENCODER_ENABLED == STD_ON)
 
 void loopEncoder() {
+  // Read the encoder
+  encoder.tick();
+  long newEncoderPosition = encoder.getPosition();
+
+
   uint8_t readButton = digitalRead(ENCODER_BUTTON_PIN);
   encoderKey.cycle(readButton);
   if (encoderKey.getAndResetEdgeFlag()) {
@@ -167,16 +172,21 @@ void loopEncoder() {
           Serial.println("not implemented");
         } else {
           // Commit the selected engine
-          Serial.print("ENGINE_CONTROL (Commit). Engine Name: '");
+          Serial.print("ENGINE_CONTROL (Commit).");
           RR32Can::EngineControl& control = RR32Can::RR32Can.getEngineControl();
           RR32Can::Engine & engine = control.getEngine();
           RR32Can::EngineBrowser& browser = RR32Can::RR32Can.getEngineBrowser();
-          Serial.print(browser.getCursorEngineName());
-          if (engine.setNameConditional(browser.getCursorEngineName())) {
-            Serial.print("'. Requesting Engine Data for '");
+          uint8_t engineIndex = newEncoderPosition - browser.getStreamOffset();
+          const RR32Can::EngineBrowser::EngineInfoSet& infoSet = browser.getEngineInfos();
+
+          const RR32Can::EngineShortInfo& engineInfo = infoSet[engineIndex];
+          if (engine.setNameConditional(engineInfo.getName())) {
+            Serial.print(" Requesting Engine Data for '");
             Serial.print(engine.getName());
             Serial.println("'");
             RR32Can::RR32Can.RequestEngine(engine);
+          } else {
+            Serial.println();
           }
           browser.printAll();
           // Return to ENGINE control mode.
@@ -189,16 +199,12 @@ void loopEncoder() {
     }
   }
 
-  encoder.tick();
-
-  long newPosition = encoder.getPosition();
-
   // See if there was an effective change to the reported encoder position
-  if (encoderPosition != newPosition) {
+  if (encoderPosition != newEncoderPosition) {
     Serial.print("Encoder position: ");
-    Serial.print(newPosition);
+    Serial.print(newEncoderPosition);
     Serial.println();
-    encoderPosition = newPosition;
+    encoderPosition = newEncoderPosition;
 
     if (displayMode == DisplayMode::ENGINE) {
       // CONTROL ENGINE. 
