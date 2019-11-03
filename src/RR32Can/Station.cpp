@@ -108,9 +108,21 @@ void Station::RequestEngine(Engine& engine) {
   SendPacket(id, data);
 
   /* Second packet */
-  strncpy(data.dataAsString(), engine.getName(), CanDataMaxLength);
-  data.dlc = strlen(data.dataAsString());  // TODO: Verify of padding with null
-                                           // bytes or spaces is required
+  data.reset();
+  data.dlc = 8;
+  const char* engineName = engine.getName();
+  uint8_t engineNameLength = strlen(engineName);
+  strncpy(data.dataAsString(), engineName, CanDataMaxLength);
+
+  SendPacket(id, data);
+
+  /* Third packet */
+  data.reset();
+  data.dlc = 8;
+  if (engineNameLength > CanDataMaxLength) {
+    strncpy(data.dataAsString(), engineName + CanDataMaxLength, CanDataMaxLength);
+  }
+
   SendPacket(id, data);
 }
 

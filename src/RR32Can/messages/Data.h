@@ -16,7 +16,7 @@ namespace RR32Can {
 struct Data {
   constexpr static const uint8_t kDataBufferLength = CanDataMaxLength + 1;
 
-  /// Data Length C... . actual calue ist 4 bit only.
+  /// Data Length C... . actual value ist 4 bit only.
   uint8_t dlc = 0;
   /// Actual data. An extra byte is prepared to allow for the use of snprintf.
   uint8_t data[kDataBufferLength] = {0, 0, 0, 0, 0, 0, 0, 0};
@@ -39,6 +39,11 @@ struct Data {
   char* dataAsString() {
     uint8_t* ptr = data;
     return reinterpret_cast<char*>(ptr);
+  }
+
+  void reset() {
+    dlc = 0;
+    memset(data, 0, kDataBufferLength);
   }
 };
 
