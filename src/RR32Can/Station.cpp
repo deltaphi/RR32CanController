@@ -89,9 +89,9 @@ void Station::RequestEngine(Engine& engine) {
   
   if (expectedConfigData != ConfigDataStreamType::NONE) {
     /* Given an empty engine slot or a request is already in progress. Abort. */
-  #if LOG_CAN_OUT_MSG == STD_ON
+#if LOG_CAN_OUT_MSG == STD_ON
     Serial.println("Station::RequestEngine: Request in progress, dropping request.");
-  #endif
+#endif
     return;
   }
 
@@ -143,10 +143,11 @@ void Station::SendAccessoryPacket(uint32_t turnoutAddress,
 
 void Station::HandlePacket(const RR32Can::Identifier& id,
                            const RR32Can::Data& data) {
+#if LOG_CAN_RAW_MSG_IN == STD_ON
   id.printAll();
   Serial.println();
-
-  Serial.print(F("Command: "));
+#endif
+  
   switch (id.command) {
     case RR32Can::kSystemCommand:
       Serial.print(F("System Command. Subcommand: "));
@@ -196,17 +197,21 @@ void Station::HandlePacket(const RR32Can::Identifier& id,
       break;
 
     case RR32Can::kRequestConfigData:
+#if (LOG_CONFIG_DATA_STREAM_PROCESSING == STD_ON)
       Serial.print(F("Request Config Data. Payload: "));
+#endif
       data.printAsText();
       break;
 
     case RR32Can::kConfigDataStream:
+#if (LOG_CONFIG_DATA_STREAM_PROCESSING == STD_ON)
       Serial.print(F("Config Data Stream. "));
+#endif
       this->HandleConfigDataStream(data);
       break;
 
     default:
-      Serial.print(F("unknown or not implemented. Dump: 0x"));
+      Serial.print(F("Unknown or not implemented. Dump: 0x"));
       Serial.print(id.command, HEX);
       data.printAsHex();
       break;
