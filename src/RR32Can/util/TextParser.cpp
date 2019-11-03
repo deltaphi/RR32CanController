@@ -86,9 +86,20 @@ TextParser::size_type TextParser::processBuffer() {
         break;
       }
       case State::PARSING_KEY: {
-        parseResult = findToken(consumedBytes, kKeyStop, &key);
+        static const char matchString[] = {kKeyStop[0], kValueStop[0], '\0'};
+        parseResult = findToken(consumedBytes, matchString, &key);
         if (parseResult.success) {
-          parserState = State::PARSING_VALUE;
+          if (parseResult.matchingChar == kKeyStop[0]) {
+            parserState = State::PARSING_VALUE;
+          } else if (parseResult.matchingChar == kValueStop[0]) {
+            // Report the current key without a value
+            value.erase();
+            if (consumer != nullptr) {
+              consumer->consumeConfigData(section, key, value);
+            }
+            key.erase();
+            parserState = State::LOOKING_FOR_KEY_OR_SECTION_START;
+          }
         }
         consumedBytes = parseResult.consumed;
         break;
@@ -136,8 +147,10 @@ TextParser::FindTokenResult TextParser::findToken(
   if (result.consumed == BufferManager::npos) {
     result.success = false;
     result.consumed = buffer.length();
+    result.matchingChar = '\0';
   } else {
     result.success = true;
+    result.matchingChar = buffer[result.consumed];
   }
 
   if (destinationBuffer != nullptr) {

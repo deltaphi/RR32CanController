@@ -18,6 +18,14 @@ class TextParserConsumer {
                                  BufferManager& value) = 0;
 };
 
+/**
+ * \brief Converts a text stream into events consisting of (section, key,
+ * value).
+ *
+ * Note that for "lokomotive", additional subsections can be encountered.
+ * Each subsection will be reported as a (section, key, EMPTY) tuple.
+ * Each key in the subsection will be reported as usual.
+ */
 class TextParser {
  public:
   using size_type = BufferManager::size_type;
@@ -72,6 +80,12 @@ class TextParser {
     uint8_t consumed;
     /// Whether any of the relevant characters was actually found
     bool success;
+    /**
+     * \brief The character that was matched in finishing the token.
+     *
+     * Only valid when success == true;
+     */
+    char matchingChar;
   };
 
   /// Look for a state-changing character in the buffer and copy all matching
