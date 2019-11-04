@@ -11,6 +11,11 @@ class TextParserFixture_FindToken_01_Test;
 
 namespace RR32Can {
 
+// Forward-Declarations for test classes in namespace, so that they can be
+// friended later.
+class TextParserFixture;
+class TextParserFixture_FindToken_01_Test;
+
 class TextParserConsumer {
  public:
   virtual ~TextParserConsumer() = default;
@@ -108,8 +113,8 @@ class TextParser {
   BufferManager::value_type rawvalue[kValueLength + 1];
   BufferManager value;
 
-  friend class TextParserFixture;
-  friend class TextParserFixture_FindToken_01_Test;
+  friend class ::RR32Can::TextParserFixture;
+  friend class ::RR32Can::TextParserFixture_FindToken_01_Test;
 };
 
 } /* namespace RR32Can */
