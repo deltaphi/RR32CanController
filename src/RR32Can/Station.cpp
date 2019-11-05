@@ -1,6 +1,7 @@
 #include "RR32Can/Station.h"
 
 #include "RR32Can/EngineBrowser.h"
+#include "RR32Can/EngineControl.h"
 #include "RR32Can/Handler.h"
 #include "RR32Can/messages/Data.h"
 #include "RR32Can/messages/Identifier.h"
@@ -28,7 +29,7 @@ void Station::AbortCurrentConfigRequest() { FinishCurrentConfigRequest(); }
 
 void Station::HandleConfigDataStream(const RR32Can::Data& data) {
   if (configDataParser.isProcessing()) {
-#if (LOG_CONFIG_DATA_STREAM_PROCESSING == STD_ON)
+#if (LOG_CONFIG_DATA_STREAM_LEVEL >= LOG_CONFIG_DATA_STREAM_LEVEL_ALL)
     data.printAsHex();
     Serial.print(" '");
     data.printAsText();
@@ -91,13 +92,15 @@ void Station::RequestEngine(Engine& engine) {
   AbortCurrentConfigRequest();
 
   expectedConfigData = ConfigDataStreamType::LOKINFO;
+  configDataParser.startStream(&engineControl);
 
   Identifier id{kRequestConfigData, senderHash};
   Data data;
 
   /* First packet */
   data.dlc = 8;
-  strncpy(data.dataAsString(), kFilenameEngine, Data::kDataBufferLength);
+  strncpy(data.dataAsString(), EngineControl::kFilenameEngine,
+          Data::kDataBufferLength);
   SendPacket(id, data);
 
   /* Second packet */
@@ -207,7 +210,7 @@ void Station::HandlePacket(const RR32Can::Identifier& id,
       break;
 
     case RR32Can::kRequestConfigData:
-#if (LOG_CONFIG_DATA_STREAM_PROCESSING == STD_ON)
+#if (LOG_CONFIG_DATA_STREAM_LEVEL >= LOG_CONFIG_DATA_STREAM_LEVEL_ALL)
       Serial.print(F("Request Config Data. Payload: "));
       data.printAsText();
       Serial.println();
@@ -215,7 +218,7 @@ void Station::HandlePacket(const RR32Can::Identifier& id,
       break;
 
     case RR32Can::kConfigDataStream:
-#if (LOG_CONFIG_DATA_STREAM_PROCESSING == STD_ON)
+#if (LOG_CONFIG_DATA_STREAM_LEVEL >= LOG_CONFIG_DATA_STREAM_LEVEL_ALL)
       Serial.println(F("Config Data Stream. "));
 #endif
       this->HandleConfigDataStream(data);

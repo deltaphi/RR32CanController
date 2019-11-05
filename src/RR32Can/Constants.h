@@ -54,8 +54,6 @@ constexpr uint8_t kSubcommandSystemIdentifier = 0x0C;
 constexpr uint8_t kSubcommandMfxSeek = 0x30;
 constexpr uint8_t kSubcommandSystemReset = 0x80;
 
-extern const char* kFilenameEngine;
-
 /// Maximum CAN payload length
 constexpr const uint8_t CanDataMaxLength = 8;
 

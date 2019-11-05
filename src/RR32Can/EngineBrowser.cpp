@@ -13,7 +13,7 @@ const char* EngineBrowser::kGenericValue = "wert";
 void EngineBrowser::consumeConfigData(BufferManager& section,
                                       BufferManager& key,
                                       BufferManager& value) {
-#if (LOG_CONFIG_DATA_STREAM_PROCESSING == STD_ON)
+#if (LOG_CONFIG_DATA_STREAM_LEVEL >= LOG_CONFIG_DATA_STREAM_LEVEL_EVENTS)
   Serial.print("EngineBrowser::consumeConfigData(");
   Serial.print(section.data());
   Serial.print(", ");

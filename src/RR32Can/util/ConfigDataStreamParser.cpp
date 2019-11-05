@@ -24,7 +24,7 @@ void ConfigDataStreamParser::addMessage(const Data& data) {
         uint16_t crc = (data.data[4] << 8) | (data.data[5]);
         this->crc.loadReference(crc);
 
-#if (LOG_CONFIG_DATA_STREAM_PROCESSING == STD_ON)
+#if (LOG_CONFIG_DATA_STREAM_LEVEL >= LOG_CONFIG_DATA_STREAM_LEVEL_PACKETS)
         Serial.print(" Stream length: ");
         Serial.print(remainingBytes, DEC);
         Serial.print(" Bytes. CRC requested: ");
@@ -82,7 +82,7 @@ void ConfigDataStreamParser::addMessage(const Data& data) {
         if (remainingBytes == 0) {
           if (crc.isCrcValid()) {
             streamState = StreamState::STREAM_DONE;
-#if (LOG_CONFIG_DATA_STREAM_PROCESSING == STD_ON)
+#if (LOG_CONFIG_DATA_STREAM_LEVEL >= LOG_CONFIG_DATA_STREAM_LEVEL_EVENTS)
             Serial.println("Stream complete!");
 #endif
             if (consumer != nullptr) {
@@ -91,7 +91,7 @@ void ConfigDataStreamParser::addMessage(const Data& data) {
 
           } else {
             streamState = StreamState::IDLE;
-#if (LOG_CONFIG_DATA_STREAM_PROCESSING == STD_ON)
+#if (LOG_CONFIG_DATA_STREAM_LEVEL >= LOG_CONFIG_DATA_STREAM_LEVEL_EVENTS)
             Serial.print("CRC Error - Stream aborted. CRC requested: ");
             Serial.print(crc.getReference(), HEX);
             Serial.print(" CRC actual: ");
@@ -102,7 +102,7 @@ void ConfigDataStreamParser::addMessage(const Data& data) {
             }
           }
         } else {
-#if (LOG_CONFIG_DATA_STREAM_PROCESSING == STD_ON)
+#if (LOG_CONFIG_DATA_STREAM_LEVEL >= LOG_CONFIG_DATA_STREAM_LEVEL_PACKETS)
           Serial.print("Stream continues. Bytes remaining: ");
           Serial.print(remainingBytes, DEC);
           Serial.print(" Current CRC: ");

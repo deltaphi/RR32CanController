@@ -104,8 +104,10 @@ void CanInputLoop(void) {
     printf("Failed to fetch status info\n");
     return;
   } else if (status_info.msgs_to_rx > 0) {
+#if (LOG_CAN_IN_MSG == STD_ON)
     printf("RMC: %i, Missed: %i, ", status_info.msgs_to_rx,
            status_info.rx_missed_count);
+#endif
   } else {
     // nohting to do
     return;
@@ -115,9 +117,11 @@ void CanInputLoop(void) {
 #if (CAN_DRIVER_SJA1000 == STD_ON)
   // Process CAN Frames
   if (CAN.getRmc() > 0) {
+#if (LOG_CAN_IN_MSG == STD_ON)
     Serial.print("RMC: ");
     Serial.print(CAN.getRmc(), DEC);
     Serial.print(", ");
+#endif
   } else {
     return;
   }
@@ -128,9 +132,7 @@ void CanInputLoop(void) {
 #if (CAN_DRIVER_ESP32IDF == STD_ON)
   can_message_t message;
   memset(message.data, 0, CAN_MAX_DATA_LEN);
-  if (can_receive(&message, pdMS_TO_TICKS(10000)) == ESP_OK) {
-    printf("Message received\n");
-  } else {
+  if (can_receive(&message, pdMS_TO_TICKS(10000)) != ESP_OK) {
     printf("Failed to receive message\n");
     return;
   }

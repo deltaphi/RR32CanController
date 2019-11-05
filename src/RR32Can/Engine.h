@@ -4,6 +4,7 @@
 #include <cstring>
 
 #include "RR32Can/Constants.h"
+#include "RR32Can/Types.h"
 
 namespace RR32Can {
 
@@ -15,6 +16,8 @@ class EngineShortInfo {
   enum class AvailabilityStatus { EMPTY = 0, NAME_KNOWN, FULL_DETAILS };
 
   EngineShortInfo() : availability(AvailabilityStatus::EMPTY) { eraseName(); }
+
+  virtual ~EngineShortInfo() = default;
 
   virtual void reset() {
     availability = AvailabilityStatus::EMPTY;
@@ -53,18 +56,23 @@ class EngineShortInfo {
 
   bool isFree() const { return availability == AvailabilityStatus::EMPTY; }
 
-  void print() const;
+  virtual void print() const;
 
  protected:
   AvailabilityStatus availability;
   char name[kEngineNameLength + 1];
 
   void eraseName() { memset(this->name, '\0', kEngineNameLength + 1); }
+
+  friend class EngineControl;
 };
 
 class Engine : public EngineShortInfo {
  public:
   using EngineShortInfo::EngineShortInfo;
+
+  using Uid_t = uint16_t;  /// 64 bits?
+  using Velocity_t = uint16_t;
 
   void reset() {
     // Remove all data of this class
@@ -74,7 +82,21 @@ class Engine : public EngineShortInfo {
     return availability == AvailabilityStatus::FULL_DETAILS;
   }
 
+  void setUid(Uid_t uid) { this->uid = uid; }
+  Uid_t getUid() const { return uid; }
+  void setVelocity(Velocity_t velocity) { this->velocity = velocity; }
+  Velocity_t getVelocity() { return velocity; }
+  void setDirection(RR32Can::EngineDirection direction) {
+    this->direction = direction;
+  }
+
+  void print() const override;
+
  protected:
+  Uid_t uid;
+  Velocity_t velocity;
+  RR32Can::EngineDirection direction;
+  uint8_t functionBits;
 };
 
 }  // namespace RR32Can
