@@ -38,10 +38,6 @@ void ConfigDataStreamParser::addMessage(const Data& data) {
         }
 #endif
 
-#if (LOG_DUMP_CONFIG_DATA_STREAM == STD_ON)
-        Serial.print(data.dataAsString());
-#endif
-
         if (remainingBytes > 0) {
           streamState = StreamState::WAITING_DATA_PACKET;
         } else {

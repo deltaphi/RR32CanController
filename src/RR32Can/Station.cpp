@@ -193,25 +193,30 @@ void Station::HandlePacket(const RR32Can::Identifier& id,
       break;
 
     case RR32Can::kPing:
+#if (LOG_PING == STD_ON)
       Serial.print(F("Ping. Payload: 0x"));
       data.printAsHex();
+      Serial.println();
+#endif
       break;
 
     case RR32Can::kAccessorySwitch:
       Serial.print(F("Accessory Switch. Details: "));
       this->HandleAccessoryPacket(data);
+      Serial.println();
       break;
 
     case RR32Can::kRequestConfigData:
 #if (LOG_CONFIG_DATA_STREAM_PROCESSING == STD_ON)
       Serial.print(F("Request Config Data. Payload: "));
-#endif
       data.printAsText();
+      Serial.println();
+#endif
       break;
 
     case RR32Can::kConfigDataStream:
 #if (LOG_CONFIG_DATA_STREAM_PROCESSING == STD_ON)
-      Serial.print(F("Config Data Stream. "));
+      Serial.println(F("Config Data Stream. "));
 #endif
       this->HandleConfigDataStream(data);
       break;
@@ -220,9 +225,9 @@ void Station::HandlePacket(const RR32Can::Identifier& id,
       Serial.print(F("Unknown or not implemented. Dump: 0x"));
       Serial.print(id.command, HEX);
       data.printAsHex();
+      Serial.println();
       break;
   }
-  Serial.println();
 }
 
 void Station::HandleAccessoryPacket(const RR32Can::Data& data) {
