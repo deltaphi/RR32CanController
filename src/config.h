@@ -15,9 +15,21 @@
 #define S88_PS_OUT_PIN (22)
 #define S88_RESET_OUT_PIN (21)
 
+#define CAN_DRIVER_SJA1000 STD_OFF
+#define CAN_DRIVER_ESP32IDF STD_ON
+
+#if (CAN_DRIVER_SJA1000 == STD_ON) && (CAN_DRIVER_ESP32IDF == STD_ON)
+#error Only one CAN driver can be active at any time.
+#endif
+
 // CAN pins use default driver values
-// #define CAN_RX_PIN (4)
-// #define CAN_TX_PIN (5)
+#if CAN_DRIVER_SJA1000 == STD_ON
+#define CAN_RX_PIN (4)
+#define CAN_TX_PIN (5)
+#else
+#define CAN_RX_PIN (GPIO_NUM_4)
+#define CAN_TX_PIN (GPIO_NUM_5)
+#endif
 
 #if (ENCODER_ENABLED == STD_ON)
 #define ENCODER_A_PIN (32)

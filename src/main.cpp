@@ -1,5 +1,15 @@
 #include <Arduino.h>
+
+#include "config.h"
+
+#if (CAN_DRIVER_SJA1000 == STD_ON)
 #include <CAN.h>
+#endif
+
+#if (CAN_DRIVER_ESP32IDF == STD_ON)
+#include "driver/can.h"
+#include "driver/gpio.h"
+#endif
 
 #include "EngineControl/EngineControl.h"
 #include "TurnoutControl/TurnoutControl.h"
@@ -15,7 +25,41 @@ void setup() {
 
   Serial.println("CAN Turnout Control");
 
+#if (CAN_DRIVER_ESP32IDF == STD_ON)
+  // Initialize configuration structures using macro initializers
+  can_general_config_t g_config = {
+      .mode = CAN_MODE_NORMAL,
+      .tx_io = CAN_TX_PIN,
+      .rx_io = CAN_RX_PIN,
+      .clkout_io = GPIO_NUM_MAX,
+      .bus_off_io = GPIO_NUM_MAX,
+      .tx_queue_len = 5,
+      .rx_queue_len = 100,
+      .alerts_enabled = CAN_ALERT_NONE,
+      .clkout_divider = 0,
+  };
+  can_timing_config_t t_config = CAN_TIMING_CONFIG_250KBITS();
+  can_filter_config_t f_config = CAN_FILTER_CONFIG_ACCEPT_ALL();
+
+  // Install CAN driver
+  if (can_driver_install(&g_config, &t_config, &f_config) == ESP_OK) {
+    printf("Driver installed\n");
+  } else {
+    printf("Failed to install driver\n");
+    return;
+  }
+
+  // Start CAN driver
+  if (can_start() == ESP_OK) {
+    printf("Driver started\n");
+  } else {
+    printf("Failed to start driver\n");
+    return;
+  }
+#endif
+
   // start the CAN bus at 250 kbps
+#if (CAN_DRIVER_SJA1000 == STD_ON)
   if (!CAN.begin(250E3)) {
     Serial.println("Starting CAN failed!");
     // Go into an endless loop if this failed.
@@ -23,6 +67,7 @@ void setup() {
     while (1)
       ;
   }
+#endif
 
   RR32Can::RR32Can.begin(RR32CanUUID);
 
@@ -42,59 +87,128 @@ void loop() {
 
   TurnoutControl::loop();
 }
+#if (CAN_DRIVER_ESP32IDF == STD_ON)
+#define IS_EXTENDED (message.flags && CAN_MSG_FLAG_EXTD)
+#define IS_RTR (message.flags && CAN_MSG_FLAG_RTR)
+#endif
+#if (CAN_DRIVER_SJA1000 == STD_ON)
+#define IS_EXTENDED (CAN.packetExtended())
+#define IS_RTR (CAN.packetRtr())
+#endif
 
 void CanInputLoop(void) {
-  // Process CAN Frames
-  int packetSize = CAN.parsePacket();
-
-  if (packetSize > 0) {
-    long packetId = CAN.packetId(); /* long is 32 bit */
-
-#if (LOG_CAN_IN_MSG == STD_ON)
-    Serial.print(F("Received frame ("));
-    if (CAN.packetExtended()) {
-      if (CAN.packetRtr()) {
-        Serial.print(F("extended, remote)."));
-      } else {
-        Serial.print(F("extended, data).  "));
-      }
-    } else {
-      if (CAN.packetRtr()) {
-        Serial.print(F("regular,  remote). "));
-      } else {
-        Serial.print(F("regular,  data).   "));
-      }
-    }
-    Serial.print(F(" ID 0x"));
-    Serial.print(packetId, HEX);
-
-    Serial.print(" Length: ");
-    if (CAN.packetRtr()) {
-      Serial.print(CAN.packetDlc());
-    } else {
-      Serial.print(packetSize);
-    }
-
-    Serial.print("Data Bytes (HEX): ");
-#endif
-
-    // Read the data bytes into a local buffer.
-    // Maerklin does not use remote frames, so we don't care about them.
-    RR32Can::Data maerklinData;
-    maerklinData.dlc = packetSize;
-    for (int i = 0; i < maerklinData.dlc && CAN.available(); ++i) {
-      maerklinData.data[i] = (char)CAN.read();
-#if (LOG_CAN_IN_MSG == STD_ON)
-      Serial.print(" ");
-      Serial.print(maerklinData.data[i], HEX);
-#endif
-    }
-#if (LOG_CAN_IN_MSG == STD_ON)
-    Serial.println();
-#endif
-
-    RR32Can::Identifier maerklinIdentifier =
-        RR32Can::Identifier::GetIdentifier(packetId);
-    RR32Can::RR32Can.HandlePacket(maerklinIdentifier, maerklinData);
+// Check for new message
+#if (CAN_DRIVER_ESP32IDF == STD_ON)
+  can_status_info_t status_info;
+  if (can_get_status_info(&status_info) != ESP_OK) {
+    printf("Failed to fetch status info\n");
+    return;
+  } else if (status_info.msgs_to_rx > 0) {
+    printf("RMC: %i, Missed: %i, ", status_info.msgs_to_rx,
+           status_info.rx_missed_count);
+  } else {
+    // nohting to do
+    return;
   }
+#endif
+
+#if (CAN_DRIVER_SJA1000 == STD_ON)
+  // Process CAN Frames
+  if (CAN.getRmc() > 0) {
+    Serial.print("RMC: ");
+    Serial.print(CAN.getRmc(), DEC);
+    Serial.print(", ");
+  } else {
+    return;
+  }
+#endif
+
+  // Messages present, receive
+
+#if (CAN_DRIVER_ESP32IDF == STD_ON)
+  can_message_t message;
+  memset(message.data, 0, CAN_MAX_DATA_LEN);
+  if (can_receive(&message, pdMS_TO_TICKS(10000)) == ESP_OK) {
+    printf("Message received\n");
+  } else {
+    printf("Failed to receive message\n");
+    return;
+  }
+#endif
+
+#if (CAN_DRIVER_SJA1000 == STD_ON)
+  int packetSize = CAN.parsePacket();
+  long packetId = CAN.packetId(); /* long is 32 bit */
+#endif
+
+#if (LOG_CAN_IN_MSG == STD_ON)
+  Serial.print(F("Received frame ("));
+  if (IS_EXTENDED) {
+    if (IS_RTR) {
+      Serial.print(F("extended, remote)."));
+    } else {
+      Serial.print(F("extended, data).  "));
+    }
+  } else {
+    if (IS_RTR) {
+      Serial.print(F("regular,  remote). "));
+    } else {
+      Serial.print(F("regular,  data).   "));
+    }
+  }
+
+  Serial.print(F(" ID 0x"));
+#if (CAN_DRIVER_SJA1000 == STD_ON)
+  Serial.print(packetId, HEX);
+#endif
+#if (CAN_DRIVER_ESP32IDF == STD_ON)
+  Serial.print(message.identifier, HEX);
+#endif
+
+  Serial.print(" Length: ");
+#if (CAN_DRIVER_SJA1000 == STD_ON)
+  if (CAN.packetRtr()) {
+    Serial.print(CAN.packetDlc());
+  } else {
+    Serial.print(packetSize);
+  }
+#endif
+#if (CAN_DRIVER_ESP32IDF == STD_ON)
+  Serial.print(message.data_length_code);
+#endif
+
+  Serial.print(". Data Bytes (HEX):");
+#if (CAN_DRIVER_SJA1000 == STD_ON)
+  uint8_t* buf = CAN.getRxBuf();
+#endif
+
+#if (CAN_DRIVER_ESP32IDF == STD_ON)
+  uint8_t* buf = message.data;
+#endif
+  for (uint8_t i = 0; i < 8; ++i) {
+    Serial.print(" ");
+    Serial.print(buf[i], HEX);
+  }
+  Serial.println();
+#endif
+
+  // Read the data bytes into a local buffer.
+  // Maerklin does not use remote frames, so we don't care about them.
+  RR32Can::Data maerklinData;
+  maerklinData.reset();
+#if (CAN_DRIVER_SJA1000 == STD_ON)
+  maerklinData.dlc = packetSize;
+  CAN.readBytes(maerklinData.data, 8);
+  RR32Can::Identifier maerklinIdentifier =
+      RR32Can::Identifier::GetIdentifier(packetId);
+#endif
+
+#if (CAN_DRIVER_ESP32IDF == STD_ON)
+  maerklinData.dlc = message.data_length_code;
+  memcpy(maerklinData.data, message.data, message.data_length_code);
+  RR32Can::Identifier maerklinIdentifier =
+      RR32Can::Identifier::GetIdentifier(message.identifier);
+#endif
+
+  RR32Can::RR32Can.HandlePacket(maerklinIdentifier, maerklinData);
 }
