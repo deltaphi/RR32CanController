@@ -91,11 +91,11 @@ class BufferManager {
 
   /*
    * \brief Add a single character to the end of the buffer.
-   * 
+   *
    * If the buffer is full, it remains unmodified.
-   * 
+   *
    * \return The number of characters added to the buffer.
-   */ 
+   */
   size_type push_back(const char c) {
     if (currentBufferLength < maxBufferLength) {
       buffer[currentBufferLength] = c;
