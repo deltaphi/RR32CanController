@@ -1,9 +1,11 @@
 # RR32CanSwitchboard
-Sketch for a Switchboard talking the Maerklin CAN protocol based on the ESP32 NodeMCU-Board
+Sketch for a Switchboard talking the Maerklin CAN protocol based on the ESP32 NodeMCU-Board.
 
 ## Software
 
 This project is built using PlatformIO. It makes use of some features that may not be easily portable to other Arduino-supported MCUs.
+
+Note that the CAN driver from the lib directory *must not* be present when you want to compile using the ESP32-IDF driver. Otherwise, the Controller will just attempt to sit there without sending queued messages or receiving any messages transmitted on the bus.
 
 ### Menuing
 
