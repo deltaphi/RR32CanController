@@ -90,6 +90,23 @@ class BufferManager {
   size_type push_back(const BufferManager& otherBuffer);
 
   /*
+   * \brief Add a single character to the end of the buffer.
+   * 
+   * If the buffer is full, it remains unmodified.
+   * 
+   * \return The number of characters added to the buffer.
+   */ 
+  size_type push_back(const char c) {
+    if (currentBufferLength < maxBufferLength) {
+      buffer[currentBufferLength] = c;
+      ++currentBufferLength;
+      return 1;
+    } else {
+      return 0;
+    }
+  }
+
+  /*
    * \brief Set the buffer to a given string value.
    *
    * Note that the BufferManager will refuse to set the last byte using this
