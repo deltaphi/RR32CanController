@@ -1,5 +1,3 @@
-#include <CAN.h>
-
 #include "TurnoutControl/TurnoutControl.h"
 
 #include "RR32Can/Constants.h"

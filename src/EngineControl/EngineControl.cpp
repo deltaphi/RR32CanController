@@ -1,5 +1,4 @@
 #include <Arduino.h>
-#include <CAN.h>
 
 #include "DebouncedDualKey.h"
 #include "EngineControl/DisplayManager.h"
