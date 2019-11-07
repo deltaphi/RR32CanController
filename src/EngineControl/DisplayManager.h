@@ -33,6 +33,8 @@ class DisplayManager {
     return buffer[lineNumber % DISPLAY_LINES];
   }
 
+  void updateBuffer(const char* data, uint8_t dataLen, uint8_t lineNumber);
+
   void loop();
 
   void enableCursor() {
@@ -62,10 +64,12 @@ class DisplayManager {
    * \brief Set the current speed value to be displayed. Value is mapped to
    * 0..100 range.
    */
-  void setSpeedValue(uint8_t speed) {
-    uint8_t newSpeed = map(speed, 0, 127, 0, 100);
-    if (newSpeed != this->speed) {
-      this->speed = newSpeed;
+  void setSpeedValue(RR32Can::Velocity_t speed) {
+    if (speed > 1000) {
+      speed = 1000;
+    }
+    if (speed != this->speed) {
+      this->speed = speed;
       updateRequired = true;
     }
   }

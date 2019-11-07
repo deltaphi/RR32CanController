@@ -144,6 +144,20 @@ void DisplayManager::loop() {
   }
 }
 
+void DisplayManager::updateBuffer(const char* data, uint8_t dataLen,
+                                  uint8_t lineNumber) {
+  char* buffer = getWritableBuffer(lineNumber);
+
+  if (dataLen > STRING_DATATYPE_LENGTH) {
+    dataLen = STRING_DATATYPE_LENGTH;
+  }
+
+  if (strncmp(buffer, data, dataLen) != 0) {
+    strncpy(buffer, data, dataLen);
+    updateRequired = true;
+  }  // else: No update needed
+}
+
 } /* namespace EngineControl */
 
 #endif

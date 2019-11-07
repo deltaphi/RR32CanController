@@ -10,7 +10,9 @@ const char* EngineControl::kFilenameEngine = "lokinfo";
 const char* EngineControl::kFilenameEngineResult = "lokomotive";
 const char* EngineControl::kEngineKeyUid = "uid";
 const char* EngineControl::kEngineKeyVelocity = "velocity";
-const char* EngineControl::kEngineKeyDirection = "direction";
+const char* EngineControl::kEngineKeyDirection = "richtung";
+const char* EngineControl::kEngineKeyProtocol = "typ";
+const char* EngineControl::kEngineKeyAddress = "adresse";
 
 const char* EngineControl::kNoEngineSelected = "- No Engine -";
 
@@ -29,23 +31,37 @@ void EngineControl::consumeConfigData(BufferManager& section,
 
   if (strncmp(kFilenameEngineResult, section.data(), section.length()) == 0) {
     /* It is a lokomotive */
-    if (strncmp(kEngineKeyUid, section.data(), section.length()) == 0) {
+    if (strncmp(kEngineKeyUid, key.data(), key.length()) == 0) {
       // UID
       currentEngine.setUid(strtoul(value.data(), NULL, 16));
-      // Serial.print("Setting UID: ");
-      // Serial.println(currentEngine.getUid());
-    } else if (strncmp(kEngineKeyVelocity, section.data(), section.length()) ==
-               0) {
+#if (LOG_CONFIG_DATA_STREAM_LEVEL >= LOG_CONFIG_DATA_STREAM_LEVEL_EVENTS)
+      printf("Setting UID\n");
+#endif
+
+    } else if (strncmp(kEngineKeyVelocity, key.data(), key.length()) == 0) {
       // Velocity
-      currentEngine.setVelocity(atoi(value.data()));
-      // Serial.print("Setting Velocity: ");
-      // Serial.println(currentEngine.getVelocity());
-    } else if (strncmp(kEngineKeyDirection, section.data(), section.length()) ==
-               0) {
+      currentEngine.setVelocity(strtoul(value.data(), NULL, 10));
+#if (LOG_CONFIG_DATA_STREAM_LEVEL >= LOG_CONFIG_DATA_STREAM_LEVEL_EVENTS)
+      printf("Setting Velocity\n");
+#endif
+    } else if (strncmp(kEngineKeyDirection, key.data(), key.length()) == 0) {
       // Direction
-      currentEngine.setDirection(static_cast<RR32Can::EngineDirection>(
-          atoi(value.data())));  // TODO: Unknown if this is correct.
-    }                            /* else: Unused data item. */
+      currentEngine.setDirection(static_cast<RR32Can::EngineDirection>(strtoul(
+          value.data(), NULL, 10)));  // TODO: Unknown if this is correct.
+#if (LOG_CONFIG_DATA_STREAM_LEVEL >= LOG_CONFIG_DATA_STREAM_LEVEL_EVENTS)
+      printf("Setting direction\n");
+#endif
+    } else if (strncmp(kEngineKeyProtocol, key.data(), key.length()) == 0) {
+      currentEngine.setProtocolString(value.data());
+#if (LOG_CONFIG_DATA_STREAM_LEVEL >= LOG_CONFIG_DATA_STREAM_LEVEL_EVENTS)
+      printf("Setting protocol\n");
+#endif
+    } else if (strncmp(kEngineKeyAddress, key.data(), key.length()) == 0) {
+      currentEngine.setAddress(strtoul(value.data(), NULL, 16));
+#if (LOG_CONFIG_DATA_STREAM_LEVEL >= LOG_CONFIG_DATA_STREAM_LEVEL_EVENTS)
+      printf("Setting Address\n");
+#endif
+    } /* else: Unused data item. */
   }
 }
 

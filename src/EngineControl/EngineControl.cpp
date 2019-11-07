@@ -107,7 +107,7 @@ void displayModeSelectEngineLoop() {
 void startDisplayModeEngine() {
   displayMode = DisplayMode::ENGINE;
 #if (DISPLAY_ATTACHED == STD_ON)
-  strncpy(displayManager.getWritableBuffer(0), "Encoder:", STRING_CHAR_LENGTH);
+  strncpy(displayManager.getWritableBuffer(0), "...", STRING_CHAR_LENGTH);
 #endif
   displayManager.disableCursor();
   forceEncoderPosition(0);
@@ -115,8 +115,25 @@ void startDisplayModeEngine() {
 
 void displayModeEngineLoop() {
 #if (DISPLAY_ATTACHED == STD_ON)
-  snprintf(displayManager.getWritableBuffer(1), STRING_CHAR_LENGTH, "%d",
-           encoderPosition);
+  RR32Can::EngineControl& engineControl = RR32Can::RR32Can.getEngineControl();
+  RR32Can::Engine& engine = engineControl.getEngine();
+  const char* engineName = engine.getName();
+  displayManager.updateBuffer(engineName, STRING_CHAR_LENGTH, 0);
+  //snprintf(displayManager.getWritableBuffer(0), STRING_CHAR_LENGTH, "%s",
+  //         engineName);
+
+  const char* protocolString = engine.getProtocolString();
+  RR32Can::Engine::Address_t engineAddress = engine.getAddress();
+  char buf[STRING_DATATYPE_LENGTH];
+
+  snprintf(buf, STRING_CHAR_LENGTH, "%s %i",
+           protocolString, engineAddress);
+
+  displayManager.updateBuffer(buf, STRING_CHAR_LENGTH, 1);
+
+  displayManager.setDirection(engine.getDirection());
+  displayManager.setSpeedValue(engine.getVelocity());
+  displayManager.setFunctionBits(engine.getFunctionBits());
 #endif
 }
 
@@ -163,15 +180,16 @@ void loopEncoder() {
           startDisplayModeEngine();
         }
       } else {
+        RR32Can::EngineControl& control = RR32Can::RR32Can.getEngineControl();
+        RR32Can::Engine& engine = control.getEngine();
         // Shift was not pressed - probably reverse direction?
         if (displayMode == DisplayMode::ENGINE) {
           // TODO
-          Serial.println("not implemented");
+          // Serial.println("not implemented");
+          // engine.reverseDirection();
         } else {
           // Commit the selected engine
           Serial.print("ENGINE_CONTROL (Commit).");
-          RR32Can::EngineControl& control = RR32Can::RR32Can.getEngineControl();
-          RR32Can::Engine& engine = control.getEngine();
           RR32Can::EngineBrowser& browser = RR32Can::RR32Can.getEngineBrowser();
           uint8_t engineIndex = newEncoderPosition - browser.getStreamOffset();
           const RR32Can::EngineBrowser::EngineInfoSet& infoSet =

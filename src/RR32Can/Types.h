@@ -28,6 +28,9 @@ enum class ConfigDataStreamType {
   LDBVER
 };
 
+/// Data type to carry engine velocities. Range: 1..1000
+using Velocity_t = uint16_t;
+
 }  // namespace RR32Can
 
 #endif  // __RR32CAN__TYPES_H__

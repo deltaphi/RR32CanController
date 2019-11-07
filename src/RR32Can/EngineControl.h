@@ -60,6 +60,8 @@ class EngineControl : public RR32Can::ConfigDataConsumer {
   static const char* kEngineKeyUid;
   static const char* kEngineKeyVelocity;
   static const char* kEngineKeyDirection;
+  static const char* kEngineKeyProtocol;
+  static const char* kEngineKeyAddress;
 };
 
 }  // namespace RR32Can

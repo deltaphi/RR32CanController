@@ -1,6 +1,7 @@
 #ifndef __RR32CAN__ENGINE_H__
 #define __RR32CAN__ENGINE_H__
 
+#include <array>
 #include <cstring>
 
 #include "RR32Can/Constants.h"
@@ -71,11 +72,21 @@ class Engine : public EngineShortInfo {
  public:
   using EngineShortInfo::EngineShortInfo;
 
-  using Uid_t = uint16_t;  /// 64 bits?
-  using Velocity_t = uint16_t;
+  using Uid_t = uint32_t;
+  // Velocities have a range of 0..1000 (..1023).
+  using Velocity_t = RR32Can::Velocity_t;
+  using Address_t = uint32_t;
+  using FunctionBits_t = uint16_t;
+  using ProtocolName_t = std::array<char, 8>;
 
   void reset() {
     // Remove all data of this class
+    uid = 0;
+    velocity = 0;
+    direction = RR32Can::EngineDirection::UNKNOWN;
+    address = 0;
+    functionBits = 0;
+    memset(protocol.data(), 0, protocol.size());
   }
 
   bool isFullDetailsKnown() const {
@@ -84,19 +95,37 @@ class Engine : public EngineShortInfo {
 
   void setUid(Uid_t uid) { this->uid = uid; }
   Uid_t getUid() const { return uid; }
+
   void setVelocity(Velocity_t velocity) { this->velocity = velocity; }
-  Velocity_t getVelocity() { return velocity; }
+  Velocity_t getVelocity() const { return velocity; }
+
   void setDirection(RR32Can::EngineDirection direction) {
     this->direction = direction;
   }
+  RR32Can::EngineDirection getDirection() const { return direction; }
+
+  void setAddress(Address_t address) { this->address = address; }
+  Address_t getAddress() const { return address; }
+
+  void setFunctionBits(FunctionBits_t functionBits) {
+    this->functionBits = functionBits;
+  }
+  FunctionBits_t getFunctionBits() const { return functionBits; }
 
   void print() const override;
+
+  void setProtocolString(const char* protocolString) {
+    strncpy(protocol.data(), protocolString, protocol.size());
+  }
+  const char* getProtocolString() const { return protocol.data(); }
 
  protected:
   Uid_t uid;
   Velocity_t velocity;
   RR32Can::EngineDirection direction;
-  uint8_t functionBits;
+  Address_t address;
+  FunctionBits_t functionBits;
+  ProtocolName_t protocol;
 };
 
 }  // namespace RR32Can

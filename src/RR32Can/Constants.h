@@ -79,6 +79,37 @@ constexpr const uint8_t kEngineBrowserEntries = kNumEngineNamesDownload;
 static_assert(kEngineBrowserEntries >= kNumEngineNamesDownload,
               "Cannot store all downloaded Engine enries");
 
+// Address ranges for engine protocols
+
+extern const char* kProtocolNameMM1;
+extern const char* kProtocolNameMM2;
+extern const char* kProtocolNameMFX;
+extern const char* kProtocolNameSX1;
+extern const char* kProtocolNameSX2;
+extern const char* kProtocolNameDCC;
+extern const char* kProtocolNameUnknown;
+
+constexpr uint16_t kMMEngineFunctionAddrStart = 0x0000;
+constexpr uint16_t kMMEngineFunctionAddrStop = 0x03FF;
+
+constexpr uint16_t kSX1AddrStart = 0x0800;
+constexpr uint16_t kSX1AddrStop = 0x0BFF;
+
+constexpr uint16_t kMMFunctionAddrStart = 0x1000;
+constexpr uint16_t kMMFunctionAddrStop = 0x13FF;
+
+constexpr uint16_t kMMEngineAddrStart = 0x2000;
+constexpr uint16_t kMMEngineAddrStop = 0x23FF;
+
+constexpr uint16_t kMFXAddrStart = 0x4000;
+constexpr uint16_t kMFXAddrStop = 0x7FFF;
+
+constexpr uint16_t kSX2AddrStart = 0x8000;
+constexpr uint16_t kSX2AddrStop = 0xBFFF;
+
+constexpr uint16_t kDCCAddrStart = 0xC000;
+constexpr uint16_t kDCCAddrStop = 0xFFFF;
+
 } /* namespace RR32Can */
 
 #endif
