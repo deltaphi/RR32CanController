@@ -108,7 +108,7 @@ class DisplayManager {
   static const uint8_t voffset[];
   static const uint8_t baselineOffset[];
 
-  uint8_t speed;
+  RR32Can::Velocity_t speed;
   uint8_t functionBits;
   RR32Can::EngineDirection direction;
 

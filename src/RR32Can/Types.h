@@ -9,7 +9,15 @@ namespace RR32Can {
 enum class TurnoutDirection : uint8_t { RED = 0, GREEN = 1 };
 
 /// Engine Direction
-enum class EngineDirection { UNCHANGED = 0, FORWARD = 1, REVERSE = 2, CHANGE_DIRECTION = 3, UNKNOWN = 4 };
+enum class EngineDirection {
+  UNCHANGED = 0,
+  FORWARD = 1,
+  REVERSE = 2,
+  CHANGE_DIRECTION = 3,
+  UNKNOWN = 4
+};
+
+EngineDirection switchDirection(EngineDirection);
 
 /// State of the overall System
 enum class SystemState { UNKNOWN = 0, ON, OFF };
@@ -29,7 +37,10 @@ enum class ConfigDataStreamType {
 };
 
 /// Data type to carry engine velocities. Range: 1..1000
+using Uid_t = uint32_t;
 using Velocity_t = uint16_t;
+using EngineAddress_t = uint32_t;
+using FunctionBits_t = uint16_t;
 
 }  // namespace RR32Can
 

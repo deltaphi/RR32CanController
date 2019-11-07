@@ -44,6 +44,57 @@ void Station::HandleConfigDataStream(const RR32Can::Data& data) {
   }
 }
 
+void Station::HandleSystemCommand(const RR32Can::Data& data) {
+  Serial.print(F("System Command "));
+  if (data.dlc >= 5) {
+    Serial.print(" Subcommand: ");
+    switch (data.data[4]) {
+      case RR32Can::kSubcommandSystemGo:
+        Serial.print(F("GO!"));
+        // MaerklinSystem.systemOn = true; // TODO: Bring back the System
+        // class
+        break;
+      case RR32Can::kSubcommandSystemHalt:
+        Serial.print(F("Halt!"));
+        break;
+      case RR32Can::kSubcommandSystemStop:
+        Serial.print(F("STOP!"));
+        // MaerklinSystem.systemOn = false; // TODO: Bring back the System
+        // class
+        break;
+      case kSubcommandLocoEmergencyStop: {
+        Engine* engine = getLocoForData(data);
+        if (engine != nullptr) {
+          engine->setVelocity(0);
+        }
+      } break;
+      case RR32Can::kSubcommandSystemIdentifier:
+        Serial.print(F("Identifier"));
+        break;
+      case RR32Can::kSubcommandSystemOverload:
+        Serial.print(F("OVERLOAD!"));
+        break;
+      case RR32Can::kSubcommandSystemReset:
+        Serial.print(F("Reset"));
+        // MaerklinSystem.systemOn = false; // TODO: Bring back the System
+        // class
+        break;
+      case RR32Can::kSubcommandSystemStatus:
+        Serial.print(F("Status"));
+        break;
+
+      default:
+        Serial.print(F("unknown"));
+        break;
+    }
+    Serial.println();
+
+  } else {
+    // Not a valid command.
+    Serial.println();
+  }
+}
+
 void Station::RequestEngineList(uint8_t offset) {
   AbortCurrentConfigRequest();
 
@@ -146,11 +197,11 @@ void Station::SendEngineDirection(Engine& engine, EngineDirection direction) {
   uidToData(data.data, engine.getUid());
 
   if ((direction == EngineDirection::FORWARD) ||
-      (direction == EngineDirection::REVERSE) || 
+      (direction == EngineDirection::REVERSE) ||
       (direction == EngineDirection::CHANGE_DIRECTION)) {
     data.data[4] = static_cast<uint8_t>(direction);
     SendPacket(identifier, data);
-  } // else: not implemented.
+  }  // else: not implemented.
 }
 
 void Station::RequestEngineVelocity(Engine& engine) {
@@ -174,6 +225,15 @@ void Station::SendEngineVelocity(Engine& engine, Engine::Velocity_t velocity) {
   data.data[4] = velocity >> 8;
   data.data[5] = velocity;
 
+  SendPacket(identifier, data);
+}
+
+void Station::SendEmergencyStop(Engine& engine) {
+  RR32Can::Identifier identifier{kSystemCommand, this->senderHash};
+  RR32Can::Data data;
+  data.dlc = 5;
+  uidToData(data.data, engine.getUid());
+  data.data[4] = kSubcommandLocoEmergencyStop;
   SendPacket(identifier, data);
 }
 
@@ -213,40 +273,7 @@ void Station::HandlePacket(const RR32Can::Identifier& id,
 
   switch (id.command) {
     case RR32Can::kSystemCommand:
-      Serial.print(F("System Command. Subcommand: "));
-      switch (data.data[4]) {
-        case RR32Can::kSubcommandSystemGo:
-          Serial.print(F("GO!"));
-          // MaerklinSystem.systemOn = true; // TODO: Bring back the System
-          // class
-          break;
-        case RR32Can::kSubcommandSystemHalt:
-          Serial.print(F("Halt!"));
-          break;
-        case RR32Can::kSubcommandSystemStop:
-          Serial.print(F("STOP!"));
-          // MaerklinSystem.systemOn = false; // TODO: Bring back the System
-          // class
-          break;
-        case RR32Can::kSubcommandSystemIdentifier:
-          Serial.print(F("Identifier"));
-          break;
-        case RR32Can::kSubcommandSystemOverload:
-          Serial.print(F("OVERLOAD!"));
-          break;
-        case RR32Can::kSubcommandSystemReset:
-          Serial.print(F("Reset"));
-          // MaerklinSystem.systemOn = false; // TODO: Bring back the System
-          // class
-          break;
-        case RR32Can::kSubcommandSystemStatus:
-          Serial.print(F("Status"));
-          break;
-        default:
-          Serial.print(F("unknown"));
-          break;
-      }
-      Serial.println();
+      this->HandleSystemCommand(data);
       break;
 
     case RR32Can::kPing:

@@ -72,11 +72,11 @@ class Engine : public EngineShortInfo {
  public:
   using EngineShortInfo::EngineShortInfo;
 
-  using Uid_t = uint32_t;
+  using Uid_t = RR32Can::Uid_t;
   // Velocities have a range of 0..1000 (..1023).
   using Velocity_t = RR32Can::Velocity_t;
-  using Address_t = uint32_t;
-  using FunctionBits_t = uint16_t;
+  using Address_t = RR32Can::EngineAddress_t;
+  using FunctionBits_t = RR32Can::FunctionBits_t;
   using ProtocolName_t = std::array<char, 8>;
 
   void reset() {

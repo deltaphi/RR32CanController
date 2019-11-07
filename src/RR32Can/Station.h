@@ -37,6 +37,8 @@ class Station {
 
   void HandleConfigDataStream(const RR32Can::Data& data);
 
+  void HandleSystemCommand(const RR32Can::Data& data);
+
   /**
    * \brief Construct a Accessory command packet and send via CAN
    */
@@ -61,6 +63,7 @@ class Station {
   void SendEngineDirection(Engine& engine, EngineDirection direction);
   void RequestEngineVelocity(Engine& engine);
   void SendEngineVelocity(Engine& engine, Engine::Velocity_t velocity);
+  void SendEmergencyStop(Engine& engine);
 
   void HandleLocoDirection(const RR32Can::Data& data);
   void HandleLocoSpeed(const RR32Can::Data& data);

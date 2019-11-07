@@ -119,15 +119,12 @@ void displayModeEngineLoop() {
   RR32Can::Engine& engine = engineControl.getEngine();
   const char* engineName = engine.getName();
   displayManager.updateBuffer(engineName, STRING_CHAR_LENGTH, 0);
-  //snprintf(displayManager.getWritableBuffer(0), STRING_CHAR_LENGTH, "%s",
-  //         engineName);
 
   const char* protocolString = engine.getProtocolString();
   RR32Can::Engine::Address_t engineAddress = engine.getAddress();
   char buf[STRING_DATATYPE_LENGTH];
 
-  snprintf(buf, STRING_CHAR_LENGTH, "%s %i",
-           protocolString, engineAddress);
+  snprintf(buf, STRING_CHAR_LENGTH, "%s %i", protocolString, engineAddress);
 
   displayManager.updateBuffer(buf, STRING_CHAR_LENGTH, 1);
 
@@ -184,9 +181,13 @@ void loopEncoder() {
         RR32Can::Engine& engine = control.getEngine();
         // Shift was not pressed - probably reverse direction?
         if (displayMode == DisplayMode::ENGINE) {
-          // TODO
-          // Serial.println("not implemented");
-          // engine.reverseDirection();
+          if (engine.isFullDetailsKnown()) {
+            // Send emergency stop for engine
+            RR32Can::RR32Can.SendEmergencyStop(engine);
+            // Send direction reverse for engine
+            RR32Can::RR32Can.SendEngineDirection(
+                engine, switchDirection(engine.getDirection()));
+          }
         } else {
           // Commit the selected engine
           Serial.print("ENGINE_CONTROL (Commit).");

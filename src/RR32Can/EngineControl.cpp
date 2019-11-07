@@ -79,7 +79,6 @@ void EngineControl::setStreamComplete() {
 
   // Request speed from master
   RR32Can.RequestEngineVelocity(currentEngine);
-
 }
 
 void EngineControl::setStreamAborted(){};
