@@ -4,6 +4,8 @@
 
 #include "config.h"
 
+#include "RR32Can/RR32Can.h"
+
 namespace RR32Can {
 
 const char* EngineControl::kFilenameEngine = "lokinfo";
@@ -67,10 +69,17 @@ void EngineControl::consumeConfigData(BufferManager& section,
 
 void EngineControl::setStreamComplete() {
   currentEngine.availability = Engine::AvailabilityStatus::FULL_DETAILS;
-  // TBD: Update Display
+
   Serial.print("Downloaded Engine: ");
   currentEngine.print();
   Serial.println();
+
+  // Request direction from master
+  RR32Can.RequestEngineDirection(currentEngine);
+
+  // Request speed from master
+  RR32Can.RequestEngineVelocity(currentEngine);
+
 }
 
 void EngineControl::setStreamAborted(){};

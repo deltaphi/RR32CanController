@@ -57,6 +57,13 @@ class Station {
    */
   void RequestEngine(Engine& engine);
   void RequestEngineList(uint8_t offset);
+  void RequestEngineDirection(Engine& engine);
+  void SendEngineDirection(Engine& engine, EngineDirection direction);
+  void RequestEngineVelocity(Engine& engine);
+  void SendEngineVelocity(Engine& engine, Engine::Velocity_t velocity);
+
+  void HandleLocoDirection(const RR32Can::Data& data);
+  void HandleLocoSpeed(const RR32Can::Data& data);
 
   EngineBrowser& getEngineBrowser() { return engineBrowser; }
   EngineControl& getEngineControl() { return engineControl; }
@@ -68,6 +75,8 @@ class Station {
   }
 
  private:
+  Engine* getLocoForData(const RR32Can::Data& data);
+
   /* Initialization & Infrastructure */
   uint16_t senderHash;
 

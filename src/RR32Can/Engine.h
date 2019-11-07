@@ -96,6 +96,9 @@ class Engine : public EngineShortInfo {
   void setUid(Uid_t uid) { this->uid = uid; }
   Uid_t getUid() const { return uid; }
 
+  /// Get the UID with only the two low bytes set.
+  Uid_t getUidMasked() const { return uid & 0xFFFF; }
+
   void setVelocity(Velocity_t velocity) { this->velocity = velocity; }
   Velocity_t getVelocity() const { return velocity; }
 
@@ -103,6 +106,13 @@ class Engine : public EngineShortInfo {
     this->direction = direction;
   }
   RR32Can::EngineDirection getDirection() const { return direction; }
+  void changeDirection() {
+    if (direction == EngineDirection::FORWARD) {
+      direction = EngineDirection::REVERSE;
+    } else if (direction == EngineDirection::REVERSE) {
+      direction = EngineDirection::FORWARD;
+    }
+  }
 
   void setAddress(Address_t address) { this->address = address; }
   Address_t getAddress() const { return address; }

@@ -137,8 +137,9 @@ void DisplayManager::loop() {
     constexpr const uint8_t progressBarOffset =
         ((3 * (SYMBOL_FONT_PTR[0])) / 2);
     constexpr const uint8_t progressBarWidth = (128 - (2 * progressBarOffset));
+    uint8_t drawnSpeed = map(speed, 0, 1000, 0, progressBarWidth);
     display.drawProgressBar(progressBarOffset, voffset[3] + 2, progressBarWidth,
-                            6, speed);
+                            6, drawnSpeed);
 
     display.display();
   }

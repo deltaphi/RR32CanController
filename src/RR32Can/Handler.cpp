@@ -30,7 +30,9 @@ void SendPacket(const RR32Can::Identifier& id, const RR32Can::Data& data) {
   message.data_length_code = data.dlc;
   memcpy(message.data, data.data, message.data_length_code);
   if (can_transmit(&message, pdMS_TO_TICKS(1000)) == ESP_OK) {
+#if (LOG_CAN_OUT_MSG == STD_ON)
     printf("Message queued for transmission\n");
+#endif
   } else {
     printf("Failed to queue message for transmission\n");
   }

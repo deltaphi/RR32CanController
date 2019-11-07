@@ -9,7 +9,7 @@ namespace RR32Can {
 enum class TurnoutDirection : uint8_t { RED = 0, GREEN = 1 };
 
 /// Engine Direction
-enum class EngineDirection { FORWARD = 0, REVERSE = 1, UNKNOWN = 2 };
+enum class EngineDirection { UNCHANGED = 0, FORWARD = 1, REVERSE = 2, CHANGE_DIRECTION = 3, UNKNOWN = 4 };
 
 /// State of the overall System
 enum class SystemState { UNKNOWN = 0, ON, OFF };

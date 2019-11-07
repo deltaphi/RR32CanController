@@ -123,6 +123,60 @@ void Station::RequestEngine(Engine& engine) {
   SendPacket(id, data);
 }
 
+void uidToData(uint8_t* ptr, Engine::Uid_t uid) {
+  ptr[0] = static_cast<uint8_t>(uid >> 24);
+  ptr[1] = static_cast<uint8_t>(uid >> 16);
+  ptr[2] = static_cast<uint8_t>(uid >> 8);
+  ptr[3] = static_cast<uint8_t>(uid);
+}
+
+void Station::RequestEngineDirection(Engine& engine) {
+  RR32Can::Identifier identifier{kLocoDirection, this->senderHash};
+  RR32Can::Data data;
+  data.dlc = 4;
+  uidToData(data.data, engine.getUid());
+
+  SendPacket(identifier, data);
+}
+
+void Station::SendEngineDirection(Engine& engine, EngineDirection direction) {
+  RR32Can::Identifier identifier{kLocoDirection, this->senderHash};
+  RR32Can::Data data;
+  data.dlc = 5;
+  uidToData(data.data, engine.getUid());
+
+  if ((direction == EngineDirection::FORWARD) ||
+      (direction == EngineDirection::REVERSE) || 
+      (direction == EngineDirection::CHANGE_DIRECTION)) {
+    data.data[4] = static_cast<uint8_t>(direction);
+    SendPacket(identifier, data);
+  } // else: not implemented.
+}
+
+void Station::RequestEngineVelocity(Engine& engine) {
+  RR32Can::Identifier identifier{kLocoSpeed, this->senderHash};
+  RR32Can::Data data;
+  data.dlc = 4;
+  uidToData(data.data, engine.getUid());
+
+  SendPacket(identifier, data);
+}
+
+void Station::SendEngineVelocity(Engine& engine, Engine::Velocity_t velocity) {
+  RR32Can::Identifier identifier{kLocoSpeed, this->senderHash};
+  RR32Can::Data data;
+  data.dlc = 6;
+  uidToData(data.data, engine.getUid());
+
+  if (velocity > 1000) {
+    velocity = 1000;
+  }
+  data.data[4] = velocity >> 8;
+  data.data[5] = velocity;
+
+  SendPacket(identifier, data);
+}
+
 void Station::SendAccessoryPacket(uint32_t turnoutAddress,
                                   TurnoutDirection direction, uint8_t power) {
   RR32Can::Identifier identifier{kAccessorySwitch, this->senderHash};
@@ -209,6 +263,14 @@ void Station::HandlePacket(const RR32Can::Identifier& id,
       Serial.println();
       break;
 
+    case RR32Can::kLocoDirection:
+      this->HandleLocoDirection(data);
+      break;
+
+    case RR32Can::kLocoSpeed:
+      this->HandleLocoSpeed(data);
+      break;
+
     case RR32Can::kRequestConfigData:
 #if (LOG_CONFIG_DATA_STREAM_LEVEL >= LOG_CONFIG_DATA_STREAM_LEVEL_ALL)
       Serial.print(F("Request Config Data. Payload: "));
@@ -237,6 +299,52 @@ void Station::HandleAccessoryPacket(const RR32Can::Data& data) {
   RR32Can::TurnoutPacket turnoutPacket =
       RR32Can::TurnoutPacket::FromCanPacket(data);
   turnoutPacket.printAll();
+}
+
+Engine::Uid_t uidFromData(const uint8_t* ptr) {
+  return (ptr[0] << 24) | (ptr[1] << 16) | (ptr[2] << 8) | (ptr[3]);
+}
+
+Engine* Station::getLocoForData(const RR32Can::Data& data) {
+  Engine::Uid_t engineUid = uidFromData(data.data);
+  Engine& engine = getEngineControl().getEngine();
+  if (!engine.isFullDetailsKnown()) {
+    return nullptr;
+  }
+  if (engine.getUidMasked() != engineUid) {
+    return nullptr;
+  }
+
+  return &engine;
+}
+
+void Station::HandleLocoDirection(const RR32Can::Data& data) {
+  if (data.dlc == 5) {
+    // response.
+    Engine* engine = getLocoForData(data);
+    if (engine == nullptr) {
+      return;
+    }
+
+    EngineDirection direction = static_cast<EngineDirection>(data.data[4]);
+    if (direction == EngineDirection::FORWARD ||
+        direction == EngineDirection::REVERSE) {
+      engine->setDirection(direction);
+    } else if (direction == EngineDirection::CHANGE_DIRECTION) {
+      engine->changeDirection();
+    }
+  }  // else: requests are ignored.
+}
+
+void Station::HandleLocoSpeed(const RR32Can::Data& data) {
+  if (data.dlc == 6) {
+    Engine* engine = getLocoForData(data);
+    if (engine == nullptr) {
+      return;
+    }
+    Engine::Velocity_t velocity = (data.data[4] << 8) | data.data[5];
+    engine->setVelocity(velocity);
+  }
 }
 
 }  // namespace RR32Can
