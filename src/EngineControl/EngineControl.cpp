@@ -9,7 +9,6 @@
 #include "RR32Can/RR32Can.h"
 #include "RR32Can/Types.h"
 
-
 namespace EngineControl {
 
 #if (DISPLAY_ATTACHED == STD_ON)
@@ -334,7 +333,7 @@ void loopButtons() {
 
   readValue = digitalRead(SHIFT_BUTTON_PIN);
   shiftKey.cycle(readValue);
-  
+
   checkAndPrint(fKeys[0], "F0", F0_BUTTON_PIN);
   checkAndPrint(fKeys[1], "F1", F1_BUTTON_PIN);
   checkAndPrint(fKeys[2], "F2", F2_BUTTON_PIN);

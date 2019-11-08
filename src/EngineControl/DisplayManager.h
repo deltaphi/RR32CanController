@@ -101,13 +101,9 @@ class DisplayManager {
     }
   }
 
-  void setSystem(bool onOff) {
-    systemOn = onOff;
-  }
+  void setSystem(bool onOff) { systemOn = onOff; }
 
-  bool getSystemOn() const {
-    return systemOn;
-  }
+  bool getSystemOn() const { return systemOn; }
 
  private:
   bool cursorEnabled;

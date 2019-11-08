@@ -98,8 +98,7 @@ void DisplayManager::loop() {
     if (!systemOn) {
       display.setFont(ArialMT_Plain_10);
       display.setTextAlignment(TEXT_ALIGN_CENTER);
-      display.drawString(128/2 /* center */,
-                         voffset[0], "-STOP-");
+      display.drawString(128 / 2 /* center */, voffset[0], "-STOP-");
     }
 
     // Draw the function bits

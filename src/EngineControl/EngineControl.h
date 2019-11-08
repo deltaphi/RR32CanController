@@ -7,8 +7,8 @@
 #include "RotaryEncoder.h"
 #endif
 
-#include "config.h"
 #include "RR32Can/Types.h"
+#include "config.h"
 
 #if (DISPLAY_ATTACHED == STD_ON)
 #include "EngineControl/DisplayManager.h"
