@@ -8,6 +8,8 @@
 #include "RR32Can/messages/TurnoutPacket.h"
 #include "RR32Can/util/utils.h"
 
+#include "EngineControl/EngineControl.h"
+
 #include <Arduino.h>
 #include "config.h"
 
@@ -219,8 +221,8 @@ void Station::SendEngineVelocity(Engine& engine, Engine::Velocity_t velocity) {
   data.dlc = 6;
   uidToData(data.data, engine.getUid());
 
-  if (velocity > 1000) {
-    velocity = 1000;
+  if (velocity > kMaxEngineVelocity) {
+    velocity = kMaxEngineVelocity;
   }
   data.data[4] = velocity >> 8;
   data.data[5] = velocity;
@@ -371,6 +373,7 @@ void Station::HandleLocoSpeed(const RR32Can::Data& data) {
     }
     Engine::Velocity_t velocity = (data.data[4] << 8) | data.data[5];
     engine->setVelocity(velocity);
+    ::EngineControl::setEngineVelocity(engine->getVelocity());
   }
 }
 

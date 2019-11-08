@@ -5,6 +5,7 @@
 #include "EngineControl/EngineControl.h"
 #include "config.h"
 
+#include "RR32Can/Types.h"
 #include "RR32Can/Constants.h"
 #include "RR32Can/RR32Can.h"
 
@@ -60,7 +61,7 @@ void begin() {
 #endif
 }
 
-void forceEncoderPosition(uint8_t position) {
+void forceEncoderPosition(RotaryEngoderTick_t position) {
   encoderPosition = position;
   encoder.setPosition(position);
 }
@@ -108,8 +109,8 @@ void startDisplayModeEngine() {
   displayMode = DisplayMode::ENGINE;
 #if (DISPLAY_ATTACHED == STD_ON)
   strncpy(displayManager.getWritableBuffer(0), "...", STRING_CHAR_LENGTH);
-#endif
   displayManager.disableCursor();
+#endif
   forceEncoderPosition(0);
 }
 
@@ -129,7 +130,7 @@ void displayModeEngineLoop() {
   displayManager.updateBuffer(buf, STRING_CHAR_LENGTH, 1);
 
   displayManager.setDirection(engine.getDirection());
-  displayManager.setSpeedValue(engine.getVelocity());
+  displayManager.setSpeedValue(map(engine.getVelocity(), 0, RR32Can::kMaxEngineVelocity, 0, 100));
   displayManager.setFunctionBits(engine.getFunctionBits());
 #endif
 }
@@ -157,7 +158,7 @@ void loop() {
 void loopEncoder() {
   // Read the encoder
   encoder.tick();
-  long newEncoderPosition = encoder.getPosition();
+  RotaryEngoderTick_t newEncoderPosition = encoder.getPosition();
 
   uint8_t readButton = digitalRead(ENCODER_BUTTON_PIN);
   encoderKey.cycle(readButton);
@@ -237,31 +238,27 @@ void loopEncoder() {
         forceEncoderPosition(encoderPosition);
       }
 
-      if (encoderPosition > 127) {
-        encoderPosition = 127;
+      if (encoderPosition > RR32Can::kMaxEngineVelocity) {
+        encoderPosition = RR32Can::kMaxEngineVelocity;
         forceEncoderPosition(encoderPosition);
       }
 
-#if (DISPLAY_ATTACHED == STD_ON)
-      // TBD: Only do this when the name actually changes, i.e., when a new
-      // engine is selected.
-      // strncpy(displayManager.getWritableBuffer(0), control.getEngineName(),
-      // STRING_CHAR_LENGTH);
+      // Update the engine velocity
+      
+      RR32Can::EngineControl& control = RR32Can::RR32Can.getEngineControl();
+      RR32Can::Engine& engine = control.getEngine();
 
-      /* TBD: Download actual engine data.
-      displayManager.setSpeedValue(control.getSpeed());
-      displayManager.setDirection(control.getDirection());
-      */
+      if (engine.isFullDetailsKnown()) {
+        RR32Can::Engine::Velocity_t oldVelocity = engine.getVelocity();
+        if (encoderPosition != oldVelocity) {
+          RR32Can::RR32Can.SendEngineVelocity(engine, encoderPosition);
+        }
+      }
 
-      snprintf(displayManager.getWritableBuffer(1), STRING_CHAR_LENGTH, "%d",
-               encoderPosition);
-#endif
     } else {
       // SELECT_ENGINE. Move the cursor by one. If the cursor goes out of
       // bounds, request new data download.
       RR32Can::EngineBrowser& browser = RR32Can::RR32Can.getEngineBrowser();
-
-      // int cursorPosition = encoderPosition - browser.getStreamOffset();
 
       // TBD: Move state to EngineBrowser instance.
       // TBD: Initialize state when engine browser is opened.
@@ -329,6 +326,20 @@ void loopButtons() {
   checkAndPrint(fKeys[3], "F3", F3_BUTTON_PIN);
   // checkAndPrint(fKeys[4], "F4", F4_BUTTON_PIN);
 }
+
+void setEngineVelocity(RR32Can::Velocity_t velocity) {
+  if (displayMode == DisplayMode::ENGINE) {
+    if (velocity < 0) {
+      velocity = 0;
+    }
+    if (velocity >= RR32Can::kMaxEngineVelocity) {
+      velocity = RR32Can::kMaxEngineVelocity;
+    }
+    forceEncoderPosition(velocity);
+  }
+}
+
+
 #endif
 
 } /* namespace EngineControl */

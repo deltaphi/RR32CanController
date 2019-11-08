@@ -2,6 +2,7 @@
 #define __RR32Can__CONSTANTS_H__
 
 #include <cstdint>
+#include "Types.h"
 
 namespace RR32Can {
 
@@ -109,6 +110,9 @@ constexpr uint16_t kSX2AddrStop = 0xBFFF;
 
 constexpr uint16_t kDCCAddrStart = 0xC000;
 constexpr uint16_t kDCCAddrStop = 0xFFFF;
+
+/// Upper limit for engine speed data
+constexpr Velocity_t kMaxEngineVelocity = 1000;
 
 } /* namespace RR32Can */
 

@@ -8,13 +8,20 @@
 #endif
 
 #include "config.h"
+#include "RR32Can/Types.h"
 
 namespace EngineControl {
 
 #if (ENCODER_ENABLED == STD_ON)
+using RotaryEngoderTick_t = long;
 extern RotaryEncoder encoder;
 void loopEncoder();
 void loopButtons();
+
+/**
+ * \brief set the encoder value when the state is ENGINE
+ */
+void setEngineVelocity(RR32Can::Velocity_t velocity);
 
 enum class DisplayMode { ENGINE, SELECT_ENGINE };
 #endif
