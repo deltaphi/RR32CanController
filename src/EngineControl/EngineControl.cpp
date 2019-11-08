@@ -5,9 +5,10 @@
 #include "EngineControl/EngineControl.h"
 #include "config.h"
 
-#include "RR32Can/Types.h"
 #include "RR32Can/Constants.h"
 #include "RR32Can/RR32Can.h"
+#include "RR32Can/Types.h"
+
 
 namespace EngineControl {
 
@@ -118,20 +119,26 @@ void displayModeEngineLoop() {
 #if (DISPLAY_ATTACHED == STD_ON)
   RR32Can::EngineControl& engineControl = RR32Can::RR32Can.getEngineControl();
   RR32Can::Engine& engine = engineControl.getEngine();
-  const char* engineName = engine.getName();
-  displayManager.updateBuffer(engineName, STRING_CHAR_LENGTH, 0);
+  if (engine.isFullDetailsKnown()) {
+    const char* engineName = engine.getName();
+    displayManager.updateBuffer(engineName, STRING_CHAR_LENGTH, 0);
 
-  const char* protocolString = engine.getProtocolString();
-  RR32Can::Engine::Address_t engineAddress = engine.getAddress();
-  char buf[STRING_DATATYPE_LENGTH];
+    const char* protocolString = engine.getProtocolString();
+    RR32Can::Engine::Address_t engineAddress = engine.getAddress();
+    char buf[STRING_DATATYPE_LENGTH];
 
-  snprintf(buf, STRING_CHAR_LENGTH, "%s %i", protocolString, engineAddress);
+    snprintf(buf, STRING_CHAR_LENGTH, "%s %i", protocolString, engineAddress);
 
-  displayManager.updateBuffer(buf, STRING_CHAR_LENGTH, 1);
+    displayManager.updateBuffer(buf, STRING_CHAR_LENGTH, 1);
 
-  displayManager.setDirection(engine.getDirection());
-  displayManager.setSpeedValue(map(engine.getVelocity(), 0, RR32Can::kMaxEngineVelocity, 0, 100));
-  displayManager.setFunctionBits(engine.getFunctionBits());
+    displayManager.setDirection(engine.getDirection());
+    displayManager.setSpeedValue(
+        map(engine.getVelocity(), 0, RR32Can::kMaxEngineVelocity, 0, 100));
+    displayManager.setFunctionBits(engine.getFunctionBits());
+  } else {
+    displayManager.updateBuffer("No Loco", STRING_CHAR_LENGTH, 0);
+    displayManager.updateBuffer("RR32Can", STRING_CHAR_LENGTH, 1);
+  }
 #endif
 }
 
@@ -219,9 +226,6 @@ void loopEncoder() {
 
   // See if there was an effective change to the reported encoder position
   if (encoderPosition != newEncoderPosition) {
-    Serial.print("Encoder position: ");
-    Serial.print(newEncoderPosition);
-    Serial.println();
     encoderPosition = newEncoderPosition;
 
     if (displayMode == DisplayMode::ENGINE) {
@@ -244,7 +248,7 @@ void loopEncoder() {
       }
 
       // Update the engine velocity
-      
+
       RR32Can::EngineControl& control = RR32Can::RR32Can.getEngineControl();
       RR32Can::Engine& engine = control.getEngine();
 
@@ -318,8 +322,19 @@ void checkAndPrint(DebouncedKey<1, 1>& key, const char* key_name,
 }
 
 void loopButtons() {
-  checkAndPrint(stopKey, "STOP", STOP_BUTTON_PIN);
-  checkAndPrint(shiftKey, "SHIFT", SHIFT_BUTTON_PIN);
+  uint8_t readValue = digitalRead(STOP_BUTTON_PIN);
+  stopKey.cycle(readValue);
+  if (stopKey.getAndResetEdgeFlag() && stopKey.getDebouncedValue() == HIGH) {
+    if (displayManager.getSystemOn()) {
+      RR32Can::RR32Can.SendSystemStop();
+    } else {
+      RR32Can::RR32Can.SendSystemGo();
+    }
+  }
+
+  readValue = digitalRead(SHIFT_BUTTON_PIN);
+  shiftKey.cycle(readValue);
+  
   checkAndPrint(fKeys[0], "F0", F0_BUTTON_PIN);
   checkAndPrint(fKeys[1], "F1", F1_BUTTON_PIN);
   checkAndPrint(fKeys[2], "F2", F2_BUTTON_PIN);
@@ -338,7 +353,6 @@ void setEngineVelocity(RR32Can::Velocity_t velocity) {
     forceEncoderPosition(velocity);
   }
 }
-
 
 #endif
 

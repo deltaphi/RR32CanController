@@ -10,7 +10,15 @@
 #include "config.h"
 #include "RR32Can/Types.h"
 
+#if (DISPLAY_ATTACHED == STD_ON)
+#include "EngineControl/DisplayManager.h"
+#endif
+
 namespace EngineControl {
+
+#if (DISPLAY_ATTACHED == STD_ON)
+extern DisplayManager displayManager;
+#endif
 
 #if (ENCODER_ENABLED == STD_ON)
 using RotaryEngoderTick_t = long;

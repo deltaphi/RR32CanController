@@ -101,6 +101,14 @@ class DisplayManager {
     }
   }
 
+  void setSystem(bool onOff) {
+    systemOn = onOff;
+  }
+
+  bool getSystemOn() const {
+    return systemOn;
+  }
+
  private:
   bool cursorEnabled;
   uint8_t cursorLine;
@@ -113,6 +121,7 @@ class DisplayManager {
 
   bool wifiOn = true;
   bool canOn = true;
+  bool systemOn = true;
 
   using TextBuffer = LineBuffer[DISPLAY_LINES];
 

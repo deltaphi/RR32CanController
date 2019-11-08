@@ -53,21 +53,25 @@ void Station::HandleSystemCommand(const RR32Can::Data& data) {
     switch (data.data[4]) {
       case RR32Can::kSubcommandSystemGo:
         Serial.print(F("GO!"));
-        // MaerklinSystem.systemOn = true; // TODO: Bring back the System
-        // class
+        ::EngineControl::displayManager.setSystem(true);
         break;
-      case RR32Can::kSubcommandSystemHalt:
+      case RR32Can::kSubcommandSystemHalt: {
         Serial.print(F("Halt!"));
-        break;
+        Engine* engine = getLocoForData(data);
+        if (engine != nullptr) {
+          engine->setVelocity(0);
+          ::EngineControl::setEngineVelocity(engine->getVelocity());
+        }
+      } break;
       case RR32Can::kSubcommandSystemStop:
         Serial.print(F("STOP!"));
-        // MaerklinSystem.systemOn = false; // TODO: Bring back the System
-        // class
+        ::EngineControl::displayManager.setSystem(false);
         break;
       case kSubcommandLocoEmergencyStop: {
         Engine* engine = getLocoForData(data);
         if (engine != nullptr) {
           engine->setVelocity(0);
+          ::EngineControl::setEngineVelocity(engine->getVelocity());
         }
       } break;
       case RR32Can::kSubcommandSystemIdentifier:
@@ -236,6 +240,22 @@ void Station::SendEmergencyStop(Engine& engine) {
   data.dlc = 5;
   uidToData(data.data, engine.getUid());
   data.data[4] = kSubcommandLocoEmergencyStop;
+  SendPacket(identifier, data);
+}
+
+void Station::SendSystemStop() {
+  RR32Can::Identifier identifier{kSystemCommand, this->senderHash};
+  RR32Can::Data data;
+  data.dlc = 5;
+  data.data[4] = kSubcommandSystemStop;
+  SendPacket(identifier, data);
+}
+
+void Station::SendSystemGo() {
+  RR32Can::Identifier identifier{kSystemCommand, this->senderHash};
+  RR32Can::Data data;
+  data.dlc = 5;
+  data.data[4] = kSubcommandSystemGo;
   SendPacket(identifier, data);
 }
 

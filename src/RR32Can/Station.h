@@ -65,6 +65,9 @@ class Station {
   void SendEngineVelocity(Engine& engine, Engine::Velocity_t velocity);
   void SendEmergencyStop(Engine& engine);
 
+  void SendSystemStop();
+  void SendSystemGo();
+
   void HandleLocoDirection(const RR32Can::Data& data);
   void HandleLocoSpeed(const RR32Can::Data& data);
 
