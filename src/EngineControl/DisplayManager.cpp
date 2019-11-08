@@ -103,7 +103,7 @@ void DisplayManager::loop() {
 
     // Draw the function bits
 
-    uint8_t tmpFunctionBits = functionBits;
+    RR32Can::FunctionBits_t mask = 1;
     constexpr const uint8_t rectHeight = 4;
     constexpr const uint8_t rectWidth = 10;
     constexpr const uint8_t rectDistance = 6;
@@ -111,7 +111,7 @@ void DisplayManager::loop() {
     const uint8_t rectvoffset = voffset[3] - 2 - rectHeight;
 
     for (uint8_t i = 0; i < 8; ++i) {
-      bool functionOn = (tmpFunctionBits & 0x01) == 1;
+      bool functionOn = (functionBits & mask) != 0;
 
       uint8_t recthoffset =
           (i * (rectWidth + rectDistance)) + (rectDistance / 2);
@@ -121,7 +121,7 @@ void DisplayManager::loop() {
         display.drawRect(recthoffset, rectvoffset, rectWidth, rectHeight);
       }
 
-      tmpFunctionBits <<= 1;
+      mask <<= 1;
     }
 
     // Draw assets in the bottom line

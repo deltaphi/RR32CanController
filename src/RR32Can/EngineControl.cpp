@@ -40,7 +40,22 @@ void EngineControl::consumeConfigData(BufferManager& section,
       printf("Setting UID\n");
 #endif
 
-    } else if (strncmp(kEngineKeyVelocity, key.data(), key.length()) == 0) {
+    } else if (strncmp(kEngineKeyProtocol, key.data(), key.length()) == 0) {
+      currentEngine.setProtocolString(value.data());
+#if (LOG_CONFIG_DATA_STREAM_LEVEL >= LOG_CONFIG_DATA_STREAM_LEVEL_EVENTS)
+      printf("Setting protocol\n");
+#endif
+    } else if (strncmp(kEngineKeyAddress, key.data(), key.length()) == 0) {
+      currentEngine.setAddress(strtoul(value.data(), NULL, 16));
+#if (LOG_CONFIG_DATA_STREAM_LEVEL >= LOG_CONFIG_DATA_STREAM_LEVEL_EVENTS)
+      printf("Setting Address\n");
+#endif
+    }
+
+    // Other data is not transmitted in the config data stream. Don't waste
+    // the time to parse it.
+    /*
+    else if (strncmp(kEngineKeyVelocity, key.data(), key.length()) == 0) {
       // Velocity
       currentEngine.setVelocity(strtoul(value.data(), NULL, 10));
 #if (LOG_CONFIG_DATA_STREAM_LEVEL >= LOG_CONFIG_DATA_STREAM_LEVEL_EVENTS)
@@ -53,17 +68,7 @@ void EngineControl::consumeConfigData(BufferManager& section,
 #if (LOG_CONFIG_DATA_STREAM_LEVEL >= LOG_CONFIG_DATA_STREAM_LEVEL_EVENTS)
       printf("Setting direction\n");
 #endif
-    } else if (strncmp(kEngineKeyProtocol, key.data(), key.length()) == 0) {
-      currentEngine.setProtocolString(value.data());
-#if (LOG_CONFIG_DATA_STREAM_LEVEL >= LOG_CONFIG_DATA_STREAM_LEVEL_EVENTS)
-      printf("Setting protocol\n");
-#endif
-    } else if (strncmp(kEngineKeyAddress, key.data(), key.length()) == 0) {
-      currentEngine.setAddress(strtoul(value.data(), NULL, 16));
-#if (LOG_CONFIG_DATA_STREAM_LEVEL >= LOG_CONFIG_DATA_STREAM_LEVEL_EVENTS)
-      printf("Setting Address\n");
-#endif
-    } /* else: Unused data item. */
+    } else: Unused data item. */
   }
 }
 
@@ -79,6 +84,9 @@ void EngineControl::setStreamComplete() {
 
   // Request speed from master
   RR32Can.RequestEngineVelocity(currentEngine);
+
+  // Request engine functions from master
+  RR32Can.RequestEngineAllFunctions(currentEngine);
 }
 
 void EngineControl::setStreamAborted(){};

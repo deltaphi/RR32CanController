@@ -112,7 +112,7 @@ class DisplayManager {
   static const uint8_t baselineOffset[];
 
   RR32Can::Velocity_t speed;
-  uint8_t functionBits;
+  RR32Can::FunctionBits_t functionBits;
   RR32Can::EngineDirection direction;
 
   bool wifiOn = true;

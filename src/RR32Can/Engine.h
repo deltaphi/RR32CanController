@@ -117,10 +117,27 @@ class Engine : public EngineShortInfo {
   void setAddress(Address_t address) { this->address = address; }
   Address_t getAddress() const { return address; }
 
-  void setFunctionBits(FunctionBits_t functionBits) {
-    this->functionBits = functionBits;
-  }
   FunctionBits_t getFunctionBits() const { return functionBits; }
+
+  void setFunction(uint8_t function, bool onOff) {
+    FunctionBits_t mask = 1;
+    mask <<= function;
+    if (onOff != 0) {
+      functionBits |= mask;
+    } else {
+      functionBits &= ~mask;
+    }
+  }
+
+  bool getFunction(uint8_t function) const {
+    FunctionBits_t mask = 1;
+    mask <<= function;
+    if ((functionBits & mask) != 0) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 
   void print() const override;
 

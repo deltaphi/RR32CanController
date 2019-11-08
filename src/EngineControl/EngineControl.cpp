@@ -304,23 +304,8 @@ void loopEncoder() {
   }
 }
 
-void checkAndPrint(DebouncedKey<1, 1>& key, const char* key_name,
-                   uint8_t keyPin) {
-  uint8_t readValue = digitalRead(keyPin);
-  key.cycle(readValue);
-  if (key.getAndResetEdgeFlag()) {
-    Serial.print("Button '");
-    Serial.print(key_name);
-    Serial.print("' was ");
-    if (key.getDebouncedValue() == HIGH) {
-      Serial.println("released.");
-    } else {
-      Serial.println("pressed.");
-    }
-  }
-}
-
 void loopButtons() {
+  // Read the STOP button
   uint8_t readValue = digitalRead(STOP_BUTTON_PIN);
   stopKey.cycle(readValue);
   if (stopKey.getAndResetEdgeFlag() && stopKey.getDebouncedValue() == HIGH) {
@@ -331,14 +316,34 @@ void loopButtons() {
     }
   }
 
+  // Read the SHIFT button
   readValue = digitalRead(SHIFT_BUTTON_PIN);
   shiftKey.cycle(readValue);
 
-  checkAndPrint(fKeys[0], "F0", F0_BUTTON_PIN);
-  checkAndPrint(fKeys[1], "F1", F1_BUTTON_PIN);
-  checkAndPrint(fKeys[2], "F2", F2_BUTTON_PIN);
-  checkAndPrint(fKeys[3], "F3", F3_BUTTON_PIN);
-  // checkAndPrint(fKeys[4], "F4", F4_BUTTON_PIN);
+  // Read the FUNCTION buttons
+  RR32Can::Engine& currentEngine =
+      RR32Can::RR32Can.getEngineControl().getEngine();
+
+  static uint8_t keyPins[] = {F0_BUTTON_PIN, F1_BUTTON_PIN, F2_BUTTON_PIN,
+                              F3_BUTTON_PIN /*, F4_BUTTON_PIN */};
+
+  for (uint8_t i = 0; i < NUM_FBUTTONS; ++i) {
+    readValue = digitalRead(keyPins[i]);
+    fKeys[i].cycle(readValue);
+    if (fKeys[i].getAndResetRisingEdge()) {
+      // Always get and reset the edge
+      if (currentEngine.isFullDetailsKnown()) {
+        uint8_t functionNum = i;
+        if (i > 0 && shiftKey.getDebouncedValue() == LOW) {
+          // Note: F0 is not shifted
+          functionNum += NUM_FBUTTONS - 1;
+        }
+        bool functionStatus = currentEngine.getFunction(functionNum);
+        RR32Can::RR32Can.SendEngineFunction(currentEngine, functionNum,
+                                            !functionStatus);
+      }
+    }
+  }
 }
 
 void setEngineVelocity(RR32Can::Velocity_t velocity) {

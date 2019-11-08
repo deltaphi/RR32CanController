@@ -234,6 +234,43 @@ void Station::SendEngineVelocity(Engine& engine, Engine::Velocity_t velocity) {
   SendPacket(identifier, data);
 }
 
+void Station::RequestEngineFunction(Engine& engine, uint8_t function) {
+  RR32Can::Identifier identifier{kLocoFunction, this->senderHash};
+  RR32Can::Data data;
+  data.dlc = 5;
+  uidToData(data.data, engine.getUid());
+  data.data[4] = function;
+
+  SendPacket(identifier, data);
+}
+
+void Station::RequestEngineAllFunctions(Engine& engine) {
+  RR32Can::Identifier identifier{kLocoFunction, this->senderHash};
+  RR32Can::Data data;
+  data.dlc = 5;
+  uidToData(data.data, engine.getUid());
+  for (uint8_t i = 0; i < 16; ++i) {
+    data.data[4] = i;
+    SendPacket(identifier, data);
+  }
+}
+
+void Station::SendEngineFunction(Engine& engine, uint8_t function, bool value) {
+  RR32Can::Identifier identifier{kLocoFunction, this->senderHash};
+  RR32Can::Data data;
+  data.dlc = 6;
+  uidToData(data.data, engine.getUid());
+  data.data[4] = function;
+
+  if (value) {
+    data.data[5] = 1;
+  } else {
+    data.data[5] = 0;
+  }
+
+  SendPacket(identifier, data);
+}
+
 void Station::SendEmergencyStop(Engine& engine) {
   RR32Can::Identifier identifier{kSystemCommand, this->senderHash};
   RR32Can::Data data;
@@ -320,6 +357,10 @@ void Station::HandlePacket(const RR32Can::Identifier& id,
       this->HandleLocoSpeed(data);
       break;
 
+    case RR32Can::kLocoFunction:
+      this->HandleLocoFunction(data);
+      break;
+
     case RR32Can::kRequestConfigData:
 #if (LOG_CONFIG_DATA_STREAM_LEVEL >= LOG_CONFIG_DATA_STREAM_LEVEL_ALL)
       Serial.print(F("Request Config Data. Payload: "));
@@ -394,6 +435,16 @@ void Station::HandleLocoSpeed(const RR32Can::Data& data) {
     Engine::Velocity_t velocity = (data.data[4] << 8) | data.data[5];
     engine->setVelocity(velocity);
     ::EngineControl::setEngineVelocity(engine->getVelocity());
+  }
+}
+
+void Station::HandleLocoFunction(const RR32Can::Data& data) {
+  if (data.dlc == 6) {
+    Engine* engine = getLocoForData(data);
+    if (engine == nullptr) {
+      return;
+    }
+    engine->setFunction(data.data[4], data.data[5]);
   }
 }
 
