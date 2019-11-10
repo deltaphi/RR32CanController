@@ -11,13 +11,13 @@
 #include "config.h"
 
 #if (DISPLAY_ATTACHED == STD_ON)
-#include "EngineControl/DisplayManager.h"
+#include "view/DisplayManager.h"
 #endif
 
 namespace EngineControl {
 
 #if (DISPLAY_ATTACHED == STD_ON)
-extern DisplayManager displayManager;
+extern view::DisplayManager displayManager;
 #endif
 
 #if (ENCODER_ENABLED == STD_ON)

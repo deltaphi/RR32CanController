@@ -1,14 +1,15 @@
-#ifndef __ENGINECONTROL_DISPLAYMANAGER_H__
-#define __ENGINECONTROL_DISPLAYMANAGER_H__
+#ifndef __VIEW_DISPLAYMANAGER_H__
+#define __VIEW_DISPLAYMANAGER_H__
 
 #include <Arduino.h>
 #include "config.h"
 
 #if (DISPLAY_ATTACHED == STD_ON)
 
+#include "RR32Can/Types.h"
 #include "SSD1306Wire.h"
 
-namespace EngineControl {
+namespace view {
 
 #define STRING_CHAR_LENGTH (16)
 #define STRING_DATATYPE_LENGTH ((STRING_CHAR_LENGTH) + 1)
@@ -126,7 +127,7 @@ class DisplayManager {
   bool updateRequired = false;
 };
 
-} /* namespace EngineControl */
+}  // namespace view
 
 #endif /* Display attached */
 #endif /* header guard */

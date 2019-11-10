@@ -1,9 +1,9 @@
 #include <Arduino.h>
 
 #include "DebouncedDualKey.h"
-#include "EngineControl/DisplayManager.h"
 #include "EngineControl/EngineControl.h"
 #include "config.h"
+#include "view/DisplayManager.h"
 
 #include "RR32Can/Constants.h"
 #include "RR32Can/RR32Can.h"
@@ -12,7 +12,7 @@
 namespace EngineControl {
 
 #if (DISPLAY_ATTACHED == STD_ON)
-DisplayManager displayManager;
+view::DisplayManager displayManager;
 DisplayMode displayMode = DisplayMode::ENGINE;
 #endif
 
@@ -94,7 +94,7 @@ void displayModeSelectEngineLoop() {
     uint8_t line = 0;
     for (const RR32Can::EngineShortInfo& info :
          engineBrowser.getEngineInfos()) {
-      DisplayManager::LineBuffer& buffer =
+      view::DisplayManager::LineBuffer& buffer =
           displayManager.getWritableBuffer(line);
       strncpy(&buffer[0], info.getName(), STRING_DATATYPE_LENGTH);
       Serial.print(" '");

@@ -1,9 +1,9 @@
-#ifndef __ENGINECONTROL_UIASSETS_H__
-#define __ENGINECONTROL_UIASSETS_H__
+#ifndef __VIEW_UIASSETS_H__
+#define __VIEW_UIASSETS_H__
 
 #include <Arduino.h>
 
-namespace EngineControl {
+namespace view {
 
 enum class RR32SymbolNames : char {
   ARROW_LEFT_EMPTY = 1,
@@ -58,6 +58,6 @@ constexpr const uint8_t RR32Symbols_10[] PROGMEM = {
     0x52, 0x00, 0x92, 0x00, 0x24, 0x00, 0x08,  // 5
 };
 
-} /* namespace EngineControl */
+} /* namespace view */
 
 #endif

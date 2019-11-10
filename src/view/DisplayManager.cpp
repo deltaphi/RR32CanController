@@ -1,11 +1,11 @@
 #include "config.h"
 
 #if (DISPLAY_ATTACHED == STD_ON)
-#include "EngineControl/UIAssets.h"
+#include "view/UIAssets.h"
 
-#include "EngineControl/DisplayManager.h"
+#include "view/DisplayManager.h"
 
-namespace EngineControl {
+namespace view {
 
 #define FONT_HEIGHT (16u)
 
@@ -165,6 +165,6 @@ void DisplayManager::updateBuffer(const char* data, uint8_t dataLen,
   }  // else: No update needed
 }
 
-} /* namespace EngineControl */
+} /* namespace view */
 
 #endif
