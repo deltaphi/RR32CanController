@@ -41,9 +41,9 @@ const uint8_t DisplayManager::voffset[] = {
     63 - statusFontHeight};
 
 const uint8_t DisplayManager::baselineOffset[] = {
-    0, static_cast<uint8_t>(FONT_HEIGHT) + voffset[1],
-    (2u * static_cast<uint8_t>(FONT_HEIGHT)) + voffset[1] +
-        textLinePixelDistance,
+    0, static_cast<uint8_t>(FONT_HEIGHT + voffset[1]),
+    static_cast<uint8_t>((2u * FONT_HEIGHT) + voffset[1] +
+                         textLinePixelDistance),
     0};
 
 void DisplayManager::begin() {
