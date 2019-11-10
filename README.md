@@ -3,13 +3,19 @@ Sketch for a Switchboard talking the Maerklin CAN protocol based on the ESP32 No
 
 ## Software
 
-This project is built using PlatformIO. It makes use of some features that may not be easily portable to other Arduino-supported MCUs.
+This project is built using PlatformIO. It makes use of some features that may
+not be easily portable to other Arduino-supported MCUs.
 
 ### Library Notes
 
-This project makes use of several libraries. Versioned links to those libraries are available as git submodules. Note that for seom libraries, using forks from the same source as this project may be required.
+This project makes use of several libraries. Versioned links to those libraries
+are available as git submodules. Note that for seom libraries, using forks from
+the same source as this project may be required.
 
-Note that the CAN driver from the lib directory *must not* be present when you want to compile using the ESP32-IDF driver. Otherwise, the Controller will just attempt to sit there without sending queued messages or receiving any messages transmitted on the bus.
+Note that the CAN driver from the lib directory *must not* be present when you
+want to compile using the ESP32-IDF driver. Otherwise, the Controller will just
+attempt to sit there without sending queued messages or receiving any messages
+transmitted on the bus.
 
 ### Menuing
 

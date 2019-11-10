@@ -85,11 +85,13 @@ class DebouncedKey {
   }
 
   /**
-   * \brief Returns whether an edge was observed and the button is currently pressed.
-   * 
+   * \brief Returns whether an edge was observed and the button is currently
+   * pressed.
+   *
    * Resets the edge detection state.
-   * 
-   * \return true if an edge was observed and the button state is high, false otherwise.
+   *
+   * \return true if an edge was observed and the button state is high, false
+   * otherwise.
    */
   bool getAndResetRisingEdge() {
     return getAndResetEdgeFlag() && getDebouncedValue() == HIGH;
