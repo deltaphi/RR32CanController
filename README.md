@@ -5,6 +5,10 @@ Sketch for a Switchboard talking the Maerklin CAN protocol based on the ESP32 No
 
 This project is built using PlatformIO. It makes use of some features that may not be easily portable to other Arduino-supported MCUs.
 
+### Library Notes
+
+This project makes use of several libraries. Versioned links to those libraries are available as git submodules. Note that for seom libraries, using forks from the same source as this project may be required.
+
 Note that the CAN driver from the lib directory *must not* be present when you want to compile using the ESP32-IDF driver. Otherwise, the Controller will just attempt to sit there without sending queued messages or receiving any messages transmitted on the bus.
 
 ### Menuing
@@ -43,6 +47,27 @@ Menuing is required for selecting an engine to control. This involves the follow
     * Either: Scroll up/down beyond the currently known set of engine names.
         * If the engine name is unknown, download list of engines from the master controller.
     * Once the download is complete, the selected engine is now the active engine
+
+#### Encoder Acceleration for Engine Control
+
+Formula for acceleration curve: y = m*x + c. x is the time since the last rotation in the same direction,
+y is the number of actual increments to apply.
+
+The acceleration is linear. It should be set up so that there is a cutoff at 500ms (no acceleration when
+increments are more than half a second apart) and that an "immediate" half rotation (e.g., within 50ms)
+hits the opposite end of engine velocity.
+
+Thus, boundary conditions for an encoder with 24 increments per rotaton are:
+1 Tick = m*500ms + c
+kMaxEngineVelocity Ticks / 12 increments = m * (50ms / 12 increments) + c
+
+Formulas for calculating m and c:
+
+m = (y1 - y2)/(x1 - x2) = (1 - (kMaxEngineVelocity/12))/(500 - (50/12)) = -0.16
+
+c = y1 - m*x1 = 84.03
+
+
 
 ### Unit Testing
 

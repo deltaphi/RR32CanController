@@ -18,7 +18,9 @@ DisplayMode displayMode = DisplayMode::ENGINE;
 
 #if (ENCODER_ENABLED == STD_ON)
 RotaryEncoder encoder(ENCODER_A_PIN, ENCODER_B_PIN);
-int encoderPosition = 0;
+long encoderPosition = 0;
+RotaryEncoder::Direction encoderLastDirection =
+    RotaryEncoder::Direction::NOROTATION;
 
 DebouncedKey<1, 1> encoderKey;
 
@@ -239,11 +241,57 @@ void loopEncoder() {
       if (encoderPosition < 0) {
         encoderPosition = 0;
         forceEncoderPosition(encoderPosition);
-      }
-
-      if (encoderPosition > RR32Can::kMaxEngineVelocity) {
+      } else if (encoderPosition > RR32Can::kMaxEngineVelocity) {
         encoderPosition = RR32Can::kMaxEngineVelocity;
         forceEncoderPosition(encoderPosition);
+      } else {
+        // evaluate acceleration...
+        RotaryEncoder::Direction currentDirection = encoder.getDirection();
+        if (currentDirection == encoderLastDirection &&
+            currentDirection != RotaryEncoder::Direction::NOROTATION &&
+            encoderLastDirection != RotaryEncoder::Direction::NOROTATION) {
+          // ... but only of the direction of rotation matched and there
+          // actually was a previous rotation.
+          unsigned long deltat = encoder.getMillisBetweenRotations();
+
+          // at 500ms, there should be no acceleration.
+          constexpr const unsigned long kAccelerationLongCutoffMillis = 500;
+          if (deltat < kAccelerationLongCutoffMillis) {
+            constexpr const unsigned long kAccelerationShortCutffMillis =
+                4;  // 50/12
+            if (deltat < kAccelerationShortCutffMillis) {
+              // limit to maximum acceleration
+              deltat = kAccelerationShortCutffMillis;
+            }
+
+            constexpr static const float m = -0.16;
+            constexpr static const float c = 84.03;
+
+            float ticksActual_float = m * deltat + c;
+            // Round by adding 1
+            // Then again remove 1 to determine the actual delta to the encoder
+            // value, as the encoder already ticked by 1 tick in the correct
+            // direction Thus, just cast to integer.
+            long deltaTicks = (long)ticksActual_float;
+
+            // Adjust sign: Needs to be inverted for counterclockwise operation
+            if (currentDirection ==
+                RotaryEncoder::Direction::COUNTERCLOCKWISE) {
+              deltaTicks = -(deltaTicks);
+            }
+
+            long newEncoderPosition = encoderPosition + deltaTicks;
+            if (newEncoderPosition > RR32Can::kMaxEngineVelocity) {
+              newEncoderPosition = RR32Can::kMaxEngineVelocity;
+            } else if (newEncoderPosition < 0) {
+              newEncoderPosition = 0;
+            }
+
+            forceEncoderPosition(newEncoderPosition);
+          }
+        } else {
+          encoderLastDirection = currentDirection;
+        }
       }
 
       // Update the engine velocity
