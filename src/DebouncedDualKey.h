@@ -1,3 +1,6 @@
+#ifndef __DEBOUNCED_DUAL_KEY__H__
+#define __DEBOUNCED_DUAL_KEY__H__
+
 #include <Arduino.h>
 
 template <uint8_t lowCycles, uint8_t highCycles>
@@ -97,3 +100,5 @@ class DebouncedKey {
     return getAndResetEdgeFlag() && getDebouncedValue() == HIGH;
   }
 };
+
+#endif
