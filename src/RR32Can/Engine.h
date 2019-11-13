@@ -81,6 +81,7 @@ class Engine : public EngineShortInfo {
 
   void reset() {
     // Remove all data of this class
+    EngineShortInfo::reset();
     uid = 0;
     velocity = 0;
     direction = RR32Can::EngineDirection::UNKNOWN;

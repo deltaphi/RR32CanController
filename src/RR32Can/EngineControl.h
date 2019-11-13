@@ -20,22 +20,13 @@ class EngineControl : public RR32Can::ConfigDataConsumer {
   virtual ~EngineControl() = default;
 
   bool isValid() const {
-    return currentEngine.isFullDetailsKnown() && !currentEngine.isFree();
+    return currentEngine != nullptr && currentEngine->isFullDetailsKnown() &&
+           !currentEngine->isFree();
   }
 
-  Engine& getEngine() { return currentEngine; }
+  Engine* getEngine() { return currentEngine; }
 
-  /**
-   * \brief Returns the engine name if known or a default if unknown.
-   * \return Name of the engine or a default string.
-   */
-  const char* getEngineName() const {
-    if (isValid()) {
-      return currentEngine.getName();
-    } else {
-      return kNoEngineSelected;
-    }
-  }
+  void setEngine(Engine* engine) { this->currentEngine = engine; }
 
   /* Code for parsing Engine Parsing from Config Data Stream Code */
   virtual void consumeConfigData(BufferManager& section, BufferManager& key,
@@ -54,7 +45,7 @@ class EngineControl : public RR32Can::ConfigDataConsumer {
   virtual void setStreamAborted();
 
  private:
-  Engine currentEngine;
+  Engine* currentEngine;
   static const char* kFilenameEngineResult;
   static const char* kNoEngineSelected;
   static const char* kEngineKeyUid;

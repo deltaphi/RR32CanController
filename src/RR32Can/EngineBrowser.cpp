@@ -58,7 +58,7 @@ void EngineBrowser::reset() {
   clearTable();
   numEnginesKnownByMaster = 0;
   streamComplete = false;
-  cursor = 0;
+  streamOffset = 0;
 }
 
 void EngineBrowser::printAll() const {

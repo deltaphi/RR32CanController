@@ -6,6 +6,7 @@
 #include "RR32Can/Engine.h"
 #include "RR32Can/EngineBrowser.h"
 #include "RR32Can/EngineControl.h"
+#include "RR32Can/StationCbk.h"
 #include "RR32Can/Types.h"
 #include "RR32Can/messages/Data.h"
 #include "RR32Can/messages/Identifier.h"
@@ -20,7 +21,7 @@ namespace RR32Can {
 class Station {
  public:
   /* Initialization & Infrastructure */
-  void begin(uint16_t stationUUID);
+  void begin(uint16_t stationUUID, StationCbk& callback);
   void loop();
 
   /* Generic message handling */
@@ -57,8 +58,10 @@ class Station {
    *
    * \param engine An engine with its name set.
    */
-  void RequestEngine(Engine& engine);
-  void RequestEngineList(uint8_t offset);
+  void RequestEngine(Engine& engine,
+                     RR32Can::EngineControl& configDataConsumer);
+  void RequestEngineList(uint8_t offset,
+                         RR32Can::EngineBrowser& configDataConsumer);
 
   void RequestEngineDirection(Engine& engine);
   void SendEngineDirection(Engine& engine, EngineDirection direction);
@@ -76,9 +79,6 @@ class Station {
   void HandleLocoSpeed(const RR32Can::Data& data);
   void HandleLocoFunction(const RR32Can::Data& data);
 
-  EngineBrowser& getEngineBrowser() { return engineBrowser; }
-  EngineControl& getEngineControl() { return engineControl; }
-
   void notifyConfigStreamReceived() { FinishCurrentConfigRequest(); }
 
   ConfigDataStreamParser::StreamState getConfigStreamState() const {
@@ -88,21 +88,18 @@ class Station {
  private:
   Engine* getLocoForData(const RR32Can::Data& data);
 
+  static Engine::Uid_t uidFromData(const uint8_t* ptr);
+  static void uidToData(uint8_t* ptr, Engine::Uid_t uid);
+
   /* Initialization & Infrastructure */
   uint16_t senderHash;
+
+  /* Set during begin() */
+  StationCbk* callback = nullptr;
 
   /* Generic message handling */
   ConfigDataStreamType expectedConfigData;
   ConfigDataStreamParser configDataParser;
-
-  /* Engine Database */
-  Engine engineDatabase[kMaxNumEnginesKnown];
-
-  /* Engine browser */
-  EngineBrowser engineBrowser;
-
-  /* Single-Engine Controller */
-  EngineControl engineControl;
 };
 
 }  // namespace RR32Can

@@ -5,6 +5,11 @@
 
 namespace view {
 
+extern const char* kNoEngine;
+extern const char* kRR32Can;
+extern const char* kDots;
+extern const char* kFetching;
+
 enum class RR32SymbolNames : char {
   ARROW_LEFT_EMPTY = 1,
   ARROW_LEFT_FILLED = 2,

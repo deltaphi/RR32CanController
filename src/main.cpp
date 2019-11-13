@@ -11,11 +11,14 @@
 #include "driver/gpio.h"
 #endif
 
-#include "EngineControl/EngineControl.h"
 #include "TurnoutControl/TurnoutControl.h"
 
 #include <RR32Can/RR32Can.h>
 #include "RR32Can/Handler.h"
+
+#include "controller/UIControl.h"
+
+controller::UIControl uiControl;
 
 void setup() {
   // Start serial and wait for its initialization
@@ -69,9 +72,9 @@ void setup() {
   }
 #endif
 
-  RR32Can::RR32Can.begin(RR32CanUUID);
+  uiControl.begin();
 
-  EngineControl::begin();
+  RR32Can::RR32Can.begin(RR32CanUUID, uiControl);
 
   TurnoutControl::begin();
 }
@@ -81,7 +84,7 @@ void CanInputLoop(void);
 void loop() {
   RR32Can::RR32Can.loop();
 
-  EngineControl::loop();
+  uiControl.loop();
 
   CanInputLoop();
 

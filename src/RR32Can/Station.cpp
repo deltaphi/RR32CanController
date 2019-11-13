@@ -8,15 +8,14 @@
 #include "RR32Can/messages/TurnoutPacket.h"
 #include "RR32Can/util/utils.h"
 
-#include "EngineControl/EngineControl.h"
-
 #include <Arduino.h>
 #include "config.h"
 
 namespace RR32Can {
 
-void Station::begin(uint16_t stationUUID) {
+void Station::begin(uint16_t stationUUID, StationCbk& callback) {
   AbortCurrentConfigRequest();
+  this->callback = &callback;
   senderHash = computeSenderHash(stationUUID);
 }
 
@@ -53,26 +52,20 @@ void Station::HandleSystemCommand(const RR32Can::Data& data) {
     switch (data.data[4]) {
       case RR32Can::kSubcommandSystemGo:
         Serial.print(F("GO!"));
-        ::EngineControl::displayManager.setSystem(true);
+        callback->setSystemState(true);
         break;
       case RR32Can::kSubcommandSystemHalt: {
         Serial.print(F("Halt!"));
-        Engine* engine = getLocoForData(data);
-        if (engine != nullptr) {
-          engine->setVelocity(0);
-          ::EngineControl::setEngineVelocity(engine->getVelocity());
-        }
+        Engine::Uid_t uid = uidFromData(data.data);
+        callback->setLocoVelocity(uid, 0);
       } break;
       case RR32Can::kSubcommandSystemStop:
         Serial.print(F("STOP!"));
-        ::EngineControl::displayManager.setSystem(false);
+        callback->setSystemState(false);
         break;
       case kSubcommandLocoEmergencyStop: {
-        Engine* engine = getLocoForData(data);
-        if (engine != nullptr) {
-          engine->setVelocity(0);
-          ::EngineControl::setEngineVelocity(engine->getVelocity());
-        }
+        Engine::Uid_t uid = uidFromData(data.data);
+        callback->setLocoVelocity(uid, 0);
       } break;
       case RR32Can::kSubcommandSystemIdentifier:
         Serial.print(F("Identifier"));
@@ -101,7 +94,8 @@ void Station::HandleSystemCommand(const RR32Can::Data& data) {
   }
 }
 
-void Station::RequestEngineList(uint8_t offset) {
+void Station::RequestEngineList(uint8_t offset,
+                                RR32Can::EngineBrowser& configDataConsumer) {
   AbortCurrentConfigRequest();
 
   Identifier id{kRequestConfigData, senderHash};
@@ -118,8 +112,7 @@ void Station::RequestEngineList(uint8_t offset) {
                        offset, kNumEngineNamesDownload);
   if (data2.dlc <= CanDataMaxLength) {
     expectedConfigData = ConfigDataStreamType::LOKNAMEN;
-    engineBrowser.setStreamOffset(offset);
-    configDataParser.startStream(&engineBrowser);
+    configDataParser.startStream(&configDataConsumer);
     SendPacket(id, data1);
     SendPacket(id, data2);
   } else {
@@ -128,7 +121,8 @@ void Station::RequestEngineList(uint8_t offset) {
   }
 }
 
-void Station::RequestEngine(Engine& engine) {
+void Station::RequestEngine(Engine& engine,
+                            RR32Can::EngineControl& configDataConsumer) {
   if (!engine.isNameKnown()) {
 #if LOG_CAN_OUT_MSG == STD_ON
     Serial.println(
@@ -149,7 +143,7 @@ void Station::RequestEngine(Engine& engine) {
   AbortCurrentConfigRequest();
 
   expectedConfigData = ConfigDataStreamType::LOKINFO;
-  configDataParser.startStream(&engineControl);
+  configDataParser.startStream(&configDataConsumer);
 
   Identifier id{kRequestConfigData, senderHash};
   Data data;
@@ -180,7 +174,7 @@ void Station::RequestEngine(Engine& engine) {
   SendPacket(id, data);
 }
 
-void uidToData(uint8_t* ptr, Engine::Uid_t uid) {
+void Station::uidToData(uint8_t* ptr, Engine::Uid_t uid) {
   ptr[0] = static_cast<uint8_t>(uid >> 24);
   ptr[1] = static_cast<uint8_t>(uid >> 16);
   ptr[2] = static_cast<uint8_t>(uid >> 8);
@@ -391,21 +385,13 @@ void Station::HandleAccessoryPacket(const RR32Can::Data& data) {
   turnoutPacket.printAll();
 }
 
-Engine::Uid_t uidFromData(const uint8_t* ptr) {
+Engine::Uid_t Station::uidFromData(const uint8_t* ptr) {
   return (ptr[0] << 24) | (ptr[1] << 16) | (ptr[2] << 8) | (ptr[3]);
 }
 
 Engine* Station::getLocoForData(const RR32Can::Data& data) {
-  Engine::Uid_t engineUid = uidFromData(data.data);
-  Engine& engine = getEngineControl().getEngine();
-  if (!engine.isFullDetailsKnown()) {
-    return nullptr;
-  }
-  if (engine.getUidMasked() != engineUid) {
-    return nullptr;
-  }
-
-  return &engine;
+  Engine::Uid_t uid = uidFromData(data.data);
+  return callback->getLoco(uid);
 }
 
 void Station::HandleLocoDirection(const RR32Can::Data& data) {
@@ -428,13 +414,9 @@ void Station::HandleLocoDirection(const RR32Can::Data& data) {
 
 void Station::HandleLocoSpeed(const RR32Can::Data& data) {
   if (data.dlc == 6) {
-    Engine* engine = getLocoForData(data);
-    if (engine == nullptr) {
-      return;
-    }
+    Engine::Uid_t uid = uidFromData(data.data);
     Engine::Velocity_t velocity = (data.data[4] << 8) | data.data[5];
-    engine->setVelocity(velocity);
-    ::EngineControl::setEngineVelocity(engine->getVelocity());
+    callback->setLocoVelocity(uid, velocity);
   }
 }
 

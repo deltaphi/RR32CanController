@@ -31,62 +31,43 @@ void EngineControl::consumeConfigData(BufferManager& section,
   Serial.println(");");
 #endif
 
+  if (currentEngine == nullptr) {
+    return;
+  }
+
   if (strncmp(kFilenameEngineResult, section.data(), section.length()) == 0) {
     /* It is a lokomotive */
     if (strncmp(kEngineKeyUid, key.data(), key.length()) == 0) {
       // UID
-      currentEngine.setUid(strtoul(value.data(), NULL, 16));
+      currentEngine->setUid(strtoul(value.data(), NULL, 16));
 #if (LOG_CONFIG_DATA_STREAM_LEVEL >= LOG_CONFIG_DATA_STREAM_LEVEL_EVENTS)
       printf("Setting UID\n");
 #endif
 
     } else if (strncmp(kEngineKeyProtocol, key.data(), key.length()) == 0) {
-      currentEngine.setProtocolString(value.data());
+      currentEngine->setProtocolString(value.data());
 #if (LOG_CONFIG_DATA_STREAM_LEVEL >= LOG_CONFIG_DATA_STREAM_LEVEL_EVENTS)
       printf("Setting protocol\n");
 #endif
     } else if (strncmp(kEngineKeyAddress, key.data(), key.length()) == 0) {
-      currentEngine.setAddress(strtoul(value.data(), NULL, 16));
+      currentEngine->setAddress(strtoul(value.data(), NULL, 16));
 #if (LOG_CONFIG_DATA_STREAM_LEVEL >= LOG_CONFIG_DATA_STREAM_LEVEL_EVENTS)
       printf("Setting Address\n");
 #endif
-    }
-
-    // Other data is not transmitted in the config data stream. Don't waste
-    // the time to parse it.
-    /*
-    else if (strncmp(kEngineKeyVelocity, key.data(), key.length()) == 0) {
-      // Velocity
-      currentEngine.setVelocity(strtoul(value.data(), NULL, 10));
-#if (LOG_CONFIG_DATA_STREAM_LEVEL >= LOG_CONFIG_DATA_STREAM_LEVEL_EVENTS)
-      printf("Setting Velocity\n");
-#endif
-    } else if (strncmp(kEngineKeyDirection, key.data(), key.length()) == 0) {
-      // Direction
-      currentEngine.setDirection(static_cast<RR32Can::EngineDirection>(strtoul(
-          value.data(), NULL, 10)));  // TODO: Unknown if this is correct.
-#if (LOG_CONFIG_DATA_STREAM_LEVEL >= LOG_CONFIG_DATA_STREAM_LEVEL_EVENTS)
-      printf("Setting direction\n");
-#endif
-    } else: Unused data item. */
+    } /* else: Unused data item. */
   }
 }
 
 void EngineControl::setStreamComplete() {
-  currentEngine.availability = Engine::AvailabilityStatus::FULL_DETAILS;
+  if (currentEngine == nullptr) {
+    return;
+  }
+
+  currentEngine->availability = Engine::AvailabilityStatus::FULL_DETAILS;
 
   Serial.print("Downloaded Engine: ");
-  currentEngine.print();
+  currentEngine->print();
   Serial.println();
-
-  // Request direction from master
-  RR32Can.RequestEngineDirection(currentEngine);
-
-  // Request speed from master
-  RR32Can.RequestEngineVelocity(currentEngine);
-
-  // Request engine functions from master
-  RR32Can.RequestEngineAllFunctions(currentEngine);
 }
 
 void EngineControl::setStreamAborted(){};

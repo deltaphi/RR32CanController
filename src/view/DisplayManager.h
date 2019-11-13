@@ -102,7 +102,12 @@ class DisplayManager {
     }
   }
 
-  void setSystem(bool onOff) { systemOn = onOff; }
+  void setSystem(bool onOff) {
+    if (systemOn != onOff) {
+      systemOn = onOff;
+      updateRequired = true;
+    }
+  }
 
   bool getSystemOn() const { return systemOn; }
 

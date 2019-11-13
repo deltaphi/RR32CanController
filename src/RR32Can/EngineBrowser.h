@@ -24,9 +24,9 @@ class EngineBrowser : public ConfigDataConsumer {
   EngineBrowser& operator=(EngineBrowser&&) = delete;
   ~EngineBrowser() = default;
 
-  void setStreamOffset(uint8_t offset) { this->cursor = offset; }
+  void setStreamOffset(uint8_t offset) { this->streamOffset = offset; }
 
-  uint8_t getStreamOffset() const { return cursor; }
+  uint8_t getStreamOffset() const { return streamOffset; }
 
   void consumeConfigData(BufferManager& section, BufferManager& key,
                          BufferManager& value) override;
@@ -58,10 +58,10 @@ class EngineBrowser : public ConfigDataConsumer {
   /**
    * \brief Offset at which the download was started
    *
-   * The cursor is an index into the engine list of the bus master.
+   * The streamOffset is an index into the engine list of the bus master.
    * It points to the entry that is currently displayed at the top of the list.
    */
-  uint8_t cursor;
+  uint8_t streamOffset;
 
   EngineShortInfo* findFirstFreeEntry() {
     for (EngineShortInfo& info : engineInfo) {

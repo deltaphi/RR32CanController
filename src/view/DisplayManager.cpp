@@ -57,6 +57,7 @@ void DisplayManager::begin() {
   setSpeedValue(0);
   setDirection(RR32Can::EngineDirection::UNKNOWN);
   setFunctionBits(0u);
+  updateRequired = true;
 }
 
 void DisplayManager::loop() {
