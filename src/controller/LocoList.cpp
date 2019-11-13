@@ -1,7 +1,7 @@
+#include <controller/MasterControl.h>
 #include "controller/LocoList.h"
 
 #include "RR32Can/RR32Can.h"
-#include "controller/UIControl.h"
 #include "view/UIAssets.h"
 
 namespace controller {
@@ -11,15 +11,15 @@ void LocoList::begin() {
   browser.reset();
 }
 
-void LocoList::loop(model::InputState& inputState, UIControl& uiControl) {
+void LocoList::loop(model::InputState& inputState, MasterControl& masterControl) {
   if (inputState.isEncoderRisingEdge()) {
     if (inputState.isShiftPressed()) {
       // switch to control/idle on shift+encoder
       // Note: LocoControl redirects to idle if there is no loco.
-      uiControl.enterLocoControl();
+      masterControl.enterLocoControl();
     } else {
       // switch to download on encoder. This will commit the current engine.
-      uiControl.enterLocoDownload();
+      masterControl.enterLocoDownload();
     }
   } else {
     // Run the usual locoList loop
@@ -74,7 +74,7 @@ void LocoList::updateDisplay(view::DisplayManager& displayManager) {
       // Engine list is present. Update display.
       // Copy interesting entries to display
       uint8_t line = 0;
-      for (const RR32Can::EngineShortInfo& info : browser.getEngineInfos()) {
+      for (const RR32Can::LocomotiveShortInfo& info : browser.getEngineInfos()) {
         strncpy(displayManager.getWritableBuffer(line), info.getName(),
                 STRING_DATATYPE_LENGTH);
         ++line;
@@ -101,8 +101,8 @@ void LocoList::RequestDownloadAtCursor() {
   RR32Can::RR32Can.RequestEngineList(offset, browser);
 }
 
-const RR32Can::EngineShortInfo* LocoList::getSelectedEngine() {
-  const RR32Can::EngineBrowser::EngineInfoSet& engineInfos =
+const RR32Can::LocomotiveShortInfo* LocoList::getSelectedEngine() {
+  const RR32Can::LocoListConsumer::EngineInfoSet& engineInfos =
       browser.getEngineInfos();
   uint8_t index = cursorPosition - browser.getStreamOffset();
   if (index > engineInfos.size()) {

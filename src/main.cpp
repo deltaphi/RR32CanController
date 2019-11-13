@@ -16,9 +16,9 @@
 #include <RR32Can/RR32Can.h>
 #include "RR32Can/Handler.h"
 
-#include "controller/UIControl.h"
+#include <controller/MasterControl.h>
 
-controller::UIControl uiControl;
+controller::MasterControl masterControl;
 
 void setup() {
   // Start serial and wait for its initialization
@@ -72,9 +72,9 @@ void setup() {
   }
 #endif
 
-  uiControl.begin();
+  masterControl.begin();
 
-  RR32Can::RR32Can.begin(RR32CanUUID, uiControl);
+  RR32Can::RR32Can.begin(RR32CanUUID, masterControl);
 
   TurnoutControl::begin();
 }
@@ -84,7 +84,7 @@ void CanInputLoop(void);
 void loop() {
   RR32Can::RR32Can.loop();
 
-  uiControl.loop();
+  masterControl.loop();
 
   CanInputLoop();
 

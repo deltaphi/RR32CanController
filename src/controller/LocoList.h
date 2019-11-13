@@ -1,15 +1,14 @@
 #ifndef __CONTROLLER__LOCOLIST_H__
 #define __CONTROLLER__LOCOLIST_H__
 
-#include "RR32Can/Engine.h"
-
-#include "RR32Can/EngineBrowser.h"
+#include <RR32Can/LocoListConsumer.h>
+#include <RR32Can/Locomotive.h>
 #include "model/InputState.h"
 #include "view/DisplayManager.h"
 
 namespace controller {
 
-class UIControl;
+class MasterControl;
 
 /*
  * \brief Class LocoList
@@ -19,9 +18,9 @@ class LocoList {
   using CursorPosition_t = int16_t;
 
   void begin();
-  void loop(model::InputState& inputState, UIControl& uiControl);
+  void loop(model::InputState& inputState, MasterControl& masterControl);
 
-  const RR32Can::EngineShortInfo* getSelectedEngine();
+  const RR32Can::LocomotiveShortInfo* getSelectedEngine();
 
   void updateDisplay(view::DisplayManager& displayManager);
 
@@ -31,7 +30,7 @@ class LocoList {
 
  private:
   CursorPosition_t cursorPosition;
-  RR32Can::EngineBrowser browser;
+  RR32Can::LocoListConsumer browser;
 };
 
 }  // namespace controller

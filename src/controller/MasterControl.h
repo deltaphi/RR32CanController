@@ -14,9 +14,11 @@ namespace controller {
 /*
  * \brief Class UIControl
  */
-class UIControl : public RR32Can::StationCbk {
+class MasterControl : public RR32Can::StationCbk {
  public:
   enum class UIMode { IDLE = 0, LOCOCONTROL, LOCOLIST, LOCODOWNLOAD };
+
+  virtual ~MasterControl() = default;
 
   void begin();
 
@@ -35,8 +37,8 @@ class UIControl : public RR32Can::StationCbk {
 
   model::InputState getInputState() { return input.getInputState(); }
 
-  RR32Can::Engine* getLoco(RR32Can::Engine::Uid_t uid) override;
-  void setLocoVelocity(RR32Can::Engine::Uid_t uid,
+  RR32Can::Locomotive* getLoco(RR32Can::Locomotive::Uid_t uid) override;
+  void setLocoVelocity(RR32Can::Locomotive::Uid_t uid,
                        RR32Can::Velocity_t velocity) override;
   void setLocoVelocity(RR32Can::Velocity_t velocity) override;
 

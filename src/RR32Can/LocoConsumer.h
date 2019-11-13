@@ -1,32 +1,32 @@
-#ifndef SRC_RR32CAN_ENGINECONTROL_H_
-#define SRC_RR32CAN_ENGINECONTROL_H_
+#ifndef SRC_RR32CAN_LOCOCONSUMER_H_
+#define SRC_RR32CAN_LOCOCONSUMER_H_
 
+#include <RR32Can/Locomotive.h>
 #include <array>
 
-#include "RR32Can/Engine.h"
 #include "RR32Can/util/ConfigDataConsumer.h"
 
 namespace RR32Can {
 
 /*
- * \brief Class EngineControl
+ * \brief Class LocoConsumer
  *
- * Responsible for message handling from/to the master controller.
+ * Responsible for message handling from the master controller.
  */
-class EngineControl : public RR32Can::ConfigDataConsumer {
+class LocoConsumer : public RR32Can::ConfigDataConsumer {
  public:
   static const char* kFilenameEngine;
 
-  virtual ~EngineControl() = default;
+  virtual ~LocoConsumer() = default;
 
   bool isValid() const {
     return currentEngine != nullptr && currentEngine->isFullDetailsKnown() &&
            !currentEngine->isFree();
   }
 
-  Engine* getEngine() { return currentEngine; }
+  Locomotive* getEngine() { return currentEngine; }
 
-  void setEngine(Engine* engine) { this->currentEngine = engine; }
+  void setEngine(Locomotive* engine) { this->currentEngine = engine; }
 
   /* Code for parsing Engine Parsing from Config Data Stream Code */
   virtual void consumeConfigData(BufferManager& section, BufferManager& key,
@@ -45,7 +45,7 @@ class EngineControl : public RR32Can::ConfigDataConsumer {
   virtual void setStreamAborted();
 
  private:
-  Engine* currentEngine;
+  Locomotive* currentEngine;
   static const char* kFilenameEngineResult;
   static const char* kNoEngineSelected;
   static const char* kEngineKeyUid;
@@ -57,4 +57,4 @@ class EngineControl : public RR32Can::ConfigDataConsumer {
 
 }  // namespace RR32Can
 
-#endif  // SRC_RR32CAN_ENGINECONTROL_H_
+#endif  // SRC_RR32CAN_LOCOCONSUMER_H_

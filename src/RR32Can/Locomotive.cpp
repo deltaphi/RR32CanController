@@ -1,10 +1,9 @@
-#include "RR32Can/Engine.h"
-
 #include <Arduino.h>
+#include <RR32Can/Locomotive.h>
 
 namespace RR32Can {
 
-void EngineShortInfo::print() const {
+void LocomotiveShortInfo::print() const {
   Serial.print("  EngineShortInfo: ");
 
   if (availability == AvailabilityStatus::EMPTY) {
@@ -16,8 +15,8 @@ void EngineShortInfo::print() const {
   }
 }
 
-void Engine::print() const {
-  EngineShortInfo::print();
+void Locomotive::print() const {
+  LocomotiveShortInfo::print();
   if (availability == AvailabilityStatus::FULL_DETAILS) {
     printf("UID: %#10x Proto: %s Addr: %i V: %i Dir: %i, F: %i\n", uid,
            protocol.data(), address, velocity, static_cast<uint8_t>(direction),

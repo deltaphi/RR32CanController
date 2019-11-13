@@ -1,7 +1,7 @@
+#include <controller/MasterControl.h>
 #include "controller/LocoControl.h"
 
 #include "RR32Can/RR32Can.h"
-#include "controller/UiControl.h"
 #include "view/DisplayManager.h"
 #include "view/UIAssets.h"
 
@@ -9,12 +9,12 @@ namespace controller {
 
 void LocoControl::begin() { loco.reset(); }
 
-void LocoControl::loop(model::InputState& inputState, UIControl& uiControl) {
+void LocoControl::loop(model::InputState& inputState, MasterControl& masterControl) {
   // Check Encoder button
   if (inputState.isEncoderRisingEdge()) {
     if (inputState.isShiftPressed()) {
       // switch to locolist on shift+encoder
-      uiControl.enterLocoList();
+      masterControl.enterLocoList();
     } else {
       // Encoder pressed
       if (loco.isFullDetailsKnown()) {
@@ -121,7 +121,7 @@ void LocoControl::checkEncoder(model::InputState& inputState) {
       // Update the engine velocity
 
       if (loco.isFullDetailsKnown()) {
-        RR32Can::Engine::Velocity_t oldVelocity = loco.getVelocity();
+        RR32Can::Locomotive::Velocity_t oldVelocity = loco.getVelocity();
         if (encoderPosition != oldVelocity) {
           RR32Can::RR32Can.SendEngineVelocity(loco, encoderPosition);
         }
@@ -132,7 +132,7 @@ void LocoControl::checkEncoder(model::InputState& inputState) {
 
 void LocoControl::reset() { loco.reset(); }
 
-bool LocoControl::setLocoInfo(const RR32Can::EngineShortInfo& locoInfo) {
+bool LocoControl::setLocoInfo(const RR32Can::LocomotiveShortInfo& locoInfo) {
   if (strncmp(loco.getName(), locoInfo.getName(), RR32Can::kEngineNameLength) ==
       0) {
     return false;
@@ -159,7 +159,7 @@ void LocoControl::updateDisplayOnce(view::DisplayManager& displayManager) {
     char* buf = displayManager.getWritableBuffer(1);
 
     const char* protocolString = loco.getProtocolString();
-    RR32Can::Engine::Address_t address = loco.getAddress();
+    RR32Can::Locomotive::Address_t address = loco.getAddress();
 
     snprintf(buf, STRING_CHAR_LENGTH, "%s %i", protocolString, address);
 
@@ -183,9 +183,9 @@ void LocoControl::updateDisplayLoop(view::DisplayManager& displayManager) {
 }
 
 void LocoControl::setReceivedVelocity(RR32Can::Velocity_t velocity,
-                                      UIControl& uiControl) {
+                                      MasterControl& uiControl) {
   loco.setVelocity(velocity);
-  if (uiControl.getUIMode() == UIControl::UIMode::LOCOCONTROL) {
+  if (uiControl.getUIMode() == MasterControl::UIMode::LOCOCONTROL) {
     uiControl.getInputState().loadEncoderPosition(velocity);
   }
 }

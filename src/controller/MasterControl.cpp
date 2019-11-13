@@ -1,5 +1,4 @@
-#include "controller/UIControl.h"
-
+#include <controller/MasterControl.h>
 #include <cstring>
 
 #include "view/UIAssets.h"
@@ -8,7 +7,7 @@
 
 namespace controller {
 
-void UIControl::begin() {
+void MasterControl::begin() {
   systemState = RR32Can::SystemState::UNKNOWN;
 
   displayManager.begin();
@@ -19,7 +18,7 @@ void UIControl::begin() {
   locoList.begin();
 }
 
-void UIControl::loop() {
+void MasterControl::loop() {
   input.loop();
 
   // Always evaluate the STOP key with no SHIFT support
@@ -34,7 +33,7 @@ void UIControl::loop() {
   displayManager.loop();
 }
 
-void UIControl::checkStateTransition() {
+void MasterControl::checkStateTransition() {
   switch (uiMode) {
     case UIMode::IDLE:
     case UIMode::LOCOCONTROL:
@@ -48,7 +47,7 @@ void UIControl::checkStateTransition() {
   }
 }
 
-void UIControl::forwardLoop() {
+void MasterControl::forwardLoop() {
   model::InputState& inputState = input.getInputState();
 
   // Depending on mode, loop the associated control
@@ -66,13 +65,13 @@ void UIControl::forwardLoop() {
   }
 }
 
-void UIControl::enterIdle() {
+void MasterControl::enterIdle() {
   printf("UIControl::enterIdle\n");
   uiMode = UIMode::IDLE;
   idleControl.updateDisplayOnce(displayManager);
 }
 
-void UIControl::enterLocoControl() {
+void MasterControl::enterLocoControl() {
   printf("UIControl::enterLocoControl\n");
   if (!locoControl.hasValidEngine()) {
     enterIdle();
@@ -85,7 +84,7 @@ void UIControl::enterLocoControl() {
   }
 }
 
-void UIControl::enterLocoList() {
+void MasterControl::enterLocoList() {
   printf("UIControl::enterLocoList\n");
   uiMode = UIMode::LOCOLIST;
   input.getInputState().loadEncoderPosition(locoList.getCursorPosition());
@@ -93,13 +92,13 @@ void UIControl::enterLocoList() {
   displayManager.disableCursor();
 }
 
-void UIControl::enterLocoDownload() {
+void MasterControl::enterLocoDownload() {
   printf("UIControl::enterLocoDownload\n");
   uiMode = UIMode::LOCODOWNLOAD;
 
   // Copy selected engine from locoList to locoControl and start the download of
   // data
-  const RR32Can::EngineShortInfo* locoInfo = locoList.getSelectedEngine();
+  const RR32Can::LocomotiveShortInfo* locoInfo = locoList.getSelectedEngine();
   if (locoInfo == nullptr) {
     // No engine was selected, go to IDLE
     enterIdle();
@@ -121,7 +120,7 @@ void UIControl::enterLocoDownload() {
   }
 }
 
-void UIControl::updateDisplayLoop() {
+void MasterControl::updateDisplayLoop() {
   switch (uiMode) {
     case UIMode::IDLE:
       // Was set during entering, nothing to do.
@@ -139,7 +138,7 @@ void UIControl::updateDisplayLoop() {
   locoControl.updateDisplayLoop(displayManager);
 }
 
-void UIControl::loopStopKey() {
+void MasterControl::loopStopKey() {
   // Read the STOP button
   model::InputState& inputState = input.getInputState();
 
@@ -152,8 +151,8 @@ void UIControl::loopStopKey() {
   }
 }
 
-RR32Can::Engine* UIControl::getLoco(RR32Can::Engine::Uid_t engineUid) {
-  RR32Can::Engine& loco = locoControl.getLoco();
+RR32Can::Locomotive* MasterControl::getLoco(RR32Can::Locomotive::Uid_t engineUid) {
+  RR32Can::Locomotive& loco = locoControl.getLoco();
   if (!loco.isFullDetailsKnown()) {
     return nullptr;
   }
@@ -164,14 +163,14 @@ RR32Can::Engine* UIControl::getLoco(RR32Can::Engine::Uid_t engineUid) {
   return &loco;
 }
 
-void UIControl::setLocoVelocity(RR32Can::Engine::Uid_t uid,
+void MasterControl::setLocoVelocity(RR32Can::Locomotive::Uid_t uid,
                                 RR32Can::Velocity_t velocity) {
   if (getLoco(uid) != 0) {
     locoControl.setReceivedVelocity(velocity, *this);
   }
 }
 
-void UIControl::setLocoVelocity(RR32Can::Velocity_t velocity) {
+void MasterControl::setLocoVelocity(RR32Can::Velocity_t velocity) {
   locoControl.setReceivedVelocity(velocity, *this);
 }
 

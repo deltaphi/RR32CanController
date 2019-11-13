@@ -1,7 +1,7 @@
 #ifndef __RR32CAN__STATIONCBK_H__
 #define __RR32CAN__STATIONCBK_H__
 
-#include "RR32Can/Engine.h"
+#include <RR32Can/Locomotive.h>
 
 namespace RR32Can {
 
@@ -14,14 +14,14 @@ class StationCbk {
    * \brief Return the loco with the given Uid or nullptr, if the engine is not
    * known.
    */
-  virtual Engine* getLoco(Engine::Uid_t uid) = 0;
+  virtual Locomotive* getLoco(Locomotive::Uid_t uid) = 0;
 
   /**
    * \brief Set the velocity of the loco with the given UID.
    *
    * Should have no effect, if the engine is not known.
    */
-  virtual void setLocoVelocity(Engine::Uid_t engineUid,
+  virtual void setLocoVelocity(Locomotive::Uid_t engineUid,
                                RR32Can::Velocity_t velocity) = 0;
 
   /**

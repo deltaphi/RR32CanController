@@ -1,28 +1,28 @@
-#ifndef SRC_RR32CAN_ENGINEBROWSER_H_
-#define SRC_RR32CAN_ENGINEBROWSER_H_
+#ifndef SRC_RR32CAN_LOCOLISTCONSUMER_H_
+#define SRC_RR32CAN_LOCOLISTCONSUMER_H_
 
+#include <RR32Can/Locomotive.h>
 #include <array>
 
-#include "RR32Can/Engine.h"
 #include "RR32Can/util/ConfigDataConsumer.h"
 
 namespace RR32Can {
 
 /*
- * \brief Class EngineBrowser
+ * \brief Class LocoListConsumer
  *
- * Responsible for message handling from/to the master controller.
+ * Responsible for message handling from the master controller.
  */
-class EngineBrowser : public ConfigDataConsumer {
+class LocoListConsumer : public ConfigDataConsumer {
  public:
-  using EngineInfoSet = std::array<EngineShortInfo, kEngineBrowserEntries>;
+  using EngineInfoSet = std::array<LocomotiveShortInfo, kEngineBrowserEntries>;
 
-  EngineBrowser() = default;
-  EngineBrowser(const EngineBrowser&) = delete;
-  EngineBrowser& operator=(const EngineBrowser&) = delete;
-  EngineBrowser(EngineBrowser&&) = delete;
-  EngineBrowser& operator=(EngineBrowser&&) = delete;
-  ~EngineBrowser() = default;
+  LocoListConsumer() = default;
+  LocoListConsumer(const LocoListConsumer&) = delete;
+  LocoListConsumer& operator=(const LocoListConsumer&) = delete;
+  LocoListConsumer(LocoListConsumer&&) = delete;
+  LocoListConsumer& operator=(LocoListConsumer&&) = delete;
+  ~LocoListConsumer() = default;
 
   void setStreamOffset(uint8_t offset) { this->streamOffset = offset; }
 
@@ -63,8 +63,8 @@ class EngineBrowser : public ConfigDataConsumer {
    */
   uint8_t streamOffset;
 
-  EngineShortInfo* findFirstFreeEntry() {
-    for (EngineShortInfo& info : engineInfo) {
+  LocomotiveShortInfo* findFirstFreeEntry() {
+    for (LocomotiveShortInfo& info : engineInfo) {
       if (info.isFree()) {
         return &info;
       }
@@ -75,4 +75,4 @@ class EngineBrowser : public ConfigDataConsumer {
 
 }  // namespace RR32Can
 
-#endif  // SRC_RR32CAN_ENGINEBROWSER_H_
+#endif  // SRC_RR32CAN_LOCOLISTCONSUMER_H_

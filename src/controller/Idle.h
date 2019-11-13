@@ -6,7 +6,7 @@
 
 namespace controller {
 
-class UIControl;
+class MasterControl;
 
 /*
  * \brief Class Idle
@@ -14,7 +14,7 @@ class UIControl;
 class Idle {
  public:
   void begin(){};
-  void loop(model::InputState& inputState, UIControl& uiControl);
+  void loop(model::InputState& inputState, MasterControl& uiControl);
 
   void updateDisplayOnce(view::DisplayManager& displayManager);
 

@@ -1,14 +1,14 @@
 #ifndef __CONTROLLER__LOCOCONTROL_H__
 #define __CONTROLLER__LOCOCONTROL_H__
 
-#include "RR32Can/Engine.h"
-#include "RR32Can/EngineControl.h"
+#include <RR32Can/LocoConsumer.h>
+#include <RR32Can/Locomotive.h>
 #include "model/InputState.h"
 #include "view/DisplayManager.h"
 
 namespace controller {
 
-class UIControl;
+class MasterControl;
 
 /*
  * \brief Class LocoControl
@@ -16,7 +16,7 @@ class UIControl;
 class LocoControl {
  public:
   void begin();
-  void loop(model::InputState& inputState, UIControl& uiControl);
+  void loop(model::InputState& inputState, MasterControl& masterControl);
   void reset();
 
   /**
@@ -27,7 +27,7 @@ class LocoControl {
    *
    * \return true if the loco was updated, false otherwise.
    */
-  bool setLocoInfo(const RR32Can::EngineShortInfo& locoInfo);
+  bool setLocoInfo(const RR32Can::LocomotiveShortInfo& locoInfo);
 
   /**
    * \brief Given the name is known, request the "lokomotive" information from
@@ -54,17 +54,17 @@ class LocoControl {
   void updateDisplayLoop(view::DisplayManager& displayManager);
 
   // Update the engine velocity and set the encoder appropriately.
-  void setReceivedVelocity(RR32Can::Velocity_t velocity, UIControl& uiControl);
+  void setReceivedVelocity(RR32Can::Velocity_t velocity, MasterControl& uiControl);
 
   // Get outside access to the engine. Don't set the velocity this way!
-  RR32Can::Engine& getLoco() { return loco; }
+  RR32Can::Locomotive& getLoco() { return loco; }
 
  private:
   void checkEncoder(model::InputState& inputState);
 
-  RR32Can::Engine loco;
+  RR32Can::Locomotive loco;
 
-  RR32Can::EngineControl locoDataConsumer;
+  RR32Can::LocoConsumer locoDataConsumer;
 };
 
 }  // namespace controller

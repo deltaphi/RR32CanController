@@ -10,15 +10,15 @@
 namespace RR32Can {
 
 /*
- * \brief Class Engine
+ * \brief Locomotive with a name only.
  */
-class EngineShortInfo {
+class LocomotiveShortInfo {
  public:
   enum class AvailabilityStatus { EMPTY = 0, NAME_KNOWN, FULL_DETAILS };
 
-  EngineShortInfo() : availability(AvailabilityStatus::EMPTY) { eraseName(); }
+  LocomotiveShortInfo() : availability(AvailabilityStatus::EMPTY) { eraseName(); }
 
-  virtual ~EngineShortInfo() = default;
+  virtual ~LocomotiveShortInfo() = default;
 
   virtual void reset() {
     availability = AvailabilityStatus::EMPTY;
@@ -65,12 +65,15 @@ class EngineShortInfo {
 
   void eraseName() { memset(this->name, '\0', kEngineNameLength + 1); }
 
-  friend class EngineControl;
+  friend class LocoConsumer;
 };
 
-class Engine : public EngineShortInfo {
+/**
+ * \brief Locomotive with full data.
+ */
+class Locomotive : public LocomotiveShortInfo {
  public:
-  using EngineShortInfo::EngineShortInfo;
+  using LocomotiveShortInfo::LocomotiveShortInfo;
 
   using Uid_t = RR32Can::Uid_t;
   // Velocities have a range of 0..1000 (..1023).
@@ -81,7 +84,7 @@ class Engine : public EngineShortInfo {
 
   void reset() {
     // Remove all data of this class
-    EngineShortInfo::reset();
+    LocomotiveShortInfo::reset();
     uid = 0;
     velocity = 0;
     direction = RR32Can::EngineDirection::UNKNOWN;

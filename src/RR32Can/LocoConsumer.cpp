@@ -1,24 +1,22 @@
-#include "RR32Can/EngineControl.h"
-
 #include <Arduino.h>
-
+#include <RR32Can/LocoConsumer.h>
 #include "config.h"
 
 #include "RR32Can/RR32Can.h"
 
 namespace RR32Can {
 
-const char* EngineControl::kFilenameEngine = "lokinfo";
-const char* EngineControl::kFilenameEngineResult = "lokomotive";
-const char* EngineControl::kEngineKeyUid = "uid";
-const char* EngineControl::kEngineKeyVelocity = "velocity";
-const char* EngineControl::kEngineKeyDirection = "richtung";
-const char* EngineControl::kEngineKeyProtocol = "typ";
-const char* EngineControl::kEngineKeyAddress = "adresse";
+const char* LocoConsumer::kFilenameEngine = "lokinfo";
+const char* LocoConsumer::kFilenameEngineResult = "lokomotive";
+const char* LocoConsumer::kEngineKeyUid = "uid";
+const char* LocoConsumer::kEngineKeyVelocity = "velocity";
+const char* LocoConsumer::kEngineKeyDirection = "richtung";
+const char* LocoConsumer::kEngineKeyProtocol = "typ";
+const char* LocoConsumer::kEngineKeyAddress = "adresse";
 
-const char* EngineControl::kNoEngineSelected = "- No Engine -";
+const char* LocoConsumer::kNoEngineSelected = "- No Engine -";
 
-void EngineControl::consumeConfigData(BufferManager& section,
+void LocoConsumer::consumeConfigData(BufferManager& section,
                                       BufferManager& key,
                                       BufferManager& value) {
 #if (LOG_CONFIG_DATA_STREAM_LEVEL >= LOG_CONFIG_DATA_STREAM_LEVEL_EVENTS)
@@ -58,18 +56,18 @@ void EngineControl::consumeConfigData(BufferManager& section,
   }
 }
 
-void EngineControl::setStreamComplete() {
+void LocoConsumer::setStreamComplete() {
   if (currentEngine == nullptr) {
     return;
   }
 
-  currentEngine->availability = Engine::AvailabilityStatus::FULL_DETAILS;
+  currentEngine->availability = Locomotive::AvailabilityStatus::FULL_DETAILS;
 
   Serial.print("Downloaded Engine: ");
   currentEngine->print();
   Serial.println();
 }
 
-void EngineControl::setStreamAborted(){};
+void LocoConsumer::setStreamAborted(){};
 
 }  // namespace RR32Can

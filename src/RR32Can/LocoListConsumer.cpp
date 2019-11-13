@@ -1,16 +1,14 @@
-#include "RR32Can/EngineBrowser.h"
-
 #include <Arduino.h>
-
+#include <RR32Can/LocoListConsumer.h>
 #include "config.h"
 
 namespace RR32Can {
 
-const char* EngineBrowser::kFilenameEngineNames = "loknamen";
-const char* EngineBrowser::kSectionNumEngines = "numloks";
-const char* EngineBrowser::kGenericValue = "wert";
+const char* LocoListConsumer::kFilenameEngineNames = "loknamen";
+const char* LocoListConsumer::kSectionNumEngines = "numloks";
+const char* LocoListConsumer::kGenericValue = "wert";
 
-void EngineBrowser::consumeConfigData(BufferManager& section,
+void LocoListConsumer::consumeConfigData(BufferManager& section,
                                       BufferManager& key,
                                       BufferManager& value) {
 #if (LOG_CONFIG_DATA_STREAM_LEVEL >= LOG_CONFIG_DATA_STREAM_LEVEL_EVENTS)
@@ -25,7 +23,7 @@ void EngineBrowser::consumeConfigData(BufferManager& section,
 
   if (section.strncmp(kFilenameEngineNames)) {
     // Engine data
-    EngineShortInfo* freeEngine = findFirstFreeEntry();
+    LocomotiveShortInfo* freeEngine = findFirstFreeEntry();
     if (freeEngine == nullptr) {
       Serial.println("No free Engine buffer found.");
       return;
@@ -48,24 +46,24 @@ void EngineBrowser::consumeConfigData(BufferManager& section,
   }
 }
 
-void EngineBrowser::clearTable() {
-  for (EngineShortInfo& info : engineInfo) {
+void LocoListConsumer::clearTable() {
+  for (LocomotiveShortInfo& info : engineInfo) {
     info.reset();
   }
 }
 
-void EngineBrowser::reset() {
+void LocoListConsumer::reset() {
   clearTable();
   numEnginesKnownByMaster = 0;
   streamComplete = false;
   streamOffset = 0;
 }
 
-void EngineBrowser::printAll() const {
+void LocoListConsumer::printAll() const {
   Serial.print("EngineBrowser: ");
   Serial.print(numEnginesKnownByMaster);
   Serial.println(" Total Engines.");
-  for (const EngineShortInfo& info : engineInfo) {
+  for (const LocomotiveShortInfo& info : engineInfo) {
     info.print();
   }
 }

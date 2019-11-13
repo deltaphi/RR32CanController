@@ -1,11 +1,11 @@
 #ifndef __RR32CAN__STATION_H__
 #define __RR32CAN__STATION_H__
 
+#include <RR32Can/LocoConsumer.h>
+#include <RR32Can/LocoListConsumer.h>
+#include <RR32Can/Locomotive.h>
 #include <cstdint>
 
-#include "RR32Can/Engine.h"
-#include "RR32Can/EngineBrowser.h"
-#include "RR32Can/EngineControl.h"
 #include "RR32Can/StationCbk.h"
 #include "RR32Can/Types.h"
 #include "RR32Can/messages/Data.h"
@@ -58,19 +58,19 @@ class Station {
    *
    * \param engine An engine with its name set.
    */
-  void RequestEngine(Engine& engine,
-                     RR32Can::EngineControl& configDataConsumer);
+  void RequestEngine(Locomotive& engine,
+                     RR32Can::LocoConsumer& configDataConsumer);
   void RequestEngineList(uint8_t offset,
-                         RR32Can::EngineBrowser& configDataConsumer);
+                         RR32Can::LocoListConsumer& configDataConsumer);
 
-  void RequestEngineDirection(Engine& engine);
-  void SendEngineDirection(Engine& engine, EngineDirection direction);
-  void RequestEngineVelocity(Engine& engine);
-  void SendEngineVelocity(Engine& engine, Engine::Velocity_t velocity);
-  void RequestEngineFunction(Engine& engine, uint8_t function);
-  void RequestEngineAllFunctions(Engine& engine);
-  void SendEngineFunction(Engine& engine, uint8_t function, bool value);
-  void SendEmergencyStop(Engine& engine);
+  void RequestEngineDirection(Locomotive& engine);
+  void SendEngineDirection(Locomotive& engine, EngineDirection direction);
+  void RequestEngineVelocity(Locomotive& engine);
+  void SendEngineVelocity(Locomotive& engine, Locomotive::Velocity_t velocity);
+  void RequestEngineFunction(Locomotive& engine, uint8_t function);
+  void RequestEngineAllFunctions(Locomotive& engine);
+  void SendEngineFunction(Locomotive& engine, uint8_t function, bool value);
+  void SendEmergencyStop(Locomotive& engine);
 
   void SendSystemStop();
   void SendSystemGo();
@@ -86,10 +86,10 @@ class Station {
   }
 
  private:
-  Engine* getLocoForData(const RR32Can::Data& data);
+  Locomotive* getLocoForData(const RR32Can::Data& data);
 
-  static Engine::Uid_t uidFromData(const uint8_t* ptr);
-  static void uidToData(uint8_t* ptr, Engine::Uid_t uid);
+  static Locomotive::Uid_t uidFromData(const uint8_t* ptr);
+  static void uidToData(uint8_t* ptr, Locomotive::Uid_t uid);
 
   /* Initialization & Infrastructure */
   uint16_t senderHash;
