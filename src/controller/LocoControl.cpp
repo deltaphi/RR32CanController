@@ -1,5 +1,5 @@
-#include <controller/MasterControl.h>
 #include "controller/LocoControl.h"
+#include <controller/MasterControl.h>
 
 #include "RR32Can/RR32Can.h"
 #include "view/DisplayManager.h"
@@ -9,7 +9,8 @@ namespace controller {
 
 void LocoControl::begin() { loco.reset(); }
 
-void LocoControl::loop(model::InputState& inputState, MasterControl& masterControl) {
+void LocoControl::loop(model::InputState& inputState,
+                       MasterControl& masterControl) {
   // Check Encoder button
   if (inputState.isEncoderRisingEdge()) {
     if (inputState.isShiftPressed()) {

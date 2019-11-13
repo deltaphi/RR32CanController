@@ -190,7 +190,8 @@ void Station::RequestEngineDirection(Locomotive& engine) {
   SendPacket(identifier, data);
 }
 
-void Station::SendEngineDirection(Locomotive& engine, EngineDirection direction) {
+void Station::SendEngineDirection(Locomotive& engine,
+                                  EngineDirection direction) {
   RR32Can::Identifier identifier{kLocoDirection, this->senderHash};
   RR32Can::Data data;
   data.dlc = 5;
@@ -213,7 +214,8 @@ void Station::RequestEngineVelocity(Locomotive& engine) {
   SendPacket(identifier, data);
 }
 
-void Station::SendEngineVelocity(Locomotive& engine, Locomotive::Velocity_t velocity) {
+void Station::SendEngineVelocity(Locomotive& engine,
+                                 Locomotive::Velocity_t velocity) {
   RR32Can::Identifier identifier{kLocoSpeed, this->senderHash};
   RR32Can::Data data;
   data.dlc = 6;
@@ -249,7 +251,8 @@ void Station::RequestEngineAllFunctions(Locomotive& engine) {
   }
 }
 
-void Station::SendEngineFunction(Locomotive& engine, uint8_t function, bool value) {
+void Station::SendEngineFunction(Locomotive& engine, uint8_t function,
+                                 bool value) {
   RR32Can::Identifier identifier{kLocoFunction, this->senderHash};
   RR32Can::Data data;
   data.dlc = 6;

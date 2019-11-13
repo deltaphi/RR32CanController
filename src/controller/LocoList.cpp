@@ -1,5 +1,5 @@
-#include <controller/MasterControl.h>
 #include "controller/LocoList.h"
+#include <controller/MasterControl.h>
 
 #include "RR32Can/RR32Can.h"
 #include "view/UIAssets.h"
@@ -11,7 +11,8 @@ void LocoList::begin() {
   browser.reset();
 }
 
-void LocoList::loop(model::InputState& inputState, MasterControl& masterControl) {
+void LocoList::loop(model::InputState& inputState,
+                    MasterControl& masterControl) {
   if (inputState.isEncoderRisingEdge()) {
     if (inputState.isShiftPressed()) {
       // switch to control/idle on shift+encoder
@@ -74,7 +75,8 @@ void LocoList::updateDisplay(view::DisplayManager& displayManager) {
       // Engine list is present. Update display.
       // Copy interesting entries to display
       uint8_t line = 0;
-      for (const RR32Can::LocomotiveShortInfo& info : browser.getEngineInfos()) {
+      for (const RR32Can::LocomotiveShortInfo& info :
+           browser.getEngineInfos()) {
         strncpy(displayManager.getWritableBuffer(line), info.getName(),
                 STRING_DATATYPE_LENGTH);
         ++line;

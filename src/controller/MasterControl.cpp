@@ -151,7 +151,8 @@ void MasterControl::loopStopKey() {
   }
 }
 
-RR32Can::Locomotive* MasterControl::getLoco(RR32Can::Locomotive::Uid_t engineUid) {
+RR32Can::Locomotive* MasterControl::getLoco(
+    RR32Can::Locomotive::Uid_t engineUid) {
   RR32Can::Locomotive& loco = locoControl.getLoco();
   if (!loco.isFullDetailsKnown()) {
     return nullptr;
@@ -164,7 +165,7 @@ RR32Can::Locomotive* MasterControl::getLoco(RR32Can::Locomotive::Uid_t engineUid
 }
 
 void MasterControl::setLocoVelocity(RR32Can::Locomotive::Uid_t uid,
-                                RR32Can::Velocity_t velocity) {
+                                    RR32Can::Velocity_t velocity) {
   if (getLoco(uid) != 0) {
     locoControl.setReceivedVelocity(velocity, *this);
   }

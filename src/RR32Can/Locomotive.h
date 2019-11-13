@@ -16,7 +16,9 @@ class LocomotiveShortInfo {
  public:
   enum class AvailabilityStatus { EMPTY = 0, NAME_KNOWN, FULL_DETAILS };
 
-  LocomotiveShortInfo() : availability(AvailabilityStatus::EMPTY) { eraseName(); }
+  LocomotiveShortInfo() : availability(AvailabilityStatus::EMPTY) {
+    eraseName();
+  }
 
   virtual ~LocomotiveShortInfo() = default;
 

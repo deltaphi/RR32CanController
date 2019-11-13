@@ -1,5 +1,5 @@
-#include <controller/MasterControl.h>
 #include "controller/Idle.h"
+#include <controller/MasterControl.h>
 
 #include "view/UIAssets.h"
 
@@ -8,7 +8,7 @@ namespace controller {
 void Idle::loop(model::InputState& inputState, MasterControl& masterControl) {
   if (inputState.isEncoderRisingEdge() && inputState.isShiftPressed()) {
     // switch to locolist on shift+encoder
-	  masterControl.enterLocoList();
+    masterControl.enterLocoList();
   }
 }
 

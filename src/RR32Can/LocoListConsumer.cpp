@@ -9,8 +9,8 @@ const char* LocoListConsumer::kSectionNumEngines = "numloks";
 const char* LocoListConsumer::kGenericValue = "wert";
 
 void LocoListConsumer::consumeConfigData(BufferManager& section,
-                                      BufferManager& key,
-                                      BufferManager& value) {
+                                         BufferManager& key,
+                                         BufferManager& value) {
 #if (LOG_CONFIG_DATA_STREAM_LEVEL >= LOG_CONFIG_DATA_STREAM_LEVEL_EVENTS)
   Serial.print("EngineBrowser::consumeConfigData(");
   Serial.print(section.data());
