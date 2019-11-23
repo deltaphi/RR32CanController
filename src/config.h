@@ -32,24 +32,12 @@
 #endif
 
 #if (ENCODER_ENABLED == STD_ON)
-#define ENCODER_A_PIN (32)
-#define ENCODER_B_PIN (35)
-#define ENCODER_BUTTON_PIN (34)
+#define ENCODER_A_PIN (35)
+#define ENCODER_B_PIN (32)
 
 // Should be 5
-#define NUM_FBUTTONS (4)
+#define NUM_FBUTTONS (5)
 
-#define STOP_BUTTON_PIN (19)
-// F0 should be at 2, but that pin doesn't work for some reason.
-//#define F0_BUTTON_PIN (2)
-// Use F0 at 14 instead.
-#define F0_BUTTON_PIN (14)
-#define F1_BUTTON_PIN (15)
-#define F2_BUTTON_PIN (33)
-#define F3_BUTTON_PIN (25)
-// Temporarily disabled to reuse the pin for F0
-//#define F4_BUTTON_PIN (14)
-#define SHIFT_BUTTON_PIN (13)
 #endif
 
 #define TWI_SCL_PIN (26)
@@ -69,17 +57,20 @@
 #endif
 #endif
 
-#define SHIFT_REGISTER_LENGTH (48U)
+#define SHIFT_REGISTER_LENGTH (64U)
+
+#define TURNOUT_BUTTONS_OFFSET (8)
+#define TURNOUT_BUTTONS_COUNT (48)
 
 #define LOG_S88_BITS STD_OFF
 #define LOG_BUTTON_PRESS STD_OFF
 #define LOG_ACTIONLIST STD_OFF
+#define LOG_BUTTON_MAPPING STD_OFF
 
 #define LOG_CAN_IN_MSG STD_OFF
 #define LOG_CAN_RAW_MSG_IN STD_OFF
 #define LOG_CAN_OUT_MSG STD_OFF
 #define LOG_PING STD_OFF
-#define LOG_BUTTON_MAPPING STD_OFF
 
 // Levels: 0 - off. 1 - log received elements. 2 - log received events. 10 - log
 // every processing step.

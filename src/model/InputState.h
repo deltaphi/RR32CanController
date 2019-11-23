@@ -6,7 +6,7 @@
 
 #include "config.h"
 
-#define MODEL_INPUTSTATE_KEYARRAY_LENGTH (NUM_FBUTTONS + 3)
+#define MODEL_INPUTSTATE_KEYARRAY_LENGTH (SHIFT_REGISTER_LENGTH)
 
 namespace model {
 
@@ -34,15 +34,18 @@ class InputState {
    */
   using KeyFullArray_t = Key_t[MODEL_INPUTSTATE_KEYARRAY_LENGTH];
 
-  constexpr static const uint8_t kShiftKeyIndex = NUM_FBUTTONS + 2;
+  constexpr static const uint8_t kShiftKeyIndex = NUM_FBUTTONS;
   constexpr static const uint8_t kStopKeyIndex = NUM_FBUTTONS + 1;
-  constexpr static const uint8_t kEncoderKeyIndex = NUM_FBUTTONS;
+  constexpr static const uint8_t kEncoderKeyIndex = NUM_FBUTTONS + 2;
 
   void reset();
 
+  void resetAllEdges();
+
   /// Returns whether shift is currently held
   bool isShiftPressed() const {
-    return keys[kShiftKeyIndex].getDebouncedValue() == LOW;
+    return keys[kShiftKeyIndex].getDebouncedValue() ==
+           HIGH;  // For some reason, SHIFT has to be inverted.
   }
 
   bool isEncoderRisingEdge() {
@@ -67,7 +70,13 @@ class InputState {
 
   Key_t* getFunctionKeys() { return keys; }
 
-  Key_t* getTurnoutKeys() { return nullptr; };
+  Key_t* getTurnoutKeys() {
+#if (TURNOUT_BUTTONS_COUNT == 0)
+    return nullptr;
+#else
+    return &keys[TURNOUT_BUTTONS_OFFSET];
+#endif
+  };
 
   void loadEncoderPosition(EncoderPosition_t position) {
     lastEncoderState.position = position;

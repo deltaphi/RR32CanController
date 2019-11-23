@@ -16,6 +16,8 @@ void MasterControl::begin() {
   input.begin();
   locoControl.begin();
   locoList.begin();
+
+  turnoutControl.begin();
 }
 
 void MasterControl::loop() {
@@ -31,6 +33,8 @@ void MasterControl::loop() {
 
   // Update Output
   displayManager.loop();
+
+  turnoutControl.loop(input.getInputState());
 }
 
 void MasterControl::checkStateTransition() {

@@ -5,6 +5,7 @@
 #include "controller/Input.h"
 #include "controller/LocoControl.h"
 #include "controller/LocoList.h"
+#include "controller/Turnout.h"
 #include "view/DisplayManager.h"
 
 #include "RR32Can/StationCbk.h"
@@ -59,6 +60,8 @@ class MasterControl : public RR32Can::StationCbk {
   Idle idleControl;
   LocoControl locoControl;
   LocoList locoList;
+
+  Turnout turnoutControl;
 
   RR32Can::SystemState systemState = RR32Can::SystemState::UNKNOWN;
 };

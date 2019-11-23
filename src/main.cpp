@@ -11,8 +11,6 @@
 #include "driver/gpio.h"
 #endif
 
-#include "TurnoutControl/TurnoutControl.h"
-
 #include <RR32Can/RR32Can.h>
 #include "RR32Can/Handler.h"
 
@@ -75,8 +73,6 @@ void setup() {
   masterControl.begin();
 
   RR32Can::RR32Can.begin(RR32CanUUID, masterControl);
-
-  TurnoutControl::begin();
 }
 
 void CanInputLoop(void);
@@ -87,9 +83,8 @@ void loop() {
   masterControl.loop();
 
   CanInputLoop();
-
-  TurnoutControl::loop();
 }
+
 #if (CAN_DRIVER_ESP32IDF == STD_ON)
 #define IS_EXTENDED (message.flags && CAN_MSG_FLAG_EXTD)
 #define IS_RTR (message.flags && CAN_MSG_FLAG_RTR)

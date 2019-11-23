@@ -2,33 +2,96 @@
 
 namespace controller {
 
+/**
+ * Used to reroute the callbacks from AsyncShiftIn to this class.
+ */
+static Input* inputPtr = nullptr;
+
 void Input::begin() {
+  inputPtr = this;
   // Initialize data structure
   inputState.reset();
 
-  // Initialize direct GPIO pins
-  pinMode(ENCODER_BUTTON_PIN, INPUT);
-  pinMode(STOP_BUTTON_PIN, INPUT);
-  pinMode(SHIFT_BUTTON_PIN, INPUT);
+  // intialize shift register
+  initialized = false;
+  shiftRegister0.init(S88_DATA_IN_PIN, S88_CLOCK_OUT_PIN, S88_PS_OUT_PIN,
+                      S88_RESET_OUT_PIN, SHIFT_REGISTER_LENGTH, 90, 50);
+  Serial.println(F("Initialized Shift Register ingerface."));
 
-  pinMode(F0_BUTTON_PIN, INPUT);
-  pinMode(F1_BUTTON_PIN, INPUT);
-  pinMode(F2_BUTTON_PIN, INPUT);
-  pinMode(F3_BUTTON_PIN, INPUT);
-  // pinMode(F4_BUTTON_PIN, INPUT);
-
-  // TODO: intialize shift register
+  // Initialize Keys and perform a full sweep of the shift register
+  while (!initialized) {
+    shiftRegister0.loop();
+  }
+  // Reset all edges
+  inputState.resetAllEdges();
+  Serial.println(F("Initial full sweep done."));
 }
 
 void Input::loopEncoder() { inputState.encoder.tick(); }
 
-void Input::loopButtons() {
-  for (uint8_t i = 0; i < MODEL_INPUTSTATE_KEYARRAY_LENGTH; ++i) {
-    uint8_t readValue = digitalRead(inputState.kKeyGpio[i]);
-    inputState.keys[i].cycle(readValue);
+void Input::loopShiftRegister() {
+  // Process the shift register
+  shiftRegister0.loop();
+}
+
+/**
+ * \brief Callback called by AsyncShiftIn::loop() once a loop hs been completed.
+ */
+void Input::shiftIn_reset(const AsyncShiftIn* asyncShiftIn) {
+  // Any reset, especially the first one, will cause initialized to be set to
+  // TRUE
+  initialized = true;
+
+#if (LOG_S88_BITS == STD_ON)
+  Serial.println(F(" RESET! "));
+#endif
+
+#if (LOG_KEYS_DEBOUNCE == STD_ON)
+  // Print the debounced Keys
+  for (int i = 0; i < SHIFT_REGISTER_LENGTH; ++i) {
+    Serial.print(i);
+    Serial.print((TurnoutControl::keyArray[i].getDebouncedValue() == HIGH
+                      ? ":HIGH/CLOSE "
+                      : ":LOW/PRESS "));
+  }
+  Serial.println();
+#endif
+}
+
+/**
+ * \brief Callback called by AsyncShiftIn::loop() every time a bit has been
+ * read.
+ */
+void Input::shiftIn_shift(const AsyncShiftIn* asyncShiftIn,
+                          unsigned int bitNumber, uint8_t state) {
+#if (LOG_S88_BITS == STD_ON)
+  // Serial.print(bitNumber);
+  // Serial.print((state == HIGH ? ":HIGH " : ":LOW  "));
+  Serial.print((state == HIGH ? "1" : "0"));
+#endif
+
+  // We read an inverted input - invert state
+  state = (state == HIGH ? LOW : HIGH);
+
+  // set the key debounce algorithm.
+#if (KEYS_DEBOUNCE == STD_ON)
+  inputState.keys[bitNumber].cycle(state);
+#else
+  inputState.keys[bitNumber].forceDebounce(state);
+#endif
+}
+
+}  // namespace controller
+
+void AsyncShiftIn_reset(const AsyncShiftIn* asyncShiftIn) {
+  if (controller::inputPtr != nullptr) {
+    controller::inputPtr->shiftIn_reset(asyncShiftIn);
   }
 }
 
-void Input::loopShiftRegister() {}
-
-}  // namespace controller
+void AsyncShiftIn_shift(const AsyncShiftIn* asyncShiftIn,
+                        unsigned int bitNumber, uint8_t state) {
+  if (controller::inputPtr != nullptr) {
+    controller::inputPtr->shiftIn_shift(asyncShiftIn, bitNumber, state);
+  }
+}

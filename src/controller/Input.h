@@ -1,6 +1,8 @@
 #ifndef __CONTROLLER__INPUT_H__
 #define __CONTROLLER__INPUT_H__
 
+#include "AsyncShiftIn.h"
+
 #include "model/InputState.h"
 
 namespace controller {
@@ -16,16 +18,28 @@ class Input {
 
   void loop() {
     loopEncoder();
-    loopButtons();
     loopShiftRegister();
   }
 
   model::InputState& getInputState() { return inputState; }
 
+  void shiftIn_reset(const AsyncShiftIn* shiftIn);
+  void shiftIn_shift(const AsyncShiftIn* asyncShiftIn, unsigned int bitNumber,
+                     uint8_t state);
+
  private:
   void loopEncoder();
-  void loopButtons();
   void loopShiftRegister();
+
+  /**
+   * \brief Variable stating whether the shift register has been initialized.
+   */
+  boolean initialized;
+
+  /**
+   * \brief The shift register.
+   */
+  AsyncShiftIn shiftRegister0;
 
   model::InputState inputState;
 };
