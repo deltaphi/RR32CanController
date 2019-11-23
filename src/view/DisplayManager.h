@@ -7,7 +7,13 @@
 #if (DISPLAY_ATTACHED == STD_ON)
 
 #include "RR32Can/Types.h"
+
+#if (DISPLAY_CONTROLLER_TYPE == DISPLAY_CONTROLLER_SSD1306)
 #include "SSD1306Wire.h"
+#endif
+#if (DISPLAY_CONTROLLER_TYPE == DISPLAY_CONTROLLER_SH1106)
+#include "SH1106Wire.h"
+#endif
 
 namespace view {
 
@@ -112,6 +118,13 @@ class DisplayManager {
   bool getSystemOn() const { return systemOn; }
 
  private:
+#if (DISPLAY_CONTROLLER_TYPE == DISPLAY_CONTROLLER_SSD1306)
+  using DisplayController_t = SSD1306Wire;
+#endif
+#if (DISPLAY_CONTROLLER_TYPE == DISPLAY_CONTROLLER_SH1106)
+  using DisplayController_t = SH1106Wire;
+#endif
+
   bool cursorEnabled;
   uint8_t cursorLine;
   static const uint8_t voffset[];
@@ -127,7 +140,7 @@ class DisplayManager {
 
   using TextBuffer = LineBuffer[DISPLAY_LINES];
 
-  SSD1306Wire display = {DISPLAY_TWI_ADDRESS, TWI_SDA_PIN, TWI_SCL_PIN};
+  DisplayController_t display = {DISPLAY_TWI_ADDRESS, TWI_SDA_PIN, TWI_SCL_PIN};
   TextBuffer buffer;
   bool updateRequired = false;
 };
