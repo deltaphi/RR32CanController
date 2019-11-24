@@ -80,6 +80,10 @@ constexpr const uint8_t kEngineBrowserEntries = kNumEngineNamesDownload;
 static_assert(kEngineBrowserEntries >= kNumEngineNamesDownload,
               "Cannot store all downloaded Engine enries");
 
+// Turnout Constants
+constexpr const TurnoutAddress_t kTurnoutAddressMin = 0;
+constexpr const TurnoutAddress_t kTurnoutAddressMax = 319;
+
 // Address ranges for engine protocols
 
 extern const char* kProtocolNameMM1;

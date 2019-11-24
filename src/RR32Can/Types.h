@@ -8,6 +8,8 @@ namespace RR32Can {
 /// Accessory direction
 enum class TurnoutDirection : uint8_t { RED = 0, GREEN = 1 };
 
+using TurnoutAddress_t = uint16_t;
+
 /// Engine Direction
 enum class EngineDirection {
   UNCHANGED = 0,
