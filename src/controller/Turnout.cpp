@@ -25,11 +25,11 @@ void Turnout::loop(model::InputState& inputState) {
   actionListProcessor.loop();
 }
 
-void Turnout::handleMultiturnout(TurnoutControl::TurnoutLookupResult result,
+void Turnout::handleMultiturnout(model::TurnoutLookupResult result,
                                  RR32Can::TurnoutDirection requestedDirection) {
   --result.address;  // Simple mapping to index into actionLists
   constexpr uint8_t actionListEndIndex =
-      (TurnoutControl::NumActionLists /
+      (model::NumActionLists /
        ((uint8_t)2U));  // Index one past the end of half the action lists
   if (result.address >= actionListEndIndex) {
     Serial.print("Requested Action List ");
@@ -63,7 +63,7 @@ void Turnout::handleMultiturnout(TurnoutControl::TurnoutLookupResult result,
  */
 void Turnout::handleButton(uint8_t buttonIndex, uint8_t buttonState) {
   // There was an edge here, send out a message
-  TurnoutControl::TurnoutLookupResult turnoutIndex =
+  model::TurnoutLookupResult turnoutIndex =
       TurnoutControl::lookupTurnout(buttonIndex);
 
 #if (LOG_BUTTON_PRESS == STD_ON)
@@ -79,7 +79,7 @@ void Turnout::handleButton(uint8_t buttonIndex, uint8_t buttonState) {
 #endif
 
   switch (turnoutIndex.mode) {
-    case TurnoutControl::TurnoutAddressMode::SingleTurnout: {
+    case model::TurnoutAddressMode::SingleTurnout: {
       // Single turnout - send out a packet right away.
       RR32Can::TurnoutDirection direction =
           buttonIndex % 2 == 0 ? RR32Can::TurnoutDirection::RED
@@ -95,7 +95,7 @@ void Turnout::handleButton(uint8_t buttonIndex, uint8_t buttonState) {
                                            (buttonState == HIGH ? 1 : 0));
       break;
     }
-    case TurnoutControl::TurnoutAddressMode::MultiTurnout: {
+    case model::TurnoutAddressMode::MultiTurnout: {
       // Only start multi-turnout actions on button press, not release.
       if (buttonState == HIGH) {
         handleMultiturnout(

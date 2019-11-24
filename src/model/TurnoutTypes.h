@@ -5,7 +5,7 @@
 
 #include "RR32Can/Types.h"
 
-namespace TurnoutControl {
+namespace model {
 
 enum class TurnoutAddressMode { SingleTurnout = 0, MultiTurnout };
 
@@ -25,9 +25,12 @@ using ActionList = TurnoutAction[NumActions];
 
 constexpr uint8_t NumActionLists = 6;
 
-TurnoutLookupResult lookupTurnout(uint8_t buttonIndex);
+} /* namespace model */
 
-extern ActionList actionLists[NumActionLists];
+namespace TurnoutControl {
+
+model::TurnoutLookupResult lookupTurnout(uint8_t buttonIndex);
+extern model::ActionList actionLists[model::NumActionLists];
 
 } /* namespace TurnoutControl */
 

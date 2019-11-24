@@ -1,10 +1,10 @@
-#include "TurnoutTypes.h"
 #include "config.h"
+#include "model/TurnoutTypes.h"
 
 namespace TurnoutControl {
 
 // Action lists use human numbering
-ActionList actionLists[NumActionLists] = {
+model::ActionList actionLists[model::NumActionLists] = {
     {{20, RR32Can::TurnoutDirection::RED},
      {4, RR32Can::TurnoutDirection::GREEN},
      {5, RR32Can::TurnoutDirection::GREEN}},  // 1 red
@@ -27,7 +27,7 @@ ActionList actionLists[NumActionLists] = {
      {22, RR32Can::TurnoutDirection::GREEN}},  // 3 green
 };
 
-TurnoutLookupResult lookupTurnout(uint8_t buttonIndex) {
+model::TurnoutLookupResult lookupTurnout(uint8_t buttonIndex) {
   buttonIndex /= 2;  // Ignore the lowest bit
 
 #if (LOG_BUTTON_MAPPING == STD_ON)
@@ -38,8 +38,8 @@ TurnoutLookupResult lookupTurnout(uint8_t buttonIndex) {
   // We now get the following values for the hardware:
   // 16 17 18 19  20 21 22 23   8  9 10 11  12 13 14 15   0  1  2  3
 
-  TurnoutLookupResult result;
-  result.mode = TurnoutAddressMode::SingleTurnout;
+  model::TurnoutLookupResult result;
+  result.mode = model::TurnoutAddressMode::SingleTurnout;
 
   switch (buttonIndex) {
     case 16:
@@ -99,17 +99,17 @@ TurnoutLookupResult lookupTurnout(uint8_t buttonIndex) {
       break;
     case 1:
       // Multi-Turnout
-      result.mode = TurnoutAddressMode::MultiTurnout;
+      result.mode = model::TurnoutAddressMode::MultiTurnout;
       result.address = 1;
       break;
     case 2:
       // Multi-Turnout
-      result.mode = TurnoutAddressMode::MultiTurnout;
+      result.mode = model::TurnoutAddressMode::MultiTurnout;
       result.address = 2;
       break;
     case 3:
       // Multi-Turnout
-      result.mode = TurnoutAddressMode::MultiTurnout;
+      result.mode = model::TurnoutAddressMode::MultiTurnout;
       result.address = 3;
       break;
 

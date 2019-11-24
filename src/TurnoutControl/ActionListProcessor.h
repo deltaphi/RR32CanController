@@ -3,7 +3,7 @@
 
 #include "RR32Can/Types.h"
 
-#include "TurnoutTypes.h"
+#include "model/TurnoutTypes.h"
 
 namespace TurnoutControl {
 

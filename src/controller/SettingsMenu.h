@@ -31,7 +31,6 @@ class SettingsMenu : public AbstractMenu {
    */
   MenuItems_t getMenuItems() override;
 
-
   /**
    * \brief Callback to obtian the current known length of the menu.
    *

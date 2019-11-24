@@ -4,9 +4,7 @@
 
 namespace controller {
 
-void AbstractMenu::begin() {
-  currentItem = 0;
-};
+void AbstractMenu::begin() { currentItem = 0; };
 
 void AbstractMenu::loop(model::InputState& inputState,
                         MasterControl& masterControl) {
@@ -26,7 +24,9 @@ void AbstractMenu::loop(model::InputState& inputState,
 
 void AbstractMenu::updateDisplayOnce(view::DisplayManager& displayManager) {
   displayUpdateNeeded = true;
-  menuItemInFirstDisplayLine = currentItem + 1;  // A value that is guaranteed to trigger an update of the menu.
+  menuItemInFirstDisplayLine =
+      currentItem +
+      1;  // A value that is guaranteed to trigger an update of the menu.
   updateDisplay(displayManager);
 }
 

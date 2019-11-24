@@ -29,7 +29,7 @@ void ActionListProcessor::loop() {
         if (!buttonPressed) {
           // Advance the actionIndex
           ++actionIndex;
-          if (actionIndex >= NumActions) {
+          if (actionIndex >= model::NumActions) {
             // we reached the end of the action list.
             setInactive();
           }
@@ -44,7 +44,7 @@ void ActionListProcessor::performAction() {
   Serial.print("Performing action for index ");
   Serial.print(actionIndex, DEC);
 #endif
-  TurnoutAction* action = &(actionLists[actionListIndex][actionIndex]);
+  model::TurnoutAction* action = &(actionLists[actionListIndex][actionIndex]);
 #if (LOG_ACTIONLIST == STD_ON)
   Serial.print(". Action pointer is 0x");
   Serial.print((uint32_t)action, HEX);

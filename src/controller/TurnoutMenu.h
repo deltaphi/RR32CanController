@@ -25,10 +25,10 @@ class TurnoutMenu {
     displayUpdateNeeded = true;
     updateDisplay(displayManager);
   }
-  
+
  private:
   TurnoutKeyIndex_t currentKey;
-  
+
   /// Whether an action was taken that requires an update to the display.
   bool displayUpdateNeeded;
 };

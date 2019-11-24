@@ -2,8 +2,8 @@
 #define __CONTROLLER__TURNOUT_H__
 
 #include "TurnoutControl/ActionListProcessor.h"
-#include "TurnoutControl/TurnoutTypes.h"
 #include "model/InputState.h"
+#include "model/TurnoutTypes.h"
 
 namespace controller {
 
@@ -17,7 +17,7 @@ class Turnout {
 
  private:
   void handleButton(uint8_t buttonIndex, uint8_t buttonState);
-  void handleMultiturnout(TurnoutControl::TurnoutLookupResult result,
+  void handleMultiturnout(model::TurnoutLookupResult result,
                           RR32Can::TurnoutDirection requestedDirection);
 
   TurnoutControl::ActionListProcessor actionListProcessor;
