@@ -4,6 +4,7 @@
 #include <cstdint>
 
 #include "model/InputState.h"
+#include "model/TurnoutMap.h"
 #include "view/DisplayManager.h"
 
 namespace controller {
@@ -20,10 +21,12 @@ class TurnoutMenu {
   void begin();
   void loop(model::InputState& inputState, MasterControl& masterControl);
 
-  void updateDisplay(view::DisplayManager& displayManager);
-  void updateDisplayOnce(view::DisplayManager& displayManager) {
+  void updateDisplay(view::DisplayManager& displayManager,
+                     const model::TurnoutMap& turnoutMap);
+  void updateDisplayOnce(view::DisplayManager& displayManager,
+                         const model::TurnoutMap& turnoutMap) {
     displayUpdateNeeded = true;
-    updateDisplay(displayManager);
+    updateDisplay(displayManager, turnoutMap);
   }
 
  private:

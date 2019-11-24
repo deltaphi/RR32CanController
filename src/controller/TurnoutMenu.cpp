@@ -4,7 +4,7 @@
 
 namespace controller {
 
-void TurnoutMenu::begin() {}
+void TurnoutMenu::begin() { currentKey = TURNOUT_BUTTONS_OFFSET; }
 
 void TurnoutMenu::loop(model::InputState& inputState,
                        MasterControl& masterControl) {
@@ -30,13 +30,13 @@ void TurnoutMenu::loop(model::InputState& inputState,
   }
 }
 
-void TurnoutMenu::updateDisplay(view::DisplayManager& displayManager) {
+void TurnoutMenu::updateDisplay(view::DisplayManager& displayManager,
+                                const model::TurnoutMap& turnoutMap) {
   if (displayUpdateNeeded) {
-    displayManager.disableCursor();
     snprintf(displayManager.getWritableBuffer(0), STRING_DATATYPE_LENGTH,
              "Button: %i (%s)", currentKey, "R/G");
     snprintf(displayManager.getWritableBuffer(1), STRING_DATATYPE_LENGTH,
-             "Turnout: %i", -1);
+             "Turnout: %i", turnoutMap.lookupTurnout(currentKey).address);
 
     displayUpdateNeeded = false;
   }

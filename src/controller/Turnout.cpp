@@ -11,7 +11,7 @@
 
 namespace controller {
 
-void Turnout::begin() {}
+void Turnout::begin() { turnoutMap.begin(); }
 
 void Turnout::loop(model::InputState& inputState) {
   model::InputState::Key_t* keys = inputState.getTurnoutKeys();
@@ -64,7 +64,7 @@ void Turnout::handleMultiturnout(model::TurnoutLookupResult result,
 void Turnout::handleButton(uint8_t buttonIndex, uint8_t buttonState) {
   // There was an edge here, send out a message
   model::TurnoutLookupResult turnoutIndex =
-      TurnoutControl::lookupTurnout(buttonIndex);
+      turnoutMap.lookupTurnout(buttonIndex);
 
 #if (LOG_BUTTON_PRESS == STD_ON)
   Serial.print(F("Button "));

@@ -137,13 +137,14 @@ void MasterControl::enterLocoDownload() {
 void MasterControl::enterSettingsMenu() {
   printf("MasterControl::enterSettingsMenu\n");
   uiMode = UIMode::SETTINGS;
-  settingsMenu.updateDisplayOnce(displayManager);
+  settingsMenu.forceDisplayUpdate();
 }
 
 void MasterControl::enterTurnoutMenu() {
   printf("MasterControl::enterTurnoutMenu\n");
   uiMode = UIMode::TURNOUTMAPPING;
-  turnoutMenu.updateDisplayOnce(displayManager);
+  displayManager.disableCursor();
+  turnoutMenu.updateDisplayOnce(displayManager, turnoutControl.getTurnoutMap());
 }
 
 void MasterControl::updateDisplayLoop() {
@@ -162,7 +163,7 @@ void MasterControl::updateDisplayLoop() {
       settingsMenu.updateDisplay(displayManager);
       break;
     case UIMode::TURNOUTMAPPING:
-      turnoutMenu.updateDisplay(displayManager);
+      turnoutMenu.updateDisplay(displayManager, turnoutControl.getTurnoutMap());
   }
 
   // Always update the non-text loco artifacts

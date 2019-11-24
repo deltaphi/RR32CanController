@@ -22,12 +22,10 @@ void AbstractMenu::loop(model::InputState& inputState,
   }
 }
 
-void AbstractMenu::updateDisplayOnce(view::DisplayManager& displayManager) {
+void AbstractMenu::forceDisplayUpdate() {
   displayUpdateNeeded = true;
-  menuItemInFirstDisplayLine =
-      currentItem +
-      1;  // A value that is guaranteed to trigger an update of the menu.
-  updateDisplay(displayManager);
+  // Set to a value that is guaranteed to trigger an update of the menu.
+  menuItemInFirstDisplayLine = currentItem + 1;
 }
 
 void AbstractMenu::updateDisplay(view::DisplayManager& displayManager) {

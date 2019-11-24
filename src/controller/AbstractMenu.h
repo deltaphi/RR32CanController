@@ -27,7 +27,10 @@ class AbstractMenu {
   void loop(model::InputState& inputState, MasterControl& masterControl);
 
   void updateDisplay(view::DisplayManager& displayManager);
-  void updateDisplayOnce(view::DisplayManager& displayManager);
+  /**
+   * \brief Force rereading the display lines on the next draw cycle.
+   */
+  void forceDisplayUpdate();
 
   struct MenuItems_t {
     const char** items;
