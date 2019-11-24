@@ -18,6 +18,9 @@ void MasterControl::begin() {
   locoList.begin();
 
   turnoutControl.begin();
+
+  settingsMenu.begin();
+  turnoutMenu.begin();
 }
 
 void MasterControl::loop() {
@@ -42,6 +45,8 @@ void MasterControl::checkStateTransition() {
     case UIMode::IDLE:
     case UIMode::LOCOCONTROL:
     case UIMode::LOCOLIST:
+    case UIMode::SETTINGS:
+    case UIMode::TURNOUTMAPPING:
       break;
     case UIMode::LOCODOWNLOAD:
       // Switch to control when an engine was downloaded.
@@ -66,17 +71,22 @@ void MasterControl::forwardLoop() {
     case UIMode::LOCOLIST:
       locoList.loop(inputState, *this);
       break;
+    case UIMode::SETTINGS:
+      settingsMenu.loop(inputState, *this);
+      break;
+    case UIMode::TURNOUTMAPPING:
+      turnoutMenu.loop(inputState, *this);
   }
 }
 
 void MasterControl::enterIdle() {
-  printf("UIControl::enterIdle\n");
+  printf("MasterControl::enterIdle\n");
   uiMode = UIMode::IDLE;
   idleControl.updateDisplayOnce(displayManager);
 }
 
 void MasterControl::enterLocoControl() {
-  printf("UIControl::enterLocoControl\n");
+  printf("MasterControl::enterLocoControl\n");
   if (!locoControl.hasValidEngine()) {
     enterIdle();
   } else {
@@ -89,7 +99,7 @@ void MasterControl::enterLocoControl() {
 }
 
 void MasterControl::enterLocoList() {
-  printf("UIControl::enterLocoList\n");
+  printf("MasterControl::enterLocoList\n");
   uiMode = UIMode::LOCOLIST;
   input.getInputState().loadEncoderPosition(locoList.getCursorPosition());
   locoList.RequestDownloadAtCursor();
@@ -97,7 +107,7 @@ void MasterControl::enterLocoList() {
 }
 
 void MasterControl::enterLocoDownload() {
-  printf("UIControl::enterLocoDownload\n");
+  printf("MasterControl::enterLocoDownload\n");
   uiMode = UIMode::LOCODOWNLOAD;
 
   // Copy selected engine from locoList to locoControl and start the download of
@@ -124,6 +134,18 @@ void MasterControl::enterLocoDownload() {
   }
 }
 
+void MasterControl::enterSettingsMenu() {
+  printf("MasterControl::enterSettingsMenu\n");
+  uiMode = UIMode::SETTINGS;
+  settingsMenu.updateDisplayOnce(displayManager);
+}
+
+void MasterControl::enterTurnoutMenu() {
+  printf("MasterControl::enterTurnoutMenu\n");
+  uiMode = UIMode::TURNOUTMAPPING;
+  turnoutMenu.updateDisplayOnce(displayManager);
+}
+
 void MasterControl::updateDisplayLoop() {
   switch (uiMode) {
     case UIMode::IDLE:
@@ -136,6 +158,11 @@ void MasterControl::updateDisplayLoop() {
     case UIMode::LOCODOWNLOAD:
     case UIMode::LOCOCONTROL:
       break;
+    case UIMode::SETTINGS:
+      settingsMenu.updateDisplay(displayManager);
+      break;
+    case UIMode::TURNOUTMAPPING:
+      turnoutMenu.updateDisplay(displayManager);
   }
 
   // Always update the non-text loco artifacts

@@ -5,7 +5,9 @@
 #include "controller/Input.h"
 #include "controller/LocoControl.h"
 #include "controller/LocoList.h"
+#include "controller/SettingsMenu.h"
 #include "controller/Turnout.h"
+#include "controller/TurnoutMenu.h"
 #include "view/DisplayManager.h"
 
 #include "RR32Can/StationCbk.h"
@@ -17,7 +19,14 @@ namespace controller {
  */
 class MasterControl : public RR32Can::StationCbk {
  public:
-  enum class UIMode { IDLE = 0, LOCOCONTROL, LOCOLIST, LOCODOWNLOAD };
+  enum class UIMode {
+    IDLE = 0,
+    LOCOCONTROL,
+    LOCOLIST,
+    LOCODOWNLOAD,
+    SETTINGS,
+    TURNOUTMAPPING
+  };
 
   virtual ~MasterControl() = default;
 
@@ -33,6 +42,8 @@ class MasterControl : public RR32Can::StationCbk {
   void enterLocoControl();
   void enterLocoList();
   void enterLocoDownload();
+  void enterSettingsMenu();
+  void enterTurnoutMenu();
 
   UIMode getUIMode() const { return uiMode; }
 
@@ -62,6 +73,9 @@ class MasterControl : public RR32Can::StationCbk {
   LocoList locoList;
 
   Turnout turnoutControl;
+
+  SettingsMenu settingsMenu;
+  TurnoutMenu turnoutMenu;
 
   RR32Can::SystemState systemState = RR32Can::SystemState::UNKNOWN;
 };

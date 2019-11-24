@@ -15,9 +15,8 @@ void LocoList::loop(model::InputState& inputState,
                     MasterControl& masterControl) {
   if (inputState.isEncoderRisingEdge()) {
     if (inputState.isShiftPressed()) {
-      // switch to control/idle on shift+encoder
-      // Note: LocoControl redirects to idle if there is no loco.
-      masterControl.enterLocoControl();
+      // switch to settings menu on shift+encoder
+      masterControl.enterSettingsMenu();
     } else {
       // switch to download on encoder. This will commit the current engine.
       masterControl.enterLocoDownload();

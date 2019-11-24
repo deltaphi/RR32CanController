@@ -21,7 +21,13 @@ transmitted on the bus.
 
 #### General concept
 
-General: Shift + Direction Change enters the menu or leaves the menu without applying any changes.
+General: Shift + Direction Change enters the menu (cycles through menus) or leaves the menu without applying any changes.
+
+Menu Levels:
+
+* Level 0/Default: Loco Control
+* Level 1: Loco List
+* Level 2: Settings Menu
 
 #### Menuing for Accessories
 
@@ -73,6 +79,29 @@ m = (y1 - y2)/(x1 - x2) = (1 - (kMaxEngineVelocity/12))/(500 - (50/12)) = -0.16
 
 c = y1 - m*x1 = 84.03
 
+
+#### Settings Menu
+
+Menu Entries:
+
+* Turnout mapping
+* Action list mapping
+* Default connection settings
+* WiFi settings
+
+##### Turnout Mapping
+
+When in the Turnout mapping menu:
+
+* Press a button (red or green) for a turnout
+* Display shows number of button and whether red or green was pressed (line 1)
+* Display shows human-readable number of currently mapped turnout
+* Use encoder to adjust the number of the turnout
+* pressing the encoder stores the turnout mapping (visual feedback possible?)
+* pressing another turnout button switches to settings for that button
+* pressing shift + encoder leaves the menu.
+
+Possible extension: Use the function buttons to increase/decrease in steps of 10
 
 
 ### Unit Testing
