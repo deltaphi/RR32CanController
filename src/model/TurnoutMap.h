@@ -15,18 +15,35 @@ namespace model {
  */
 class TurnoutMap {
  public:
+  using ButtonIndex_t = uint8_t;
+
   /**
    * "Loads" the mapping by setting up a 1:1 default mapping.
    */
   void begin();
 
   /**
-   * Convers a button index to a turnout number.
+   * Converts a button index to a turnout number.
    * Uses bus numbering, not human-readable numbering.
    */
-  model::TurnoutLookupResult lookupTurnout(uint8_t buttonIndex) const;
+  model::TurnoutLookupResult lookupTurnout(ButtonIndex_t buttonIndex) const;
+
+  void setLookupTurnout(ButtonIndex_t buttonIndex,
+                        model::TurnoutLookupResult newResult);
+
+  void print() const;
 
  private:
+  ButtonIndex_t buttonToArrayIndex(ButtonIndex_t button) const {
+    button /= 2;  // Ignore the lowest bit
+    return button;
+  }
+
+  model::TurnoutLookupResult& rangeCheckedMapAt(ButtonIndex_t button);
+  model::TurnoutLookupResult rangeCheckedMapAt(ButtonIndex_t button) const {
+    return const_cast<TurnoutMap*>(this)->rangeCheckedMapAt(button);
+  }
+
   /**
    * \brief Maps from button index to turnout number.
    *

@@ -75,7 +75,7 @@ void MasterControl::forwardLoop() {
       settingsMenu.loop(inputState, *this);
       break;
     case UIMode::TURNOUTMAPPING:
-      turnoutMenu.loop(inputState, *this);
+      turnoutMenu.loop(inputState, *this, turnoutControl.getTurnoutMap());
   }
 }
 
@@ -144,7 +144,7 @@ void MasterControl::enterTurnoutMenu() {
   printf("MasterControl::enterTurnoutMenu\n");
   uiMode = UIMode::TURNOUTMAPPING;
   displayManager.disableCursor();
-  turnoutMenu.updateDisplayOnce(displayManager, turnoutControl.getTurnoutMap());
+  turnoutMenu.forceDisplayUpdate();
 }
 
 void MasterControl::updateDisplayLoop() {

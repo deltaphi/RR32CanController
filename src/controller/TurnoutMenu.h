@@ -19,15 +19,12 @@ class TurnoutMenu {
   using TurnoutKeyIndex_t = uint8_t;
 
   void begin();
-  void loop(model::InputState& inputState, MasterControl& masterControl);
+  void loop(model::InputState& inputState, MasterControl& masterControl,
+            model::TurnoutMap& turnoutMap);
 
   void updateDisplay(view::DisplayManager& displayManager,
                      const model::TurnoutMap& turnoutMap);
-  void updateDisplayOnce(view::DisplayManager& displayManager,
-                         const model::TurnoutMap& turnoutMap) {
-    displayUpdateNeeded = true;
-    updateDisplay(displayManager, turnoutMap);
-  }
+  void forceDisplayUpdate() { displayUpdateNeeded = true; }
 
  private:
   TurnoutKeyIndex_t currentKey;
