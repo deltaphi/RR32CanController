@@ -101,7 +101,7 @@ void MasterControl::enterLocoControl() {
 void MasterControl::enterLocoList() {
   printf("MasterControl::enterLocoList\n");
   uiMode = UIMode::LOCOLIST;
-  input.getInputState().loadEncoderPosition(locoList.getCursorPosition());
+  input.getInputState().loadEncoderPosition(locoList.getCurrentItem());
   locoList.RequestDownloadAtCursor();
   displayManager.disableCursor();
 }

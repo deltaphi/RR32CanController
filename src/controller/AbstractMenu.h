@@ -3,6 +3,7 @@
 
 #include <cstdint>
 
+#include "controller/EncoderLimiter.h"
 #include "model/InputState.h"
 #include "view/DisplayManager.h"
 
@@ -20,11 +21,12 @@ class MasterControl;
  */
 class AbstractMenu {
  public:
-  using MenuItemIndex_t = uint8_t;
-  static constexpr const uint8_t kCountMenuItems = 2;
+  using MenuItemIndex_t = long;
+  static constexpr const uint8_t kCountMenuItems = DISPLAY_LINES;
 
   virtual void begin();
-  void loop(model::InputState& inputState, MasterControl& masterControl);
+  virtual void loop(model::InputState& inputState,
+                    MasterControl& masterControl);
 
   void updateDisplay(view::DisplayManager& displayManager);
   /**
@@ -33,10 +35,12 @@ class AbstractMenu {
   void forceDisplayUpdate();
 
   struct MenuItems_t {
-    const char** items;
+    const char* items[DISPLAY_LINES];
     MenuItemIndex_t offset;
     MenuItemIndex_t numItems;
   };
+
+  MenuItemIndex_t getCurrentItem() const { return currentItem; }
 
  protected:
   /// Callback when a menu item is selected.
@@ -73,8 +77,17 @@ class AbstractMenu {
    */
   // void updateMenuItems();
 
+  virtual void notifyEncoderMoved(MenuItemIndex_t newItem);
+
   /// Protected destructor to prevent destruction through base class.
   ~AbstractMenu() = default;
+
+ protected:
+  MenuItemIndex_t getMenuItemInFirstDisplayLine() const {
+    return menuItemInFirstDisplayLine;
+  }
+
+  EncoderLimiter limiter;
 
  private:
   /**

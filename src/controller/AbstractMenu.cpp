@@ -13,12 +13,27 @@ void AbstractMenu::loop(model::InputState& inputState,
       printf("AbstractMenu: Abort Menu.\n");
       abortMenu(masterControl);
     } else {
-      printf("AbstractMenu: Advance on item %i.\n", currentItem);
+      printf("AbstractMenu: Advance on item %li.\n", currentItem);
       advanceMenu(currentItem, masterControl);
     }
   } else {
-    // TODO: Evaluate moving through the list
-    // displayUpdateNeeded = false;  // TODO: Should possibly be "true".
+    // Evaluate moving through the list
+
+    currentItem = inputState.encoder.getPosition();
+    if (inputState.lastEncoderState.position != currentItem) {
+      // Encoder moved
+      MenuItemIndex_t limitedValue = limiter.limitedValue(currentItem);
+      if (limitedValue == currentItem) {
+        // performed within limits.
+        inputState.consumeEncoderPosition();
+        notifyEncoderMoved(limitedValue);
+        displayUpdateNeeded = true;
+
+      } else {
+        // Moved out of configured bounds, limit the encoder.
+        inputState.loadEncoderPosition(limitedValue);
+      }
+    }
   }
 }
 
@@ -79,6 +94,10 @@ void AbstractMenu::updateDisplay(view::DisplayManager& displayManager) {
     displayUpdateNeeded = false;
     // printf("\n");
   }
+}
+
+void AbstractMenu::notifyEncoderMoved(MenuItemIndex_t newItem) {
+  // Dummy implementation that is guaranteed to do nothing.
 }
 
 }  // namespace controller

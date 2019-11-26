@@ -27,14 +27,18 @@ void SettingsMenu::advanceMenu(MenuItemIndex_t menuItem,
       masterControl.enterTurnoutMenu();
       break;
     default:
-      printf("SettingsMenu: Unknown menu item %i.\n", menuItem);
+      printf("SettingsMenu: Unknown menu item %li.\n", menuItem);
       break;
   }
 }
 
 AbstractMenu::MenuItems_t SettingsMenu::getMenuItems() {
   MenuItems_t menuItems;
-  menuItems.items = kMenuEntries;
+  // TODO: This loop needs to be adjusted when there are more menu entries that
+  // fit in .items.
+  for (int i = 0; i < kNumMenuEntries; ++i) {
+    menuItems.items[i] = kMenuEntries[i];
+  }
   menuItems.offset = 0;
   menuItems.numItems = kNumMenuEntries;
   return menuItems;
