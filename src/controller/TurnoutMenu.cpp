@@ -6,14 +6,24 @@ namespace controller {
 
 void TurnoutMenu::begin() { currentKey = TURNOUT_BUTTONS_OFFSET; }
 
+void TurnoutMenu::loadCurrentKey(model::InputState& inputState,
+                                 model::TurnoutMap& turnoutMap) {
+  currentResult = turnoutMap.lookupTurnout(currentKey);
+  inputState.loadEncoderPosition(currentResult.address);
+  displayUpdateNeeded = true;
+}
+
 void TurnoutMenu::loop(model::InputState& inputState,
                        MasterControl& masterControl,
                        model::TurnoutMap& turnoutMap) {
   if (inputState.isEncoderRisingEdge()) {
     if (inputState.isShiftPressed()) {
+      // Persisently save current mapping and exit the menu.
+      turnoutMap.store();
       masterControl.enterSettingsMenu();
     } else {
-      // TODO: Store current mapping
+      // Store current mapping in volatile storage.
+      turnoutMap.setLookupTurnout(currentKey, currentResult);
     }
   } else {
     // On encoder rotation, change the current mapping
@@ -33,10 +43,7 @@ void TurnoutMenu::loop(model::InputState& inputState,
         inputState.loadEncoderPosition(RR32Can::kTurnoutAddressMax);
       } else {
         // use the actual value
-        model::TurnoutLookupResult turnoutLookup =
-            turnoutMap.lookupTurnout(currentKey);
-        turnoutLookup.address = encoderNewPosition;
-        turnoutMap.setLookupTurnout(currentKey, turnoutLookup);
+        currentResult.address = encoderNewPosition;
       }
       displayUpdateNeeded = true;
       inputState.consumeEncoderPosition();
@@ -48,9 +55,7 @@ void TurnoutMenu::loop(model::InputState& inputState,
       if (turnoutKeys[i].getAndResetRisingEdge()) {
         // Button was released, select the key.
         currentKey = i;
-        inputState.loadEncoderPosition(
-            turnoutMap.lookupTurnout(currentKey).address);
-        displayUpdateNeeded = true;
+        loadCurrentKey(inputState, turnoutMap);
         break;
       }
     }
@@ -62,8 +67,7 @@ void TurnoutMenu::updateDisplay(view::DisplayManager& displayManager,
   if (displayUpdateNeeded) {
     snprintf(displayManager.getWritableBuffer(0), STRING_DATATYPE_LENGTH,
              "Button: %i (%s)", currentKey, "R/G");
-    RR32Can::TurnoutAddress_t address =
-        turnoutMap.lookupTurnout(currentKey).address;
+    RR32Can::TurnoutAddress_t address = currentResult.address;
     snprintf(displayManager.getWritableBuffer(1), STRING_DATATYPE_LENGTH,
              "Turnout: %i", address);
 

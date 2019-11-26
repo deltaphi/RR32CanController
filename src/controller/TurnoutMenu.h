@@ -28,6 +28,10 @@ class TurnoutMenu {
 
  private:
   TurnoutKeyIndex_t currentKey;
+  model::TurnoutLookupResult currentResult;
+
+  void loadCurrentKey(model::InputState& inputState,
+                      model::TurnoutMap& turnoutMap);
 
   /// Whether an action was taken that requires an update to the display.
   bool displayUpdateNeeded;

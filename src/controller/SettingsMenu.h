@@ -3,6 +3,7 @@
 
 #include "controller/AbstractMenu.h"
 #include "model/InputState.h"
+#include "model/Settings.h"
 
 namespace controller {
 
@@ -14,6 +15,10 @@ class MasterControl;
 class SettingsMenu : public AbstractMenu {
  public:
   static constexpr const uint8_t kNumMenuEntries = 1;
+
+  void begin() override;
+
+  model::Settings& getSettings() { return settings; }
 
  protected:
   /// Callback when a menu item is selected.
@@ -45,6 +50,8 @@ class SettingsMenu : public AbstractMenu {
   static const char* kConnectionSettingsMapping;
 
   static const char* kMenuEntries[kNumMenuEntries];
+
+  model::Settings settings;
 };
 
 }  // namespace controller

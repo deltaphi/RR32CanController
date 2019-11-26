@@ -22,6 +22,8 @@ class TurnoutMap {
    */
   void begin();
 
+  void store();
+
   /**
    * Converts a button index to a turnout number.
    * Uses bus numbering, not human-readable numbering.
@@ -34,6 +36,10 @@ class TurnoutMap {
   void print() const;
 
  private:
+  bool load();
+
+  static const char* kTurnoutMapSettingsFile;
+
   ButtonIndex_t buttonToArrayIndex(ButtonIndex_t button) const {
     button /= 2;  // Ignore the lowest bit
     return button;
@@ -44,6 +50,8 @@ class TurnoutMap {
     return const_cast<TurnoutMap*>(this)->rangeCheckedMapAt(button);
   }
 
+  using TurnoutMap_t = model::TurnoutLookupResult[TURNOUT_MAP_LENGTH];
+
   /**
    * \brief Maps from button index to turnout number.
    *
@@ -51,7 +59,7 @@ class TurnoutMap {
    * Array is half the length of the buttons, as there are always two buttons
    * for a turnout.
    */
-  model::TurnoutLookupResult turnoutMap[TURNOUT_MAP_LENGTH];
+  TurnoutMap_t turnoutMap;
 };
 
 }  // namespace model

@@ -1,5 +1,7 @@
 #include <Arduino.h>
 
+#include "SPIFFS.h"
+
 #include "config.h"
 
 #if (CAN_DRIVER_SJA1000 == STD_ON)
@@ -69,6 +71,13 @@ void setup() {
       ;
   }
 #endif
+
+  // Open SPIFFS to be able to store settings
+  if (SPIFFS.begin(true)) {
+    printf("SPIFFS mount succeeded.\n");
+  } else {
+    printf("SPIFFS mount failed.\n");
+  }
 
   masterControl.begin();
 

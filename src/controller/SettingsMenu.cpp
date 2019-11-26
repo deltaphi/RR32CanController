@@ -11,6 +11,11 @@ const char* SettingsMenu::kConnectionSettingsMapping = "Connection Settings";
 
 const char* SettingsMenu::kMenuEntries[kNumMenuEntries] = {kTurnoutMapping};
 
+void SettingsMenu::begin() {
+  settings.begin();
+  AbstractMenu::begin();
+}
+
 void SettingsMenu::abortMenu(MasterControl& masterControl) {
   masterControl.enterLocoControl();
 }
