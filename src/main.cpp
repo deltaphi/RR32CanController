@@ -16,6 +16,8 @@
 #include <RR32Can/RR32Can.h>
 #include "RR32Can/Handler.h"
 
+#include "wifiManager.h"
+
 #include <controller/MasterControl.h>
 
 controller::MasterControl masterControl;
@@ -79,6 +81,8 @@ void setup() {
     printf("SPIFFS mount failed.\n");
   }
 
+  setupWifi();
+
   masterControl.begin();
 
   RR32Can::RR32Can.begin(RR32CanUUID, masterControl);
@@ -92,6 +96,8 @@ void loop() {
   masterControl.loop();
 
   CanInputLoop();
+
+  WifiInputLoop();
 }
 
 #if (CAN_DRIVER_ESP32IDF == STD_ON)
@@ -221,3 +227,26 @@ void CanInputLoop(void) {
 
   RR32Can::RR32Can.HandlePacket(maerklinIdentifier, maerklinData);
 }
+
+namespace RR32Can {
+
+void SendPacket(const RR32Can::Identifier& id, const RR32Can::Data& data) {
+  if (!wifiConnected) {
+    Serial.println("Wifi not connected. Not sending packet.");
+    return;
+  }
+
+  Serial.println("Sending packet via WiFi.");
+  // Send packet on WIFI
+  udpSendSocket.beginPacket(canGwAddress, canGwPort);
+  uint32_t canId = id.makeIdentifier();
+  udpSendSocket.write(canId >> 24);
+  udpSendSocket.write(canId >> 16);
+  udpSendSocket.write(canId >> 8);
+  udpSendSocket.write(canId);
+  udpSendSocket.write(data.dlc);
+  udpSendSocket.write(data.data, 8);
+  udpSendSocket.endPacket();
+}
+
+} /* namespace RR32Can */
