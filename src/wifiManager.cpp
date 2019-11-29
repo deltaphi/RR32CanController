@@ -1,9 +1,6 @@
 #include "wifiManager.h"
 
-#include "RR32Can/Handler.h"
 #include "RR32Can/RR32Can.h"
-#include "RR32Can/messages/Data.h"
-#include "RR32Can/messages/Identifier.h"
 
 #include "config.h"
 
@@ -65,11 +62,24 @@ void wifiEventHandler(WiFiEvent_t event) {
 }
 
 void setupWifi() {
-  WiFi.disconnect(true);
+  WiFi.disconnect(false);
   WiFi.onEvent(wifiEventHandler);
+}
+
+void startWifi() {
   Serial.println("Starting Wifi. Waiting for connection.");
   WiFi.begin(networkName, networkPswd);
   WiFi.setAutoReconnect(true);
+}
+
+void stopWifi() {
+  Serial.println("Stopping Wifi.");
+  WiFi.setAutoReconnect(false);
+  WiFi.disconnect(false);
+}
+
+bool isWifiAvailable() {
+  return wifiConnected;
 }
 
 void WifiInputLoop() {

@@ -38,6 +38,8 @@ void setup() {
 
   setupWifi();
 
+  //startWifi();
+
   masterControl.begin();
 
   masterControl.getDisplayManager().setWifi(false);
