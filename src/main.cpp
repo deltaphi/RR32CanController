@@ -9,6 +9,8 @@
 #include <RR32Can/RR32Can.h>
 #include "RR32Can/Handler.h"
 
+#include "wifiManager.h"
+
 #include <controller/MasterControl.h>
 
 controller::MasterControl masterControl;
@@ -34,6 +36,8 @@ void setup() {
     printf("SPIFFS mount failed.\n");
   }
 
+  setupWifi();
+
   masterControl.begin();
 
   masterControl.getDisplayManager().setWifi(false);
@@ -45,6 +49,8 @@ void loop() {
   RR32Can::RR32Can.loop();
 
   masterControl.loop();
+
+  WifiInputLoop();
 
   canMgr.loop();
 
