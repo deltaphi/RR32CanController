@@ -47,7 +47,7 @@ class MasterControl : public RR32Can::StationCbk {
 
   UIMode getUIMode() const { return uiMode; }
 
-  model::InputState getInputState() { return input.getInputState(); }
+  model::InputState& getInputState() { return input.getInputState(); }
 
   RR32Can::Locomotive* getLoco(RR32Can::Locomotive::Uid_t uid) override;
   void setLocoVelocity(RR32Can::Locomotive::Uid_t uid,

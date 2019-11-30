@@ -187,7 +187,10 @@ void LocoControl::setReceivedVelocity(RR32Can::Velocity_t velocity,
                                       MasterControl& uiControl) {
   loco.setVelocity(velocity);
   if (uiControl.getUIMode() == MasterControl::UIMode::LOCOCONTROL) {
-    uiControl.getInputState().loadEncoderPosition(velocity);
+    model::InputState& inputState = uiControl.getInputState();
+    if (velocity != inputState.encoder.getPosition()) {
+      inputState.encoder.setPosition(velocity);
+    }
   }
 }
 
