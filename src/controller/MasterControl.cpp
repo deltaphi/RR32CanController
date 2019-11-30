@@ -104,6 +104,7 @@ void MasterControl::enterLocoList() {
   input.getInputState().loadEncoderPosition(locoList.getCurrentItem());
   locoList.RequestDownloadAtCursor();
   displayManager.disableCursor();
+  locoList.forceDisplayUpdate();
 }
 
 void MasterControl::enterLocoDownload() {
