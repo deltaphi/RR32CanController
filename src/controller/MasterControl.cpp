@@ -138,6 +138,7 @@ void MasterControl::enterLocoDownload() {
 void MasterControl::enterSettingsMenu() {
   printf("MasterControl::enterSettingsMenu\n");
   uiMode = UIMode::SETTINGS;
+  input.getInputState().loadEncoderPosition(settingsMenu.getCurrentItem());
   settingsMenu.forceDisplayUpdate();
 }
 
