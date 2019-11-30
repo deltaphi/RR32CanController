@@ -17,6 +17,11 @@ controller::MasterControl masterControl;
 
 canManager canMgr;
 
+model::Settings::CommunicationChannel_t activeCommunicationChannel;
+
+void activateCommunicationChannel(
+    model::Settings::CommunicationChannel_t channel);
+
 void setup() {
   // Start serial and wait for its initialization
   Serial.begin(115200);
@@ -25,10 +30,6 @@ void setup() {
 
   Serial.println("CAN Turnout Control");
 
-  canMgr.begin();
-
-  canMgr.startCan();
-
   // Open SPIFFS to be able to store settings
   if (SPIFFS.begin(true)) {
     printf("SPIFFS mount succeeded.\n");
@@ -36,13 +37,15 @@ void setup() {
     printf("SPIFFS mount failed.\n");
   }
 
-  setupWifi();
-
-  //startWifi();
-
   masterControl.begin();
 
-  masterControl.getDisplayManager().setWifi(false);
+  const model::Settings::Data& userSettings = masterControl.getUserSettings();
+
+  canMgr.begin();
+  setupWifi();
+
+  activeCommunicationChannel = userSettings.communicationChannel;
+  activateCommunicationChannel(userSettings.communicationChannel);
 
   RR32Can::RR32Can.begin(RR32CanUUID, masterControl);
 }
@@ -56,7 +59,32 @@ void loop() {
 
   canMgr.loop();
 
-  masterControl.getDisplayManager().setCan(canMgr.isActive());
+  model::Settings::CommunicationChannel_t newChannel =
+      masterControl.getUserSettings().communicationChannel;
+
+  if (activeCommunicationChannel != newChannel) {
+    activateCommunicationChannel(newChannel);
+    activeCommunicationChannel = newChannel;
+  }
+
+  view::DisplayManager& displayManager = masterControl.getDisplayManager();
+  displayManager.setCan(canMgr.isActive());
+  displayManager.setWifi(isWifiAvailable());
+}
+
+void activateCommunicationChannel(
+    model::Settings::CommunicationChannel_t channel) {
+  switch (channel) {
+    case model::Settings::CommunicationChannel_t::CAN:
+      stopWifi();
+      canMgr.startCan();
+      break;
+
+    case model::Settings::CommunicationChannel_t::WIFI:
+      canMgr.stopCan();
+      startWifi();
+      break;
+  }
 }
 
 namespace RR32Can {
@@ -65,11 +93,17 @@ namespace RR32Can {
  * \brief Send an arbitrary packet via CAN
  */
 void SendPacket(const RR32Can::Identifier& id, const RR32Can::Data& data) {
-  if (canMgr.isActive()) {
+  if (activeCommunicationChannel ==
+          model::Settings::CommunicationChannel_t::CAN &&
+      canMgr.isActive()) {
     canMgr.SendPacket(id, data);
+  } else if (activeCommunicationChannel ==
+                 model::Settings::CommunicationChannel_t::WIFI &&
+             isWifiAvailable()) {
+    WiFiSendPacket(id, data);
   } else {
-    printf("No active communicatoin channels available.\n");
+    printf("No active communication channels available.\n");
   }
-}
+}  // namespace RR32Can
 
 } /* namespace RR32Can */

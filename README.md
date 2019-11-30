@@ -17,6 +17,16 @@ want to compile using the ESP32-IDF driver. Otherwise, the Controller will just
 attempt to sit there without sending queued messages or receiving any messages
 transmitted on the bus.
 
+### WiFi
+
+This sketch only supports runtime-selection of CAN connection vs. WiFi
+connection. The WiFi connection information (SSID, Password, IP of CAN-Gateway)
+must be hardcoded.
+
+To support hardcoding, a template file "_wificonfig.h" is provided. Copy the
+template to "wificonfig.h" and adjust the configuration information to your
+needs.
+
 ### Menuing
 
 #### General concept

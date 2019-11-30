@@ -27,5 +27,4 @@ void WiFiSendPacket(const RR32Can::Identifier& id, const RR32Can::Data& data);
 
 bool isWifiAvailable();
 
-
 #endif

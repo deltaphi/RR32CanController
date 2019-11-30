@@ -13,28 +13,45 @@ void Settings::begin() {
   load();
 }
 
-bool Settings::load() {
+size_t Settings::loadData(Data* data) {
+  if (data == nullptr) {
+    return 0;
+  }
+
   File f = SPIFFS.open(kSettingsFilename);
   if (!f) {
     printf("Opening '%s' for reading failed.\n", kSettingsFilename);
-    return false;
+    return 0;
   } else {
-    size_t readBytes = f.read(reinterpret_cast<uint8_t*>(&data), sizeof(Data));
+    size_t readBytes = f.read(reinterpret_cast<uint8_t*>(data), sizeof(Data));
     f.close();
-    printf("Loaded %i bytes.\n", readBytes);
-    return true;
+    printf("%s: Loaded %i bytes.\n", kSettingsFilename, readBytes);
+    return readBytes;
   }
 }
 
+bool Settings::load() { return loadData(&data) != 0; }
+
 void Settings::store() {
-  File f = SPIFFS.open(kSettingsFilename);
+  Data tmpData;
+  size_t readBytes = loadData(&tmpData);
 
-  if (!f) {
-    printf("Opening '%s' for writing failed.\n", kSettingsFilename);
+  if (readBytes != sizeof(Data) || memcmp(&data, &tmpData, sizeof(Data) != 0)) {
+    // We need to store
+    File f = SPIFFS.open(kSettingsFilename, "w");
+
+    if (!f) {
+      printf("Opening '%s' for writing failed.\n", kSettingsFilename);
+    } else {
+      size_t writtenBytes =
+          f.write(reinterpret_cast<uint8_t*>(&data), sizeof(Data));
+      printf("%s: Wrote %i/%i bytes.\n", kSettingsFilename, writtenBytes,
+             sizeof(Data));
+
+      f.close();
+    }
   } else {
-    f.write(reinterpret_cast<uint8_t*>(&data), sizeof(Data));
-
-    f.close();
+    printf("No settings change.\n");
   }
 }
 

@@ -134,8 +134,8 @@ class DisplayManager {
   RR32Can::FunctionBits_t functionBits;
   RR32Can::EngineDirection direction;
 
-  bool wifiOn = true;
-  bool canOn = true;
+  bool wifiOn = false;
+  bool canOn = false;
   bool systemOn = true;
 
   using TextBuffer = LineBuffer[DISPLAY_LINES];

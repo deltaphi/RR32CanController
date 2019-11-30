@@ -56,6 +56,10 @@ class MasterControl : public RR32Can::StationCbk {
 
   void setSystemState(bool onOff) override { displayManager.setSystem(onOff); }
 
+  const model::Settings::Data& getUserSettings() const {
+    return settingsMenu.getUserSettings();
+  }
+
  private:
   void checkStateTransition();
   void forwardLoop();

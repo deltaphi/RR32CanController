@@ -24,7 +24,7 @@ bool TurnoutMap::load() {
     size_t readBytes =
         f.read(reinterpret_cast<uint8_t*>(turnoutMap), sizeof(TurnoutMap_t));
     f.close();
-    printf("Loaded %i bytes.\n", readBytes);
+    printf("%s: Loaded %i bytes.\n", kTurnoutMapSettingsFile, readBytes);
     return true;
   }
 }
@@ -37,7 +37,8 @@ void TurnoutMap::store() {
   } else {
     size_t writtenBytes =
         f.write(reinterpret_cast<uint8_t*>(turnoutMap), sizeof(TurnoutMap_t));
-    printf("Wrote %i bytes.\n", writtenBytes);
+    printf("%s: Wrote %i/%i bytes.\n", kTurnoutMapSettingsFile, writtenBytes,
+           sizeof(TurnoutMap_t));
 
     f.close();
   }

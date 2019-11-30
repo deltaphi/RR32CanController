@@ -18,7 +18,7 @@ class SettingsMenu : public AbstractMenu {
 
   void begin() override;
 
-  model::Settings& getSettings() { return settings; }
+  const model::Settings::Data& getUserSettings() const { return settings.data; }
 
  protected:
   /// Callback when a menu item is selected.

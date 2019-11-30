@@ -52,6 +52,7 @@ void wifiEventHandler(WiFiEvent_t event) {
       break;
     case SYSTEM_EVENT_STA_DISCONNECTED:
       Serial.println("Wifi: STA Disconnected. Connection failed.");
+      wifiConnected = false;
       break;
     default:
       Serial.print("Wifi event: ");
@@ -78,9 +79,7 @@ void stopWifi() {
   WiFi.disconnect(false);
 }
 
-bool isWifiAvailable() {
-  return wifiConnected;
-}
+bool isWifiAvailable() { return wifiConnected; }
 
 void WifiInputLoop() {
   if (wifiConnected) {
@@ -127,7 +126,9 @@ void WiFiSendPacket(const RR32Can::Identifier& id, const RR32Can::Data& data) {
     return;
   }
 
+#if (LOG_CAN_OUT_MSG == STD_ON)
   Serial.println("Sending packet via WiFi.");
+#endif
   // Send packet on WIFI
   udpSendSocket.beginPacket(canGwAddress, canGwPort);
   uint32_t canId = id.makeIdentifier();

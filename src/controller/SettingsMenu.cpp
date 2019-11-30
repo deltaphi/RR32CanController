@@ -21,6 +21,7 @@ void SettingsMenu::begin() {
 }
 
 void SettingsMenu::abortMenu(MasterControl& masterControl) {
+  settings.store();
   masterControl.enterLocoControl();
 }
 
@@ -28,7 +29,18 @@ void SettingsMenu::advanceMenu(MenuItemIndex_t menuItem,
                                MasterControl& masterControl) {
   switch (menuItem) {
     case 0:
+      settings.store();
       masterControl.enterTurnoutMenu();
+      break;
+    case 1:
+      // disable WiFi, enable CAN
+      settings.data.communicationChannel =
+          model::Settings::CommunicationChannel_t::CAN;
+      break;
+    case 2:
+      // disable CAN, enable WiFi
+      settings.data.communicationChannel =
+          model::Settings::CommunicationChannel_t::WIFI;
       break;
     default:
       printf("SettingsMenu: Unknown menu item %li.\n", menuItem);
