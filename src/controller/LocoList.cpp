@@ -42,30 +42,34 @@ void LocoList::notifyEncoderMoved(MenuItemIndex_t newItem) {
   }
 }
 
-AbstractMenu::MenuItems_t LocoList::getMenuItems() {
-  MenuItems_t result;
-  result.numItems = RR32Can::kNumEngineNamesDownload;
-  result.offset = getMenuItemInFirstDisplayLine();
-
+void LocoList::getMenuItems(MenuItems_t& menuItems) {
   switch (RR32Can::RR32Can.getConfigStreamState()) {
     case RR32Can::ConfigDataStreamParser::StreamState::IDLE:
     case RR32Can::ConfigDataStreamParser::StreamState::WAITING_FIRST_PACKET:
     case RR32Can::ConfigDataStreamParser::StreamState::WAITING_DATA_PACKET: {
       // No data available, print "pending" dots.
-      for (int i = 0; i < RR32Can::kNumEngineNamesDownload; ++i) {
-        result.items[i] = view::kDots;
+      // TODO: Limit to the actual number of locos pending, i.e., compare with
+      // getNumEnginesKnownByMaster()
+      for (int i = 0; i < menuItems.numItems; ++i) {
+        menuItems.items[i] = view::kDots;
       }
     } break;
     case RR32Can::ConfigDataStreamParser::StreamState::STREAM_DONE: {
       // Engine list is present. Update display.
       // Copy interesting entries to display
 
-      uint8_t line = 0;
-      for (const RR32Can::LocomotiveShortInfo& info :
-           browser.getEngineInfos()) {
-        result.items[line] = info.getName();
-        ++line;
+      const RR32Can::LocoListConsumer::EngineInfoSet& locoInfo =
+          browser.getEngineInfos();
+
+      int numItems = (RR32Can::kNumEngineNamesDownload < menuItems.numItems
+                          ? RR32Can::kNumEngineNamesDownload
+                          : menuItems.numItems);
+
+      for (int i = 0; i < numItems; ++i) {
+        menuItems.items[i] = locoInfo[i].getName();
       }
+
+      menuItems.numItems = numItems;
 
       limiter.setMax(browser.getNumEnginesKnownByMaster() - 1);
 
@@ -74,8 +78,6 @@ AbstractMenu::MenuItems_t LocoList::getMenuItems() {
 
     } break;
   }
-
-  return result;
 }
 
 void LocoList::RequestDownloadAtCursor() {

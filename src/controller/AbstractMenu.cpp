@@ -4,7 +4,10 @@
 
 namespace controller {
 
-void AbstractMenu::begin() { currentItem = 0; };
+void AbstractMenu::begin() {
+  currentItem = 0;
+  limiter.setMax(getTotalMenuLength());
+};
 
 void AbstractMenu::loop(model::InputState& inputState,
                         MasterControl& masterControl) {
@@ -55,7 +58,10 @@ void AbstractMenu::updateDisplay(view::DisplayManager& displayManager) {
       // printf("Move menu. New Top: %i. ", menuItemInFirstDisplayLine);
 
       // Fetch the required strings
-      MenuItems_t menuItems = getMenuItems();
+      MenuItems_t menuItems;
+      menuItems.offset = menuItemInFirstDisplayLine;
+      menuItems.numItems = DISPLAY_LINES;
+      getMenuItems(menuItems);
 
       // Check if the requested elements are in range
       if (menuItems.offset <= menuItemInFirstDisplayLine &&

@@ -29,7 +29,7 @@ class LocoList : public AbstractMenu {
 
   const RR32Can::LocomotiveShortInfo* getSelectedEngine();
 
-  MenuItems_t getMenuItems() override;
+  void getMenuItems(MenuItems_t& menuItems) override;
 
   void notifyEncoderMoved(MenuItemIndex_t newItem) override;
 
