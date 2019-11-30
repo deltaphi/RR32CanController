@@ -14,7 +14,7 @@ class MasterControl;
  */
 class SettingsMenu : public AbstractMenu {
  public:
-  static constexpr const uint8_t kNumMenuEntries = 1;
+  static constexpr const uint8_t kNumMenuEntries = 3;
 
   void begin() override;
 
@@ -34,7 +34,7 @@ class SettingsMenu : public AbstractMenu {
    * This is called fairly frequently, thus it should be implemented
    * efficiently.
    */
-  MenuItems_t getMenuItems() override;
+  void getMenuItems(MenuItems_t& menuItems) override;
 
   /**
    * \brief Callback to obtian the current known length of the menu.
@@ -45,6 +45,8 @@ class SettingsMenu : public AbstractMenu {
 
  private:
   static const char* kTurnoutMapping;
+  static const char* kUseCAN;
+  static const char* kUseWifi;
   static const char* kActionListMapping;
   static const char* kWifiSettingsMapping;
   static const char* kConnectionSettingsMapping;

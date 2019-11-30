@@ -56,11 +56,11 @@ class AbstractMenu {
    * This is called fairly frequently, thus it should be implemented
    * efficiently.
    *
-   * \param items An array of menu items.
-   * \param offset The offset of the first item (in case only a partial list is
-   * available) \param numItems The total length of the items array.
+   * \param menuItems [inout] Contains the offset at which to download elements
+   * and the number of elements to download. Is returned with the elements that
+   * were available.
    */
-  virtual MenuItems_t getMenuItems() = 0;
+  virtual void getMenuItems(MenuItems_t& menuItems) = 0;
 
   /**
    * \brief Callback to obtian the current known length of the menu.

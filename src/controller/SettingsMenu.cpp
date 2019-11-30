@@ -5,11 +5,15 @@
 namespace controller {
 
 const char* SettingsMenu::kTurnoutMapping = "Turnout mapping";
+const char* SettingsMenu::kUseCAN = "Use CAN";
+const char* SettingsMenu::kUseWifi = "Use WiFi (Hardcoded)";
+
 const char* SettingsMenu::kActionListMapping = "Action list mapping";
 const char* SettingsMenu::kWifiSettingsMapping = "WiFi Settings";
 const char* SettingsMenu::kConnectionSettingsMapping = "Connection Settings";
 
-const char* SettingsMenu::kMenuEntries[kNumMenuEntries] = {kTurnoutMapping};
+const char* SettingsMenu::kMenuEntries[kNumMenuEntries] = {kTurnoutMapping,
+                                                           kUseCAN, kUseWifi};
 
 void SettingsMenu::begin() {
   settings.begin();
@@ -32,16 +36,23 @@ void SettingsMenu::advanceMenu(MenuItemIndex_t menuItem,
   }
 }
 
-AbstractMenu::MenuItems_t SettingsMenu::getMenuItems() {
-  MenuItems_t menuItems;
-  // TODO: This loop needs to be adjusted when there are more menu entries that
-  // fit in .items.
-  for (int i = 0; i < kNumMenuEntries; ++i) {
-    menuItems.items[i] = kMenuEntries[i];
+void SettingsMenu::getMenuItems(MenuItems_t& menuItems) {
+  if (menuItems.offset >= kNumMenuEntries) {
+    menuItems.numItems = 0;
+    return;
+  } else {
+    int itemsToCopy = kNumMenuEntries - menuItems.offset;
+
+    if (menuItems.numItems < itemsToCopy) {
+      itemsToCopy = menuItems.numItems;
+    }
+
+    for (int i = 0; i < itemsToCopy; ++i) {
+      menuItems.items[i] = kMenuEntries[i + menuItems.offset];
+    }
+
+    menuItems.numItems = itemsToCopy;
   }
-  menuItems.offset = 0;
-  menuItems.numItems = kNumMenuEntries;
-  return menuItems;
 }
 
 SettingsMenu::MenuItemIndex_t SettingsMenu::getTotalMenuLength() {
