@@ -29,7 +29,6 @@ constexpr uint8_t NumActionLists = 6;
 
 namespace TurnoutControl {
 
-model::TurnoutLookupResult lookupTurnout(uint8_t buttonIndex);
 extern model::ActionList actionLists[model::NumActionLists];
 
 } /* namespace TurnoutControl */
