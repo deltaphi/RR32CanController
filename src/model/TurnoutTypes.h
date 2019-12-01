@@ -14,6 +14,8 @@ typedef struct {
   RR32Can::TurnoutAddress_t address = 0;
 } TurnoutLookupResult;
 
+void print(const TurnoutLookupResult&);
+
 typedef struct {
   RR32Can::TurnoutAddress_t address;
   RR32Can::TurnoutDirection direction;
