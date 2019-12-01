@@ -8,7 +8,7 @@ void TurnoutMenu::begin() { currentKey = TURNOUT_BUTTONS_OFFSET; }
 
 void TurnoutMenu::loadCurrentKey(model::InputState& inputState,
                                  model::TurnoutMap& turnoutMap) {
-  currentResult = turnoutMap.lookupTurnout(currentKey);
+  currentResult = turnoutMap.lookupTurnoutAsHuman(currentKey);
   inputState.loadEncoderPosition(currentResult.address);
   displayUpdateNeeded = true;
 }
@@ -23,7 +23,8 @@ void TurnoutMenu::loop(model::InputState& inputState,
       masterControl.enterSettingsMenu();
     } else {
       // Store current mapping in volatile storage.
-      turnoutMap.setLookupTurnout(currentKey, currentResult);
+      turnoutMap.setLookupTurnoutFromHuman
+      (currentKey, currentResult);
     }
   } else {
     // On encoder rotation, change the current mapping

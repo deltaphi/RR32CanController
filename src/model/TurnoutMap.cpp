@@ -77,9 +77,29 @@ model::TurnoutLookupResult TurnoutMap::lookupTurnout(
   return rangeCheckedMapAt(buttonIndex);
 }
 
+model::TurnoutLookupResult TurnoutMap::lookupTurnoutAsHuman(
+    uint8_t buttonIndex) const {
+  // human value: 45
+  // technical value: 44
+
+  // human is technical + 1
+
+  model::TurnoutLookupResult result = lookupTurnout(buttonIndex);
+  // Convert to human
+  result.address += 1;
+
+  return result;
+}
+
 void TurnoutMap::setLookupTurnout(ButtonIndex_t buttonIndex,
                                   model::TurnoutLookupResult newResult) {
   rangeCheckedMapAt(buttonIndex) = newResult;
+}
+
+void TurnoutMap::setLookupTurnoutFromHuman(
+    ButtonIndex_t buttonIndex, model::TurnoutLookupResult newResult) {
+  newResult.address -= 1;
+  setLookupTurnout(buttonIndex, newResult);
 }
 
 }  // namespace model
