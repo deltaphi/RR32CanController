@@ -23,8 +23,8 @@ void TurnoutMenu::loop(model::InputState& inputState,
       masterControl.enterSettingsMenu();
     } else {
       // Store current mapping in volatile storage.
-      turnoutMap.setLookupTurnoutFromHuman
-      (currentKey, currentResult);
+      currentResult.mode = model::TurnoutAddressMode::SingleTurnout;
+      turnoutMap.setLookupTurnoutFromHuman(currentKey, currentResult);
     }
   } else {
     // On encoder rotation, change the current mapping
