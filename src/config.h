@@ -7,6 +7,14 @@
 #define STD_OFF (0U)
 #define STD_ON (1U)
 
+
+// Use 0 for "manual settings", 1 for first prototype, 2 for second prototype
+#define HARDWARE_VERSION (1)
+
+#ifndef HARDWARE_VERSION
+#error "You must set a Hardware verison. Use 0 if unsure."
+#endif
+
 #define DISPLAY_ATTACHED STD_ON
 #define ENCODER_ENABLED STD_ON
 
@@ -50,17 +58,35 @@
 #define DISPLAY_CONTROLLER_SH1106 (1)
 #define DISPLAY_CONTROLLER_SSD1306 (2)
 
+#if (HARDWARE_VERSION == 1)
 #define DISPLAY_CONTROLLER_TYPE DISPLAY_CONTROLLER_SSD1306
+#elif (HARDWARE_VERSION == 2)
+#define DISPLAY_CONTROLLER_TYPE DISPLAY_CONTROLLER_SH1106
+#else
+// Set manually here
+#define DISPLAY_CONTROLLER_TYPE DISPLAY_CONTROLLER_SSD1306
+#endif
+
 
 #ifndef DISPLAY_CONTROLLER_TYPE
 #error "Please define a display controller type"
 #endif
 #endif
 
-#define SHIFT_REGISTER_LENGTH (64U)
-
+#if (HARDWARE_VERSION == 1)
+#define SHIFT_REGISTER_LENGTH (48U)
 #define TURNOUT_BUTTONS_OFFSET (8)
 #define TURNOUT_BUTTONS_COUNT (SHIFT_REGISTER_LENGTH - TURNOUT_BUTTONS_OFFSET)
+#elif (HARDWARE_VERSION == 2)
+#define SHIFT_REGISTER_LENGTH (64U)
+#define TURNOUT_BUTTONS_OFFSET (8)
+#define TURNOUT_BUTTONS_COUNT (SHIFT_REGISTER_LENGTH - TURNOUT_BUTTONS_OFFSET)
+#else
+// Set manually here
+#define SHIFT_REGISTER_LENGTH (64U)
+#define TURNOUT_BUTTONS_OFFSET (8)
+#define TURNOUT_BUTTONS_COUNT (SHIFT_REGISTER_LENGTH - TURNOUT_BUTTONS_OFFSET)
+#endif
 
 #define LOG_S88_BITS STD_OFF
 #define LOG_BUTTON_PRESS STD_OFF
