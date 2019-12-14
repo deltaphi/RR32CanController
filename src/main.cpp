@@ -9,7 +9,9 @@
 #include <RR32Can/RR32Can.h>
 #include "RR32Can/Handler.h"
 
+#include "Forwarder.h"
 #include "wifiManager.h"
+
 
 #include <controller/MasterControl.h>
 
@@ -81,10 +83,24 @@ void activateCommunicationChannel(
       break;
 
     case model::Settings::CommunicationChannel_t::WIFI:
-      canMgr.stopCan();
+      canMgr.startCan(); // Keep CAN active for bridge mode
       startWifi();
       break;
   }
+}
+
+void ForwardPacketToWifi(const RR32Can::Identifier& id,
+                         const RR32Can::Data& data) {
+  printf("Forwarding to WiFi...\n");
+  WiFiSendPacket(id, data);
+  printf("done\n");
+}
+
+void ForwardPacketToCAN(const RR32Can::Identifier& id,
+                        const RR32Can::Data& data) {
+  printf("Forwarding to CAN...\n");
+  canMgr.SendPacket(id, data);
+  printf("done\n");
 }
 
 namespace RR32Can {

@@ -1,5 +1,6 @@
 #include "wifiManager.h"
 
+#include "Forwarder.h"
 #include "RR32Can/RR32Can.h"
 
 #include "config.h"
@@ -106,6 +107,7 @@ void WifiInputLoop() {
         Serial.println();
 #endif
 
+        ForwardPacketToCAN(id, data);
         RR32Can::RR32Can.HandlePacket(id, data);
       } else {
 #if (LOG_CAN_IN_MSG == STD_ON)

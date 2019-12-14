@@ -12,6 +12,7 @@
 
 #endif
 
+#include "Forwarder.h"
 #include "RR32Can/RR32Can.h"
 
 /// Initialize this class.
@@ -202,6 +203,7 @@ void canManager::loop() {
       RR32Can::Identifier::GetIdentifier(message.identifier);
 #endif
 
+  ForwardPacketToWifi(maerklinIdentifier, maerklinData);
   RR32Can::RR32Can.HandlePacket(maerklinIdentifier, maerklinData);
 }
 
