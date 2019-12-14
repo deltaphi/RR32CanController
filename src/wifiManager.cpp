@@ -107,16 +107,15 @@ void WifiInputLoop() {
 #endif
 
         RR32Can::RR32Can.HandlePacket(id, data);
-      }
-
-    } else {
+      } else {
 #if (LOG_CAN_IN_MSG == STD_ON)
-      // Log as arbitrary packet
-      Serial.print("Received a packet. Size: ");
-      Serial.println(packetSize, DEC);
+        // Log as arbitrary packet
+        Serial.print("Received a packet. Size: ");
+        Serial.println(packetSize, DEC);
 #endif
+      }
+      udpBroadcastSocket.flush();  // discard the packet
     }
-    udpBroadcastSocket.flush();  // discard the packet
   }
 }
 
