@@ -45,14 +45,8 @@ int TurnoutMain(int argc, char** argv) {
       turnoutAddress -= 1;
     }
 
-    RR32Can::TurnoutDirection turnoutDirection;
-
-    if (*(direction->ival) ==
-        static_cast<int>(RR32Can::TurnoutDirection::RED)) {
-      turnoutDirection = RR32Can::TurnoutDirection::RED;
-    } else {
-      turnoutDirection = RR32Can::TurnoutDirection::GREEN;
-    }
+    RR32Can::TurnoutDirection turnoutDirection =
+        RR32Can::TurnoutDirectionFromIntegral(direction->ival[0]);
 
     RR32Can::RR32Can.SendAccessoryPacket(turnoutAddress, turnoutDirection, 1);
     delay(100);

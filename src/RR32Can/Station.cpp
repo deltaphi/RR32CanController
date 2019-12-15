@@ -300,9 +300,8 @@ void Station::SendAccessoryPacket(uint32_t turnoutAddress,
   RR32Can::TurnoutPacket payload;
   payload.locid = turnoutAddress;  // Set the turnout address
   payload.locid |= 0x3000;  // whatever this does. The MS2 does it, though.
-  payload.position =
-      (direction == TurnoutDirection::RED ? 0
-                                          : 1);  // Set the turnout direction
+  payload.position = RR32Can::TurnoutDirectionToIntegral<uint8_t>(
+      direction);  // Set the turnout direction
   payload.power = power;
 
   // Serialize the CAN packet and send it
