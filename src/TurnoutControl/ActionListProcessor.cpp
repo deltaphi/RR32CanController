@@ -75,7 +75,7 @@ bool ActionListProcessor::requestActionList(uint8_t actionListIndex) {
   if (hasActiveAction()) {
     return false;
   } else {
-    this->currentActionList = db.getDb().begin();
+    this->currentActionList = db.begin();
     std::advance(this->currentActionList, actionListIndex);
     this->currentAction = (*currentActionList).end();
     this->buttonPressed = false;
@@ -85,7 +85,7 @@ bool ActionListProcessor::requestActionList(uint8_t actionListIndex) {
 
 void ActionListProcessor::printActionList(
     model::ActionListDB::Index_t index) const {
-  model::ActionListDB::DB_t::const_iterator dbIt = db.getDb().begin();
+  model::ActionListDB::DB_t::const_iterator dbIt = db.begin();
   std::advance(dbIt, index);
 
   for (const model::TurnoutAction& action : *dbIt) {
@@ -96,9 +96,9 @@ void ActionListProcessor::printActionList(
 void ActionListProcessor::printActionLists() const {
   printf("Printing %i Action Lists:\n", db.size());
 
-  model::ActionListDB::DB_t::const_iterator dbIt = db.getDb().begin();
+  model::ActionListDB::DB_t::const_iterator dbIt = db.begin();
   int dbIdx = 0;
-  while (dbIt != db.getDb().end()) {
+  while (dbIt != db.end()) {
     printf("Action List %i:\n", dbIdx);
 
     for (const model::TurnoutAction& action : *dbIt) {

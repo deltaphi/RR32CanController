@@ -6,40 +6,16 @@
 
 namespace model {
 
-/*
- * \brief Class ActionListDB
- */
-class ActionListDB {
- public:
-  using Index_t = uint16_t;
-  using ActionList_t = std::list<model::TurnoutAction>;
-  using DB_t = std::list<ActionList_t>;
+namespace ActionListDB {
 
-  void begin();
+using Index_t = uint16_t;
+using ActionList_t = std::list<model::TurnoutAction>;
+using DB_t = std::list<ActionList_t>;
 
-  void store();
+bool load(DB_t& db);
+void store(const DB_t& db);
 
-  std::size_t size() const { return db.size(); }
-
-  DB_t& getDb() { return db; }
-
-  const DB_t& getDb() const { return db; }
-
- private:
-  bool load();
-
-  static const char* kActionListFilename;
-
-  DB_t db;
-
-  struct FileHeader_t {
-    Index_t numLists;
-  };
-
-  struct ListHeader_t {
-    Index_t listLength;
-  };
-};
+}  // namespace ActionListDB
 
 }  // namespace model
 

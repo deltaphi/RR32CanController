@@ -6,11 +6,19 @@
 
 namespace model {
 
-const char* ActionListDB::kActionListFilename = "/actionlist.prefs";
+namespace ActionListDB {
 
-void ActionListDB::begin() { load(); }
+static const char* kActionListFilename = "/actionlist.prefs";
 
-bool ActionListDB::load() {
+struct FileHeader_t {
+  Index_t numLists;
+};
+
+struct ListHeader_t {
+  Index_t listLength;
+};
+
+bool load(DB_t& db) {
   File f = SPIFFS.open(kActionListFilename);
 
   if (!f) {
@@ -62,7 +70,7 @@ bool ActionListDB::load() {
   }
 }
 
-void ActionListDB::store() {
+void store(const DB_t& db) {
   // We need to store
   File f = SPIFFS.open(kActionListFilename, "w");
 
@@ -74,15 +82,15 @@ void ActionListDB::store() {
     size_t writtenBytes =
         f.write(reinterpret_cast<uint8_t*>(&fileHeader), sizeof(fileHeader));
 
-    for (ActionList_t& al : db) {
+    for (const ActionList_t& al : db) {
       ListHeader_t listHeader = {listLength : static_cast<Index_t>(al.size())};
 
       writtenBytes +=
           f.write(reinterpret_cast<uint8_t*>(&listHeader), sizeof(listHeader));
 
-      for (TurnoutAction& action : al) {
+      for (const TurnoutAction& action : al) {
         writtenBytes +=
-            f.write(reinterpret_cast<uint8_t*>(&action), sizeof(action));
+            f.write(reinterpret_cast<const uint8_t*>(&action), sizeof(action));
       }
     }
     printf("%s: Wrote %i bytes.\n", kActionListFilename, writtenBytes);
@@ -90,5 +98,7 @@ void ActionListDB::store() {
 
   f.close();
 }
+
+}  // namespace ActionListDB
 
 }  // namespace model

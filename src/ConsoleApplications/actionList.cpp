@@ -101,7 +101,7 @@ int SetActionList(int listIndex, arg_int* actions) {
     printf("Turnout without action found.\n");
     return 1;
   } else {
-    model::ActionListDB::DB_t& db = actionListProcessor->getDb().getDb();
+    model::ActionListDB::DB_t& db = actionListProcessor->getDb();
 
     // Find or create the ActionList to be edited.
 
@@ -131,7 +131,7 @@ int SetActionList(int listIndex, arg_int* actions) {
 
 int SaveActionLists() {
   printf("Saving ActionLists to SPIFFS.\n");
-  actionListProcessor->getDb().store();
+  model::ActionListDB::store(actionListProcessor->getDb());
   return 0;
 }
 
