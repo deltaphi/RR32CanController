@@ -7,7 +7,6 @@
 #define STD_OFF (0U)
 #define STD_ON (1U)
 
-
 // Use 0 for "manual settings", 1 for first prototype, 2 for second prototype
 #define HARDWARE_VERSION (1)
 
@@ -66,7 +65,6 @@
 // Set manually here
 #define DISPLAY_CONTROLLER_TYPE DISPLAY_CONTROLLER_SSD1306
 #endif
-
 
 #ifndef DISPLAY_CONTROLLER_TYPE
 #error "Please define a display controller type"
