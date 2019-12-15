@@ -14,12 +14,13 @@ static TurnoutControl::ActionListProcessor* actionListProcessor;
 
 static const char* programName = "actionList";
 
-static const char* kDump = "dump";
+static const char* kList = "list";
 static const char* kExecute = "execute";
 static const char* kSet = "set";
+static const char* kSave = "save";
 
-static arg_str* subcommand =
-    arg_str1(nullptr, nullptr, "dump|execute|set", "Subcommand to execute");
+static arg_str* subcommand = arg_str1(nullptr, nullptr, "list|execute|set|save",
+                                      "Subcommand to execute");
 static arg_int* actionListIndex =
     arg_int1(nullptr, nullptr, "uint8_t", "Index of ActionList");
 static arg_int* actions =
@@ -50,12 +51,17 @@ int ActionListMain(int argc, char** argv) {
     arg_print_errors(stdout, argEnd, programName);
     returncode = -1;
   } else {
-    if (strncmp(subcommand->sval[0], kDump, strlen(kDump)) == 0) {
-      return DumpActionLists(actionListIndex->ival[0]);
+    if (strncmp(subcommand->sval[0], kList, strlen(kList)) == 0) {
+      return DumpActionLists();
     } else if (strncmp(subcommand->sval[0], kExecute, strlen(kExecute)) == 0) {
       return ExecuteActionList(actionListIndex->ival[0]);
     } else if (strncmp(subcommand->sval[0], kSet, strlen(kSet)) == 0) {
       return SetActionList(actionListIndex->ival[0], actions);
+    } else if (strncmp(subcommand->sval[0], kSave, strlen(kSave)) == 0) {
+      return SaveActionLists();
+    } else {
+      printf("%s: Unknown command '%s'.\n", programName, subcommand->sval[0]);
+      return 1;
     }
   }
 
@@ -71,17 +77,9 @@ int checkListIndex(int listIndex) {
   }
 }
 
-int DumpActionLists(int listIndex) {
-  int listIndexCheck = checkListIndex(listIndex);
-  if (listIndexCheck != 0) {
-    return listIndexCheck;
-  } else {
-    model::TurnoutAction* al = TurnoutControl::actionLists[listIndex];
-    for (int i = 0; i < model::NumActions; ++i) {
-      printf("Turnout %i to %i.\n", al[i].address, static_cast<int>(al[i].direction));
-    }
-    return 0;
-  }
+int DumpActionLists() {
+  actionListProcessor->printActionLists();
+  return 0;
 }
 
 int ExecuteActionList(int listIndex) {
@@ -99,15 +97,42 @@ int ExecuteActionList(int listIndex) {
 }
 
 int SetActionList(int listIndex, arg_int* actions) {
-  int listIndexCheck = checkListIndex(listIndex);
   if (actions->count % 2 != 0) {
     printf("Turnout without action found.\n");
     return 1;
-  } else if (listIndexCheck != 0) {
-    return listIndexCheck;
   } else {
-    return 2;  // TBD: not implemented
+    model::ActionListDB::DB_t& db = actionListProcessor->getDb().getDb();
+
+    // Find or create the ActionList to be edited.
+
+    if (listIndex >= db.size()) {
+      // create one (or more) new entries
+      db.resize(listIndex + 1);
+    }
+
+    model::ActionListDB::DB_t::iterator dbIt = db.begin();
+    std::advance(dbIt, listIndex);
+
+    // Clear the list and fill it with new entries
+    dbIt->clear();
+
+    for (int i = 0; i < actions->count; i += 2) {
+      model::TurnoutAction action;
+      action.address = actions->ival[i];
+      action.direction =
+          RR32Can::TurnoutDirectionFromIntegral(actions->ival[i + 1]);
+      dbIt->push_back(action);
+    }
+
+    printf("ActionList stored.\n");
+    return 0;
   }
+}
+
+int SaveActionLists() {
+  printf("Saving ActionLists to SPIFFS.\n");
+  actionListProcessor->getDb().store();
+  return 0;
 }
 
 }  // namespace ActionList

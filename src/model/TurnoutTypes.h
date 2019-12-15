@@ -21,18 +21,8 @@ typedef struct {
   RR32Can::TurnoutDirection direction;
 } TurnoutAction;
 
-constexpr uint8_t NumActions = 3;
-
-using ActionList = TurnoutAction[NumActions];
-
-constexpr uint8_t NumActionLists = 6;
+void print(const TurnoutAction&);
 
 } /* namespace model */
-
-namespace TurnoutControl {
-
-extern model::ActionList actionLists[model::NumActionLists];
-
-} /* namespace TurnoutControl */
 
 #endif

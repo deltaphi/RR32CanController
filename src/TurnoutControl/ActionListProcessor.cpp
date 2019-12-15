@@ -9,11 +9,11 @@ void ActionListProcessor::loop() {
   if (!hasActiveAction()) {
     return;  // No action list active.
   } else {
-    if (actionIndex == kActionListNotStarted) {
+    if (this->currentAction == (*currentActionList).end()) {
       // An action list is active but has not been started.
       lastActionTime = micros();
 
-      actionIndex = 0;
+      this->currentAction = (*currentActionList).begin();
       buttonPressed = false;
       performAction();
       // After starting, the second operation will be a button release, so we
@@ -28,8 +28,8 @@ void ActionListProcessor::loop() {
         lastActionTime = micros();
         if (!buttonPressed) {
           // Advance the actionIndex
-          ++actionIndex;
-          if (actionIndex >= model::NumActions) {
+          this->currentAction++;
+          if (this->currentAction == (*currentActionList).end()) {
             // we reached the end of the action list.
             setInactive();
           }
@@ -44,7 +44,7 @@ void ActionListProcessor::performAction() {
   Serial.print("Performing action for index ");
   Serial.print(actionIndex, DEC);
 #endif
-  model::TurnoutAction* action = &(actionLists[actionListIndex][actionIndex]);
+  model::TurnoutAction& action = *(this->currentAction);
 #if (LOG_ACTIONLIST == STD_ON)
   Serial.print(". Action pointer is 0x");
   Serial.print((uint32_t)action, HEX);
@@ -57,14 +57,14 @@ void ActionListProcessor::performAction() {
   if (!buttonPressed) {
     // Generate a power on message.
     // Adjust from human to technical adressing
-    RR32Can::RR32Can.SendAccessoryPacket(action->address - 1, action->direction,
+    RR32Can::RR32Can.SendAccessoryPacket(action.address - 1, action.direction,
                                          1);
 
     buttonPressed = true;
   } else {
     // Generate a button release
     // Adjust from human to technical adressing
-    RR32Can::RR32Can.SendAccessoryPacket(action->address - 1, action->direction,
+    RR32Can::RR32Can.SendAccessoryPacket(action.address - 1, action.direction,
                                          0);
 
     buttonPressed = false;
@@ -75,11 +75,41 @@ bool ActionListProcessor::requestActionList(uint8_t actionListIndex) {
   if (hasActiveAction()) {
     return false;
   } else {
-    this->actionListIndex = actionListIndex;
-    this->actionIndex = kActionListNotStarted;
+    this->currentActionList = db.getDb().begin();
+    std::advance(this->currentActionList, actionListIndex);
+    this->currentAction = (*currentActionList).end();
     this->buttonPressed = false;
     return true;
   }
+}
+
+void ActionListProcessor::printActionList(
+    model::ActionListDB::Index_t index) const {
+  model::ActionListDB::DB_t::const_iterator dbIt = db.getDb().begin();
+  std::advance(dbIt, index);
+
+  for (const model::TurnoutAction& action : *dbIt) {
+    print(action);
+  }
+}
+
+void ActionListProcessor::printActionLists() const {
+  printf("Printing %i Action Lists:\n", db.size());
+
+  model::ActionListDB::DB_t::const_iterator dbIt = db.getDb().begin();
+  int dbIdx = 0;
+  while (dbIt != db.getDb().end()) {
+    printf("Action List %i:\n", dbIdx);
+
+    for (const model::TurnoutAction& action : *dbIt) {
+      print(action);
+    }
+
+    ++dbIt;
+    ++dbIdx;
+  }
+
+  printf("done.\n");
 }
 
 } /* namespace TurnoutControl */

@@ -8,6 +8,16 @@ namespace RR32Can {
 /// Accessory direction
 enum class TurnoutDirection : uint8_t { RED = 0, GREEN = 1 };
 
+template <typename IntegralType>
+constexpr IntegralType TurnoutDirectionToIntegral(TurnoutDirection dir) {
+  return static_cast<IntegralType>(dir);
+}
+
+template <typename IntegralType>
+constexpr TurnoutDirection TurnoutDirectionFromIntegral(IntegralType dir) {
+  return (dir == 0) ? TurnoutDirection::RED : TurnoutDirection::GREEN;
+}
+
 using TurnoutAddress_t = uint16_t;
 
 /// Engine Direction

@@ -3,51 +3,60 @@
 
 #include "RR32Can/Types.h"
 
+#include "model/ActionListDB.h"
 #include "model/TurnoutTypes.h"
 
 namespace TurnoutControl {
 
 class ActionListProcessor {
  public:
+  void begin() {
+    db.begin();
+    setInactive();
+  }
+
   typedef struct {
     uint8_t address;
     RR32Can::TurnoutDirection direction;
   } Action;
 
-  bool hasActiveAction() const {
-    return actionListIndex != kActionListNotStarted;
-  }
+  bool hasActiveAction() const { return currentActionList != db.getDb().end(); }
 
   bool requestActionList(uint8_t actionListIndex);
 
   void loop();
 
-  uint8_t getNumActionLists() const {
-    return model::NumActionLists;
-  }
+  uint8_t getNumActionLists() const { return db.size(); }
+
+  std::size_t size() const { return db.size(); }
+
+  void printActionList(model::ActionListDB::Index_t index) const;
+  void printActionLists() const;
+
+  model::ActionListDB& getDb() { return db; }
 
  private:
+  model::ActionListDB db;
+
   void performAction();
 
   void setInactive() {
-    actionListIndex = kActionListNotStarted;
-    actionIndex = kActionListNotStarted;
+    currentActionList = db.getDb().end();
+    currentAction = model::ActionListDB::ActionList_t::iterator();
     buttonPressed = false;
   }
-
-  constexpr static uint8_t kActionListNotStarted = 0xFF;
 
   /**
    * The currently active action list, if any.
    */
-  uint8_t actionListIndex = kActionListNotStarted;
+  model::ActionListDB::DB_t::iterator currentActionList;
 
   /**
    * The currently active action out of the above action list.
    * nullptr denotes that no action list is actove or that processing of the
    * active list has not started.
    */
-  uint8_t actionIndex = kActionListNotStarted;
+  model::ActionListDB::ActionList_t::iterator currentAction;
 
   /**
    * Note whether the last action was a button press (true) or release (false).

@@ -11,7 +11,10 @@
 
 namespace controller {
 
-void Turnout::begin() { turnoutMap.begin(); }
+void Turnout::begin() {
+  turnoutMap.begin();
+  actionListProcessor.begin();
+}
 
 void Turnout::loop(model::InputState& inputState) {
   model::InputState::Key_t* keys = inputState.getTurnoutKeys();
@@ -28,9 +31,10 @@ void Turnout::loop(model::InputState& inputState) {
 void Turnout::handleMultiturnout(model::TurnoutLookupResult result,
                                  RR32Can::TurnoutDirection requestedDirection) {
   --result.address;  // Simple mapping to index into actionLists
-  constexpr uint8_t actionListEndIndex =
-      (model::NumActionLists /
-       ((uint8_t)2U));  // Index one past the end of half the action lists
+  model::ActionListDB::Index_t actionListEndIndex =
+      (actionListProcessor.size() /
+       ((model::ActionListDB::Index_t)2U));  // Index one past the end of half
+                                             // the action lists
   if (result.address >= actionListEndIndex) {
     Serial.print("Requested Action List ");
     Serial.print(result.address, DEC);

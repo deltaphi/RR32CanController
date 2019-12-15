@@ -11,4 +11,11 @@ void print(const TurnoutLookupResult& result) {
   Serial.println();
 }
 
+void print(const TurnoutAction& result) {
+  printf(
+      "Address: %i, Direction: %i (%s)\n", result.address,
+      static_cast<uint8_t>(result.direction),
+      (result.direction == RR32Can::TurnoutDirection::RED ? "RED" : "GREEN"));
+}
+
 } /* namespace model */

@@ -9,7 +9,6 @@
 #include "ConsoleApplications/actionList.h"
 #include "ConsoleApplications/switchTurnout.h"
 
-
 void ConsoleManager::initialize_console(void) {
   /* Disable buffering on stdin */
   setvbuf(stdin, NULL, _IONBF, 0);

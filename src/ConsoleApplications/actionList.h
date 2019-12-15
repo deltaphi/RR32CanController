@@ -11,9 +11,10 @@ namespace ActionList {
 void Setup(TurnoutControl::ActionListProcessor& actionListProcessor);
 int ActionListMain(int argc, char** argv);
 
-int DumpActionLists(int listIndex);
+int DumpActionLists();
 int ExecuteActionList(int listIndex);
 int SetActionList(int listIndex, arg_int* actions);
+int SaveActionLists();
 
 }  // namespace ActionList
 }  // namespace ConsoleApplications
