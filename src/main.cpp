@@ -9,6 +9,7 @@
 #include <RR32Can/RR32Can.h>
 #include "RR32Can/Handler.h"
 
+#include "ConsoleManager.h"
 #include "wifiManager.h"
 
 #include <controller/MasterControl.h>
@@ -17,6 +18,8 @@ controller::MasterControl masterControl;
 
 canManager canMgr;
 
+ConsoleManager consoleMgr;
+
 model::Settings::CommunicationChannel_t activeCommunicationChannel;
 
 void activateCommunicationChannel(
@@ -24,11 +27,9 @@ void activateCommunicationChannel(
 
 void setup() {
   // Start serial and wait for its initialization
-  Serial.begin(115200);
-  while (!Serial)
-    ;
+  consoleMgr.initialize_console();
 
-  Serial.println("CAN Turnout Control");
+  printf("\n###################\nCAN Turnout Control\n###################\n");
 
   // Open SPIFFS to be able to store settings
   if (SPIFFS.begin(true)) {
@@ -48,6 +49,8 @@ void setup() {
   activateCommunicationChannel(userSettings.communicationChannel);
 
   RR32Can::RR32Can.begin(RR32CanUUID, masterControl);
+
+  consoleMgr.StartTask();
 }
 
 void loop() {
