@@ -113,4 +113,6 @@
 
 constexpr uint32_t RR32CanUUID = (RR32Can::enthusiastStationBaseUUID + 10);
 
+static constexpr const uint8_t kActionListMaxLength = 6;
+
 #endif

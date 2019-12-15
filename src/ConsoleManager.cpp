@@ -6,7 +6,9 @@
 #include "esp_vfs_dev.h"
 #include "linenoise/linenoise.h"
 
+#include "ConsoleApplications/actionList.h"
 #include "ConsoleApplications/switchTurnout.h"
+
 
 void ConsoleManager::initialize_console(void) {
   /* Disable buffering on stdin */
@@ -66,8 +68,6 @@ void ConsoleManager::initialize_console(void) {
   /* Load command history from filesystem */
   linenoiseHistoryLoad(HISTORY_PATH);
 #endif
-
-  setupCommands();
 }
 
 int commandDefaultHandler(int argc, char** argv) {
@@ -81,7 +81,8 @@ int commandDefaultHandler(int argc, char** argv) {
   return 0;
 }
 
-void ConsoleManager::setupCommands() {
+void ConsoleManager::setupCommands(
+    TurnoutControl::ActionListProcessor& actionListProcessor) {
   {
     esp_console_cmd_t setParam{
       command : "setParam",
@@ -93,7 +94,8 @@ void ConsoleManager::setupCommands() {
     ESP_ERROR_CHECK(esp_console_cmd_register(&setParam));
   }
 
-  ConsoleApplications::SwitchTurnoutSetup();
+  ConsoleApplications::SwitchTurnout::Setup();
+  ConsoleApplications::ActionList::Setup(actionListProcessor);
 }
 
 void ConsoleTask(void* parameter) {

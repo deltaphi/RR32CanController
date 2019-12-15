@@ -22,6 +22,10 @@ class ActionListProcessor {
 
   void loop();
 
+  uint8_t getNumActionLists() const {
+    return model::NumActionLists;
+  }
+
  private:
   void performAction();
 

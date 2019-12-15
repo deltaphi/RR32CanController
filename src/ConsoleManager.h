@@ -4,6 +4,8 @@
 #include "FreeRTOS.h"
 #include "freertos/task.h"
 
+#include "TurnoutControl/ActionListProcessor.h"
+
 /*
  * \brief Class ConsoleManager
  */
@@ -11,11 +13,10 @@ class ConsoleManager {
  public:
   void initialize_console(void);
   void StartTask();
+  void setupCommands(TurnoutControl::ActionListProcessor& actionListProcessor);
 
  private:
   TaskHandle_t consoleTaskHandle;
-
-  void setupCommands();
 };
 
 #endif  // __CONSOLEMANAGER_H__

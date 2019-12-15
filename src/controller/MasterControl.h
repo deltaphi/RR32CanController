@@ -60,6 +60,10 @@ class MasterControl : public RR32Can::StationCbk {
     return settingsMenu.getUserSettings();
   }
 
+  TurnoutControl::ActionListProcessor& getActionListProcessor() {
+    return turnoutControl.getActionListProcessor();
+  }
+
  private:
   void checkStateTransition();
   void forwardLoop();

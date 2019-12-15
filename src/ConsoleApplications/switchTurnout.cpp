@@ -6,6 +6,7 @@
 #include "RR32Can/RR32Can.h"
 
 namespace ConsoleApplications {
+namespace SwitchTurnout {
 
 static const char* programName = "turnout";
 
@@ -18,18 +19,18 @@ struct arg_end* argEnd = arg_end(5);
 
 static void* argtable[] = {turnoutNum, direction, argEnd};
 
-void SwitchTurnoutSetup() {
+void Setup() {
   esp_console_cmd_t actuateTurnout{
     command : programName,
     help : "Actuate a turnout on request",
     hint : nullptr,
-    func : SwitchTurnout,
+    func : TurnoutMain,
     argtable : argtable
   };
   ESP_ERROR_CHECK(esp_console_cmd_register(&actuateTurnout));
 }
 
-int SwitchTurnout(int argc, char** argv) {
+int TurnoutMain(int argc, char** argv) {
   int nerrors = arg_parse(argc, argv, argtable);
   int returncode = 0;
   if (nerrors != 0) {
@@ -39,9 +40,9 @@ int SwitchTurnout(int argc, char** argv) {
   } else {
     RR32Can::TurnoutAddress_t turnoutAddress = *(turnoutNum->ival);
     if (turnoutAddress == 320) {
-        turnoutAddress = 0;
+      turnoutAddress = 0;
     } else {
-        turnoutAddress -= 1;
+      turnoutAddress -= 1;
     }
 
     RR32Can::TurnoutDirection turnoutDirection;
@@ -62,4 +63,5 @@ int SwitchTurnout(int argc, char** argv) {
   return returncode;
 }
 
+}  // namespace SwitchTurnout
 }  // namespace ConsoleApplications

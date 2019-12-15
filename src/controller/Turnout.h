@@ -18,6 +18,10 @@ class Turnout {
 
   model::TurnoutMap& getTurnoutMap() { return turnoutMap; };
 
+  TurnoutControl::ActionListProcessor& getActionListProcessor() {
+    return actionListProcessor;
+  }
+
  private:
   void handleButton(uint8_t buttonIndex, uint8_t buttonState);
   void handleMultiturnout(model::TurnoutLookupResult result,

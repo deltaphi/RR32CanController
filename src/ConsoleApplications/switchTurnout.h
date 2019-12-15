@@ -3,9 +3,12 @@
 
 namespace ConsoleApplications {
 
-void SwitchTurnoutSetup();
-int SwitchTurnout(int argc, char** argv);
+namespace SwitchTurnout {
 
+void Setup();
+int TurnoutMain(int argc, char** argv);
+
+}  // namespace SwitchTurnout
 }  // namespace ConsoleApplications
 
 #endif  // __CONSOLEAPPLICATIONS__SWITCHTURNOUT_H__
