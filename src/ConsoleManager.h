@@ -14,6 +14,8 @@ class ConsoleManager {
 
  private:
   TaskHandle_t consoleTaskHandle;
+
+  void setupCommands();
 };
 
 #endif  // __CONSOLEMANAGER_H__

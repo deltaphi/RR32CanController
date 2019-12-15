@@ -1,9 +1,12 @@
 #include "ConsoleManager.h"
 
+#include "argtable3/argtable3.h"
 #include "driver/uart.h"
 #include "esp_console.h"
 #include "esp_vfs_dev.h"
 #include "linenoise/linenoise.h"
+
+#include "ConsoleApplications/switchTurnout.h"
 
 void ConsoleManager::initialize_console(void) {
   /* Disable buffering on stdin */
@@ -53,8 +56,8 @@ void ConsoleManager::initialize_console(void) {
   // linenoiseSetMultiLine(1);
 
   /* Tell linenoise where to get command completions and hints */
-  // linenoiseSetCompletionCallback(&esp_console_get_completion);
-  // linenoiseSetHintsCallback((linenoiseHintsCallback*) &esp_console_get_hint);
+  linenoiseSetCompletionCallback(&esp_console_get_completion);
+  linenoiseSetHintsCallback((linenoiseHintsCallback*)&esp_console_get_hint);
 
   /* Set command history size */
   linenoiseHistorySetMaxLen(100);
@@ -63,6 +66,34 @@ void ConsoleManager::initialize_console(void) {
   /* Load command history from filesystem */
   linenoiseHistoryLoad(HISTORY_PATH);
 #endif
+
+  setupCommands();
+}
+
+int commandDefaultHandler(int argc, char** argv) {
+  const char* command;
+  if (argc > 0) {
+    command = argv[0];
+  } else {
+    command = "UNKNOWN";
+  }
+  printf("Called command '%s'.\n", command);
+  return 0;
+}
+
+void ConsoleManager::setupCommands() {
+  {
+    esp_console_cmd_t setParam{
+      command : "setParam",
+      help : nullptr,
+      hint : nullptr,
+      func : commandDefaultHandler,
+      argtable : nullptr
+    };
+    ESP_ERROR_CHECK(esp_console_cmd_register(&setParam));
+  }
+
+  ConsoleApplications::SwitchTurnoutSetup();
 }
 
 void ConsoleTask(void* parameter) {
@@ -87,7 +118,27 @@ void ConsoleTask(void* parameter) {
     const char* prompt = "ESP32> ";
     char* line = linenoise(prompt);
     if (line != NULL) {
-      printf("Got a line: '%s'.\n", line);
+      /* Add the command to the history */
+      linenoiseHistoryAdd(line);
+#if CONFIG_STORE_HISTORY
+      /* Save command history to filesystem */
+      linenoiseHistorySave(HISTORY_PATH);
+#endif
+
+      /* Try to run the command */
+      int ret;
+      esp_err_t err = esp_console_run(line, &ret);
+      if (err == ESP_ERR_NOT_FOUND) {
+        printf("Unrecognized command\n");
+      } else if (err == ESP_ERR_INVALID_ARG) {
+        // command was empty
+      } else if (err == ESP_OK && ret != ESP_OK) {
+        printf("Command returned non-zero error code: 0x%x (%s)\n", ret,
+               esp_err_to_name(ret));
+      } else if (err != ESP_OK) {
+        printf("Internal error: %s\n", esp_err_to_name(err));
+      }
+      /* linenoise allocates line buffer on the heap, so need to free it */
       linenoiseFree(line);
     }
   }
