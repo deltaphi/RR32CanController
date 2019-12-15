@@ -29,13 +29,9 @@ class TurnoutMap {
    * Uses bus numbering, not human-readable numbering.
    */
   model::TurnoutLookupResult lookupTurnout(ButtonIndex_t buttonIndex) const;
-  model::TurnoutLookupResult lookupTurnoutAsHuman(
-      ButtonIndex_t buttonIndex) const;
 
   void setLookupTurnout(ButtonIndex_t buttonIndex,
                         model::TurnoutLookupResult newResult);
-  void setLookupTurnoutFromHuman(ButtonIndex_t buttonIndex,
-                                 model::TurnoutLookupResult newResult);
 
   void print() const;
 

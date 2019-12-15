@@ -38,20 +38,20 @@ int TurnoutMain(int argc, char** argv) {
     arg_print_errors(stdout, argEnd, programName);
     returncode = -1;
   } else {
-    RR32Can::TurnoutAddress_t turnoutAddress = *(turnoutNum->ival);
-    if (turnoutAddress == 320) {
-      turnoutAddress = 0;
-    } else {
-      turnoutAddress -= 1;
-    }
+    RR32Can::MachineTurnoutAddress machineTurnoutAddress{
+        RR32Can::HumanTurnoutAddress{
+            static_cast<RR32Can::TurnoutAddressBase::value_type>(
+                turnoutNum->ival[0])}};
 
     RR32Can::TurnoutDirection turnoutDirection =
         RR32Can::TurnoutDirectionFromIntegral(direction->ival[0]);
 
-    RR32Can::RR32Can.SendAccessoryPacket(turnoutAddress, turnoutDirection, 1);
+    RR32Can::RR32Can.SendAccessoryPacket(machineTurnoutAddress,
+                                         turnoutDirection, 1);
     delay(100);
 
-    RR32Can::RR32Can.SendAccessoryPacket(turnoutAddress, turnoutDirection, 0);
+    RR32Can::RR32Can.SendAccessoryPacket(machineTurnoutAddress,
+                                         turnoutDirection, 0);
   }
 
   return returncode;

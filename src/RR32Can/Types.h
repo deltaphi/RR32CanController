@@ -18,7 +18,45 @@ constexpr TurnoutDirection TurnoutDirectionFromIntegral(IntegralType dir) {
   return (dir == 0) ? TurnoutDirection::RED : TurnoutDirection::GREEN;
 }
 
-using TurnoutAddress_t = uint16_t;
+/**
+ * \brief Base class for all turnout addresses.
+ *
+ * Used to implement a C++ strong type for Turnout Addresses.
+ *
+ * Human addresses are 1-based, whereas machine addresses are 0-based.
+ */
+class TurnoutAddressBase {
+ public:
+  using value_type = uint16_t;
+  constexpr value_type value() const { return addr; }
+
+  TurnoutAddressBase() = default;
+  constexpr TurnoutAddressBase(value_type addr) : addr(addr) {}
+
+ private:
+  value_type addr;
+};
+
+class MachineTurnoutAddress;
+
+/**
+ * \brief The Human-readable version of the Turnout Address.
+ */
+class HumanTurnoutAddress : public TurnoutAddressBase {
+ public:
+  using TurnoutAddressBase::TurnoutAddressBase;
+  HumanTurnoutAddress(const MachineTurnoutAddress& other);
+};
+
+/**
+ * \brief The Machine-readable version of the Turnout Address.
+ */
+class MachineTurnoutAddress : public TurnoutAddressBase {
+ public:
+  MachineTurnoutAddress() = default;
+  using TurnoutAddressBase::TurnoutAddressBase;
+  MachineTurnoutAddress(const HumanTurnoutAddress& other);
+};
 
 /// Engine Direction
 enum class EngineDirection {

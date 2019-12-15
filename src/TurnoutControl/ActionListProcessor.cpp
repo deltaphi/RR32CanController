@@ -49,23 +49,22 @@ void ActionListProcessor::performAction() {
   Serial.print(". Action pointer is 0x");
   Serial.print((uint32_t)action, HEX);
   Serial.print(", Address is ");
-  Serial.print(action->address);
+  Serial.print(RR32Can::HumanTurnoutAddress(action->address).value());
   Serial.print(", Direction is ");
-  Serial.println((uint8_t)action->direction);
+  Serial.println(
+      RR32Can::TurnoutDirectionToIntegral<uint8_t>(action->direction));
 #endif
 
   if (!buttonPressed) {
     // Generate a power on message.
-    // Adjust from human to technical adressing
-    RR32Can::RR32Can.SendAccessoryPacket(action.address - 1, action.direction,
-                                         1);
+    RR32Can::RR32Can.SendAccessoryPacket(action.address,
+                                         action.direction, 1);
 
     buttonPressed = true;
   } else {
     // Generate a button release
-    // Adjust from human to technical adressing
-    RR32Can::RR32Can.SendAccessoryPacket(action.address - 1, action.direction,
-                                         0);
+    RR32Can::RR32Can.SendAccessoryPacket(action.address,
+                                         action.direction, 0);
 
     buttonPressed = false;
   }

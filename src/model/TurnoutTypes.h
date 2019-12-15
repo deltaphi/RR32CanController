@@ -11,13 +11,13 @@ enum class TurnoutAddressMode { SingleTurnout = 0, MultiTurnout };
 
 typedef struct {
   TurnoutAddressMode mode = TurnoutAddressMode::SingleTurnout;
-  RR32Can::TurnoutAddress_t address = 0;
+  RR32Can::MachineTurnoutAddress address = 0;
 } TurnoutLookupResult;
 
 void print(const TurnoutLookupResult&);
 
 typedef struct {
-  RR32Can::TurnoutAddress_t address;
+  RR32Can::MachineTurnoutAddress address;
   RR32Can::TurnoutDirection direction;
 } TurnoutAction;
 

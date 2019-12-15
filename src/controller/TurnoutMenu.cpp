@@ -8,8 +8,9 @@ void TurnoutMenu::begin() { currentKey = TURNOUT_BUTTONS_OFFSET; }
 
 void TurnoutMenu::loadCurrentKey(model::InputState& inputState,
                                  model::TurnoutMap& turnoutMap) {
-  currentResult = turnoutMap.lookupTurnoutAsHuman(currentKey);
-  inputState.loadEncoderPosition(currentResult.address);
+  currentResult = turnoutMap.lookupTurnout(currentKey);
+  inputState.loadEncoderPosition(
+      RR32Can::HumanTurnoutAddress(currentResult.address).value());
   displayUpdateNeeded = true;
 }
 
@@ -24,7 +25,7 @@ void TurnoutMenu::loop(model::InputState& inputState,
     } else {
       // Store current mapping in volatile storage.
       currentResult.mode = model::TurnoutAddressMode::SingleTurnout;
-      turnoutMap.setLookupTurnoutFromHuman(currentKey, currentResult);
+      turnoutMap.setLookupTurnout(currentKey, currentResult);
     }
   } else {
     // On encoder rotation, change the current mapping
@@ -34,17 +35,22 @@ void TurnoutMenu::loop(model::InputState& inputState,
 
       if (encoderNewPosition <
           static_cast<model::InputState::EncoderPosition_t>(
-              RR32Can::kTurnoutAddressMin)) {
+              RR32Can::HumanTurnoutAddress(RR32Can::kTurnoutAddressMin)
+                  .value())) {
         // ran into lower limit
-        inputState.loadEncoderPosition(RR32Can::kTurnoutAddressMin);
+        inputState.loadEncoderPosition(
+            RR32Can::HumanTurnoutAddress(RR32Can::kTurnoutAddressMin).value());
       } else if (encoderNewPosition >
                  static_cast<model::InputState::EncoderPosition_t>(
-                     RR32Can::kTurnoutAddressMax)) {
+                     RR32Can::HumanTurnoutAddress(RR32Can::kTurnoutAddressMax)
+                         .value())) {
         // ran into upper limit
-        inputState.loadEncoderPosition(RR32Can::kTurnoutAddressMax);
+        inputState.loadEncoderPosition(
+            RR32Can::HumanTurnoutAddress(RR32Can::kTurnoutAddressMax).value());
       } else {
         // use the actual value
-        currentResult.address = encoderNewPosition;
+        currentResult.address =
+            RR32Can::HumanTurnoutAddress(encoderNewPosition);
       }
       displayUpdateNeeded = true;
       inputState.consumeEncoderPosition();
@@ -68,9 +74,9 @@ void TurnoutMenu::updateDisplay(view::DisplayManager& displayManager,
   if (displayUpdateNeeded) {
     snprintf(displayManager.getWritableBuffer(0), STRING_DATATYPE_LENGTH,
              "Button: %i (%s)", currentKey, "R/G");
-    RR32Can::TurnoutAddress_t address = currentResult.address;
+    RR32Can::HumanTurnoutAddress address = currentResult.address;
     snprintf(displayManager.getWritableBuffer(1), STRING_DATATYPE_LENGTH,
-             "Turnout: %i", address);
+             "Turnout: %i", address.value());
 
     displayUpdateNeeded = false;
   }

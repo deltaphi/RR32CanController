@@ -293,12 +293,12 @@ void Station::SendSystemGo() {
   SendPacket(identifier, data);
 }
 
-void Station::SendAccessoryPacket(uint32_t turnoutAddress,
+void Station::SendAccessoryPacket(RR32Can::MachineTurnoutAddress turnoutAddress,
                                   TurnoutDirection direction, uint8_t power) {
   RR32Can::Identifier identifier{kAccessorySwitch, this->senderHash};
 
   RR32Can::TurnoutPacket payload;
-  payload.locid = turnoutAddress;  // Set the turnout address
+  payload.locid = turnoutAddress.value();  // Set the turnout address
   payload.locid |= 0x3000;  // whatever this does. The MS2 does it, though.
   payload.position = RR32Can::TurnoutDirectionToIntegral<uint8_t>(
       direction);  // Set the turnout direction

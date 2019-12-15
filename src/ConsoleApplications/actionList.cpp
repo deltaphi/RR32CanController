@@ -118,7 +118,7 @@ int SetActionList(int listIndex, arg_int* actions) {
 
     for (int i = 0; i < actions->count; i += 2) {
       model::TurnoutAction action;
-      action.address = actions->ival[i];
+      action.address = RR32Can::HumanTurnoutAddress(actions->ival[i]);
       action.direction =
           RR32Can::TurnoutDirectionFromIntegral(actions->ival[i + 1]);
       dbIt->push_back(action);
