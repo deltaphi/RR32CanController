@@ -68,11 +68,9 @@ model::TurnoutLookupResult& TurnoutMap::rangeCheckedMapAt(
 model::TurnoutLookupResult TurnoutMap::lookupTurnout(
     uint8_t buttonIndex) const {
 #if (LOG_BUTTON_MAPPING == STD_ON)
-  Serial.print("Mapping from ");
-  Serial.print(buttonIndex, DEC);
-  Serial.print(" to ");
-  Serial.print(rangeCheckedMapAt(buttonIndex).address, DEC);
-  Serial.println();
+  printf("Mapping from %i to ", buttonIndex);
+  model::print(rangeCheckedMapAt(buttonIndex));
+  printf(".\n");
 #endif
 
   return rangeCheckedMapAt(buttonIndex);

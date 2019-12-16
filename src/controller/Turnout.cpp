@@ -54,8 +54,7 @@ void Turnout::handleMultiturnout(model::TurnoutLookupResult result,
   Serial.println(actionListAddr, DEC);
 
 #if (LOG_ACTIONLIST == STD_ON)
-  Serial.print("Requesting action list ");
-  Serial.println(result.address, DEC);
+  printf("Requesting action list %i.\n", result.address.value());
 #endif
   if (!actionListProcessor.requestActionList(actionListAddr)) {
     Serial.println(
@@ -74,15 +73,7 @@ void Turnout::handleButton(uint8_t buttonIndex, uint8_t buttonState) {
       turnoutMap.lookupTurnout(buttonIndex);
 
 #if (LOG_BUTTON_PRESS == STD_ON)
-  Serial.print(F("Button "));
-  Serial.print(buttonIndex);
-  if (buttonState == HIGH) {
-    // Someone pressed this button
-    Serial.println(F(" was pressed."));
-  } else {
-    // Someone released this button
-    Serial.println(F(" was released."));
-  }
+  printf("Button %i was %s.\n", buttonIndex, (buttonState == HIGH ? "pressed" : "released"));
 #endif
 
   switch (turnoutIndex.mode) {

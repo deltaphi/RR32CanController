@@ -4,11 +4,8 @@
 namespace model {
 
 void print(const TurnoutLookupResult& result) {
-  Serial.print("Mode: ");
-  Serial.print(static_cast<int>(result.mode), DEC);
-  Serial.print(", Address: ");
-  Serial.print(RR32Can::HumanTurnoutAddress(result.address).value(), DEC);
-  Serial.println();
+  printf("Mode: %i, Address: %i", static_cast<int>(result.mode),
+         RR32Can::HumanTurnoutAddress(result.address).value());
 }
 
 void print(const TurnoutAction& result) {

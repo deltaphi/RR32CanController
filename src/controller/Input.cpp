@@ -1,5 +1,7 @@
 #include "controller/Input.h"
 
+#include "config.h"
+
 namespace controller {
 
 /**
