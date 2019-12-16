@@ -22,9 +22,9 @@ void AbstractMenu::loop(model::InputState& inputState,
   } else {
     // Evaluate moving through the list
 
-    currentItem = inputState.encoder.getPosition();
-    if (inputState.lastEncoderState.position != currentItem) {
+    if (inputState.isEncoderMoved()) {
       // Encoder moved
+      currentItem = inputState.encoder.getPosition();
       MenuItemIndex_t limitedValue = limiter.limitedValue(currentItem);
       if (limitedValue == currentItem) {
         // performed within limits.

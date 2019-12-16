@@ -12,8 +12,8 @@ void Setup(TurnoutControl::ActionListProcessor& actionListProcessor);
 int ActionListMain(int argc, char** argv);
 
 int DumpActionLists();
-int ExecuteActionList(int listIndex);
-int SetActionList(int listIndex, arg_int* actions);
+int ExecuteActionList(RR32Can::HumanTurnoutAddress listIndex);
+int SetActionList(RR32Can::HumanTurnoutAddress listIndex, arg_int* actions);
 int SaveActionLists();
 
 }  // namespace ActionList

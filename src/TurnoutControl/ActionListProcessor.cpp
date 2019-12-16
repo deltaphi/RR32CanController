@@ -40,31 +40,20 @@ void ActionListProcessor::loop() {
 }
 
 void ActionListProcessor::performAction() {
-#if (LOG_ACTIONLIST == STD_ON)
-  Serial.print("Performing action for index ");
-  Serial.print(actionIndex, DEC);
-#endif
   model::TurnoutAction& action = *(this->currentAction);
 #if (LOG_ACTIONLIST == STD_ON)
-  Serial.print(". Action pointer is 0x");
-  Serial.print((uint32_t)action, HEX);
-  Serial.print(", Address is ");
-  Serial.print(RR32Can::HumanTurnoutAddress(action->address).value());
-  Serial.print(", Direction is ");
-  Serial.println(
-      RR32Can::TurnoutDirectionToIntegral<uint8_t>(action->direction));
+  printf("Action:");
+  print(action);
 #endif
 
   if (!buttonPressed) {
     // Generate a power on message.
-    RR32Can::RR32Can.SendAccessoryPacket(action.address,
-                                         action.direction, 1);
+    RR32Can::RR32Can.SendAccessoryPacket(action.address, action.direction, 1);
 
     buttonPressed = true;
   } else {
     // Generate a button release
-    RR32Can::RR32Can.SendAccessoryPacket(action.address,
-                                         action.direction, 0);
+    RR32Can::RR32Can.SendAccessoryPacket(action.address, action.direction, 0);
 
     buttonPressed = false;
   }
@@ -98,7 +87,7 @@ void ActionListProcessor::printActionLists() const {
   model::ActionListDB::DB_t::const_iterator dbIt = db.begin();
   int dbIdx = 0;
   while (dbIt != db.end()) {
-    printf("Action List %i:\n", dbIdx);
+    printf("Action List %i (%i elements):\n", dbIdx, dbIt->size());
 
     for (const model::TurnoutAction& action : *dbIt) {
       print(action);

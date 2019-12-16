@@ -30,31 +30,16 @@ void Turnout::loop(model::InputState& inputState) {
 
 void Turnout::handleMultiturnout(model::TurnoutLookupResult result,
                                  RR32Can::TurnoutDirection requestedDirection) {
-  //--result.address;  // TBD: Simple mapping to index into actionLists
   RR32Can::TurnoutAddressBase::value_type actionListAddr =
       result.address.value();
 
-  model::ActionListDB::Index_t actionListEndIndex =
-      (actionListProcessor.size() /
-       ((model::ActionListDB::Index_t)2U));  // Index one past the end of half
-                                             // the action lists
-  if (actionListAddr >= actionListEndIndex) {
-    Serial.print("Requested Action List ");
-    Serial.print(actionListAddr, DEC);
-    Serial.println(" is out of range.");
-    return;
-  }
-
   if (requestedDirection == RR32Can::TurnoutDirection::RED) {
     // Add offset into the green lists
-    actionListAddr += actionListEndIndex;
+    ++actionListAddr;
   }
 
-  Serial.print("Starting Action List ");
-  Serial.println(actionListAddr, DEC);
-
 #if (LOG_ACTIONLIST == STD_ON)
-  printf("Requesting action list %i.\n", result.address.value());
+  printf("Requesting action list %i.\n", actionListAddr);
 #endif
   if (!actionListProcessor.requestActionList(actionListAddr)) {
     Serial.println(

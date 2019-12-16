@@ -3,6 +3,8 @@
 
 #include <cstdint>
 
+#include "controller/EncoderLimiter.h"
+#include "model/ActionListDB.h"
 #include "model/InputState.h"
 #include "model/TurnoutMap.h"
 #include "view/DisplayManager.h"
@@ -20,7 +22,8 @@ class TurnoutMenu {
 
   void begin();
   void loop(model::InputState& inputState, MasterControl& masterControl,
-            model::TurnoutMap& turnoutMap);
+            model::TurnoutMap& turnoutMap,
+            const model::ActionListDB::DB_t& actionListDb);
 
   void updateDisplay(view::DisplayManager& displayManager,
                      const model::TurnoutMap& turnoutMap);
@@ -31,10 +34,15 @@ class TurnoutMenu {
   model::TurnoutLookupResult currentResult;
 
   void loadCurrentKey(model::InputState& inputState,
-                      model::TurnoutMap& turnoutMap);
+                      model::TurnoutMap& turnoutMap,
+                      const model::ActionListDB::DB_t& actionListDb);
+
+  void updateEncoderLimits(const model::ActionListDB::DB_t& actionListDb);
 
   /// Whether an action was taken that requires an update to the display.
   bool displayUpdateNeeded;
+
+  EncoderLimiter limiter;
 };
 
 }  // namespace controller

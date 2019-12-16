@@ -9,6 +9,8 @@
 #include "ConsoleApplications/actionList.h"
 #include "ConsoleApplications/switchTurnout.h"
 
+#include "config.h"
+
 void ConsoleManager::initialize_console(void) {
   /* Disable buffering on stdin */
   setvbuf(stdin, NULL, _IONBF, 0);
@@ -43,7 +45,7 @@ void ConsoleManager::initialize_console(void) {
   /* Initialize the console */
   esp_console_config_t console_config = {
     .max_cmdline_length = 256,
-    .max_cmdline_args = 8,
+    .max_cmdline_args = 3 + (2*kActionListMaxLength),
 #if CONFIG_LOG_COLORS
     .hint_color = atoi(LOG_COLOR_CYAN)
 #endif

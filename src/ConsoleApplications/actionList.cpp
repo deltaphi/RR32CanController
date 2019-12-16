@@ -24,7 +24,7 @@ static arg_str* subcommand = arg_str1(nullptr, nullptr, "list|execute|set|save",
 static arg_int* actionListIndex =
     arg_int1(nullptr, nullptr, "uint8_t", "Index of ActionList");
 static arg_int* actions =
-    arg_intn(nullptr, nullptr, "TunoutAddr/Direction", 0, kActionListMaxLength,
+    arg_intn(nullptr, nullptr, "TunoutAddr/Direction", 0, kActionListMaxLength*2,
              "List of turnouts to set");
 
 struct arg_end* argEnd = arg_end(5);
@@ -45,6 +45,11 @@ void Setup(TurnoutControl::ActionListProcessor& alp) {
 }
 
 int ActionListMain(int argc, char** argv) {
+  printf("Command:");
+  for (int i = 0; i < argc; ++i) {
+    printf(" %s", argv[i]);
+  }
+  printf(";\n");
   int nerrors = arg_parse(argc, argv, argtable);
   int returncode = 0;
   if (nerrors != 0) {
@@ -56,6 +61,7 @@ int ActionListMain(int argc, char** argv) {
     } else if (strncmp(subcommand->sval[0], kExecute, strlen(kExecute)) == 0) {
       return ExecuteActionList(actionListIndex->ival[0]);
     } else if (strncmp(subcommand->sval[0], kSet, strlen(kSet)) == 0) {
+      printf("%i %i %i\n", subcommand->count, actionListIndex->count, actions->count);
       return SetActionList(actionListIndex->ival[0], actions);
     } else if (strncmp(subcommand->sval[0], kSave, strlen(kSave)) == 0) {
       return SaveActionLists();
@@ -82,12 +88,13 @@ int DumpActionLists() {
   return 0;
 }
 
-int ExecuteActionList(int listIndex) {
-  int listIndexCheck = checkListIndex(listIndex);
+int ExecuteActionList(RR32Can::HumanTurnoutAddress humanListIndex) {
+  RR32Can::MachineTurnoutAddress listIndex{humanListIndex};
+  int listIndexCheck = checkListIndex(listIndex.value());
   if (listIndexCheck != 0) {
     return listIndexCheck;
   } else {
-    bool result = actionListProcessor->requestActionList(listIndex);
+    bool result = actionListProcessor->requestActionList(listIndex.value());
     if (result) {
       return 0;
     } else {
@@ -96,22 +103,26 @@ int ExecuteActionList(int listIndex) {
   }
 }
 
-int SetActionList(int listIndex, arg_int* actions) {
+int SetActionList(RR32Can::HumanTurnoutAddress humanListIndex, arg_int* actions) {
+  RR32Can::MachineTurnoutAddress listIndex{humanListIndex};
+
   if (actions->count % 2 != 0) {
     printf("Turnout without action found.\n");
     return 1;
   } else {
+    printf("ActionList with %i parameters.\n", actions->count);
+
     model::ActionListDB::DB_t& db = actionListProcessor->getDb();
 
     // Find or create the ActionList to be edited.
 
-    if (listIndex >= db.size()) {
+    if (listIndex.value() >= db.size()) {
       // create one (or more) new entries
-      db.resize(listIndex + 1);
+      db.resize(listIndex.value() + 1);
     }
 
     model::ActionListDB::DB_t::iterator dbIt = db.begin();
-    std::advance(dbIt, listIndex);
+    std::advance(dbIt, listIndex.value());
 
     // Clear the list and fill it with new entries
     dbIt->clear();
@@ -124,7 +135,7 @@ int SetActionList(int listIndex, arg_int* actions) {
       dbIt->push_back(action);
     }
 
-    printf("ActionList stored.\n");
+    printf("ActionList with %i elements stored.\n", dbIt->size());
     return 0;
   }
 }

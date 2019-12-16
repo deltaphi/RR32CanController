@@ -9,6 +9,8 @@ namespace model {
 
 enum class TurnoutAddressMode { SingleTurnout = 0, MultiTurnout };
 
+TurnoutAddressMode SwitchMode(TurnoutAddressMode mode);
+
 typedef struct {
   TurnoutAddressMode mode = TurnoutAddressMode::SingleTurnout;
   RR32Can::MachineTurnoutAddress address = 0;
