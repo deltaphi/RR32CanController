@@ -1168,11 +1168,11 @@ Wire Wire Line
 Wire Wire Line
 	2800 1750 3600 1750
 Wire Wire Line
-	3700 6650 3450 6650
+	3950 6650 3450 6650
 Wire Wire Line
 	2800 1550 3600 1550
 Wire Wire Line
-	3650 6550 3450 6550
+	3950 6550 3450 6550
 Wire Wire Line
 	3450 7350 3800 7350
 Wire Wire Line
@@ -2039,4 +2039,15 @@ Text Label 2400 6950 0    50   ~ 0
 USB-
 Text Label 2400 6850 0    50   ~ 0
 USB+
+$Comp
+L Connector:Conn_01x02_Female J8
+U 1 1 5D49FABD
+P 4150 6550
+F 0 "J8" H 4178 6526 50  0000 L CNN
+F 1 "Conn_01x02_Female" H 4178 6435 50  0000 L CNN
+F 2 "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical" H 4150 6550 50  0001 C CNN
+F 3 "~" H 4150 6550 50  0001 C CNN
+	1    4150 6550
+	1    0    0    -1  
+$EndComp
 $EndSCHEMATC

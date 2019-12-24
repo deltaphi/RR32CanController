@@ -1399,7 +1399,7 @@ Text Label 6850 4050 0    50   ~ 0
 F3
 Text Label 6850 4700 0    50   ~ 0
 F4
-Text Label 6850 5400 0    50   ~ 0
+Text Label 6950 5400 0    50   ~ 0
 Shift
 Text Label 6850 6100 0    50   ~ 0
 Stop
@@ -1445,8 +1445,6 @@ Wire Wire Line
 	3350 2650 2800 2650
 Wire Wire Line
 	3800 2750 2800 2750
-Wire Wire Line
-	2800 2450 3350 2450
 Text Label 5650 1150 0    50   ~ 0
 S88_CLOCK
 Text Label 5650 1250 0    50   ~ 0
@@ -1601,8 +1599,6 @@ Text Label 3150 2250 0    50   ~ 0
 F3
 Text Label 3150 2550 0    50   ~ 0
 F4
-Text Label 3150 2450 0    50   ~ 0
-Shift
 Text Label 3150 2750 0    50   ~ 0
 Encoder_A
 Text Label 3150 2850 0    50   ~ 0
@@ -1925,17 +1921,6 @@ F 3 "~" H 1350 2500 50  0001 C CNN
 	1    1350 2300
 	0    1    1    0   
 $EndComp
-$Comp
-L Switch:SW_Push SW10
-U 1 1 5D10FE38
-P 3650 4300
-F 0 "SW10" H 3650 4585 50  0000 C CNN
-F 1 "SW_Push" H 3650 4494 50  0000 C CNN
-F 2 "Button_Switch_THT:SW_PUSH_6mm" H 3650 4500 50  0001 C CNN
-F 3 "~" H 3650 4500 50  0001 C CNN
-	1    3650 4300
-	1    0    0    -1  
-$EndComp
 Wire Wire Line
 	1350 2500 1000 2500
 Connection ~ 600  2500
@@ -1977,14 +1962,8 @@ Wire Wire Line
 	3450 4300 3450 4500
 Wire Wire Line
 	3450 4500 3550 4500
-Connection ~ 3450 4300
-Wire Wire Line
-	3850 4300 4100 4300
-Wire Wire Line
-	4100 4300 4100 4500
 Wire Wire Line
 	3850 4500 4100 4500
-Connection ~ 4100 4500
 Wire Wire Line
 	4100 4500 4100 4600
 Text Label 3050 4300 0    50   ~ 0
@@ -2050,4 +2029,6 @@ F 3 "~" H 4150 6550 50  0001 C CNN
 	1    4150 6550
 	1    0    0    -1  
 $EndComp
+Text Label 6700 5400 0    50   ~ 0
+GPIO0
 $EndSCHEMATC

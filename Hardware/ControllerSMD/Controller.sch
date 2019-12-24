@@ -1,6 +1,6 @@
 EESchema Schematic File Version 4
 LIBS:Controller-cache
-EELAYER 26 0
+EELAYER 29 0
 EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
@@ -1158,10 +1158,6 @@ Wire Wire Line
 Wire Wire Line
 	6750 4700 7150 4700
 Connection ~ 7150 4700
-Wire Wire Line
-	6700 2600 6700 5400
-Wire Wire Line
-	6700 5400 7150 5400
 Connection ~ 7150 5400
 Wire Wire Line
 	6650 2700 6650 6100
@@ -1239,15 +1235,13 @@ Wire Wire Line
 Wire Wire Line
 	3450 7350 3800 7350
 Wire Wire Line
-	3800 7350 3800 700 
+	3800 7350 3800 4500
 Wire Wire Line
 	3800 700  1150 700 
 Wire Wire Line
 	1150 700  1150 1500
 Wire Wire Line
 	3450 7250 3750 7250
-Wire Wire Line
-	3750 7250 3750 1500
 Wire Wire Line
 	3750 1500 2350 1500
 Wire Wire Line
@@ -1627,12 +1621,6 @@ Wire Wire Line
 Wire Wire Line
 	2350 2550 6750 2550
 Wire Wire Line
-	2350 2500 2800 2500
-Wire Wire Line
-	2800 2500 2800 2600
-Wire Wire Line
-	2800 2600 6700 2600
-Wire Wire Line
 	2600 3600 2350 3600
 Wire Wire Line
 	2500 3800 2350 3800
@@ -1743,4 +1731,55 @@ Text Label 3500 6650 0    50   ~ 0
 BOARD_TX0
 Text Label 3500 6550 0    50   ~ 0
 BOARD_RX0
+Wire Wire Line
+	3750 5400 7150 5400
+Wire Wire Line
+	3750 5400 3750 1500
+$Comp
+L Switch:SW_Push SW9
+U 1 1 5E0598C5
+P 4200 4500
+F 0 "SW9" H 4200 4785 50  0000 C CNN
+F 1 "EN" H 4200 4694 50  0000 C CNN
+F 2 "Button_Switch_SMD:SW_Push_1P1T_NO_CK_KMR2" H 4200 4700 50  0001 C CNN
+F 3 "" H 4200 4700 50  0001 C CNN
+	1    4200 4500
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR0134
+U 1 1 5E05A3A3
+P 4400 4600
+F 0 "#PWR0134" H 4400 4350 50  0001 C CNN
+F 1 "GND" H 4405 4427 50  0000 C CNN
+F 2 "" H 4400 4600 50  0001 C CNN
+F 3 "" H 4400 4600 50  0001 C CNN
+	1    4400 4600
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	4000 4500 3800 4500
+Connection ~ 3800 4500
+Wire Wire Line
+	3800 4500 3800 700 
+Wire Wire Line
+	4400 4500 4400 4600
+$Comp
+L Jumper:Jumper_2_Open JP3
+U 1 1 5E08CDE3
+P 3750 5650
+F 0 "JP3" V 3796 5562 50  0000 R CNN
+F 1 "Jumper_2_Open" V 3705 5562 50  0000 R CNN
+F 2 "Jumper:SolderJumper-2_P1.3mm_Open_Pad1.0x1.5mm" H 3750 5650 50  0001 C CNN
+F 3 "~" H 3750 5650 50  0001 C CNN
+	1    3750 5650
+	0    -1   -1   0   
+$EndComp
+Wire Wire Line
+	3750 5400 3750 5450
+Connection ~ 3750 5400
+Wire Wire Line
+	3750 7250 3750 5850
+Text Label 3500 7250 0    50   ~ 0
+GPIO0-SER
 $EndSCHEMATC
