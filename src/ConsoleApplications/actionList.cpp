@@ -84,7 +84,7 @@ int checkListIndex(int listIndex) {
 }
 
 int DumpActionLists() {
-  actionListProcessor->printActionLists();
+  actionListProcessor->printActionLists(programName);
   return 0;
 }
 

@@ -3,6 +3,7 @@ src/wificonfig.h
 Hardware/ControllerTHT/fp-lib-table
 Hardware/ControllerTHT/sym-lib-table
 .vscode/settings.json
+actionLists.txt
 
 ## PlatformIO
 .pio

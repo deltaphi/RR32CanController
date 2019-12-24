@@ -31,7 +31,7 @@ class ActionListProcessor {
   std::size_t size() const { return db.size(); }
 
   void printActionList(model::ActionListDB::Index_t index) const;
-  void printActionLists() const;
+  void printActionLists(const char* serializedPrefix) const;
 
   model::ActionListDB::DB_t& getDb() { return db; }
 
