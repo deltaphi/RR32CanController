@@ -53,7 +53,7 @@ Wire Wire Line
 Wire Wire Line
 	1250 2400 1500 2400
 Wire Wire Line
-	2850 2400 2850 1400
+	2850 2400 2850 2100
 Wire Wire Line
 	2850 1400 3150 1400
 Connection ~ 2050 2400
@@ -73,7 +73,7 @@ Wire Wire Line
 Wire Wire Line
 	1000 1300 1000 900 
 Wire Wire Line
-	1000 900  3150 900 
+	1000 900  3050 900 
 Wire Wire Line
 	3150 900  3150 1300
 Wire Wire Line
@@ -189,57 +189,112 @@ S88_DATA
 $Comp
 L Mechanical:MountingHole_Pad H1
 U 1 1 5E089C70
-P 3000 2300
-F 0 "H1" H 3100 2349 50  0000 L CNN
-F 1 "MountingHole_Pad" H 3100 2258 50  0000 L CNN
-F 2 "MountingHole:MountingHole_2.7mm_M2.5_Pad_Via" H 3000 2300 50  0001 C CNN
-F 3 "~" H 3000 2300 50  0001 C CNN
-	1    3000 2300
+P 1600 2850
+F 0 "H1" H 1700 2899 50  0000 L CNN
+F 1 "MountingHole_Pad" H 1700 2808 50  0000 L CNN
+F 2 "MountingHole:MountingHole_2.7mm_M2.5_Pad_Via" H 1600 2850 50  0001 C CNN
+F 3 "~" H 1600 2850 50  0001 C CNN
+	1    1600 2850
 	1    0    0    -1  
 $EndComp
 $Comp
 L Mechanical:MountingHole_Pad H2
 U 1 1 5E08A66B
-P 3300 2300
-F 0 "H2" H 3400 2349 50  0000 L CNN
-F 1 "MountingHole_Pad" H 3400 2258 50  0000 L CNN
-F 2 "MountingHole:MountingHole_2.7mm_M2.5_Pad_Via" H 3300 2300 50  0001 C CNN
-F 3 "~" H 3300 2300 50  0001 C CNN
-	1    3300 2300
+P 1900 2850
+F 0 "H2" H 2000 2899 50  0000 L CNN
+F 1 "MountingHole_Pad" H 2000 2808 50  0000 L CNN
+F 2 "MountingHole:MountingHole_2.7mm_M2.5_Pad_Via" H 1900 2850 50  0001 C CNN
+F 3 "~" H 1900 2850 50  0001 C CNN
+	1    1900 2850
 	1    0    0    -1  
 $EndComp
 $Comp
 L Mechanical:MountingHole_Pad H3
 U 1 1 5E08A86E
-P 3600 2300
-F 0 "H3" H 3700 2349 50  0000 L CNN
-F 1 "MountingHole_Pad" H 3700 2258 50  0000 L CNN
-F 2 "MountingHole:MountingHole_2.7mm_M2.5_Pad_Via" H 3600 2300 50  0001 C CNN
-F 3 "~" H 3600 2300 50  0001 C CNN
-	1    3600 2300
+P 2200 2850
+F 0 "H3" H 2300 2899 50  0000 L CNN
+F 1 "MountingHole_Pad" H 2300 2808 50  0000 L CNN
+F 2 "MountingHole:MountingHole_2.7mm_M2.5_Pad_Via" H 2200 2850 50  0001 C CNN
+F 3 "~" H 2200 2850 50  0001 C CNN
+	1    2200 2850
 	1    0    0    -1  
 $EndComp
 $Comp
 L Mechanical:MountingHole_Pad H4
 U 1 1 5E08AA20
-P 3900 2300
-F 0 "H4" H 4000 2349 50  0000 L CNN
-F 1 "MountingHole_Pad" H 4000 2258 50  0000 L CNN
-F 2 "MountingHole:MountingHole_2.7mm_M2.5_Pad_Via" H 3900 2300 50  0001 C CNN
-F 3 "~" H 3900 2300 50  0001 C CNN
-	1    3900 2300
+P 2500 2850
+F 0 "H4" H 2600 2899 50  0000 L CNN
+F 1 "MountingHole_Pad" H 2600 2808 50  0000 L CNN
+F 2 "MountingHole:MountingHole_2.7mm_M2.5_Pad_Via" H 2500 2850 50  0001 C CNN
+F 3 "~" H 2500 2850 50  0001 C CNN
+	1    2500 2850
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
-	2850 2400 3000 2400
-Connection ~ 2850 2400
-Connection ~ 3000 2400
+	1600 2950 1900 2950
+Connection ~ 1900 2950
 Wire Wire Line
-	3000 2400 3300 2400
-Connection ~ 3300 2400
+	1900 2950 2200 2950
+Connection ~ 2200 2950
 Wire Wire Line
-	3300 2400 3600 2400
-Connection ~ 3600 2400
+	2200 2950 2500 2950
+$Comp
+L Connector:Conn_01x06_Male J3
+U 1 1 5E0896F0
+P 3350 2200
+F 0 "J3" H 3458 2581 50  0000 C CNN
+F 1 "Conn_01x06_Male" H 3458 2490 50  0000 C CNN
+F 2 "Connector_PinSocket_2.54mm:PinSocket_1x06_P2.54mm_Vertical" H 3350 2200 50  0001 C CNN
+F 3 "~" H 3350 2200 50  0001 C CNN
+	1    3350 2200
+	-1   0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR0103
+U 1 1 5E08CBEB
+P 2500 2950
+F 0 "#PWR0103" H 2500 2700 50  0001 C CNN
+F 1 "GND" H 2505 2777 50  0000 C CNN
+F 2 "" H 2500 2950 50  0001 C CNN
+F 3 "" H 2500 2950 50  0001 C CNN
+	1    2500 2950
+	1    0    0    -1  
+$EndComp
+Connection ~ 2500 2950
 Wire Wire Line
-	3600 2400 3900 2400
+	3100 1800 3100 2500
+Wire Wire Line
+	3100 2500 3150 2500
+Connection ~ 3100 1800
+Wire Wire Line
+	3150 2100 2850 2100
+Connection ~ 2850 2100
+Wire Wire Line
+	2850 2100 2850 1400
+Wire Wire Line
+	2800 1500 2800 2200
+Wire Wire Line
+	2800 2200 3150 2200
+Connection ~ 2800 1500
+Wire Wire Line
+	2750 1600 2750 2300
+Wire Wire Line
+	2750 2300 3150 2300
+Connection ~ 2750 1600
+Wire Wire Line
+	2700 1700 2700 2350
+Wire Wire Line
+	2700 2350 2900 2350
+Wire Wire Line
+	2900 2350 2900 2400
+Wire Wire Line
+	2900 2400 3150 2400
+Connection ~ 2700 1700
+Wire Wire Line
+	3050 900  3050 2000
+Wire Wire Line
+	3050 2000 3150 2000
+Connection ~ 3050 900 
+Wire Wire Line
+	3050 900  3150 900 
 $EndSCHEMATC

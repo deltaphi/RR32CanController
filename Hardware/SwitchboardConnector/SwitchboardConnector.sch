@@ -76,4 +76,33 @@ F 3 "~" H 1450 1200 50  0001 C CNN
 	1    1450 1200
 	1    0    0    -1  
 $EndComp
+$Comp
+L Connector:Conn_01x06_Female J2
+U 1 1 5E08914C
+P 2300 1200
+F 0 "J2" H 2328 1176 50  0000 L CNN
+F 1 "Conn_01x06_Female" H 2328 1085 50  0000 L CNN
+F 2 "Connector_PinSocket_2.54mm:PinSocket_1x06_P2.54mm_Vertical" H 2300 1200 50  0001 C CNN
+F 3 "~" H 2300 1200 50  0001 C CNN
+	1    2300 1200
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	1750 1000 2100 1000
+Connection ~ 1750 1000
+Wire Wire Line
+	1850 1100 2100 1100
+Connection ~ 1850 1100
+Wire Wire Line
+	1950 1200 2100 1200
+Connection ~ 1950 1200
+Wire Wire Line
+	1950 1300 2100 1300
+Connection ~ 1950 1300
+Wire Wire Line
+	1850 1400 2100 1400
+Connection ~ 1850 1400
+Wire Wire Line
+	1750 1500 2100 1500
+Connection ~ 1750 1500
 $EndSCHEMATC
