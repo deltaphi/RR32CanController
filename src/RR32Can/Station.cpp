@@ -32,9 +32,9 @@ void Station::HandleConfigDataStream(const RR32Can::Data& data) {
   if (configDataParser.isProcessing()) {
 #if (LOG_CONFIG_DATA_STREAM_LEVEL >= LOG_CONFIG_DATA_STREAM_LEVEL_ALL)
     data.printAsHex();
-    Serial.print(" '");
+    printf(" '");
     data.printAsText();
-    Serial.print("' ");
+    printf("' ");
 #endif
     configDataParser.addMessage(data);
 
@@ -359,24 +359,23 @@ void Station::HandlePacket(const RR32Can::Identifier& id,
 
     case RR32Can::kRequestConfigData:
 #if (LOG_CONFIG_DATA_STREAM_LEVEL >= LOG_CONFIG_DATA_STREAM_LEVEL_ALL)
-      Serial.print(F("Request Config Data. Payload: "));
+      printf("Request Config Data. Payload: ");
       data.printAsText();
-      Serial.println();
+      printf("\n");
 #endif
       break;
 
     case RR32Can::kConfigDataStream:
 #if (LOG_CONFIG_DATA_STREAM_LEVEL >= LOG_CONFIG_DATA_STREAM_LEVEL_ALL)
-      Serial.println(F("Config Data Stream. "));
+      printf("Config Data Stream.\n");
 #endif
       this->HandleConfigDataStream(data);
       break;
 
     default:
-      Serial.print(F("Unknown or not implemented. Dump: 0x"));
-      Serial.print(id.command, HEX);
+      printf("Unknown or not implemented. Dump: 0x%#02x\n", id.command);
       data.printAsHex();
-      Serial.println();
+      printf("\n");
       break;
   }
 }

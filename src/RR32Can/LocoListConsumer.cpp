@@ -12,13 +12,7 @@ void LocoListConsumer::consumeConfigData(BufferManager& section,
                                          BufferManager& key,
                                          BufferManager& value) {
 #if (LOG_CONFIG_DATA_STREAM_LEVEL >= LOG_CONFIG_DATA_STREAM_LEVEL_EVENTS)
-  Serial.print("EngineBrowser::consumeConfigData(");
-  Serial.print(section.data());
-  Serial.print(", ");
-  Serial.print(key.data());
-  Serial.print(", ");
-  Serial.print(value.data());
-  Serial.println(")");
+  printf("EngineBrowser::consumeConfigData(\"%s\", \"%s\", \"%s\")\n", section.data(), key.data(), value.data());
 #endif
 
   if (section.strncmp(kFilenameEngineNames)) {

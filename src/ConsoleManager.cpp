@@ -45,7 +45,7 @@ void ConsoleManager::initialize_console(void) {
   /* Initialize the console */
   esp_console_config_t console_config = {
     .max_cmdline_length = 256,
-    .max_cmdline_args = 3 + (2*kActionListMaxLength),
+    .max_cmdline_args = 3 + (2 * kActionListMaxLength),
 #if CONFIG_LOG_COLORS
     .hint_color = atoi(LOG_COLOR_CYAN)
 #endif

@@ -19,13 +19,7 @@ const char* LocoConsumer::kNoEngineSelected = "- No Engine -";
 void LocoConsumer::consumeConfigData(BufferManager& section, BufferManager& key,
                                      BufferManager& value) {
 #if (LOG_CONFIG_DATA_STREAM_LEVEL >= LOG_CONFIG_DATA_STREAM_LEVEL_EVENTS)
-  Serial.print("EngineControl::consumeConfigData(");
-  Serial.print(section.data());
-  Serial.print(", ");
-  Serial.print(key.data());
-  Serial.print(", ");
-  Serial.print(value.data());
-  Serial.println(");");
+  printf("EngineControl::consumeConfigData(\"%s\", \"%s\", \"%s\")\n", section.data(), key.data(), value.data());
 #endif
 
   if (currentEngine == nullptr) {
@@ -62,9 +56,9 @@ void LocoConsumer::setStreamComplete() {
 
   currentEngine->availability = Locomotive::AvailabilityStatus::FULL_DETAILS;
 
-  Serial.print("Downloaded Engine: ");
+  printf("Downloaded Engine: ");
   currentEngine->print();
-  Serial.println();
+  printf("\n");
 }
 
 void LocoConsumer::setStreamAborted(){};

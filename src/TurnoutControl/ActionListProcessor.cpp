@@ -95,10 +95,13 @@ void ActionListProcessor::printActionLists(const char* serializedPrefix) const {
 
     /* Serialized form */
     printf("ActionList compact:\n");
-    printf("%s %i", serializedPrefix, RR32Can::HumanTurnoutAddress(RR32Can::MachineTurnoutAddress(dbIdx)).value());
+    printf("%s %i", serializedPrefix,
+           RR32Can::HumanTurnoutAddress(RR32Can::MachineTurnoutAddress(dbIdx))
+               .value());
 
     for (const model::TurnoutAction& action : *dbIt) {
-      printf(" %i %i", RR32Can::HumanTurnoutAddress(action.address).value(), static_cast<uint8_t>(action.direction));
+      printf(" %i %i", RR32Can::HumanTurnoutAddress(action.address).value(),
+             static_cast<uint8_t>(action.direction));
     }
 
     printf("\n");

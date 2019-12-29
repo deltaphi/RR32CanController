@@ -25,16 +25,14 @@ void ConfigDataStreamParser::addMessage(const Data& data) {
         this->crc.loadReference(crc);
 
 #if (LOG_CONFIG_DATA_STREAM_LEVEL >= LOG_CONFIG_DATA_STREAM_LEVEL_PACKETS)
-        Serial.print(" Stream length: ");
-        Serial.print(remainingBytes, DEC);
-        Serial.print(" Bytes. CRC requested: ");
-        Serial.print(crc, HEX);
-        Serial.print(" CRC actual: ");
-        Serial.println(this->crc.getCrc(), HEX);
+        printf(
+            " Stream length: %i Bytes. CRC requested: %#04x CRC actual: "
+            "%#04x.\n",
+            remainingBytes, crc, this->crc.getCrc());
 
         if (data.dlc == 7) {
           // Initial compressed
-          Serial.println(". Compressed Data!");
+          printf("Compressed Data!\n");
         }
 #endif
 
@@ -45,25 +43,25 @@ void ConfigDataStreamParser::addMessage(const Data& data) {
         }
 
       } else if (data.dlc >= 8) {
-        Serial.println("Oversized first packet! Aborting parse.");
+        printf("Oversized first packet! Aborting parse.\n");
         reset();
         return;
       } else if (data.dlc < 6) {
-        Serial.println("Undersized first packet! Aborting parse.");
+        printf("Undersized first packet! Aborting parse.\n");
         reset();
         return;
       }
       break;
     case StreamState::WAITING_DATA_PACKET:
       if (data.dlc != 8) {
-        Serial.println("Undersized data packet! Aborting parse.");
+        printf("Undersized data packet! Aborting parse.\n");
         reset();
         return;
       } else {
         // regular data packet
 
 #if (LOG_DUMP_CONFIG_DATA_STREAM == STD_ON)
-        Serial.print(data.dataAsString());
+        data.printAsText();
 #endif
 
         remainingBytes -= data.dlc;
@@ -83,7 +81,7 @@ void ConfigDataStreamParser::addMessage(const Data& data) {
           if (crc.isCrcValid()) {
             streamState = StreamState::STREAM_DONE;
 #if (LOG_CONFIG_DATA_STREAM_LEVEL >= LOG_CONFIG_DATA_STREAM_LEVEL_EVENTS)
-            Serial.println("Stream complete!");
+            printf("Stream complete!\n");
 #endif
             if (consumer != nullptr) {
               consumer->setStreamComplete();
@@ -92,10 +90,9 @@ void ConfigDataStreamParser::addMessage(const Data& data) {
           } else {
             streamState = StreamState::IDLE;
 #if (LOG_CONFIG_DATA_STREAM_LEVEL >= LOG_CONFIG_DATA_STREAM_LEVEL_EVENTS)
-            Serial.print("CRC Error - Stream aborted. CRC requested: ");
-            Serial.print(crc.getReference(), HEX);
-            Serial.print(" CRC actual: ");
-            Serial.println(crc.getCrc(), HEX);
+            printf(
+                "CRC Error - Stream aborted. CRC requested: %#04x, CRC actual: "
+                "%#04x.\n", crc.getReference(), crc.getCrc());
 #endif
             if (consumer != nullptr) {
               consumer->setStreamAborted();
@@ -103,10 +100,8 @@ void ConfigDataStreamParser::addMessage(const Data& data) {
           }
         } else {
 #if (LOG_CONFIG_DATA_STREAM_LEVEL >= LOG_CONFIG_DATA_STREAM_LEVEL_PACKETS)
-          Serial.print("Stream continues. Bytes remaining: ");
-          Serial.print(remainingBytes, DEC);
-          Serial.print(" Current CRC: ");
-          Serial.println(crc.getCrc(), HEX);
+          printf("Stream continues. Bytes remaining: %i, Current CRC: %#04x\n",
+                 remainingBytes, crc.getCrc());
 #endif
         }
       }

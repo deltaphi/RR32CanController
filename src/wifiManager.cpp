@@ -98,12 +98,12 @@ void WifiInputLoop() {
         udpBroadcastSocket.readBytes(data.data, RR32Can::CanDataMaxLength);
 
 #if (LOG_CAN_IN_MSG == STD_ON)
+        printf("Wifi Packet: ");
         for (int i = 0; i < 4; ++i) {
-          Serial.print(identifierBits[i], HEX);
-          Serial.print(" ");
+          printf("%#02x ", identifierBits[i]);
         }
         data.printAsHex();
-        Serial.println();
+        printf("\n");
 #endif
 
         RR32Can::RR32Can.HandlePacket(id, data);

@@ -58,7 +58,8 @@ void Turnout::handleButton(uint8_t buttonIndex, uint8_t buttonState) {
       turnoutMap.lookupTurnout(buttonIndex);
 
 #if (LOG_BUTTON_PRESS == STD_ON)
-  printf("Button %i was %s.\n", buttonIndex, (buttonState == HIGH ? "pressed" : "released"));
+  printf("Button %i was %s.\n", buttonIndex,
+         (buttonState == HIGH ? "pressed" : "released"));
 #endif
 
   switch (turnoutIndex.mode) {

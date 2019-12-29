@@ -24,8 +24,8 @@ static arg_str* subcommand = arg_str1(nullptr, nullptr, "list|execute|set|save",
 static arg_int* actionListIndex =
     arg_int1(nullptr, nullptr, "uint8_t", "Index of ActionList");
 static arg_int* actions =
-    arg_intn(nullptr, nullptr, "TunoutAddr/Direction", 0, kActionListMaxLength*2,
-             "List of turnouts to set");
+    arg_intn(nullptr, nullptr, "TunoutAddr/Direction", 0,
+             kActionListMaxLength * 2, "List of turnouts to set");
 
 struct arg_end* argEnd = arg_end(5);
 
@@ -61,7 +61,8 @@ int ActionListMain(int argc, char** argv) {
     } else if (strncmp(subcommand->sval[0], kExecute, strlen(kExecute)) == 0) {
       return ExecuteActionList(actionListIndex->ival[0]);
     } else if (strncmp(subcommand->sval[0], kSet, strlen(kSet)) == 0) {
-      printf("%i %i %i\n", subcommand->count, actionListIndex->count, actions->count);
+      printf("%i %i %i\n", subcommand->count, actionListIndex->count,
+             actions->count);
       return SetActionList(actionListIndex->ival[0], actions);
     } else if (strncmp(subcommand->sval[0], kSave, strlen(kSave)) == 0) {
       return SaveActionLists();
@@ -103,7 +104,8 @@ int ExecuteActionList(RR32Can::HumanTurnoutAddress humanListIndex) {
   }
 }
 
-int SetActionList(RR32Can::HumanTurnoutAddress humanListIndex, arg_int* actions) {
+int SetActionList(RR32Can::HumanTurnoutAddress humanListIndex,
+                  arg_int* actions) {
   RR32Can::MachineTurnoutAddress listIndex{humanListIndex};
 
   if (actions->count % 2 != 0) {
