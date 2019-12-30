@@ -4,6 +4,8 @@
 #include <WiFi.h>
 #include <WiFiUdp.h>
 
+#include <WiFiClient.h>
+
 #include "wificonfig.h"
 
 #include "RR32Can/messages/Data.h"
@@ -14,7 +16,7 @@ extern boolean wifiConnected;
 
 // The udp library class
 extern WiFiUDP udpSendSocket;
-extern WiFiUDP udpBroadcastSocket;
+extern WiFiClient tcpSocket;
 
 void wifiEventHandler(WiFiEvent_t event);
 void setupWifi();
@@ -24,6 +26,8 @@ void stopWifi();
 void WifiInputLoop(void);
 
 void WiFiSendPacket(const RR32Can::Identifier& id, const RR32Can::Data& data);
+void WiFiSendPacketUDP(const RR32Can::Identifier& id, const RR32Can::Data& data);
+void WiFiSendPacketTCP(const RR32Can::Identifier& id, const RR32Can::Data& data);
 
 bool isWifiAvailable();
 

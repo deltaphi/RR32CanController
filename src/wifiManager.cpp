@@ -6,7 +6,7 @@
 
 boolean wifiConnected = false;
 WiFiUDP udpSendSocket;
-WiFiUDP udpBroadcastSocket;
+WiFiClient tcpSocket;
 
 void wifiEventHandler(WiFiEvent_t event) {
   switch (event) {
@@ -38,9 +38,10 @@ void wifiEventHandler(WiFiEvent_t event) {
 
       Serial.println();
 
-      udpSendSocket.begin(canBroadcastPort +
-                          5);  // Listen on the broadcast port
-      udpBroadcastSocket.begin(broadcastAddress, canBroadcastPort);
+      // UDP port for config data communication
+      udpSendSocket.begin(canBroadcastPort + 5);
+      // TCP port for most communication
+      tcpSocket.connect(canGwAddress, canBroadcastPort + 1);
       wifiConnected = true;
       break;
     }
@@ -75,6 +76,7 @@ void startWifi() {
 
 void stopWifi() {
   Serial.println("Stopping Wifi.");
+  tcpSocket.stop();
   WiFi.setAutoReconnect(false);
   WiFi.disconnect(false);
 }
@@ -83,50 +85,50 @@ bool isWifiAvailable() { return wifiConnected; }
 
 void WifiInputLoop() {
   if (wifiConnected) {
-    int packetSize = udpBroadcastSocket.parsePacket();
-    if (packetSize != 0) {
-      if (packetSize == 13) {
-        // interpret as a CAN packet
-        uint8_t identifierBits[] = {0, 0, 0, 0};
+    if (tcpSocket.available()) {
+      // interpret as a CAN packet
+      uint8_t identifierBits[] = {0, 0, 0, 0};
 
-        udpBroadcastSocket.readBytes(identifierBits, 4);
-        RR32Can::Identifier id =
-            RR32Can::Identifier::GetIdentifier(identifierBits);
+      tcpSocket.readBytes(identifierBits, 4);
+      RR32Can::Identifier id =
+          RR32Can::Identifier::GetIdentifier(identifierBits);
 
-        RR32Can::Data data;
-        data.dlc = udpBroadcastSocket.read();
-        udpBroadcastSocket.readBytes(data.data, RR32Can::CanDataMaxLength);
+      RR32Can::Data data;
+      data.dlc = tcpSocket.read();
+      tcpSocket.readBytes(data.data, RR32Can::CanDataMaxLength);
 
 #if (LOG_CAN_IN_MSG == STD_ON)
-        printf("Wifi Packet: ");
-        for (int i = 0; i < 4; ++i) {
-          printf("%#02x ", identifierBits[i]);
-        }
-        data.printAsHex();
-        printf("\n");
-#endif
-
-        RR32Can::RR32Can.HandlePacket(id, data);
-      } else {
-#if (LOG_CAN_IN_MSG == STD_ON)
-        // Log as arbitrary packet
-        Serial.print("Received a packet. Size: ");
-        Serial.println(packetSize, DEC);
-#endif
+      printf("Wifi Packet: ");
+      for (int i = 0; i < 4; ++i) {
+        printf("%#02x ", identifierBits[i]);
       }
-      udpBroadcastSocket.flush();  // discard the packet
+      data.printAsHex();
+      printf("\n");
+#endif
+
+      RR32Can::RR32Can.HandlePacket(id, data);
     }
   }
 }
 
 void WiFiSendPacket(const RR32Can::Identifier& id, const RR32Can::Data& data) {
+  if (id.command == 0x20) {
+    // Send configuration requests via UDP, as can2lan mangles them on TCP.
+    WiFiSendPacketUDP(id, data);
+  } else {
+    WiFiSendPacketTCP(id, data);
+  }
+}
+
+void WiFiSendPacketUDP(const RR32Can::Identifier& id,
+                       const RR32Can::Data& data) {
   if (!wifiConnected) {
-    Serial.println("Wifi not connected. Not sending packet.");
+    printf("Wifi not connected. Not sending packet.\n");
     return;
   }
 
 #if (LOG_CAN_OUT_MSG == STD_ON)
-  Serial.println("Sending packet via WiFi.");
+  printf("Sending packet via UDP.\n");
 #endif
   // Send packet on WIFI
   udpSendSocket.beginPacket(canGwAddress, canGwPort);
@@ -138,4 +140,46 @@ void WiFiSendPacket(const RR32Can::Identifier& id, const RR32Can::Data& data) {
   udpSendSocket.write(data.dlc);
   udpSendSocket.write(data.data, 8);
   udpSendSocket.endPacket();
+  udpSendSocket.endPacket();
+}
+
+void WiFiSendPacketTCP(const RR32Can::Identifier& id,
+                       const RR32Can::Data& data) {
+  if (!wifiConnected) {
+    Serial.println("Wifi not connected. Not sending packet.");
+    return;
+  }
+
+#if (LOG_CAN_OUT_MSG == STD_ON)
+  printf("Sending packet via TCP:");
+#endif
+  // Send packet on WIFI
+  uint32_t canId = id.makeIdentifier();
+  tcpSocket.flush();
+
+  uint8_t outBuf[13];
+
+  outBuf[0] = canId >> 24;
+  outBuf[1] = canId >> 16;
+  outBuf[2] = canId >> 8;
+  outBuf[3] = canId;
+  outBuf[4] = data.dlc;
+
+  outBuf[5] = data.data[0];
+  outBuf[6] = data.data[1];
+  outBuf[7] = data.data[2];
+  outBuf[8] = data.data[3];
+  outBuf[9] = data.data[4];
+  outBuf[10] = data.data[5];
+  outBuf[11] = data.data[6];
+  outBuf[12] = data.data[7];
+
+#if (LOG_CAN_OUT_MSG == STD_ON)
+  for (int i = 0; i < 13; ++i) {
+    printf(" %#02x", outBuf[i]);
+  }
+  printf(".\n");
+#endif
+
+  tcpSocket.write(outBuf, 13);
 }
