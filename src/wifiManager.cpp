@@ -140,7 +140,6 @@ void WiFiSendPacketUDP(const RR32Can::Identifier& id,
   udpSendSocket.write(data.dlc);
   udpSendSocket.write(data.data, 8);
   udpSendSocket.endPacket();
-  udpSendSocket.endPacket();
 }
 
 void WiFiSendPacketTCP(const RR32Can::Identifier& id,
