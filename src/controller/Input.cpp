@@ -16,6 +16,7 @@ void Input::begin() {
 
   // intialize shift register
   initialized = false;
+#if (SHIFT_REGISTER_LENGTH > 0)
   shiftRegister0.init(S88_DATA_IN_PIN, S88_CLOCK_OUT_PIN, S88_PS_OUT_PIN,
                       S88_RESET_OUT_PIN, SHIFT_REGISTER_LENGTH, 90, 50);
   Serial.println(F("Initialized Shift Register ingerface."));
@@ -24,6 +25,18 @@ void Input::begin() {
   while (!initialized) {
     shiftRegister0.loop();
   }
+#endif
+
+#if (FBUTTONS_ON_SHIFTREGISTER == STD_ON)
+  for (uint8_t i = 0; i < NUM_FBUTTONS; ++i) {
+    pinMode(kPinsFunction[i], INPUT);
+  }
+
+  pinMode(PIN_SHIFT, INPUT);
+  pinMode(PIN_STOP, INPUT);
+  pinMode(PIN_ENCODER, INPUT);
+#endif
+
   // Reset all edges
   inputState.resetAllEdges();
   Serial.println(F("Initial full sweep done."));
@@ -31,11 +44,52 @@ void Input::begin() {
 
 void Input::loopEncoder() { inputState.encoder.tick(); }
 
+#if (SHIFT_REGISTER_LENGTH > 0)
 void Input::loopShiftRegister() {
   // Process the shift register
   shiftRegister0.loop();
 }
+#endif
 
+#if (FBUTTONS_ON_SHIFTREGISTER == STD_ON)
+void Input::loopButtons() {
+  model::InputState::Key_t* keys = inputState.getFunctionKeys();
+
+  for (uint8_t i = 0; i < NUM_FBUTTONS; ++i) {
+    int value = digitalRead(kPinsFunction[i]);
+    keys[i].forceDebounce(value);
+#if (LOG_BUTTON_PRESS == STD_ON)
+    if (keys[i].hasEdge()) {
+      printf("Button F%i is %s\n", i, (keys[i].getDebouncedValue() == HIGH ? "HIGH" : "LOW"));
+    }
+#endif
+  }
+
+  keys[model::InputState::kShiftKeyIndex].forceDebounce(digitalRead(PIN_SHIFT));
+  #if (LOG_BUTTON_PRESS == STD_ON)
+    if (keys[model::InputState::kShiftKeyIndex].hasEdge()) {
+      printf("Button SHIFT is %s\n", (keys[model::InputState::kShiftKeyIndex].getDebouncedValue() == HIGH ? "HIGH" : "LOW"));
+    }
+#endif
+
+  keys[model::InputState::kStopKeyIndex].forceDebounce(digitalRead(PIN_STOP));
+  #if (LOG_BUTTON_PRESS == STD_ON)
+    if (keys[model::InputState::kStopKeyIndex].hasEdge()) {
+      printf("Button STOP is %s\n", (keys[model::InputState::kStopKeyIndex].getDebouncedValue() == HIGH ? "HIGH" : "LOW"));
+    }
+#endif
+
+  keys[model::InputState::kEncoderKeyIndex].forceDebounce(digitalRead(PIN_ENCODER));
+  #if (LOG_BUTTON_PRESS == STD_ON)
+    if (keys[model::InputState::kEncoderKeyIndex].hasEdge()) {
+      printf("Button ENCODER is %s\n", (keys[model::InputState::kEncoderKeyIndex].getDebouncedValue() == HIGH ? "HIGH" : "LOW"));
+    }
+#endif
+}
+
+#endif
+
+#if (SHIFT_REGISTER_LENGTH > 0)
 /**
  * \brief Callback called by AsyncShiftIn::loop() once a loop hs been completed.
  */
@@ -82,9 +136,11 @@ void Input::shiftIn_shift(const AsyncShiftIn* asyncShiftIn,
   inputState.keys[bitNumber].forceDebounce(state);
 #endif
 }
+#endif
 
 }  // namespace controller
 
+#if (SHIFT_REGISTER_LENGTH > 0)
 void AsyncShiftIn_reset(const AsyncShiftIn* asyncShiftIn) {
   if (controller::inputPtr != nullptr) {
     controller::inputPtr->shiftIn_reset(asyncShiftIn);
@@ -97,3 +153,4 @@ void AsyncShiftIn_shift(const AsyncShiftIn* asyncShiftIn,
     controller::inputPtr->shiftIn_shift(asyncShiftIn, bitNumber, state);
   }
 }
+#endif

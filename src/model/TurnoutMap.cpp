@@ -59,7 +59,11 @@ model::TurnoutLookupResult& TurnoutMap::rangeCheckedMapAt(
   if (button > TURNOUT_MAP_LENGTH) {
     printf("ERROR: Accessing turnoutMap out of bounds (%i) at %i.\n",
            TURNOUT_MAP_LENGTH, button);
+#if (TURNOUT_MAP_LENGTH > 0)
     button = TURNOUT_MAP_LENGTH - 1;
+#else
+    button = 0;
+#endif
   }
 
   return turnoutMap[button];
