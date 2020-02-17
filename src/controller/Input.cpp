@@ -60,30 +60,42 @@ void Input::loopButtons() {
     keys[i].forceDebounce(value);
 #if (LOG_BUTTON_PRESS == STD_ON)
     if (keys[i].hasEdge()) {
-      printf("Button F%i is %s\n", i, (keys[i].getDebouncedValue() == HIGH ? "HIGH" : "LOW"));
+      printf("Button F%i is %s\n", i,
+             (keys[i].getDebouncedValue() == HIGH ? "HIGH" : "LOW"));
     }
 #endif
   }
 
   keys[model::InputState::kShiftKeyIndex].forceDebounce(digitalRead(PIN_SHIFT));
-  #if (LOG_BUTTON_PRESS == STD_ON)
-    if (keys[model::InputState::kShiftKeyIndex].hasEdge()) {
-      printf("Button SHIFT is %s\n", (keys[model::InputState::kShiftKeyIndex].getDebouncedValue() == HIGH ? "HIGH" : "LOW"));
-    }
+#if (LOG_BUTTON_PRESS == STD_ON)
+  if (keys[model::InputState::kShiftKeyIndex].getAndResetEdgeFlag()) {
+    printf("Button SHIFT is %s\n",
+           (keys[model::InputState::kShiftKeyIndex].getDebouncedValue() == HIGH
+                ? "HIGH"
+                : "LOW"));
+  }
 #endif
 
   keys[model::InputState::kStopKeyIndex].forceDebounce(digitalRead(PIN_STOP));
-  #if (LOG_BUTTON_PRESS == STD_ON)
-    if (keys[model::InputState::kStopKeyIndex].hasEdge()) {
-      printf("Button STOP is %s\n", (keys[model::InputState::kStopKeyIndex].getDebouncedValue() == HIGH ? "HIGH" : "LOW"));
-    }
+#if (LOG_BUTTON_PRESS == STD_ON)
+  if (keys[model::InputState::kStopKeyIndex].hasEdge()) {
+    printf("Button STOP is %s\n",
+           (keys[model::InputState::kStopKeyIndex].getDebouncedValue() == HIGH
+                ? "HIGH"
+                : "LOW"));
+  }
 #endif
 
-  keys[model::InputState::kEncoderKeyIndex].forceDebounce(digitalRead(PIN_ENCODER));
-  #if (LOG_BUTTON_PRESS == STD_ON)
-    if (keys[model::InputState::kEncoderKeyIndex].hasEdge()) {
-      printf("Button ENCODER is %s\n", (keys[model::InputState::kEncoderKeyIndex].getDebouncedValue() == HIGH ? "HIGH" : "LOW"));
-    }
+  keys[model::InputState::kEncoderKeyIndex].forceDebounce(
+      digitalRead(PIN_ENCODER));
+#if (LOG_BUTTON_PRESS == STD_ON)
+  if (keys[model::InputState::kEncoderKeyIndex].hasEdge()) {
+    printf(
+        "Button ENCODER is %s\n",
+        (keys[model::InputState::kEncoderKeyIndex].getDebouncedValue() == HIGH
+             ? "HIGH"
+             : "LOW"));
+  }
 #endif
 }
 

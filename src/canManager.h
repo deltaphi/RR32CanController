@@ -3,6 +3,8 @@
 
 #include "config.h"
 
+#if (CAN_ENABLED == STD_ON)
+
 #include "RR32Can/messages/Data.h"
 #include "RR32Can/messages/Identifier.h"
 
@@ -34,5 +36,7 @@ class canManager {
   /// Whether the CAN is not in an error state
   bool canBusActive = false;
 };
+
+#endif // CAN_ENABLED
 
 #endif  // __CANMANAGER_H__

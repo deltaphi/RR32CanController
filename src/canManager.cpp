@@ -1,5 +1,7 @@
 #include "canManager.h"
 
+#if (CAN_ENABLED == STD_ON)
+
 #include <Arduino.h>
 
 #if (CAN_DRIVER_SJA1000 == STD_ON)
@@ -232,3 +234,5 @@ void canManager::SendPacket(const RR32Can::Identifier& id,
   CAN.endPacket();
 #endif
 }
+
+#endif // CAN_ENABLED

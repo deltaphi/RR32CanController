@@ -16,7 +16,9 @@
 
 controller::MasterControl masterControl;
 
+#if (CAN_ENABLED == STD_ON)
 canManager canMgr;
+#endif
 
 ConsoleManager consoleMgr;
 
@@ -42,7 +44,9 @@ void setup() {
 
   const model::Settings::Data& userSettings = masterControl.getUserSettings();
 
+#if (CAN_ENABLED == STD_ON)
   canMgr.begin();
+#endif
   setupWifi();
 
   activeCommunicationChannel = userSettings.communicationChannel;
@@ -62,7 +66,9 @@ void loop() {
 
   WifiInputLoop();
 
+#if (CAN_ENABLED == STD_ON)
   canMgr.loop();
+#endif
 
   model::Settings::CommunicationChannel_t newChannel =
       masterControl.getUserSettings().communicationChannel;
@@ -73,20 +79,29 @@ void loop() {
   }
 
   view::DisplayManager& displayManager = masterControl.getDisplayManager();
+#if (CAN_ENABLED == STD_ON)
   displayManager.setCan(canMgr.isActive());
+#else
+  displayManager.setCan(false);
+#endif
+
   displayManager.setWifi(isWifiAvailable());
 }
 
 void activateCommunicationChannel(
     model::Settings::CommunicationChannel_t channel) {
   switch (channel) {
+#if (CAN_ENABLED == STD_ON)
     case model::Settings::CommunicationChannel_t::CAN:
       stopWifi();
       canMgr.startCan();
       break;
+#endif
 
     case model::Settings::CommunicationChannel_t::WIFI:
+#if (CAN_ENABLED == STD_ON)
       canMgr.stopCan();
+#endif
       startWifi();
       break;
   }
@@ -98,11 +113,14 @@ namespace RR32Can {
  * \brief Send an arbitrary packet via CAN
  */
 void SendPacket(const RR32Can::Identifier& id, const RR32Can::Data& data) {
+#if (CAN_ENABLED == STD_ON)
   if (activeCommunicationChannel ==
           model::Settings::CommunicationChannel_t::CAN &&
       canMgr.isActive()) {
     canMgr.SendPacket(id, data);
-  } else if (activeCommunicationChannel ==
+  } else 
+#endif
+  if (activeCommunicationChannel ==
                  model::Settings::CommunicationChannel_t::WIFI &&
              isWifiAvailable()) {
     WiFiSendPacket(id, data);

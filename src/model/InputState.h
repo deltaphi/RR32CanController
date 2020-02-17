@@ -48,8 +48,13 @@ class InputState {
 
   /// Returns whether shift is currently held
   bool isShiftPressed() const {
+    // For some reason, SHIFT has to be inverted.
     return keys[kShiftKeyIndex].getDebouncedValue() ==
-           HIGH;  // For some reason, SHIFT has to be inverted.
+#if (SHIFT_INVERTED == STD_OFF)
+           LOW;
+#else
+           HIGH;
+#endif
   }
 
   bool isEncoderRisingEdge() {

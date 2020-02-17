@@ -23,12 +23,14 @@
 #define S88_RESET_OUT_PIN (21)
 
 #if (HARDWARE_VERSION == 3)
-#define CAN_DRIVER_SJA1000 STD_OFF
-#define CAN_DRIVER_ESP32IDF STD_ON
+#define CAN_ENABLED STD_OFF
 #else
+#define CAN_ENABLED STD_ON
+#endif
+
+#if (CAN_ENABLED == STD_ON)
 #define CAN_DRIVER_SJA1000 STD_OFF
 #define CAN_DRIVER_ESP32IDF STD_ON
-#endif
 
 #if (CAN_DRIVER_SJA1000 == STD_ON) && (CAN_DRIVER_ESP32IDF == STD_ON)
 #error Only one CAN driver can be active at any time.
@@ -42,6 +44,7 @@
 #define CAN_RX_PIN (GPIO_NUM_4)
 #define CAN_TX_PIN (GPIO_NUM_5)
 #endif
+#endif // CAN_ENABLED
 
 #if (ENCODER_ENABLED == STD_ON)
 #if (HARDWARE_VERSION == 1 || HARDWARE_VERSION == 2)
@@ -72,6 +75,9 @@ constexpr const uint8_t kPinsFunction[NUM_FBUTTONS] = {PIN_F0, PIN_F1, PIN_F2, P
 #define PIN_SHIFT (04)
 #define PIN_STOP (0)
 #define PIN_ENCODER (16)
+#define SHIFT_INVERTED STD_OFF
+#else
+#define SHIFT_INVERTED STD_ON
 #endif
 
 #endif

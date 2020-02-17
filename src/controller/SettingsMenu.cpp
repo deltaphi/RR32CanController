@@ -32,11 +32,13 @@ void SettingsMenu::advanceMenu(MenuItemIndex_t menuItem,
       settings.store();
       masterControl.enterTurnoutMenu();
       break;
+#if (CAN_ENABLED == STD_ON)
     case 1:
       // disable WiFi, enable CAN
       settings.data.communicationChannel =
           model::Settings::CommunicationChannel_t::CAN;
       break;
+#endif
     case 2:
       // disable CAN, enable WiFi
       settings.data.communicationChannel =
