@@ -63,7 +63,7 @@
 
 #if (FBUTTONS_ON_SHIFTREGISTER == STD_ON)
 // Buttons on pins:
-#define PIN_F0 (32)
+#define PIN_F0 (22)
 #define PIN_F1 (05)
 #define PIN_F2 (15)
 #define PIN_F3 (21)
