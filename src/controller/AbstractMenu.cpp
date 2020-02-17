@@ -25,6 +25,9 @@ void AbstractMenu::loop(model::InputState& inputState,
     if (inputState.isEncoderMoved()) {
       // Encoder moved
       currentItem = inputState.encoder.getPosition();
+#if (LOG_BUTTON_PRESS == STD_ON)
+      printf("Encoder at %l\n", currentItem);
+#endif
       MenuItemIndex_t limitedValue = limiter.limitedValue(currentItem);
       if (limitedValue == currentItem) {
         // performed within limits.
