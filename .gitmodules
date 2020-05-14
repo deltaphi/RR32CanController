@@ -10,3 +10,6 @@
 [submodule "lib/RotaryEncoder"]
 	path = lib/RotaryEncoder
 	url = https://github.com/mathertel/RotaryEncoder.git
+[submodule "lib/RR32CanLibrary"]
+	path = lib/RR32CanLibrary
+	url = https://github.com/deltaphi/RR32CanLibrary.git
