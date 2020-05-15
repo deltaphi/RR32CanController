@@ -1,6 +1,8 @@
 
 #include "application/model/TurnoutTypes.h"
 
+#include <cstdio>
+
 namespace application {
 namespace model {
 

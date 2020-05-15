@@ -1,7 +1,11 @@
 #ifndef __DEBOUNCED_DUAL_KEY__H__
 #define __DEBOUNCED_DUAL_KEY__H__
 
+#ifdef ARDUINO
 #include <Arduino.h>
+#else
+#include <cstdint>
+#endif
 
 template <uint8_t lowCycles, uint8_t highCycles>
 class DebouncedKey {

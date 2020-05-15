@@ -47,9 +47,9 @@ void Turnout::handleMultiturnout(application::model::TurnoutLookupResult result,
   printf("Requesting action list %i.\n", actionListAddr);
 #endif
   if (!actionListProcessor.requestActionList(actionListAddr)) {
-    Serial.println(
+    printf(
         "An action list is already active. Ignoring request for an additional "
-        "one.");
+        "one.\n");
   }
 }
 

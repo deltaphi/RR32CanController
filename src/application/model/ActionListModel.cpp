@@ -1,5 +1,7 @@
 #include "application/model/ActionListModel.h"
 
+#include <cstdio>
+
 namespace application {
 namespace model {
 

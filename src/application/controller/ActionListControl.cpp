@@ -2,6 +2,8 @@
 
 #include "RR32Can/RR32Can.h"
 
+#include "Arduino.h"
+
 namespace application {
 namespace controller {
 

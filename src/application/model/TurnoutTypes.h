@@ -1,8 +1,6 @@
 #ifndef __APPLICATION__TURNOUT_TYPES_H__
 #define __APPLICATION__TURNOUT_TYPES_H__
 
-#include <Arduino.h>
-
 #include "RR32Can/Types.h"
 
 namespace application {

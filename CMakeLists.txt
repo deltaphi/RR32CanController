@@ -37,19 +37,8 @@ if (CMAKE_VERSION VERSION_LESS 2.8.11)
   include_directories("${gtest_SOURCE_DIR}/include")
 endif()
 
-# Now simply link against gtest or gtest_main as needed. Eg
-include_directories("src")
-add_executable(RR32CanTest
-    test/RR32Can/BufferManagerTest.cpp
-    test/RR32Can/TextParserTest.cpp
-    test/RR32Can/CrcTest.cpp
-    
-    src/RR32Can/util/BufferManager.h
-    src/RR32Can/util/BufferManager.cpp
-    src/RR32Can/util/TextParser.h
-    src/RR32Can/util/TextParser.cpp
-    src/RR32Can/util/Crc.h
-    src/RR32Can/util/Crc.cpp
-    )
-target_link_libraries(RR32CanTest gtest_main gmock)
-add_test(NAME gtest_rr32can_test COMMAND RR32CanTest)
+FILE(GLOB_RECURSE applicationSources src/application/*.cpp)
+
+enable_testing()
+
+add_subdirectory(test/sil)

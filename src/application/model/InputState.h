@@ -2,6 +2,9 @@
 #define __APPLICATION__MODEL__INPUTSTATE_H__
 
 #include <RotaryEncoder.h>
+
+#include <Arduino.h>
+
 #include "DebouncedDualKey.h"
 
 #include "config.h"

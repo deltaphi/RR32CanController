@@ -1,5 +1,7 @@
 #include "application/model/TurnoutMap.h"
 
+#include <cstdio>
+
 namespace application {
 namespace model {
 

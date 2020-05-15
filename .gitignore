@@ -52,3 +52,8 @@ _autosave-*
 .cproject
 *.launch
 .settings
+
+
+## Visual Studio 2019
+out
+.vs

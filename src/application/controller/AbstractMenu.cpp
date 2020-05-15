@@ -1,5 +1,8 @@
 #include "application/controller/AbstractMenu.h"
 
+#include <cstdio>
+#include <cstring>
+
 namespace application {
 namespace controller {
 
@@ -70,7 +73,7 @@ void AbstractMenu::updateDisplay(application::model::DisplayModel& displayManage
 
         // Copy items. Start at menuItemInFirstDisplayLine - offset and go for
         // min(numStrings, DISPLAY_LINES);
-        uint8_t itemsToCopy = DISPLAY_LINES;
+        MenuItemIndex_t itemsToCopy = DISPLAY_LINES;
         if (menuItems.numItems < itemsToCopy) {
           itemsToCopy = menuItems.numItems;
         }
