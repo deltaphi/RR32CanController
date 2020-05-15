@@ -3,14 +3,17 @@
 
 #include "RR32Can/Types.h"
 
-#include "model/ActionListDB.h"
+#include "application/model/ActionListModel.h"
+#include "application/controller/ActionlistStorageCbk.h"
 
 namespace TurnoutControl {
 
 class ActionListProcessor {
  public:
-  void begin() {
-    model::ActionListDB::load(db);
+
+
+  void begin(application::controller::ActionlistStorageCbk& actionlistStorage) {
+    actionlistStorage.load(db);
     setInactive();
   }
 
@@ -29,33 +32,33 @@ class ActionListProcessor {
 
   std::size_t size() const { return db.size(); }
 
-  void printActionList(model::ActionListDB::Index_t index) const;
+  void printActionList(application::model::ActionListModel::Index_t index) const;
   void printActionLists(const char* serializedPrefix) const;
 
-  model::ActionListDB::DB_t& getDb() { return db; }
+  application::model::ActionListModel::DB_t& getDb() { return db; }
 
  private:
-  model::ActionListDB::DB_t db;
+  application::model::ActionListModel::DB_t db;
 
   void performAction();
 
   void setInactive() {
     currentActionList = db.end();
-    currentAction = model::ActionListDB::ActionList_t::iterator();
+    currentAction = application::model::ActionListModel::ActionList_t::iterator();
     buttonPressed = false;
   }
 
   /**
    * The currently active action list, if any.
    */
-  model::ActionListDB::DB_t::iterator currentActionList;
+  application::model::ActionListModel::DB_t::iterator currentActionList;
 
   /**
    * The currently active action out of the above action list.
    * nullptr denotes that no action list is actove or that processing of the
    * active list has not started.
    */
-  model::ActionListDB::ActionList_t::iterator currentAction;
+  application::model::ActionListModel::ActionList_t::iterator currentAction;
 
   /**
    * Note whether the last action was a button press (true) or release (false).

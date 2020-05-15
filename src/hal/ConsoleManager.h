@@ -13,7 +13,8 @@ class ConsoleManager {
  public:
   void initialize_console(void);
   void StartTask();
-  void setupCommands(TurnoutControl::ActionListProcessor& actionListProcessor);
+  void setupCommands(TurnoutControl::ActionListProcessor& actionListProcessor,
+                     application::controller::ActionlistStorageCbk& scbk);
 
  private:
   TaskHandle_t consoleTaskHandle;

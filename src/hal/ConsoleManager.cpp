@@ -83,7 +83,8 @@ int commandDefaultHandler(int argc, char** argv) {
 }
 
 void ConsoleManager::setupCommands(
-    TurnoutControl::ActionListProcessor& actionListProcessor) {
+    TurnoutControl::ActionListProcessor& actionListProcessor,
+    application::controller::ActionlistStorageCbk& scbk) {
   {
     esp_console_cmd_t setParam{
       command : "setParam",
@@ -96,7 +97,8 @@ void ConsoleManager::setupCommands(
   }
 
   application::ConsoleApplications::SwitchTurnout::Setup();
-  application::ConsoleApplications::ActionList::Setup(actionListProcessor);
+  application::ConsoleApplications::ActionList::Setup(actionListProcessor,
+                                                      scbk);
 }
 
 void ConsoleTask(void* parameter) {

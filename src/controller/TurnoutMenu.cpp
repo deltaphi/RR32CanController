@@ -8,7 +8,7 @@ void TurnoutMenu::begin() { currentKey = TURNOUT_BUTTONS_OFFSET; }
 
 void TurnoutMenu::loadCurrentKey(
     application::model::InputState& inputState, model::TurnoutMap& turnoutMap,
-    const model::ActionListDB::DB_t& actionListDb) {
+    const application::model::ActionListModel::DB_t& actionListDb) {
   currentResult = turnoutMap.lookupTurnout(currentKey);
   inputState.loadEncoderPosition(
       RR32Can::HumanTurnoutAddress(currentResult.address).value());
@@ -17,7 +17,7 @@ void TurnoutMenu::loadCurrentKey(
 }
 
 void TurnoutMenu::updateEncoderLimits(
-    const model::ActionListDB::DB_t& actionListDb) {
+    const application::model::ActionListModel::DB_t& actionListDb) {
   switch (currentResult.mode) {
     case application::model::TurnoutAddressMode::SingleTurnout:
       limiter.setMin(
@@ -36,7 +36,7 @@ void TurnoutMenu::updateEncoderLimits(
 void TurnoutMenu::loop(application::model::InputState& inputState,
                        MasterControl& masterControl,
                        model::TurnoutMap& turnoutMap,
-                       const model::ActionListDB::DB_t& actionListDb) {
+                       const application::model::ActionListModel::DB_t& actionListDb) {
   if (inputState.isEncoderRisingEdge()) {
     if (inputState.isShiftPressed()) {
       // Persisently save current mapping and exit the menu.

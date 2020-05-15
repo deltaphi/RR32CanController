@@ -1,24 +1,23 @@
-#include "model/ActionListDB.h"
+#include "hal/storage/ActionListDB.h"
 
 #include "SPIFFS.h"
 
 #include "application/model/TurnoutTypes.h"
 
-namespace model {
-
-namespace ActionListDB {
+namespace hal {
+namespace storage {
 
 static const char* kActionListFilename = "/actionlist.prefs";
 
 struct FileHeader_t {
-  Index_t numLists;
+  application::model::ActionListModel::Index_t numLists;
 };
 
 struct ListHeader_t {
-  Index_t listLength;
+  application::model::ActionListModel::Index_t listLength;
 };
 
-bool load(DB_t& db) {
+bool ActionListDB::load(application::model::ActionListModel::DB_t& db) {
   File f = SPIFFS.open(kActionListFilename);
 
   if (!f) {
@@ -45,7 +44,7 @@ bool load(DB_t& db) {
         if (readBytes < sizeof(listHeader)) {
           break;
         }
-        ActionList_t newList;
+        application::model::ActionListModel::ActionList_t newList;
 
         for (int j = 0; j < listHeader.listLength; ++j) {
           application::model::TurnoutAction action;
@@ -70,20 +69,20 @@ bool load(DB_t& db) {
   }
 }
 
-void store(const DB_t& db) {
+void ActionListDB::store(const application::model::ActionListModel::DB_t& db) {
   // We need to store
   File f = SPIFFS.open(kActionListFilename, "w");
 
   if (!f) {
     printf("Opening '%s' for writing failed.\n", kActionListFilename);
   } else {
-    FileHeader_t fileHeader = {numLists : static_cast<Index_t>(db.size())};
+    FileHeader_t fileHeader = {numLists : static_cast<application::model::ActionListModel::Index_t>(db.size())};
 
     size_t writtenBytes =
         f.write(reinterpret_cast<uint8_t*>(&fileHeader), sizeof(fileHeader));
 
-    for (const ActionList_t& al : db) {
-      ListHeader_t listHeader = {listLength : static_cast<Index_t>(al.size())};
+    for (const application::model::ActionListModel::ActionList_t& al : db) {
+      ListHeader_t listHeader = {listLength : static_cast<application::model::ActionListModel::Index_t>(al.size())};
 
       writtenBytes +=
           f.write(reinterpret_cast<uint8_t*>(&listHeader), sizeof(listHeader));
@@ -99,6 +98,5 @@ void store(const DB_t& db) {
   f.close();
 }
 
-}  // namespace ActionListDB
-
-}  // namespace model
+}  // namespace storage
+}  // namespace hal

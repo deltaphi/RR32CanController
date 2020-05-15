@@ -13,6 +13,7 @@
 #include "hal/DisplayDriver.h"
 #include "hal/wifiManager.h"
 #include "hal/storage/Settings.h"
+#include "hal/storage/ActionListDB.h"
 
 
 #include <controller/MasterControl.h>
@@ -28,6 +29,7 @@ hal::DisplayDriver displayDriver;
 application::model::Settings::CommunicationChannel_t activeCommunicationChannel;
 
 hal::storage::Settings settingsStorage;
+hal::storage::ActionListDB actionListStorage;
 
 void activateCommunicationChannel(
     application::model::Settings::CommunicationChannel_t channel);
@@ -45,7 +47,7 @@ void setup() {
     printf("SPIFFS mount failed.\n");
   }
 
-  masterControl.begin(settingsStorage);
+  masterControl.begin(settingsStorage, actionListStorage);
   displayDriver.begin();
 
   const application::model::Settings& userSettings =
@@ -59,7 +61,7 @@ void setup() {
 
   RR32Can::RR32Can.begin(RR32CanUUID, masterControl);
 
-  consoleMgr.setupCommands(masterControl.getActionListProcessor());
+  consoleMgr.setupCommands(masterControl.getActionListProcessor(), actionListStorage);
 
   consoleMgr.StartTask();
 }

@@ -3,11 +3,12 @@
 
 #include <cstdint>
 
-#include "controller/EncoderLimiter.h"
-#include "model/ActionListDB.h"
-#include "application/model/InputState.h"
-#include "model/TurnoutMap.h"
+#include "application/model/ActionListModel.h"
 #include "application/model/DisplayModel.h"
+#include "application/model/InputState.h"
+#include "controller/EncoderLimiter.h"
+#include "model/TurnoutMap.h"
+
 
 namespace controller {
 
@@ -21,9 +22,9 @@ class TurnoutMenu {
   using TurnoutKeyIndex_t = uint8_t;
 
   void begin();
-  void loop(application::model::InputState& inputState, MasterControl& masterControl,
-            model::TurnoutMap& turnoutMap,
-            const model::ActionListDB::DB_t& actionListDb);
+  void loop(application::model::InputState& inputState,
+            MasterControl& masterControl, model::TurnoutMap& turnoutMap,
+            const application::model::ActionListModel::DB_t& actionListDb);
 
   void updateDisplay(application::model::DisplayModel& displayManager,
                      const model::TurnoutMap& turnoutMap);
@@ -33,11 +34,11 @@ class TurnoutMenu {
   TurnoutKeyIndex_t currentKey;
   application::model::TurnoutLookupResult currentResult;
 
-  void loadCurrentKey(application::model::InputState& inputState,
-                      model::TurnoutMap& turnoutMap,
-                      const model::ActionListDB::DB_t& actionListDb);
+  void loadCurrentKey(
+      application::model::InputState& inputState, model::TurnoutMap& turnoutMap,
+      const application::model::ActionListModel::DB_t& actionListDb);
 
-  void updateEncoderLimits(const model::ActionListDB::DB_t& actionListDb);
+  void updateEncoderLimits(const application::model::ActionListModel::DB_t& actionListDb);
 
   /// Whether an action was taken that requires an update to the display.
   bool displayUpdateNeeded;

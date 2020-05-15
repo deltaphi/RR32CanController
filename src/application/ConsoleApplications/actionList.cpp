@@ -12,6 +12,7 @@ namespace ConsoleApplications {
 namespace ActionList {
 
 static TurnoutControl::ActionListProcessor* actionListProcessor;
+static application::controller::ActionlistStorageCbk * storageCbk;
 
 static const char* programName = "actionList";
 
@@ -32,8 +33,9 @@ struct arg_end* argEnd = arg_end(5);
 
 static void* argtable[] = {subcommand, actionListIndex, actions, argEnd};
 
-void Setup(TurnoutControl::ActionListProcessor& alp) {
+void Setup(TurnoutControl::ActionListProcessor& alp, application::controller::ActionlistStorageCbk & scbk) {
   actionListProcessor = &alp;
+  storageCbk = &scbk;
 
   esp_console_cmd_t actuateTurnout{
     command : programName,
@@ -115,7 +117,7 @@ int SetActionList(RR32Can::HumanTurnoutAddress humanListIndex,
   } else {
     printf("ActionList with %i parameters.\n", actions->count);
 
-    ::model::ActionListDB::DB_t& db = actionListProcessor->getDb();
+    application::model::ActionListModel::DB_t& db = actionListProcessor->getDb();
 
     // Find or create the ActionList to be edited.
 
@@ -124,7 +126,7 @@ int SetActionList(RR32Can::HumanTurnoutAddress humanListIndex,
       db.resize(listIndex.value() + 1);
     }
 
-    ::model::ActionListDB::DB_t::iterator dbIt = db.begin();
+    application::model::ActionListModel::DB_t::iterator dbIt = db.begin();
     std::advance(dbIt, listIndex.value());
 
     // Clear the list and fill it with new entries
@@ -145,7 +147,7 @@ int SetActionList(RR32Can::HumanTurnoutAddress humanListIndex,
 
 int SaveActionLists() {
   printf("Saving ActionLists to SPIFFS.\n");
-  ::model::ActionListDB::store(actionListProcessor->getDb());
+  storageCbk->store(actionListProcessor->getDb());
   return 0;
 }
 

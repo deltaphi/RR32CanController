@@ -30,7 +30,7 @@ class MasterControl : public RR32Can::StationCbk {
 
   virtual ~MasterControl() = default;
 
-  void begin(application::controller::SettingsStorageCbk& settingsCbk);
+  void begin(application::controller::SettingsStorageCbk& settingsCbk, application::controller::ActionlistStorageCbk & actionListCallback);
 
   void loop();
 

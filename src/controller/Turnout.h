@@ -13,7 +13,7 @@ namespace controller {
  */
 class Turnout {
  public:
-  void begin();
+  void begin(application::controller::ActionlistStorageCbk & scbk);
   void loop(application::model::InputState& inputState);
 
   model::TurnoutMap& getTurnoutMap() { return turnoutMap; };

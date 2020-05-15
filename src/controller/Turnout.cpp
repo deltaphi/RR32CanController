@@ -12,9 +12,9 @@
 
 namespace controller {
 
-void Turnout::begin() {
+void Turnout::begin(application::controller::ActionlistStorageCbk & scbk) {
   turnoutMap.begin();
-  actionListProcessor.begin();
+  actionListProcessor.begin(scbk);
 }
 
 void Turnout::loop(application::model::InputState& inputState) {

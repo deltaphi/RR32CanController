@@ -5,7 +5,7 @@
 
 namespace controller {
 
-void MasterControl::begin(application::controller::SettingsStorageCbk& settingsCbk) {
+void MasterControl::begin(application::controller::SettingsStorageCbk& settingsCbk, application::controller::ActionlistStorageCbk & actionListCallback) {
   systemState = RR32Can::SystemState::UNKNOWN;
 
   displayModel.begin();
@@ -15,7 +15,7 @@ void MasterControl::begin(application::controller::SettingsStorageCbk& settingsC
   locoControl.begin();
   locoList.begin();
 
-  turnoutControl.begin();
+  turnoutControl.begin(actionListCallback);
 
   settingsMenu.begin(settingsCbk);
   turnoutMenu.begin();

@@ -72,8 +72,8 @@ bool ActionListProcessor::requestActionList(uint8_t actionListIndex) {
 }
 
 void ActionListProcessor::printActionList(
-    model::ActionListDB::Index_t index) const {
-  model::ActionListDB::DB_t::const_iterator dbIt = db.begin();
+    application::model::ActionListModel::Index_t index) const {
+  application::model::ActionListModel::DB_t::const_iterator dbIt = db.begin();
   std::advance(dbIt, index);
 
   for (const application::model::TurnoutAction& action : *dbIt) {
@@ -84,7 +84,7 @@ void ActionListProcessor::printActionList(
 void ActionListProcessor::printActionLists(const char* serializedPrefix) const {
   printf("Printing %i Action Lists:\n", db.size());
 
-  model::ActionListDB::DB_t::const_iterator dbIt = db.begin();
+  application::model::ActionListModel::DB_t::const_iterator dbIt = db.begin();
   int dbIdx = 0;
   while (dbIt != db.end()) {
     /* Human-readable */

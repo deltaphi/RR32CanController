@@ -2,6 +2,7 @@
 #define __APPLICATION__CONSOLEAPPLICATIONS__ACTIONLIST_H__
 
 #include "TurnoutControl/ActionListProcessor.h"
+#include "application/controller/ActionlistStorageCbk.h"
 
 #include "argtable3/argtable3.h"
 
@@ -9,7 +10,7 @@ namespace application {
 namespace ConsoleApplications {
 namespace ActionList {
 
-void Setup(TurnoutControl::ActionListProcessor& actionListProcessor);
+void Setup(TurnoutControl::ActionListProcessor& actionListProcessor, application::controller::ActionlistStorageCbk & storageCbk);
 int ActionListMain(int argc, char** argv);
 
 int DumpActionLists();
