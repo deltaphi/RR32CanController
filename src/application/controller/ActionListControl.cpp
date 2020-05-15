@@ -1,11 +1,11 @@
-#include "ActionListProcessor.h"
-#include "config.h"
+#include "application/controller/ActionListControl.h"
 
 #include "RR32Can/RR32Can.h"
 
-namespace TurnoutControl {
+namespace application {
+namespace controller {
 
-void ActionListProcessor::loop() {
+void ActionListControl::loop() {
   if (!hasActiveAction()) {
     return;  // No action list active.
   } else {
@@ -39,7 +39,7 @@ void ActionListProcessor::loop() {
   }
 }
 
-void ActionListProcessor::performAction() {
+void ActionListControl::performAction() {
   application::model::TurnoutAction& action = *(this->currentAction);
 #if (LOG_ACTIONLIST == STD_ON)
   printf("Action:");
@@ -59,7 +59,7 @@ void ActionListProcessor::performAction() {
   }
 }
 
-bool ActionListProcessor::requestActionList(uint8_t actionListIndex) {
+bool ActionListControl::requestActionList(uint8_t actionListIndex) {
   if (hasActiveAction()) {
     return false;
   } else {
@@ -71,4 +71,5 @@ bool ActionListProcessor::requestActionList(uint8_t actionListIndex) {
   }
 }
 
-} /* namespace TurnoutControl */
+}  // namespace controller
+}  // namespace application

@@ -1,7 +1,7 @@
 #ifndef __CONTROLLER__TURNOUT_H__
 #define __CONTROLLER__TURNOUT_H__
 
-#include "TurnoutControl/ActionListProcessor.h"
+#include "application/controller/ActionListControl.h"
 #include "application/model/InputState.h"
 #include "model/TurnoutMap.h"
 #include "application/model/TurnoutTypes.h"
@@ -22,7 +22,7 @@ class Turnout {
     return actionList;
   }
 
-  TurnoutControl::ActionListProcessor& getActionListProcessor() {
+  application::controller::ActionListControl& getActionListProcessor() {
     return actionListProcessor;
   }
 
@@ -33,7 +33,7 @@ class Turnout {
 
 
   application::model::ActionListModel actionList;
-  TurnoutControl::ActionListProcessor actionListProcessor;
+  application::controller::ActionListControl actionListProcessor;
 
   model::TurnoutMap turnoutMap;
 };

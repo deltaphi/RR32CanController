@@ -84,7 +84,7 @@ int commandDefaultHandler(int argc, char** argv) {
 
 void ConsoleManager::setupCommands(
     application::model::ActionListModel& actionListModel,
-    TurnoutControl::ActionListProcessor& actionListProcessor,
+    application::controller::ActionListControl& actionListProcessor,
     application::controller::ActionlistStorageCbk& scbk) {
   {
     esp_console_cmd_t setParam{

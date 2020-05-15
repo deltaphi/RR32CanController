@@ -1,14 +1,18 @@
-#ifndef __ACTION_LIST_PROCESSOR_H__
-#define __ACTION_LIST_PROCESSOR_H__
+#ifndef __APPLICATION__CONTROLLER__ACTIONLISTCONTROL_H__
+#define __APPLICATION__CONTROLLER__ACTIONLISTCONTROL_H__
 
 #include "RR32Can/Types.h"
 
 #include "application/model/ActionListModel.h"
 #include "application/controller/ActionlistStorageCbk.h"
 
-namespace TurnoutControl {
+namespace application {
+namespace controller {
 
-class ActionListProcessor {
+/*
+ * \brief Class ActionListControl
+ */    
+class ActionListControl {
  public:
 
   void begin(application::model::ActionListModel& actionList) {
@@ -61,6 +65,7 @@ class ActionListProcessor {
       200000;  // Sleep for 200ms, i.e, 200'000us
 };
 
-} /* namespace TurnoutControl */
+}  // namespace controller
+}  // namespace application
 
-#endif
+#endif  // __APPLICATION__CONTROLLER__ACTIONLISTCONTROL_H__

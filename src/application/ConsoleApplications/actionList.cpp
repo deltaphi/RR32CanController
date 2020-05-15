@@ -12,7 +12,7 @@ namespace ConsoleApplications {
 namespace ActionList {
 
 static application::model::ActionListModel* actionListModel;
-static TurnoutControl::ActionListProcessor* actionListProcessor;
+static application::controller::ActionListControl* actionListProcessor;
 static application::controller::ActionlistStorageCbk * storageCbk;
 
 static const char* programName = "actionList";
@@ -35,7 +35,7 @@ struct arg_end* argEnd = arg_end(5);
 static void* argtable[] = {subcommand, actionListIndex, actions, argEnd};
 
 void Setup(application::model::ActionListModel& alm,
-           TurnoutControl::ActionListProcessor& alp,
+           application::controller::ActionListControl& alp,
            application::controller::ActionlistStorageCbk & scbk) {
   actionListModel = &alm;
   actionListProcessor = &alp;

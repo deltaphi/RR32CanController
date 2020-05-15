@@ -1,7 +1,7 @@
 #ifndef __APPLICATION__CONSOLEAPPLICATIONS__ACTIONLIST_H__
 #define __APPLICATION__CONSOLEAPPLICATIONS__ACTIONLIST_H__
 
-#include "TurnoutControl/ActionListProcessor.h"
+#include "application/controller/ActionListControl.h"
 #include "application/controller/ActionlistStorageCbk.h"
 #include "application/model/ActionListModel.h"
 
@@ -12,7 +12,7 @@ namespace ConsoleApplications {
 namespace ActionList {
 
 void Setup(application::model::ActionListModel& actionListModel,
-           TurnoutControl::ActionListProcessor& actionListProcessor,
+           application::controller::ActionListControl& actionListProcessor,
            application::controller::ActionlistStorageCbk& storageCbk);
 int ActionListMain(int argc, char** argv);
 
