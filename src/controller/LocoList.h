@@ -5,7 +5,7 @@
 #include <RR32Can/Locomotive.h>
 #include "controller/AbstractMenu.h"
 #include "model/InputState.h"
-#include "view/DisplayManager.h"
+#include "application/model/DisplayModel.h"
 
 namespace controller {
 

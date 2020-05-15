@@ -8,7 +8,7 @@ namespace controller {
 void MasterControl::begin() {
   systemState = RR32Can::SystemState::UNKNOWN;
 
-  displayManager.begin();
+  displayModel.begin();
   enterIdle();
 
   input.begin();
@@ -31,9 +31,6 @@ void MasterControl::loop() {
   forwardLoop();
 
   updateDisplayLoop();
-
-  // Update Output
-  displayManager.loop();
 
   turnoutControl.loop(input.getInputState());
 }
@@ -81,7 +78,7 @@ void MasterControl::forwardLoop() {
 void MasterControl::enterIdle() {
   printf("MasterControl::enterIdle\n");
   uiMode = UIMode::IDLE;
-  idleControl.updateDisplayOnce(displayManager);
+  idleControl.updateDisplayOnce(displayModel);
 }
 
 void MasterControl::enterLocoControl() {
@@ -89,11 +86,11 @@ void MasterControl::enterLocoControl() {
   if (!locoControl.hasValidEngine()) {
     enterIdle();
   } else {
-    displayManager.disableCursor();
+    displayModel.disableCursor();
     uiMode = UIMode::LOCOCONTROL;
     locoControl.enterLocoControl(input.getInputState());
     locoControl.requestLocoData();
-    locoControl.updateDisplayOnce(displayManager);
+    locoControl.updateDisplayOnce(displayModel);
   }
 }
 
@@ -102,7 +99,7 @@ void MasterControl::enterLocoList() {
   uiMode = UIMode::LOCOLIST;
   input.getInputState().loadEncoderPosition(locoList.getCurrentItem());
   locoList.RequestDownloadAtCursor();
-  displayManager.disableCursor();
+  displayModel.disableCursor();
   locoList.forceDisplayUpdate();
 }
 
@@ -126,7 +123,7 @@ void MasterControl::enterLocoDownload() {
       }
     } else {
       // An actual change was made. Update the UI.
-      locoControl.updateDisplayOnce(displayManager);
+      locoControl.updateDisplayOnce(displayModel);
 
       // Request the "lokomotive" data.
       locoControl.requestLocoFile();
@@ -144,7 +141,7 @@ void MasterControl::enterSettingsMenu() {
 void MasterControl::enterTurnoutMenu() {
   printf("MasterControl::enterTurnoutMenu\n");
   uiMode = UIMode::TURNOUTMAPPING;
-  displayManager.disableCursor();
+  displayModel.disableCursor();
   turnoutMenu.forceDisplayUpdate();
 }
 
@@ -155,20 +152,20 @@ void MasterControl::updateDisplayLoop() {
       break;
     case UIMode::LOCOLIST:
       // Handled by LOCOLIST itself
-      locoList.updateDisplay(displayManager);
+      locoList.updateDisplay(displayModel);
       break;
     case UIMode::LOCODOWNLOAD:
     case UIMode::LOCOCONTROL:
       break;
     case UIMode::SETTINGS:
-      settingsMenu.updateDisplay(displayManager);
+      settingsMenu.updateDisplay(displayModel);
       break;
     case UIMode::TURNOUTMAPPING:
-      turnoutMenu.updateDisplay(displayManager, turnoutControl.getTurnoutMap());
+      turnoutMenu.updateDisplay(displayModel, turnoutControl.getTurnoutMap());
   }
 
   // Always update the non-text loco artifacts
-  locoControl.updateDisplayLoop(displayManager);
+  locoControl.updateDisplayLoop(displayModel);
 }
 
 void MasterControl::loopStopKey() {
@@ -176,7 +173,7 @@ void MasterControl::loopStopKey() {
   model::InputState& inputState = input.getInputState();
 
   if (inputState.isStopRisingEdge()) {
-    if (displayManager.getSystemOn()) {
+    if (displayModel.getSystemOn()) {
       RR32Can::RR32Can.SendSystemStop();
     } else {
       RR32Can::RR32Can.SendSystemGo();

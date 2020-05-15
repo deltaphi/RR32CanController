@@ -4,7 +4,8 @@
 #include <RR32Can/LocoConsumer.h>
 #include <RR32Can/Locomotive.h>
 #include "model/InputState.h"
-#include "view/DisplayManager.h"
+#include "application/model/DisplayModel.h"
+
 
 namespace controller {
 
@@ -48,10 +49,10 @@ class LocoControl {
   }
 
   // Update the display text on a state change
-  void updateDisplayOnce(view::DisplayManager& displayManager);
+  void updateDisplayOnce(application::model::DisplayModel& displayManager);
 
   // Update loco-related non-text display assets
-  void updateDisplayLoop(view::DisplayManager& displayManager);
+  void updateDisplayLoop(application::model::DisplayModel& displayManager);
 
   // Update the engine velocity and set the encoder appropriately.
   void setReceivedVelocity(RR32Can::Velocity_t velocity,

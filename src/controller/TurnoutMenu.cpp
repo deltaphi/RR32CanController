@@ -87,7 +87,7 @@ void TurnoutMenu::loop(model::InputState& inputState,
   }
 }
 
-void TurnoutMenu::updateDisplay(view::DisplayManager& displayManager,
+void TurnoutMenu::updateDisplay(application::model::DisplayModel& displayManager,
                                 const model::TurnoutMap& turnoutMap) {
   if (displayUpdateNeeded) {
     snprintf(displayManager.getWritableBuffer(0), STRING_DATATYPE_LENGTH,

@@ -2,7 +2,7 @@
 #define __CONTROLLER__IDLE_H__
 
 #include "model/InputState.h"
-#include "view/DisplayManager.h"
+#include "application/model/DisplayModel.h"
 
 namespace controller {
 
@@ -16,7 +16,7 @@ class Idle {
   void begin(){};
   void loop(model::InputState& inputState, MasterControl& uiControl);
 
-  void updateDisplayOnce(view::DisplayManager& displayManager);
+  void updateDisplayOnce(application::model::DisplayModel& displayManager);
 
  private:
 };

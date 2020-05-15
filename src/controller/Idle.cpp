@@ -12,7 +12,7 @@ void Idle::loop(model::InputState& inputState, MasterControl& masterControl) {
   }
 }
 
-void Idle::updateDisplayOnce(view::DisplayManager& displayManager) {
+void Idle::updateDisplayOnce(application::model::DisplayModel& displayManager) {
   strncpy(displayManager.getWritableBuffer(0), application::view::kNoEngine,
           STRING_CHAR_LENGTH);
   strncpy(displayManager.getWritableBuffer(1), application::view::kRR32Can,

@@ -8,7 +8,7 @@
 #include "controller/SettingsMenu.h"
 #include "controller/Turnout.h"
 #include "controller/TurnoutMenu.h"
-#include "view/DisplayManager.h"
+#include "application/model/DisplayModel.h"
 
 #include "RR32Can/StationCbk.h"
 
@@ -35,7 +35,7 @@ class MasterControl : public RR32Can::StationCbk {
   void loop();
 
   // Use by other controllers?
-  view::DisplayManager& getDisplayManager() { return displayManager; }
+  application::model::DisplayModel& getDisplayModel() { return displayModel; }
 
   // State transition functions
   void enterIdle();
@@ -54,7 +54,7 @@ class MasterControl : public RR32Can::StationCbk {
                        RR32Can::Velocity_t velocity) override;
   void setLocoVelocity(RR32Can::Velocity_t velocity) override;
 
-  void setSystemState(bool onOff) override { displayManager.setSystem(onOff); }
+  void setSystemState(bool onOff) override { displayModel.setSystem(onOff); }
 
   const model::Settings::Data& getUserSettings() const {
     return settingsMenu.getUserSettings();
@@ -73,7 +73,7 @@ class MasterControl : public RR32Can::StationCbk {
 
   Input input;
 
-  view::DisplayManager displayManager;
+  application::model::DisplayModel displayModel;
   UIMode uiMode = UIMode::IDLE;
 
   Idle idleControl;

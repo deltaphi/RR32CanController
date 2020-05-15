@@ -2,7 +2,6 @@
 #include <controller/MasterControl.h>
 
 #include "RR32Can/RR32Can.h"
-#include "view/DisplayManager.h"
 #include "application/view/UIAssets.h"
 
 namespace controller {
@@ -144,7 +143,7 @@ bool LocoControl::setLocoInfo(const RR32Can::LocomotiveShortInfo& locoInfo) {
   }
 }
 
-void LocoControl::updateDisplayOnce(view::DisplayManager& displayManager) {
+void LocoControl::updateDisplayOnce(application::model::DisplayModel& displayManager) {
   {
     constexpr static const uint8_t nameLengthLimit =
         (STRING_CHAR_LENGTH > RR32Can::kEngineNameLength
@@ -170,7 +169,7 @@ void LocoControl::updateDisplayOnce(view::DisplayManager& displayManager) {
   }
 }
 
-void LocoControl::updateDisplayLoop(view::DisplayManager& displayManager) {
+void LocoControl::updateDisplayLoop(application::model::DisplayModel& displayManager) {
   if (loco.isFullDetailsKnown()) {
     displayManager.setDirection(loco.getDirection());
     displayManager.setSpeedValue(

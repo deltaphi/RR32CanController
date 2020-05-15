@@ -5,7 +5,7 @@
 
 #include "controller/EncoderLimiter.h"
 #include "model/InputState.h"
-#include "view/DisplayManager.h"
+#include "application/model/DisplayModel.h"
 
 namespace controller {
 
@@ -28,7 +28,7 @@ class AbstractMenu {
   virtual void loop(model::InputState& inputState,
                     MasterControl& masterControl);
 
-  void updateDisplay(view::DisplayManager& displayManager);
+  void updateDisplay(application::model::DisplayModel& displayManager);
   /**
    * \brief Force rereading the display lines on the next draw cycle.
    */

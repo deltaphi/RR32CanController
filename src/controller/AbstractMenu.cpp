@@ -1,7 +1,5 @@
 #include "controller/AbstractMenu.h"
 
-#include "view/DisplayManager.h"
-
 namespace controller {
 
 void AbstractMenu::begin() {
@@ -46,7 +44,7 @@ void AbstractMenu::forceDisplayUpdate() {
   menuItemInFirstDisplayLine = currentItem + 1;
 }
 
-void AbstractMenu::updateDisplay(view::DisplayManager& displayManager) {
+void AbstractMenu::updateDisplay(application::model::DisplayModel& displayManager) {
   if (displayUpdateNeeded) {
     if (currentItem < menuItemInFirstDisplayLine ||
         currentItem >= menuItemInFirstDisplayLine + kCountMenuItems) {

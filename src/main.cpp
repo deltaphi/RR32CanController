@@ -11,6 +11,7 @@
 
 #include "hal/ConsoleManager.h"
 #include "hal/wifiManager.h"
+#include "hal/DisplayDriver.h"
 
 #include <controller/MasterControl.h>
 
@@ -19,6 +20,8 @@ controller::MasterControl masterControl;
 canManager canMgr;
 
 ConsoleManager consoleMgr;
+
+hal::DisplayDriver displayDriver;
 
 model::Settings::CommunicationChannel_t activeCommunicationChannel;
 
@@ -39,6 +42,7 @@ void setup() {
   }
 
   masterControl.begin();
+  displayDriver.begin();
 
   const model::Settings::Data& userSettings = masterControl.getUserSettings();
 
@@ -72,9 +76,10 @@ void loop() {
     activeCommunicationChannel = newChannel;
   }
 
-  view::DisplayManager& displayManager = masterControl.getDisplayManager();
-  displayManager.setCan(canMgr.isActive());
-  displayManager.setWifi(isWifiAvailable());
+  auto& displayModel = masterControl.getDisplayModel();
+  displayModel.setCan(canMgr.isActive());
+  displayModel.setWifi(isWifiAvailable());
+  displayDriver.loop(displayModel);
 }
 
 void activateCommunicationChannel(

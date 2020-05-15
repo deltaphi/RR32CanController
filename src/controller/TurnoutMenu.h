@@ -7,7 +7,7 @@
 #include "model/ActionListDB.h"
 #include "model/InputState.h"
 #include "model/TurnoutMap.h"
-#include "view/DisplayManager.h"
+#include "application/model/DisplayModel.h"
 
 namespace controller {
 
@@ -25,7 +25,7 @@ class TurnoutMenu {
             model::TurnoutMap& turnoutMap,
             const model::ActionListDB::DB_t& actionListDb);
 
-  void updateDisplay(view::DisplayManager& displayManager,
+  void updateDisplay(application::model::DisplayModel& displayManager,
                      const model::TurnoutMap& turnoutMap);
   void forceDisplayUpdate() { displayUpdateNeeded = true; }
 

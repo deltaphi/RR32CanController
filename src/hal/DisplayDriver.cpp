@@ -1,12 +1,5 @@
-#include "config.h"
-
-#if (DISPLAY_ATTACHED == STD_ON)
+#include "hal/DisplayDriver.h"
 #include "hal/UIAssets.h"
-#include "application/view/UIAssets.h"
-
-#include "view/DisplayManager.h"
-
-namespace view {
 
 #define FONT_HEIGHT (16u)
 
@@ -28,6 +21,8 @@ namespace view {
 #error "Unknown SYMBOL_FONT_HEIGHT configured".
 #endif
 
+namespace hal {
+
 constexpr const uint8_t statusFontHeight = SYMBOL_FONT_PTR[1];
 constexpr const uint8_t statusLinePixelDistance = 1;
 constexpr const uint8_t textLinePixelDistance = 2;
@@ -35,43 +30,42 @@ constexpr const uint8_t textLinePixelDistance = 2;
 constexpr const uint8_t textLineFirst = 1;
 constexpr const uint8_t textLineLast = 2;
 
-const uint8_t DisplayManager::voffset[] = {
+const uint8_t DisplayDriver::voffset[] = {
     0, 0 + statusFontHeight + statusLinePixelDistance,
     static_cast<uint8_t>(FONT_HEIGHT) + textLinePixelDistance +
         statusFontHeight + statusLinePixelDistance,
     63 - statusFontHeight};
 
-const uint8_t DisplayManager::baselineOffset[] = {
+const uint8_t DisplayDriver::baselineOffset[] = {
     0, static_cast<uint8_t>(FONT_HEIGHT + voffset[1]),
     static_cast<uint8_t>((2u * FONT_HEIGHT) + voffset[1] +
                          textLinePixelDistance),
     0};
 
-void DisplayManager::begin() {
-  Serial.println("Starting Display");
+
+
+
+void DisplayDriver::begin() {
+  printf("Starting Display Driver\n");
   // Initialize the Display
   display.init();
 #if (DISPLAY_FLIP_SCREEN == STD_ON)
   display.flipScreenVertically();
 #endif
-  memset(buffer, 0, sizeof(buffer));
-  setSpeedValue(0);
-  setDirection(RR32Can::EngineDirection::UNKNOWN);
-  setFunctionBits(0u);
-  updateRequired = true;
 }
 
-void DisplayManager::loop() {
-  if (updateRequired) {
-    updateRequired = false;
+
+void DisplayDriver::loop(application::model::DisplayModel& displayModel) {
+  if (displayModel.updateRequired) {
+    displayModel.updateRequired = false;
     display.clear();
 
     display.setTextAlignment(TEXT_ALIGN_LEFT);
     display.setFont(FONT_PTR);
 
     for (uint8_t line = 0; line < DISPLAY_LINES; ++line) {
-      display.drawString(0, voffset[line + textLineFirst], buffer[line]);
-      if (cursorEnabled && cursorLine == line) {
+      display.drawString(0, voffset[line + textLineFirst], displayModel.buffer[line]);
+      if (displayModel.isCursorEnabled() && displayModel.getCursorLine() == line) {
         display.drawHorizontalLine(0, baselineOffset[line + textLineFirst],
                                    display.getWidth());
       }
@@ -80,7 +74,7 @@ void DisplayManager::loop() {
     // Draw assets in the top line
 
     // WIFI Symbol
-    if (wifiOn) {
+    if (displayModel.isWifi()) {
       display.setFont(SYMBOL_FONT_PTR);
       display.setTextAlignment(TEXT_ALIGN_RIGHT);
       constexpr const char topLineString[] = {
@@ -89,7 +83,7 @@ void DisplayManager::loop() {
     }
 
     // CAN text
-    if (canOn) {
+    if (displayModel.isCan()) {
       display.setFont(ArialMT_Plain_10);
       display.setTextAlignment(TEXT_ALIGN_RIGHT);
       display.drawString(128 - (SYMBOL_FONT_PTR[0] + 4 /* 4 pixels distance */),
@@ -97,7 +91,7 @@ void DisplayManager::loop() {
     }
 
     // STOP text
-    if (!systemOn) {
+    if (!displayModel.getSystemOn()) {
       display.setFont(ArialMT_Plain_10);
       display.setTextAlignment(TEXT_ALIGN_CENTER);
       display.drawString(128 / 2 /* center */, voffset[0], "-STOP-");
@@ -113,7 +107,7 @@ void DisplayManager::loop() {
     const uint8_t rectvoffset = voffset[3] - 2 - rectHeight;
 
     for (uint8_t i = 0; i < 8; ++i) {
-      bool functionOn = (functionBits & mask) != 0;
+      bool functionOn = (displayModel.functionBits & mask) != 0;
 
       uint8_t recthoffset =
           (i * (rectWidth + rectDistance)) + (rectDistance / 2);
@@ -130,14 +124,14 @@ void DisplayManager::loop() {
 
     display.setFont(SYMBOL_FONT_PTR);
     display.setTextAlignment(TEXT_ALIGN_LEFT);
-    if (direction == RR32Can::EngineDirection::REVERSE) {
+    if (displayModel.direction == RR32Can::EngineDirection::REVERSE) {
       display.drawString(0, voffset[3], "\2");
     } else {
       display.drawString(0, voffset[3], "\1");
     }
 
     display.setTextAlignment(TEXT_ALIGN_RIGHT);
-    if (direction == RR32Can::EngineDirection::FORWARD) {
+    if (displayModel.direction == RR32Can::EngineDirection::FORWARD) {
       display.drawString(128, voffset[3], "\4");
     } else {
       display.drawString(128, voffset[3], "\3");
@@ -147,26 +141,9 @@ void DisplayManager::loop() {
         ((3 * (SYMBOL_FONT_PTR[0])) / 2);
     constexpr const uint8_t progressBarWidth = (128 - (2 * progressBarOffset));
     display.drawProgressBar(progressBarOffset, voffset[3] + 2, progressBarWidth,
-                            6, speed);
+                            6, displayModel.speed);
 
     display.display();
   }
 }
-
-void DisplayManager::updateBuffer(const char* data, uint8_t dataLen,
-                                  uint8_t lineNumber) {
-  char* buffer = getWritableBuffer(lineNumber);
-
-  if (dataLen > STRING_DATATYPE_LENGTH) {
-    dataLen = STRING_DATATYPE_LENGTH;
-  }
-
-  if (strncmp(buffer, data, dataLen) != 0) {
-    strncpy(buffer, data, dataLen);
-    updateRequired = true;
-  }  // else: No update needed
-}
-
-} /* namespace view */
-
-#endif
+}  // namespace hal

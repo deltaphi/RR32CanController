@@ -1,31 +1,37 @@
-#ifndef __VIEW_DISPLAYMANAGER_H__
-#define __VIEW_DISPLAYMANAGER_H__
+#ifndef __APPLICATION__MODEL__DISPLAYMODEL_H__
+#define __APPLICATION__MODEL__DISPLAYMODEL_H__
 
-#include <Arduino.h>
-#include "config.h"
-
-#if (DISPLAY_ATTACHED == STD_ON)
+#include <cstdint>
 
 #include "RR32Can/Types.h"
-
-#if (DISPLAY_CONTROLLER_TYPE == DISPLAY_CONTROLLER_SSD1306)
-#include "SSD1306Wire.h"
-#endif
-#if (DISPLAY_CONTROLLER_TYPE == DISPLAY_CONTROLLER_SH1106)
-#include "SH1106Wire.h"
-#endif
-
-namespace view {
 
 #define STRING_CHAR_LENGTH (16)
 #define STRING_DATATYPE_LENGTH ((STRING_CHAR_LENGTH) + 1)
 #define DISPLAY_LINES (2)
 
-class DisplayManager {
+namespace hal {
+  // Forward declaration for friend declaration
+  class DisplayDriver;
+}
+
+namespace application {
+namespace model {
+
+/*
+ * \brief Class DisplayModel
+ */
+class DisplayModel {
+  friend class hal::DisplayDriver;
  public:
   using LineBuffer = char[STRING_DATATYPE_LENGTH];
 
   void begin();
+
+  void updateBuffer(const char* data, uint8_t dataLen, uint8_t lineNumber);
+
+  bool isUpdateRequired() const {
+    return updateRequired;
+  }
 
   /**
    * \brief Return a buffer to be written to and set the flag that a change
@@ -39,10 +45,6 @@ class DisplayManager {
     return buffer[lineNumber % DISPLAY_LINES];
   }
 
-  void updateBuffer(const char* data, uint8_t dataLen, uint8_t lineNumber);
-
-  void loop();
-
   void enableCursor() {
     if (!cursorEnabled) {
       cursorEnabled = true;
@@ -55,6 +57,10 @@ class DisplayManager {
       cursorEnabled = false;
       updateRequired = true;
     }
+  }
+
+  bool isCursorEnabled() const {
+    return cursorEnabled;
   }
 
   void setCursorLine(uint8_t line) {
@@ -94,11 +100,19 @@ class DisplayManager {
     }
   }
 
+  bool isWifi() const {
+    return wifiOn;
+  }
+
   void setCan(bool onOff) {
     if (canOn != onOff) {
       canOn = onOff;
       updateRequired = true;
     }
+  }
+
+  bool isCan() const {
+    return canOn;
   }
 
   void setFunctionBits(uint8_t functionBits) {
@@ -118,17 +132,8 @@ class DisplayManager {
   bool getSystemOn() const { return systemOn; }
 
  private:
-#if (DISPLAY_CONTROLLER_TYPE == DISPLAY_CONTROLLER_SSD1306)
-  using DisplayController_t = SSD1306Wire;
-#endif
-#if (DISPLAY_CONTROLLER_TYPE == DISPLAY_CONTROLLER_SH1106)
-  using DisplayController_t = SH1106Wire;
-#endif
-
   bool cursorEnabled;
   uint8_t cursorLine;
-  static const uint8_t voffset[];
-  static const uint8_t baselineOffset[];
 
   RR32Can::Velocity_t speed;
   RR32Can::FunctionBits_t functionBits;
@@ -140,12 +145,11 @@ class DisplayManager {
 
   using TextBuffer = LineBuffer[DISPLAY_LINES];
 
-  DisplayController_t display = {DISPLAY_TWI_ADDRESS, TWI_SDA_PIN, TWI_SCL_PIN};
   TextBuffer buffer;
   bool updateRequired = false;
 };
 
-}  // namespace view
+}  // namespace model
+}  // namespace application
 
-#endif /* Display attached */
-#endif /* header guard */
+#endif  // __APPLICATION__MODEL__DISPLAYMODEL_H__
