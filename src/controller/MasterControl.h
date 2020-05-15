@@ -1,6 +1,7 @@
 #ifndef __CONTROLLER__UICONTROL_H__
 #define __CONTROLLER__UICONTROL_H__
 
+#include "application/model/DisplayModel.h"
 #include "controller/Idle.h"
 #include "controller/Input.h"
 #include "controller/LocoControl.h"
@@ -8,7 +9,7 @@
 #include "controller/SettingsMenu.h"
 #include "controller/Turnout.h"
 #include "controller/TurnoutMenu.h"
-#include "application/model/DisplayModel.h"
+
 
 #include "RR32Can/StationCbk.h"
 
@@ -30,7 +31,10 @@ class MasterControl : public RR32Can::StationCbk {
 
   virtual ~MasterControl() = default;
 
-  void begin(application::controller::SettingsStorageCbk& settingsCbk, application::controller::ActionlistStorageCbk & actionListCallback);
+  void begin(
+      application::controller::SettingsStorageCbk& settingsCbk,
+      application::controller::TurnoutMapStorageCbk& turnoutMapStorageCallback,
+      application::controller::ActionlistStorageCbk& actionListCallback);
 
   void loop();
 
@@ -47,7 +51,9 @@ class MasterControl : public RR32Can::StationCbk {
 
   UIMode getUIMode() const { return uiMode; }
 
-  application::model::InputState& getInputState() { return input.getInputState(); }
+  application::model::InputState& getInputState() {
+    return input.getInputState();
+  }
 
   RR32Can::Locomotive* getLoco(RR32Can::Locomotive::Uid_t uid) override;
   void setLocoVelocity(RR32Can::Locomotive::Uid_t uid,
@@ -60,7 +66,7 @@ class MasterControl : public RR32Can::StationCbk {
     return settingsMenu.getUserSettings();
   }
 
-  application::model::ActionListModel & getActionListModel() {
+  application::model::ActionListModel& getActionListModel() {
     return turnoutControl.getActionListModel();
   }
 

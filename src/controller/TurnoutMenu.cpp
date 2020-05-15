@@ -4,10 +4,15 @@
 
 namespace controller {
 
-void TurnoutMenu::begin() { currentKey = TURNOUT_BUTTONS_OFFSET; }
+void TurnoutMenu::begin(
+    application::controller::TurnoutMapStorageCbk& turnoutMapStorageCbk) {
+  currentKey = TURNOUT_BUTTONS_OFFSET;
+  this->turnoutMapStorageCbk = &turnoutMapStorageCbk;
+}
 
 void TurnoutMenu::loadCurrentKey(
-    application::model::InputState& inputState, model::TurnoutMap& turnoutMap,
+    application::model::InputState& inputState,
+    application::model::TurnoutMap& turnoutMap,
     const application::model::ActionListModel::DB_t& actionListDb) {
   currentResult = turnoutMap.lookupTurnout(currentKey);
   inputState.loadEncoderPosition(
@@ -33,21 +38,22 @@ void TurnoutMenu::updateEncoderLimits(
   }
 }
 
-void TurnoutMenu::loop(application::model::InputState& inputState,
-                       MasterControl& masterControl,
-                       model::TurnoutMap& turnoutMap,
-                       const application::model::ActionListModel::DB_t& actionListDb) {
+void TurnoutMenu::loop(
+    application::model::InputState& inputState, MasterControl& masterControl,
+    application::model::TurnoutMap& turnoutMap,
+    const application::model::ActionListModel::DB_t& actionListDb) {
   if (inputState.isEncoderRisingEdge()) {
     if (inputState.isShiftPressed()) {
       // Persisently save current mapping and exit the menu.
-      turnoutMap.store();
+      turnoutMapStorageCbk->store(turnoutMap);
       masterControl.enterSettingsMenu();
     } else {
       // Store current mapping in volatile storage.
       turnoutMap.setLookupTurnout(currentKey, currentResult);
     }
   } else {
-    application::model::InputState::Key_t* functionKey = inputState.getFunctionKeys();
+    application::model::InputState::Key_t* functionKey =
+        inputState.getFunctionKeys();
     if (functionKey[0].getAndResetRisingEdge()) {
       currentResult.mode = SwitchMode(currentResult.mode);
       updateEncoderLimits(actionListDb);
@@ -75,7 +81,8 @@ void TurnoutMenu::loop(application::model::InputState& inputState,
     }
 
     // On turnout button press, map another turnout.
-    application::model::InputState::Key_t* turnoutKeys = inputState.getTurnoutKeys();
+    application::model::InputState::Key_t* turnoutKeys =
+        inputState.getTurnoutKeys();
     for (int i = 0; i < TURNOUT_BUTTONS_COUNT; ++i) {
       if (turnoutKeys[i].getAndResetRisingEdge()) {
         // Button was released, select the key.
@@ -87,8 +94,9 @@ void TurnoutMenu::loop(application::model::InputState& inputState,
   }
 }
 
-void TurnoutMenu::updateDisplay(application::model::DisplayModel& displayManager,
-                                const model::TurnoutMap& turnoutMap) {
+void TurnoutMenu::updateDisplay(
+    application::model::DisplayModel& displayManager,
+    const application::model::TurnoutMap& turnoutMap) {
   if (displayUpdateNeeded) {
     snprintf(displayManager.getWritableBuffer(0), STRING_DATATYPE_LENGTH,
              "Button: %i (%s)", currentKey, "R/G");
@@ -96,7 +104,8 @@ void TurnoutMenu::updateDisplay(application::model::DisplayModel& displayManager
 
     snprintf(displayManager.getWritableBuffer(1), STRING_DATATYPE_LENGTH,
              "%s: %i",
-             (currentResult.mode == application::model::TurnoutAddressMode::SingleTurnout
+             (currentResult.mode ==
+                      application::model::TurnoutAddressMode::SingleTurnout
                   ? "Turnout"
                   : "ActionL"),
              address.value());

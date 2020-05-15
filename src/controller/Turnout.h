@@ -2,8 +2,10 @@
 #define __CONTROLLER__TURNOUT_H__
 
 #include "application/controller/ActionListControl.h"
+#include "application/controller/ActionlistStorageCbk.h"
+#include "application/controller/TurnoutMapStorageCbk.h"
 #include "application/model/InputState.h"
-#include "model/TurnoutMap.h"
+#include "application/model/TurnoutMap.h"
 #include "application/model/TurnoutTypes.h"
 
 namespace controller {
@@ -13,12 +15,14 @@ namespace controller {
  */
 class Turnout {
  public:
-  void begin(application::controller::ActionlistStorageCbk & scbk);
+  void begin(
+      application::controller::ActionlistStorageCbk& scbk,
+      application::controller::TurnoutMapStorageCbk& turnoutMapStorageCallback);
   void loop(application::model::InputState& inputState);
 
-  model::TurnoutMap& getTurnoutMap() { return turnoutMap; };
+  application::model::TurnoutMap& getTurnoutMap() { return turnoutMap; };
 
-  application::model::ActionListModel & getActionListModel() {
+  application::model::ActionListModel& getActionListModel() {
     return actionList;
   }
 
@@ -31,11 +35,10 @@ class Turnout {
   void handleMultiturnout(application::model::TurnoutLookupResult result,
                           RR32Can::TurnoutDirection requestedDirection);
 
+  application::model::TurnoutMap turnoutMap;
 
   application::model::ActionListModel actionList;
   application::controller::ActionListControl actionListProcessor;
-
-  model::TurnoutMap turnoutMap;
 };
 
 }  // namespace controller

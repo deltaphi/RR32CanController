@@ -12,8 +12,10 @@
 
 namespace controller {
 
-void Turnout::begin(application::controller::ActionlistStorageCbk & scbk) {
+void Turnout::begin(application::controller::ActionlistStorageCbk& scbk,
+                    application::controller::TurnoutMapStorageCbk& tmcbk) {
   turnoutMap.begin();
+  tmcbk.load(turnoutMap);
   scbk.load(actionList.getDb());
   actionListProcessor.begin(actionList);
 }

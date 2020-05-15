@@ -1,46 +1,12 @@
-#include "model/TurnoutMap.h"
+#include "application/model/TurnoutMap.h"
 
-#include "SPIFFS.h"
-
+namespace application {
 namespace model {
-
-const char* TurnoutMap::kTurnoutMapSettingsFile = "/turnoutmap.prefs";
 
 void TurnoutMap::begin() {
   for (int i = 0; i < TURNOUT_MAP_LENGTH; ++i) {
     turnoutMap[i].mode = application::model::TurnoutAddressMode::SingleTurnout;
     turnoutMap[i].address = i;
-  }
-
-  load();
-}
-
-bool TurnoutMap::load() {
-  File f = SPIFFS.open(kTurnoutMapSettingsFile, "r");
-  if (!f) {
-    printf("Opening '%s' for reading failed.\n", kTurnoutMapSettingsFile);
-    return false;
-  } else {
-    size_t readBytes =
-        f.read(reinterpret_cast<uint8_t*>(turnoutMap), sizeof(TurnoutMap_t));
-    f.close();
-    printf("%s: Loaded %i bytes.\n", kTurnoutMapSettingsFile, readBytes);
-    return true;
-  }
-}
-
-void TurnoutMap::store() {
-  File f = SPIFFS.open(kTurnoutMapSettingsFile, "w");
-
-  if (!f) {
-    printf("Opening '%s' for writing failed.\n", kTurnoutMapSettingsFile);
-  } else {
-    size_t writtenBytes =
-        f.write(reinterpret_cast<uint8_t*>(turnoutMap), sizeof(TurnoutMap_t));
-    printf("%s: Wrote %i/%i bytes.\n", kTurnoutMapSettingsFile, writtenBytes,
-           sizeof(TurnoutMap_t));
-
-    f.close();
   }
 }
 
@@ -81,4 +47,6 @@ void TurnoutMap::setLookupTurnout(ButtonIndex_t buttonIndex,
   rangeCheckedMapAt(buttonIndex) = newResult;
 }
 
+
 }  // namespace model
+}  // namespace application
