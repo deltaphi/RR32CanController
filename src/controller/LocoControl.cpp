@@ -3,7 +3,7 @@
 
 #include "RR32Can/RR32Can.h"
 #include "view/DisplayManager.h"
-#include "view/UIAssets.h"
+#include "application/view/UIAssets.h"
 
 namespace controller {
 
@@ -165,7 +165,7 @@ void LocoControl::updateDisplayOnce(view::DisplayManager& displayManager) {
     snprintf(buf, STRING_CHAR_LENGTH, "%s %i", protocolString, address);
 
   } else {
-    strncpy(displayManager.getWritableBuffer(1), view::kFetching,
+    strncpy(displayManager.getWritableBuffer(1), application::view::kFetching,
             STRING_CHAR_LENGTH);
   }
 }

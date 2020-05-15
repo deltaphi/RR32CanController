@@ -2,7 +2,7 @@
 #include <controller/MasterControl.h>
 
 #include "RR32Can/RR32Can.h"
-#include "view/UIAssets.h"
+#include "application/view/UIAssets.h"
 
 namespace controller {
 
@@ -51,7 +51,7 @@ void LocoList::getMenuItems(MenuItems_t& menuItems) {
       // TODO: Limit to the actual number of locos pending, i.e., compare with
       // getNumEnginesKnownByMaster()
       for (int i = 0; i < menuItems.numItems; ++i) {
-        menuItems.items[i] = view::kDots;
+        menuItems.items[i] = application::view::kDots;
       }
     } break;
     case RR32Can::ConfigDataStreamParser::StreamState::STREAM_DONE: {

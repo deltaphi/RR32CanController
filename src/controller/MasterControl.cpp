@@ -1,8 +1,6 @@
 #include <controller/MasterControl.h>
 #include <cstring>
 
-#include "view/UIAssets.h"
-
 #include "RR32Can/RR32Can.h"
 
 namespace controller {

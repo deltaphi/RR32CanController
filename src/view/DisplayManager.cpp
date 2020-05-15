@@ -1,7 +1,8 @@
 #include "config.h"
 
 #if (DISPLAY_ATTACHED == STD_ON)
-#include "view/UIAssets.h"
+#include "hal/UIAssets.h"
+#include "application/view/UIAssets.h"
 
 #include "view/DisplayManager.h"
 
@@ -20,9 +21,9 @@ namespace view {
 #define SYMBOL_FONT_HEIGHT (10u)
 
 #if (SYMBOL_FONT_HEIGHT == 8)
-#define SYMBOL_FONT_PTR (RR32Symbols_8)
+#define SYMBOL_FONT_PTR (hal::RR32Symbols_8)
 #elif (SYMBOL_FONT_HEIGHT == 10)
-#define SYMBOL_FONT_PTR (RR32Symbols_10)
+#define SYMBOL_FONT_PTR (hal::RR32Symbols_10)
 #else
 #error "Unknown SYMBOL_FONT_HEIGHT configured".
 #endif
@@ -83,7 +84,7 @@ void DisplayManager::loop() {
       display.setFont(SYMBOL_FONT_PTR);
       display.setTextAlignment(TEXT_ALIGN_RIGHT);
       constexpr const char topLineString[] = {
-          static_cast<char>(RR32SymbolNames::WIFI), '\0'};
+          static_cast<char>(hal::RR32SymbolNames::WIFI), '\0'};
       display.drawString(128, voffset[0], topLineString);
     }
 

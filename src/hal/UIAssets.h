@@ -1,14 +1,9 @@
-#ifndef __VIEW_UIASSETS_H__
-#define __VIEW_UIASSETS_H__
+#ifndef __HAL__UIASSETS_H__
+#define __HAL__UIASSETS_H__
 
 #include <Arduino.h>
 
-namespace view {
-
-extern const char* kNoEngine;
-extern const char* kRR32Can;
-extern const char* kDots;
-extern const char* kFetching;
+namespace hal {
 
 enum class RR32SymbolNames : char {
   ARROW_LEFT_EMPTY = 1,
@@ -63,6 +58,6 @@ constexpr const uint8_t RR32Symbols_10[] PROGMEM = {
     0x52, 0x00, 0x92, 0x00, 0x24, 0x00, 0x08,  // 5
 };
 
-} /* namespace view */
+}  // namespace hal
 
-#endif
+#endif  // __HAL__UIASSETS_H__

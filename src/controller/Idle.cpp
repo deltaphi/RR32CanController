@@ -1,7 +1,7 @@
 #include "controller/Idle.h"
 #include <controller/MasterControl.h>
 
-#include "view/UIAssets.h"
+#include "application/view/UIAssets.h"
 
 namespace controller {
 
@@ -13,9 +13,9 @@ void Idle::loop(model::InputState& inputState, MasterControl& masterControl) {
 }
 
 void Idle::updateDisplayOnce(view::DisplayManager& displayManager) {
-  strncpy(displayManager.getWritableBuffer(0), view::kNoEngine,
+  strncpy(displayManager.getWritableBuffer(0), application::view::kNoEngine,
           STRING_CHAR_LENGTH);
-  strncpy(displayManager.getWritableBuffer(1), view::kRR32Can,
+  strncpy(displayManager.getWritableBuffer(1), application::view::kRR32Can,
           STRING_CHAR_LENGTH);
   displayManager.disableCursor();
 }
