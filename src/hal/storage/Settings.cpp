@@ -1,19 +1,14 @@
-#include "model/Settings.h"
+#include "hal/storage/Settings.h"
 
 #include "SPIFFS.h"
 
-namespace model {
+namespace hal {
+namespace storage {
 
 const char* Settings::kSettingsFilename = "/settings.prefs";
 
-void Settings::begin() {
-  // Setup defaults
 
-  // Load configuration
-  load();
-}
-
-size_t Settings::loadData(Data* data) {
+size_t Settings::loadData(application::model::Settings* data) {
   if (data == nullptr) {
     return 0;
   }
@@ -23,20 +18,20 @@ size_t Settings::loadData(Data* data) {
     printf("Opening '%s' for reading failed.\n", kSettingsFilename);
     return 0;
   } else {
-    size_t readBytes = f.read(reinterpret_cast<uint8_t*>(data), sizeof(Data));
+    size_t readBytes = f.read(reinterpret_cast<uint8_t*>(data), sizeof(application::model::Settings));
     f.close();
     printf("%s: Loaded %i bytes.\n", kSettingsFilename, readBytes);
     return readBytes;
   }
 }
 
-bool Settings::load() { return loadData(&data) != 0; }
+bool Settings::load(application::model::Settings* data) { return loadData(data) != 0; }
 
-void Settings::store() {
-  Data tmpData;
+void Settings::store(const application::model::Settings* const data) {
+  application::model::Settings tmpData;
   size_t readBytes = loadData(&tmpData);
 
-  if (readBytes != sizeof(Data) || memcmp(&data, &tmpData, sizeof(Data) != 0)) {
+  if (readBytes != sizeof(application::model::Settings) || memcmp(&data, &tmpData, sizeof(application::model::Settings) != 0)) {
     // We need to store
     File f = SPIFFS.open(kSettingsFilename, "w");
 
@@ -44,9 +39,9 @@ void Settings::store() {
       printf("Opening '%s' for writing failed.\n", kSettingsFilename);
     } else {
       size_t writtenBytes =
-          f.write(reinterpret_cast<uint8_t*>(&data), sizeof(Data));
+          f.write(reinterpret_cast<const uint8_t*>(data), sizeof(application::model::Settings));
       printf("%s: Wrote %i/%i bytes.\n", kSettingsFilename, writtenBytes,
-             sizeof(Data));
+             sizeof(application::model::Settings));
 
       f.close();
     }
@@ -55,4 +50,5 @@ void Settings::store() {
   }
 }
 
-}  // namespace model
+}  // namespace storage
+}  // namespace hal

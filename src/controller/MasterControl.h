@@ -30,7 +30,7 @@ class MasterControl : public RR32Can::StationCbk {
 
   virtual ~MasterControl() = default;
 
-  void begin();
+  void begin(application::controller::SettingsStorageCbk& settingsCbk);
 
   void loop();
 
@@ -56,7 +56,7 @@ class MasterControl : public RR32Can::StationCbk {
 
   void setSystemState(bool onOff) override { displayModel.setSystem(onOff); }
 
-  const model::Settings::Data& getUserSettings() const {
+  const application::model::Settings& getUserSettings() const {
     return settingsMenu.getUserSettings();
   }
 

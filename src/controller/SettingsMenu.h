@@ -2,12 +2,14 @@
 #define __CONTROLLER__SETTINGSMENU_H__
 
 #include "controller/AbstractMenu.h"
+#include "application/controller/SettingsStorageCbk.h"
 #include "application/model/InputState.h"
-#include "model/Settings.h"
+#include "application/model/Settings.h"
 
 namespace controller {
 
 class MasterControl;
+
 
 /*
  * \brief Class SettingsMenu
@@ -16,9 +18,9 @@ class SettingsMenu : public AbstractMenu {
  public:
   static constexpr const uint8_t kNumMenuEntries = 3;
 
-  void begin() override;
+  void begin(application::controller::SettingsStorageCbk& storageCbk);
 
-  const model::Settings::Data& getUserSettings() const { return settings.data; }
+  const application::model::Settings& getUserSettings() const { return settings; }
 
  protected:
   /// Callback when a menu item is selected.
@@ -53,7 +55,8 @@ class SettingsMenu : public AbstractMenu {
 
   static const char* kMenuEntries[kNumMenuEntries];
 
-  model::Settings settings;
+  application::model::Settings settings;
+  application::controller::SettingsStorageCbk* storageCbk = nullptr;
 };
 
 }  // namespace controller

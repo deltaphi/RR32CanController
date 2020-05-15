@@ -15,13 +15,14 @@ const char* SettingsMenu::kConnectionSettingsMapping = "Connection Settings";
 const char* SettingsMenu::kMenuEntries[kNumMenuEntries] = {kTurnoutMapping,
                                                            kUseCAN, kUseWifi};
 
-void SettingsMenu::begin() {
-  settings.begin();
+void SettingsMenu::begin(application::controller::SettingsStorageCbk& storageCbk) {
+  this->storageCbk = &storageCbk;
+  this->storageCbk->load(&settings);
   AbstractMenu::begin();
 }
 
 void SettingsMenu::abortMenu(MasterControl& masterControl) {
-  settings.store();
+  this->storageCbk->store(&settings);
   masterControl.enterLocoControl();
 }
 
@@ -29,18 +30,18 @@ void SettingsMenu::advanceMenu(MenuItemIndex_t menuItem,
                                MasterControl& masterControl) {
   switch (menuItem) {
     case 0:
-      settings.store();
+      this->storageCbk->store(&settings);
       masterControl.enterTurnoutMenu();
       break;
     case 1:
       // disable WiFi, enable CAN
-      settings.data.communicationChannel =
-          model::Settings::CommunicationChannel_t::CAN;
+      settings.communicationChannel =
+          application::model::Settings::CommunicationChannel_t::CAN;
       break;
     case 2:
       // disable CAN, enable WiFi
-      settings.data.communicationChannel =
-          model::Settings::CommunicationChannel_t::WIFI;
+      settings.communicationChannel =
+          application::model::Settings::CommunicationChannel_t::WIFI;
       break;
     default:
       printf("SettingsMenu: Unknown menu item %li.\n", menuItem);
