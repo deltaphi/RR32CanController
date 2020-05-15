@@ -1,5 +1,5 @@
-#ifndef __WIFICONFIG_H__
-#define __WIFICONFIG_H__
+#ifndef __HAL_WIFICONFIG_H__
+#define __HAL_WIFICONFIG_H__
 
 /*
  * This is a template file. Copy to "wificonfig.h" and adjust the values for
@@ -19,4 +19,4 @@ constexpr const int canGwPort = 15731;
 // UDP Port on which a CS2 sends broadcast packets
 constexpr const int canBroadcastPort = 15730;
 
-#endif
+#endif  // __HAL_WIFICONFIG_H__

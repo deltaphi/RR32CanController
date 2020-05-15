@@ -1,5 +1,5 @@
-#ifndef __WIFIMANAGER_H__
-#define __WIFIMANAGER_H__
+#ifndef __HAL_WIFIMANAGER_H__
+#define __HAL_WIFIMANAGER_H__
 
 #include <WiFi.h>
 #include <WiFiUdp.h>
@@ -31,4 +31,4 @@ void WiFiSendPacketTCP(const RR32Can::Identifier& id, const RR32Can::Data& data)
 
 bool isWifiAvailable();
 
-#endif
+#endif  // __HAL_WIFIMANAGER_H__

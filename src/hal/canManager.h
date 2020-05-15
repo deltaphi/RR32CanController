@@ -1,5 +1,5 @@
-#ifndef __CANMANAGER_H__
-#define __CANMANAGER_H__
+#ifndef __HAL_CANMANAGER_H__
+#define __HAL_CANMANAGER_H__
 
 #include "config.h"
 
@@ -35,4 +35,4 @@ class canManager {
   bool canBusActive = false;
 };
 
-#endif  // __CANMANAGER_H__
+#endif  // __HAL_CANMANAGER_H__

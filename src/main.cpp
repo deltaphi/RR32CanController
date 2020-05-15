@@ -4,13 +4,13 @@
 
 #include "config.h"
 
-#include "canManager.h"
+#include "hal/canManager.h"
 
 #include <RR32Can/RR32Can.h>
 #include "RR32Can/Handler.h"
 
-#include "ConsoleManager.h"
-#include "wifiManager.h"
+#include "hal/ConsoleManager.h"
+#include "hal/wifiManager.h"
 
 #include <controller/MasterControl.h>
 

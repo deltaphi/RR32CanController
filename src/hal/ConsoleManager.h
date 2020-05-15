@@ -1,5 +1,5 @@
-#ifndef __CONSOLEMANAGER_H__
-#define __CONSOLEMANAGER_H__
+#ifndef __HAL_CONSOLEMANAGER_H__
+#define __HAL_CONSOLEMANAGER_H__
 
 #include "FreeRTOS.h"
 #include "freertos/task.h"
@@ -19,4 +19,4 @@ class ConsoleManager {
   TaskHandle_t consoleTaskHandle;
 };
 
-#endif  // __CONSOLEMANAGER_H__
+#endif  // __HAL_CONSOLEMANAGER_H__
