@@ -11,6 +11,7 @@ namespace application {
 namespace ConsoleApplications {
 namespace ActionList {
 
+static application::model::ActionListModel* actionListModel;
 static TurnoutControl::ActionListProcessor* actionListProcessor;
 static application::controller::ActionlistStorageCbk * storageCbk;
 
@@ -33,7 +34,10 @@ struct arg_end* argEnd = arg_end(5);
 
 static void* argtable[] = {subcommand, actionListIndex, actions, argEnd};
 
-void Setup(TurnoutControl::ActionListProcessor& alp, application::controller::ActionlistStorageCbk & scbk) {
+void Setup(application::model::ActionListModel& alm,
+           TurnoutControl::ActionListProcessor& alp,
+           application::controller::ActionlistStorageCbk & scbk) {
+  actionListModel = &alm;
   actionListProcessor = &alp;
   storageCbk = &scbk;
 
@@ -79,7 +83,7 @@ int ActionListMain(int argc, char** argv) {
 }
 
 int checkListIndex(int listIndex) {
-  if (listIndex < 0 || listIndex >= actionListProcessor->getNumActionLists()) {
+  if (listIndex < 0 || listIndex >= actionListModel->getNumActionLists()) {
     // out of range, parameter error
     return 1;
   } else {
@@ -88,7 +92,7 @@ int checkListIndex(int listIndex) {
 }
 
 int DumpActionLists() {
-  actionListProcessor->printActionLists(programName);
+  actionListModel->printActionLists(programName);
   return 0;
 }
 
@@ -117,7 +121,7 @@ int SetActionList(RR32Can::HumanTurnoutAddress humanListIndex,
   } else {
     printf("ActionList with %i parameters.\n", actions->count);
 
-    application::model::ActionListModel::DB_t& db = actionListProcessor->getDb();
+    application::model::ActionListModel::DB_t& db = actionListModel->getDb();
 
     // Find or create the ActionList to be edited.
 
@@ -147,7 +151,7 @@ int SetActionList(RR32Can::HumanTurnoutAddress humanListIndex,
 
 int SaveActionLists() {
   printf("Saving ActionLists to SPIFFS.\n");
-  storageCbk->store(actionListProcessor->getDb());
+  storageCbk->store(actionListModel->getDb());
   return 0;
 }
 

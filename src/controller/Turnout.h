@@ -18,6 +18,10 @@ class Turnout {
 
   model::TurnoutMap& getTurnoutMap() { return turnoutMap; };
 
+  application::model::ActionListModel & getActionListModel() {
+    return actionList;
+  }
+
   TurnoutControl::ActionListProcessor& getActionListProcessor() {
     return actionListProcessor;
   }
@@ -27,6 +31,8 @@ class Turnout {
   void handleMultiturnout(application::model::TurnoutLookupResult result,
                           RR32Can::TurnoutDirection requestedDirection);
 
+
+  application::model::ActionListModel actionList;
   TurnoutControl::ActionListProcessor actionListProcessor;
 
   model::TurnoutMap turnoutMap;

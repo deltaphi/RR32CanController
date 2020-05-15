@@ -11,9 +11,8 @@ namespace TurnoutControl {
 class ActionListProcessor {
  public:
 
-
-  void begin(application::controller::ActionlistStorageCbk& actionlistStorage) {
-    actionlistStorage.load(db);
+  void begin(application::model::ActionListModel& actionList) {
+    this->db = &(actionList.getDb());
     setInactive();
   }
 
@@ -22,28 +21,20 @@ class ActionListProcessor {
     RR32Can::TurnoutDirection direction;
   } Action;
 
-  bool hasActiveAction() const { return currentActionList != db.end(); }
+  bool hasActiveAction() const { return currentActionList != db->end(); }
 
   bool requestActionList(uint8_t actionListIndex);
 
   void loop();
 
-  uint8_t getNumActionLists() const { return db.size(); }
-
-  std::size_t size() const { return db.size(); }
-
-  void printActionList(application::model::ActionListModel::Index_t index) const;
-  void printActionLists(const char* serializedPrefix) const;
-
-  application::model::ActionListModel::DB_t& getDb() { return db; }
 
  private:
-  application::model::ActionListModel::DB_t db;
+  application::model::ActionListModel::DB_t * db;
 
   void performAction();
 
   void setInactive() {
-    currentActionList = db.end();
+    currentActionList = db->end();
     currentAction = application::model::ActionListModel::ActionList_t::iterator();
     buttonPressed = false;
   }

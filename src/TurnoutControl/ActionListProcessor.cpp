@@ -63,54 +63,12 @@ bool ActionListProcessor::requestActionList(uint8_t actionListIndex) {
   if (hasActiveAction()) {
     return false;
   } else {
-    this->currentActionList = db.begin();
+    this->currentActionList = db->begin();
     std::advance(this->currentActionList, actionListIndex);
     this->currentAction = (*currentActionList).end();
     this->buttonPressed = false;
     return true;
   }
-}
-
-void ActionListProcessor::printActionList(
-    application::model::ActionListModel::Index_t index) const {
-  application::model::ActionListModel::DB_t::const_iterator dbIt = db.begin();
-  std::advance(dbIt, index);
-
-  for (const application::model::TurnoutAction& action : *dbIt) {
-    print(action);
-  }
-}
-
-void ActionListProcessor::printActionLists(const char* serializedPrefix) const {
-  printf("Printing %i Action Lists:\n", db.size());
-
-  application::model::ActionListModel::DB_t::const_iterator dbIt = db.begin();
-  int dbIdx = 0;
-  while (dbIt != db.end()) {
-    /* Human-readable */
-    printf("Action List %i (%i elements):\n", dbIdx, dbIt->size());
-    for (const application::model::TurnoutAction& action : *dbIt) {
-      print(action);
-    }
-
-    /* Serialized form */
-    printf("ActionList compact:\n");
-    printf("%s %i", serializedPrefix,
-           RR32Can::HumanTurnoutAddress(RR32Can::MachineTurnoutAddress(dbIdx))
-               .value());
-
-    for (const application::model::TurnoutAction& action : *dbIt) {
-      printf(" %i %i", RR32Can::HumanTurnoutAddress(action.address).value(),
-             static_cast<uint8_t>(action.direction));
-    }
-
-    printf("\n");
-
-    ++dbIt;
-    ++dbIdx;
-  }
-
-  printf("done.\n");
 }
 
 } /* namespace TurnoutControl */

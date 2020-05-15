@@ -3,6 +3,7 @@
 
 #include "TurnoutControl/ActionListProcessor.h"
 #include "application/controller/ActionlistStorageCbk.h"
+#include "application/model/ActionListModel.h"
 
 #include "argtable3/argtable3.h"
 
@@ -10,7 +11,9 @@ namespace application {
 namespace ConsoleApplications {
 namespace ActionList {
 
-void Setup(TurnoutControl::ActionListProcessor& actionListProcessor, application::controller::ActionlistStorageCbk & storageCbk);
+void Setup(application::model::ActionListModel& actionListModel,
+           TurnoutControl::ActionListProcessor& actionListProcessor,
+           application::controller::ActionlistStorageCbk& storageCbk);
 int ActionListMain(int argc, char** argv);
 
 int DumpActionLists();

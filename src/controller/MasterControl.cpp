@@ -71,7 +71,7 @@ void MasterControl::forwardLoop() {
       break;
     case UIMode::TURNOUTMAPPING:
       turnoutMenu.loop(inputState, *this, turnoutControl.getTurnoutMap(),
-                       turnoutControl.getActionListProcessor().getDb());
+                       turnoutControl.getActionListModel().getDb());
   }
 }
 

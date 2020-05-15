@@ -83,6 +83,7 @@ int commandDefaultHandler(int argc, char** argv) {
 }
 
 void ConsoleManager::setupCommands(
+    application::model::ActionListModel& actionListModel,
     TurnoutControl::ActionListProcessor& actionListProcessor,
     application::controller::ActionlistStorageCbk& scbk) {
   {
@@ -97,8 +98,8 @@ void ConsoleManager::setupCommands(
   }
 
   application::ConsoleApplications::SwitchTurnout::Setup();
-  application::ConsoleApplications::ActionList::Setup(actionListProcessor,
-                                                      scbk);
+  application::ConsoleApplications::ActionList::Setup(
+      actionListModel, actionListProcessor, scbk);
 }
 
 void ConsoleTask(void* parameter) {

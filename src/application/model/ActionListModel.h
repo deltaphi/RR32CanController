@@ -16,7 +16,19 @@ class ActionListModel {
   using ActionList_t = std::list<application::model::TurnoutAction>;
   using DB_t = std::list<ActionList_t>;
 
+
+  uint8_t getNumActionLists() const { return db.size(); }
+
+  std::size_t size() const { return db.size(); }
+
+  DB_t& getDb() { return db; }
+
+  void printActionList(Index_t index) const;
+  void printActionLists(const char* serializedPrefix) const;
+
  private:
+  DB_t db;
+
 };
 
 }  // namespace model

@@ -61,7 +61,7 @@ void setup() {
 
   RR32Can::RR32Can.begin(RR32CanUUID, masterControl);
 
-  consoleMgr.setupCommands(masterControl.getActionListProcessor(), actionListStorage);
+  consoleMgr.setupCommands(masterControl.getActionListModel(), masterControl.getActionListProcessor(), actionListStorage);
 
   consoleMgr.StartTask();
 }

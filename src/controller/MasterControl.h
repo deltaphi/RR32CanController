@@ -60,6 +60,10 @@ class MasterControl : public RR32Can::StationCbk {
     return settingsMenu.getUserSettings();
   }
 
+  application::model::ActionListModel & getActionListModel() {
+    return turnoutControl.getActionListModel();
+  }
+
   TurnoutControl::ActionListProcessor& getActionListProcessor() {
     return turnoutControl.getActionListProcessor();
   }

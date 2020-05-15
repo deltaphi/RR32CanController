@@ -14,7 +14,8 @@ namespace controller {
 
 void Turnout::begin(application::controller::ActionlistStorageCbk & scbk) {
   turnoutMap.begin();
-  actionListProcessor.begin(scbk);
+  scbk.load(actionList.getDb());
+  actionListProcessor.begin(actionList);
 }
 
 void Turnout::loop(application::model::InputState& inputState) {
