@@ -5,7 +5,7 @@
 
 #include "controller/EncoderLimiter.h"
 #include "model/ActionListDB.h"
-#include "model/InputState.h"
+#include "application/model/InputState.h"
 #include "model/TurnoutMap.h"
 #include "application/model/DisplayModel.h"
 
@@ -21,7 +21,7 @@ class TurnoutMenu {
   using TurnoutKeyIndex_t = uint8_t;
 
   void begin();
-  void loop(model::InputState& inputState, MasterControl& masterControl,
+  void loop(application::model::InputState& inputState, MasterControl& masterControl,
             model::TurnoutMap& turnoutMap,
             const model::ActionListDB::DB_t& actionListDb);
 
@@ -33,7 +33,7 @@ class TurnoutMenu {
   TurnoutKeyIndex_t currentKey;
   model::TurnoutLookupResult currentResult;
 
-  void loadCurrentKey(model::InputState& inputState,
+  void loadCurrentKey(application::model::InputState& inputState,
                       model::TurnoutMap& turnoutMap,
                       const model::ActionListDB::DB_t& actionListDb);
 

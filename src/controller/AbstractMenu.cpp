@@ -7,7 +7,7 @@ void AbstractMenu::begin() {
   limiter.setMax(getTotalMenuLength());
 };
 
-void AbstractMenu::loop(model::InputState& inputState,
+void AbstractMenu::loop(application::model::InputState& inputState,
                         MasterControl& masterControl) {
   if (inputState.isEncoderRisingEdge()) {
     if (inputState.isShiftPressed()) {

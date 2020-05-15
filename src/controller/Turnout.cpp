@@ -1,7 +1,6 @@
 #include "controller/Turnout.h"
 
 #include "config.h"
-#include "model/InputState.h"
 
 #include "RR32Can/Constants.h"
 #include "RR32Can/RR32Can.h"
@@ -16,8 +15,8 @@ void Turnout::begin() {
   actionListProcessor.begin();
 }
 
-void Turnout::loop(model::InputState& inputState) {
-  model::InputState::Key_t* keys = inputState.getTurnoutKeys();
+void Turnout::loop(application::model::InputState& inputState) {
+  application::model::InputState::Key_t* keys = inputState.getTurnoutKeys();
 
   for (int i = 0; i < TURNOUT_BUTTONS_COUNT; ++i) {
     if (keys[i].getAndResetEdgeFlag()) {

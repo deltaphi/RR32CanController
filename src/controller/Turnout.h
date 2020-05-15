@@ -2,7 +2,7 @@
 #define __CONTROLLER__TURNOUT_H__
 
 #include "TurnoutControl/ActionListProcessor.h"
-#include "model/InputState.h"
+#include "application/model/InputState.h"
 #include "model/TurnoutMap.h"
 #include "model/TurnoutTypes.h"
 
@@ -14,7 +14,7 @@ namespace controller {
 class Turnout {
  public:
   void begin();
-  void loop(model::InputState& inputState);
+  void loop(application::model::InputState& inputState);
 
   model::TurnoutMap& getTurnoutMap() { return turnoutMap; };
 

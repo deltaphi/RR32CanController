@@ -52,7 +52,7 @@ void MasterControl::checkStateTransition() {
 }
 
 void MasterControl::forwardLoop() {
-  model::InputState& inputState = input.getInputState();
+  application::model::InputState& inputState = input.getInputState();
 
   // Depending on mode, loop the associated control
   switch (uiMode) {
@@ -170,7 +170,7 @@ void MasterControl::updateDisplayLoop() {
 
 void MasterControl::loopStopKey() {
   // Read the STOP button
-  model::InputState& inputState = input.getInputState();
+  application::model::InputState& inputState = input.getInputState();
 
   if (inputState.isStopRisingEdge()) {
     if (displayModel.getSystemOn()) {

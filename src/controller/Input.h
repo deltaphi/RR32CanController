@@ -3,7 +3,7 @@
 
 #include "AsyncShiftIn.h"
 
-#include "model/InputState.h"
+#include "application/model/InputState.h"
 
 namespace controller {
 
@@ -21,7 +21,7 @@ class Input {
     loopShiftRegister();
   }
 
-  model::InputState& getInputState() { return inputState; }
+  application::model::InputState& getInputState() { return inputState; }
 
   void shiftIn_reset(const AsyncShiftIn* shiftIn);
   void shiftIn_shift(const AsyncShiftIn* asyncShiftIn, unsigned int bitNumber,
@@ -41,7 +41,7 @@ class Input {
    */
   AsyncShiftIn shiftRegister0;
 
-  model::InputState inputState;
+  application::model::InputState inputState;
 };
 
 }  // namespace controller

@@ -5,7 +5,7 @@
 
 namespace controller {
 
-void Idle::loop(model::InputState& inputState, MasterControl& masterControl) {
+void Idle::loop(application::model::InputState& inputState, MasterControl& masterControl) {
   if (inputState.isEncoderRisingEdge() && inputState.isShiftPressed()) {
     // switch to locolist on shift+encoder
     masterControl.enterLocoList();

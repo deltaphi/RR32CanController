@@ -2,7 +2,7 @@
 #define __CONTROLLER__SETTINGSMENU_H__
 
 #include "controller/AbstractMenu.h"
-#include "model/InputState.h"
+#include "application/model/InputState.h"
 #include "model/Settings.h"
 
 namespace controller {

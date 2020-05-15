@@ -8,7 +8,7 @@ namespace controller {
 
 void LocoControl::begin() { loco.reset(); }
 
-void LocoControl::loop(model::InputState& inputState,
+void LocoControl::loop(application::model::InputState& inputState,
                        MasterControl& masterControl) {
   // Check Encoder button
   if (inputState.isEncoderRisingEdge()) {
@@ -29,7 +29,7 @@ void LocoControl::loop(model::InputState& inputState,
 
   if (loco.isFullDetailsKnown()) {
     // Check function keys
-    model::InputState::Key_t* functionKeys = inputState.getFunctionKeys();
+    application::model::InputState::Key_t* functionKeys = inputState.getFunctionKeys();
 
     for (uint8_t i = 0; i < NUM_FBUTTONS; ++i) {
       if (functionKeys[i].getAndResetRisingEdge()) {
@@ -49,8 +49,8 @@ void LocoControl::loop(model::InputState& inputState,
   }
 }
 
-void LocoControl::checkEncoder(model::InputState& inputState) {
-  model::InputState::EncoderPosition_t encoderPosition =
+void LocoControl::checkEncoder(application::model::InputState& inputState) {
+  application::model::InputState::EncoderPosition_t encoderPosition =
       inputState.encoder.getPosition();
 
   // See if there was an effective change to the reported encoder position
@@ -186,7 +186,7 @@ void LocoControl::setReceivedVelocity(RR32Can::Velocity_t velocity,
                                       MasterControl& uiControl) {
   loco.setVelocity(velocity);
   if (uiControl.getUIMode() == MasterControl::UIMode::LOCOCONTROL) {
-    model::InputState& inputState = uiControl.getInputState();
+    application::model::InputState& inputState = uiControl.getInputState();
     if (velocity != inputState.encoder.getPosition()) {
       inputState.encoder.setPosition(velocity);
     }

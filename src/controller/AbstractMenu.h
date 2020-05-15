@@ -4,7 +4,7 @@
 #include <cstdint>
 
 #include "controller/EncoderLimiter.h"
-#include "model/InputState.h"
+#include "application/model/InputState.h"
 #include "application/model/DisplayModel.h"
 
 namespace controller {
@@ -25,7 +25,7 @@ class AbstractMenu {
   static constexpr const uint8_t kCountMenuItems = DISPLAY_LINES;
 
   virtual void begin();
-  virtual void loop(model::InputState& inputState,
+  virtual void loop(application::model::InputState& inputState,
                     MasterControl& masterControl);
 
   void updateDisplay(application::model::DisplayModel& displayManager);

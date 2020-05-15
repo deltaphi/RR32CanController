@@ -7,7 +7,7 @@ namespace controller {
 void TurnoutMenu::begin() { currentKey = TURNOUT_BUTTONS_OFFSET; }
 
 void TurnoutMenu::loadCurrentKey(
-    model::InputState& inputState, model::TurnoutMap& turnoutMap,
+    application::model::InputState& inputState, model::TurnoutMap& turnoutMap,
     const model::ActionListDB::DB_t& actionListDb) {
   currentResult = turnoutMap.lookupTurnout(currentKey);
   inputState.loadEncoderPosition(
@@ -33,7 +33,7 @@ void TurnoutMenu::updateEncoderLimits(
   }
 }
 
-void TurnoutMenu::loop(model::InputState& inputState,
+void TurnoutMenu::loop(application::model::InputState& inputState,
                        MasterControl& masterControl,
                        model::TurnoutMap& turnoutMap,
                        const model::ActionListDB::DB_t& actionListDb) {
@@ -47,7 +47,7 @@ void TurnoutMenu::loop(model::InputState& inputState,
       turnoutMap.setLookupTurnout(currentKey, currentResult);
     }
   } else {
-    model::InputState::Key_t* functionKey = inputState.getFunctionKeys();
+    application::model::InputState::Key_t* functionKey = inputState.getFunctionKeys();
     if (functionKey[0].getAndResetRisingEdge()) {
       currentResult.mode = SwitchMode(currentResult.mode);
       updateEncoderLimits(actionListDb);
@@ -56,10 +56,10 @@ void TurnoutMenu::loop(model::InputState& inputState,
 
     // On encoder rotation, change the current mapping
     if (inputState.isEncoderMoved()) {
-      model::InputState::EncoderPosition_t encoderNewPosition =
+      application::model::InputState::EncoderPosition_t encoderNewPosition =
           inputState.encoder.getPosition();
 
-      model::InputState::EncoderPosition_t limitedPosition =
+      application::model::InputState::EncoderPosition_t limitedPosition =
           limiter.limitedValue(encoderNewPosition);
 
       if (limitedPosition != encoderNewPosition) {
@@ -75,7 +75,7 @@ void TurnoutMenu::loop(model::InputState& inputState,
     }
 
     // On turnout button press, map another turnout.
-    model::InputState::Key_t* turnoutKeys = inputState.getTurnoutKeys();
+    application::model::InputState::Key_t* turnoutKeys = inputState.getTurnoutKeys();
     for (int i = 0; i < TURNOUT_BUTTONS_COUNT; ++i) {
       if (turnoutKeys[i].getAndResetRisingEdge()) {
         // Button was released, select the key.

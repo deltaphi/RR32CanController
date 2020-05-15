@@ -4,7 +4,7 @@
 #include <RR32Can/LocoListConsumer.h>
 #include <RR32Can/Locomotive.h>
 #include "controller/AbstractMenu.h"
-#include "model/InputState.h"
+#include "application/model/InputState.h"
 #include "application/model/DisplayModel.h"
 
 namespace controller {
@@ -17,7 +17,7 @@ class MasterControl;
 class LocoList : public AbstractMenu {
  public:
   void begin();
-  void loop(model::InputState& inputState,
+  void loop(application::model::InputState& inputState,
             MasterControl& masterControl) override;
 
   /// Callback when a menu item is selected.

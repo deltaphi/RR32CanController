@@ -1,5 +1,6 @@
-#include "model/InputState.h"
+#include "application/model/InputState.h"
 
+namespace application {
 namespace model {
 
 void InputState::reset() {
@@ -24,3 +25,4 @@ void InputState::resetAllEdges() {
 }
 
 }  // namespace model
+}  // namespace application

@@ -1,5 +1,5 @@
-#ifndef __MODEL__INPUTSTATE_H__
-#define __MODEL__INPUTSTATE_H__
+#ifndef __APPLICATION__MODEL__INPUTSTATE_H__
+#define __APPLICATION__MODEL__INPUTSTATE_H__
 
 #include <RotaryEncoder.h>
 #include "DebouncedDualKey.h"
@@ -8,6 +8,7 @@
 
 #define MODEL_INPUTSTATE_KEYARRAY_LENGTH (SHIFT_REGISTER_LENGTH)
 
+namespace application {
 namespace model {
 
 /*
@@ -104,5 +105,6 @@ class InputState {
 };
 
 }  // namespace model
+}  // namespace application
 
-#endif  // __MODEL__INPUTSTATE_H__
+#endif  // __APPLICATION__MODEL__INPUTSTATE_H__

@@ -3,7 +3,7 @@
 
 #include <RR32Can/LocoConsumer.h>
 #include <RR32Can/Locomotive.h>
-#include "model/InputState.h"
+#include "application/model/InputState.h"
 #include "application/model/DisplayModel.h"
 
 
@@ -17,7 +17,7 @@ class MasterControl;
 class LocoControl {
  public:
   void begin();
-  void loop(model::InputState& inputState, MasterControl& masterControl);
+  void loop(application::model::InputState& inputState, MasterControl& masterControl);
   void reset();
 
   /**
@@ -44,7 +44,7 @@ class LocoControl {
 
   bool hasValidEngine() const { return loco.isFullDetailsKnown(); }
 
-  void enterLocoControl(model::InputState& inputState) {
+  void enterLocoControl(application::model::InputState& inputState) {
     inputState.loadEncoderPosition(loco.getVelocity());
   }
 
@@ -62,7 +62,7 @@ class LocoControl {
   RR32Can::Locomotive& getLoco() { return loco; }
 
  private:
-  void checkEncoder(model::InputState& inputState);
+  void checkEncoder(application::model::InputState& inputState);
 
   RR32Can::Locomotive loco;
 

@@ -23,7 +23,7 @@ void LocoList::advanceMenu(MenuItemIndex_t menuItem,
   masterControl.enterLocoDownload();
 }
 
-void LocoList::loop(model::InputState& inputState,
+void LocoList::loop(application::model::InputState& inputState,
                     MasterControl& masterControl) {
   AbstractMenu::loop(inputState, masterControl);
   if (RR32Can::RR32Can.getConfigStreamState() ==
