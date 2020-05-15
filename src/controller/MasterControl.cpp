@@ -11,10 +11,11 @@ void MasterControl::begin(
     application::controller::ActionlistStorageCbk& actionListCallback) {
   systemState = RR32Can::SystemState::UNKNOWN;
 
+  inputState.reset();
+
   displayModel.begin();
   enterIdle();
 
-  input.begin();
   locoControl.begin();
   locoList.begin();
 
@@ -25,7 +26,6 @@ void MasterControl::begin(
 }
 
 void MasterControl::loop() {
-  input.loop();
 
   // Always evaluate the STOP key with no SHIFT support
   loopStopKey();
@@ -35,7 +35,7 @@ void MasterControl::loop() {
 
   updateDisplayLoop();
 
-  turnoutControl.loop(input.getInputState());
+  turnoutControl.loop(inputState);
 }
 
 void MasterControl::checkStateTransition() {
@@ -55,8 +55,6 @@ void MasterControl::checkStateTransition() {
 }
 
 void MasterControl::forwardLoop() {
-  application::model::InputState& inputState = input.getInputState();
-
   // Depending on mode, loop the associated control
   switch (uiMode) {
     case UIMode::IDLE:
@@ -91,7 +89,7 @@ void MasterControl::enterLocoControl() {
   } else {
     displayModel.disableCursor();
     uiMode = UIMode::LOCOCONTROL;
-    locoControl.enterLocoControl(input.getInputState());
+    locoControl.enterLocoControl(inputState);
     locoControl.requestLocoData();
     locoControl.updateDisplayOnce(displayModel);
   }
@@ -100,7 +98,7 @@ void MasterControl::enterLocoControl() {
 void MasterControl::enterLocoList() {
   printf("MasterControl::enterLocoList\n");
   uiMode = UIMode::LOCOLIST;
-  input.getInputState().loadEncoderPosition(locoList.getCurrentItem());
+  inputState.loadEncoderPosition(locoList.getCurrentItem());
   locoList.RequestDownloadAtCursor();
   displayModel.disableCursor();
   locoList.forceDisplayUpdate();
@@ -137,7 +135,7 @@ void MasterControl::enterLocoDownload() {
 void MasterControl::enterSettingsMenu() {
   printf("MasterControl::enterSettingsMenu\n");
   uiMode = UIMode::SETTINGS;
-  input.getInputState().loadEncoderPosition(settingsMenu.getCurrentItem());
+  inputState.loadEncoderPosition(settingsMenu.getCurrentItem());
   settingsMenu.forceDisplayUpdate();
 }
 
@@ -173,8 +171,6 @@ void MasterControl::updateDisplayLoop() {
 
 void MasterControl::loopStopKey() {
   // Read the STOP button
-  application::model::InputState& inputState = input.getInputState();
-
   if (inputState.isStopRisingEdge()) {
     if (displayModel.getSystemOn()) {
       RR32Can::RR32Can.SendSystemStop();

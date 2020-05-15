@@ -15,6 +15,7 @@
 #include "hal/storage/Settings.h"
 #include "hal/storage/TurnoutMap.h"
 #include "hal/wifiManager.h"
+#include "hal/Input.h"
 
 #include <controller/MasterControl.h>
 
@@ -31,6 +32,8 @@ application::model::Settings::CommunicationChannel_t activeCommunicationChannel;
 hal::storage::Settings settingsStorage;
 hal::storage::TurnoutMap turnoutMapStorage;
 hal::storage::ActionListDB actionListStorage;
+
+hal::Input input;
 
 void activateCommunicationChannel(
     application::model::Settings::CommunicationChannel_t channel);
@@ -50,6 +53,7 @@ void setup() {
 
   masterControl.begin(settingsStorage, turnoutMapStorage, actionListStorage);
   displayDriver.begin();
+  input.begin(masterControl.getInputState());
 
   const application::model::Settings& userSettings =
       masterControl.getUserSettings();
@@ -71,6 +75,8 @@ void setup() {
 
 void loop() {
   RR32Can::RR32Can.loop();
+
+  input.loop();
 
   masterControl.loop();
 

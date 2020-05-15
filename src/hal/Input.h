@@ -1,11 +1,11 @@
-#ifndef __CONTROLLER__INPUT_H__
-#define __CONTROLLER__INPUT_H__
+#ifndef __HAL__INPUT_H__
+#define __HAL__INPUT_H__
 
 #include "AsyncShiftIn.h"
 
 #include "application/model/InputState.h"
 
-namespace controller {
+namespace hal {
 
 /*
  * \brief Class Input.
@@ -14,14 +14,12 @@ namespace controller {
  */
 class Input {
  public:
-  void begin();
+  void begin(application::model::InputState& inputState);
 
   void loop() {
     loopEncoder();
     loopShiftRegister();
   }
-
-  application::model::InputState& getInputState() { return inputState; }
 
   void shiftIn_reset(const AsyncShiftIn* shiftIn);
   void shiftIn_shift(const AsyncShiftIn* asyncShiftIn, unsigned int bitNumber,
@@ -41,9 +39,9 @@ class Input {
    */
   AsyncShiftIn shiftRegister0;
 
-  application::model::InputState inputState;
+  application::model::InputState* inputState;
 };
 
-}  // namespace controller
+}  // namespace hal
 
-#endif  // __CONTROLLER__INPUT_H__
+#endif  // __HAL__INPUT_H__

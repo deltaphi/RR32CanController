@@ -3,7 +3,6 @@
 
 #include "application/model/DisplayModel.h"
 #include "controller/Idle.h"
-#include "controller/Input.h"
 #include "controller/LocoControl.h"
 #include "controller/LocoList.h"
 #include "controller/SettingsMenu.h"
@@ -51,9 +50,11 @@ class MasterControl : public RR32Can::StationCbk {
 
   UIMode getUIMode() const { return uiMode; }
 
+
   application::model::InputState& getInputState() {
-    return input.getInputState();
+    return inputState;
   }
+
 
   RR32Can::Locomotive* getLoco(RR32Can::Locomotive::Uid_t uid) override;
   void setLocoVelocity(RR32Can::Locomotive::Uid_t uid,
@@ -81,7 +82,7 @@ class MasterControl : public RR32Can::StationCbk {
 
   void loopStopKey();
 
-  Input input;
+  application::model::InputState inputState;
 
   application::model::DisplayModel displayModel;
   UIMode uiMode = UIMode::IDLE;
@@ -94,6 +95,7 @@ class MasterControl : public RR32Can::StationCbk {
 
   SettingsMenu settingsMenu;
   TurnoutMenu turnoutMenu;
+
 
   RR32Can::SystemState systemState = RR32Can::SystemState::UNKNOWN;
 };

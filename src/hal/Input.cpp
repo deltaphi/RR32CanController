@@ -1,18 +1,18 @@
-#include "controller/Input.h"
+#include "hal/Input.h"
 
 #include "config.h"
 
-namespace controller {
+namespace hal {
 
 /**
  * Used to reroute the callbacks from AsyncShiftIn to this class.
  */
 static Input* inputPtr = nullptr;
 
-void Input::begin() {
-  inputPtr = this;
+void Input::begin(application::model::InputState& inputState) {
   // Initialize data structure
-  inputState.reset();
+  inputState = inputState;
+  inputPtr = this;
 
   // intialize shift register
   initialized = false;
@@ -29,7 +29,7 @@ void Input::begin() {
   Serial.println(F("Initial full sweep done."));
 }
 
-void Input::loopEncoder() { inputState.encoder.tick(); }
+void Input::loopEncoder() { inputState->encoder.tick(); }
 
 void Input::loopShiftRegister() {
   // Process the shift register
@@ -79,21 +79,21 @@ void Input::shiftIn_shift(const AsyncShiftIn* asyncShiftIn,
 #if (KEYS_DEBOUNCE == STD_ON)
   inputState.keys[bitNumber].cycle(state);
 #else
-  inputState.keys[bitNumber].forceDebounce(state);
+  inputState->keys[bitNumber].forceDebounce(state);
 #endif
 }
 
-}  // namespace controller
+}  // namespace hal
 
 void AsyncShiftIn_reset(const AsyncShiftIn* asyncShiftIn) {
-  if (controller::inputPtr != nullptr) {
-    controller::inputPtr->shiftIn_reset(asyncShiftIn);
+  if (hal::inputPtr != nullptr) {
+    hal::inputPtr->shiftIn_reset(asyncShiftIn);
   }
 }
 
 void AsyncShiftIn_shift(const AsyncShiftIn* asyncShiftIn,
                         unsigned int bitNumber, uint8_t state) {
-  if (controller::inputPtr != nullptr) {
-    controller::inputPtr->shiftIn_shift(asyncShiftIn, bitNumber, state);
+  if (hal::inputPtr != nullptr) {
+    hal::inputPtr->shiftIn_shift(asyncShiftIn, bitNumber, state);
   }
 }
