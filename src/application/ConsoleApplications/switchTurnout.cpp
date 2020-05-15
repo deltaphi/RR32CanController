@@ -1,10 +1,11 @@
-#include "ConsoleApplications/switchTurnout.h"
+#include "application/ConsoleApplications/switchTurnout.h"
 
 #include "argtable3/argtable3.h"
 #include "esp_console.h"
 
 #include "RR32Can/RR32Can.h"
 
+namespace application {
 namespace ConsoleApplications {
 namespace SwitchTurnout {
 
@@ -59,3 +60,4 @@ int TurnoutMain(int argc, char** argv) {
 
 }  // namespace SwitchTurnout
 }  // namespace ConsoleApplications
+}  // namespace application

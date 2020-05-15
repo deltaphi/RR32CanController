@@ -1,4 +1,4 @@
-#include "ConsoleApplications/actionList.h"
+#include "application/ConsoleApplications/actionList.h"
 
 #include "argtable3/argtable3.h"
 #include "esp_console.h"
@@ -7,6 +7,7 @@
 
 #include "config.h"
 
+namespace application {
 namespace ConsoleApplications {
 namespace ActionList {
 
@@ -150,3 +151,4 @@ int SaveActionLists() {
 
 }  // namespace ActionList
 }  // namespace ConsoleApplications
+}  // namespace application

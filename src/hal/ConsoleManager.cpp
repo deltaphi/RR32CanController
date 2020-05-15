@@ -6,8 +6,8 @@
 #include "esp_vfs_dev.h"
 #include "linenoise/linenoise.h"
 
-#include "ConsoleApplications/actionList.h"
-#include "ConsoleApplications/switchTurnout.h"
+#include "application/ConsoleApplications/actionList.h"
+#include "application/ConsoleApplications/switchTurnout.h"
 
 #include "config.h"
 
@@ -95,8 +95,8 @@ void ConsoleManager::setupCommands(
     ESP_ERROR_CHECK(esp_console_cmd_register(&setParam));
   }
 
-  ConsoleApplications::SwitchTurnout::Setup();
-  ConsoleApplications::ActionList::Setup(actionListProcessor);
+  application::ConsoleApplications::SwitchTurnout::Setup();
+  application::ConsoleApplications::ActionList::Setup(actionListProcessor);
 }
 
 void ConsoleTask(void* parameter) {

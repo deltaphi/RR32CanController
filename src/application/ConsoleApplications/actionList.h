@@ -1,10 +1,11 @@
-#ifndef __CONSOLEAPPLICATIONS__ACTIONLIST_H__
-#define __CONSOLEAPPLICATIONS__ACTIONLIST_H__
+#ifndef __APPLICATION__CONSOLEAPPLICATIONS__ACTIONLIST_H__
+#define __APPLICATION__CONSOLEAPPLICATIONS__ACTIONLIST_H__
 
 #include "TurnoutControl/ActionListProcessor.h"
 
 #include "argtable3/argtable3.h"
 
+namespace application {
 namespace ConsoleApplications {
 namespace ActionList {
 
@@ -18,5 +19,6 @@ int SaveActionLists();
 
 }  // namespace ActionList
 }  // namespace ConsoleApplications
+}  // namespace application
 
-#endif  // __CONSOLEAPPLICATIONS__ACTIONLIST_H__
+#endif  // __APPLICATION__CONSOLEAPPLICATIONS__ACTIONLIST_H__
