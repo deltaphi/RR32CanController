@@ -1,6 +1,11 @@
 #include "application/ConsoleApplications/actionList.h"
 
+#ifndef ARGTABLE_HEADER_PATH
 #include "argtable3/argtable3.h"
+#else
+#include ARGTABLE_HEADER_PATH
+#endif
+
 #include "esp_console.h"
 
 #include <cstring>
@@ -42,11 +47,11 @@ void Setup(application::model::ActionListModel& alm,
   storageCbk = &scbk;
 
   esp_console_cmd_t actuateTurnout{
-    command : programName,
-    help : "Actuate a turnout on request",
-    hint : nullptr,
-    func : ActionListMain,
-    argtable : argtable
+    .command = programName,
+    .help = "Actuate a turnout on request",
+    .hint = nullptr,
+    .func = ActionListMain,
+    .argtable = argtable
   };
   ESP_ERROR_CHECK(esp_console_cmd_register(&actuateTurnout));
 }

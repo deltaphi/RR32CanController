@@ -5,7 +5,11 @@
 #include "application/controller/ActionlistStorageCbk.h"
 #include "application/model/ActionListModel.h"
 
+#ifndef ARGTABLE_HEADER_PATH
 #include "argtable3/argtable3.h"
+#else
+#include ARGTABLE_HEADER_PATH
+#endif
 
 namespace application {
 namespace ConsoleApplications {

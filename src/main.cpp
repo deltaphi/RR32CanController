@@ -7,15 +7,15 @@
 #include "hal/canManager.h"
 
 #include <RR32Can/RR32Can.h>
-#include "RR32Can/Handler.h"
+#include "RR32Can/StationTxCbk.h"
 
 #include "hal/ConsoleManager.h"
 #include "hal/DisplayDriver.h"
+#include "hal/Input.h"
 #include "hal/storage/ActionListDB.h"
 #include "hal/storage/Settings.h"
 #include "hal/storage/TurnoutMap.h"
 #include "hal/wifiManager.h"
-#include "hal/Input.h"
 
 #include "application/controller/MasterControl.h"
 
@@ -34,6 +34,29 @@ hal::storage::TurnoutMap turnoutMapStorage;
 hal::storage::ActionListDB actionListStorage;
 
 hal::Input input;
+
+
+class TxCbk : public RR32Can::StationTxCbk {
+  /**
+   * \brief Send an arbitrary packet via CAN
+   */
+  void SendPacket(const RR32Can::Identifier& id,
+                  const RR32Can::Data& data) override {
+    if (activeCommunicationChannel ==
+            application::model::Settings::CommunicationChannel_t::CAN &&
+        canMgr.isActive()) {
+      canMgr.SendPacket(id, data);
+    } else if (activeCommunicationChannel ==
+                   application::model::Settings::CommunicationChannel_t::WIFI &&
+               isWifiAvailable()) {
+      WiFiSendPacket(id, data);
+    } else {
+      printf("No active communication channels available.\n");
+    }
+  }
+};
+
+TxCbk txCbk;
 
 void activateCommunicationChannel(
     application::model::Settings::CommunicationChannel_t channel);
@@ -64,7 +87,7 @@ void setup() {
   activeCommunicationChannel = userSettings.communicationChannel;
   activateCommunicationChannel(userSettings.communicationChannel);
 
-  RR32Can::RR32Can.begin(RR32CanUUID, masterControl);
+  RR32Can::RR32Can.begin(RR32CanUUID, masterControl, txCbk);
 
   consoleMgr.setupCommands(masterControl.getActionListModel(),
                            masterControl.getActionListProcessor(),
@@ -112,24 +135,3 @@ void activateCommunicationChannel(
       break;
   }
 }
-
-namespace RR32Can {
-
-/**
- * \brief Send an arbitrary packet via CAN
- */
-void SendPacket(const RR32Can::Identifier& id, const RR32Can::Data& data) {
-  if (activeCommunicationChannel ==
-          application::model::Settings::CommunicationChannel_t::CAN &&
-      canMgr.isActive()) {
-    canMgr.SendPacket(id, data);
-  } else if (activeCommunicationChannel ==
-                 application::model::Settings::CommunicationChannel_t::WIFI &&
-             isWifiAvailable()) {
-    WiFiSendPacket(id, data);
-  } else {
-    printf("No active communication channels available.\n");
-  }
-}  // namespace RR32Can
-
-} /* namespace RR32Can */

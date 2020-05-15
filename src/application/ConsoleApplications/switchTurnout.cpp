@@ -1,6 +1,13 @@
 #include "application/ConsoleApplications/switchTurnout.h"
 
+#include "Arduino.h"
+
+#ifndef ARGTABLE_HEADER_PATH
 #include "argtable3/argtable3.h"
+#else
+#include ARGTABLE_HEADER_PATH
+#endif
+
 #include "esp_console.h"
 
 #include "RR32Can/RR32Can.h"
@@ -22,11 +29,11 @@ static void* argtable[] = {turnoutNum, direction, argEnd};
 
 void Setup() {
   esp_console_cmd_t actuateTurnout{
-    command : programName,
-    help : "Actuate a turnout on request",
-    hint : nullptr,
-    func : TurnoutMain,
-    argtable : argtable
+    .command = programName,
+    .help = "Actuate a turnout on request",
+    .hint = nullptr,
+    .func = TurnoutMain,
+    .argtable = argtable
   };
   ESP_ERROR_CHECK(esp_console_cmd_register(&actuateTurnout));
 }

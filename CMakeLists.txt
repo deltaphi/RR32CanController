@@ -1,7 +1,7 @@
 cmake_minimum_required (VERSION 3.6)
 project (RR32CanControllerTest)
 
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
@@ -38,6 +38,9 @@ if (CMAKE_VERSION VERSION_LESS 2.8.11)
 endif()
 
 FILE(GLOB_RECURSE applicationSources src/application/*.cpp)
+
+file(GLOB_RECURSE RR32CAN_SOURCES "${PROJECT_SOURCE_DIR}/lib/RR32CanLibrary/lib/*.cpp")
+# list(APPEND ROTARYENCODER_SOURCES "${PROJECT_SOURCE_DIR}/lib/RotaryEncoder/RotaryEncoder.cpp")
 
 enable_testing()
 
