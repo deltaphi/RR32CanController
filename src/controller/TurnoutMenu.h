@@ -8,7 +8,7 @@
 #include "application/model/DisplayModel.h"
 #include "application/model/InputState.h"
 #include "application/model/TurnoutMap.h"
-#include "controller/EncoderLimiter.h"
+#include "application/controller/EncoderLimiter.h"
 
 
 namespace controller {
@@ -49,7 +49,7 @@ class TurnoutMenu {
   /// Whether an action was taken that requires an update to the display.
   bool displayUpdateNeeded;
 
-  EncoderLimiter limiter;
+  application::controller::EncoderLimiter limiter;
 };
 
 }  // namespace controller

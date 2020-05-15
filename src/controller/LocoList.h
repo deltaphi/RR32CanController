@@ -3,7 +3,7 @@
 
 #include <RR32Can/LocoListConsumer.h>
 #include <RR32Can/Locomotive.h>
-#include "controller/AbstractMenu.h"
+#include "application/controller/AbstractMenu.h"
 #include "application/model/InputState.h"
 #include "application/model/DisplayModel.h"
 
@@ -14,7 +14,7 @@ class MasterControl;
 /*
  * \brief Class LocoList
  */
-class LocoList : public AbstractMenu {
+class LocoList : public application::controller::AbstractMenu {
  public:
   void begin();
   void loop(application::model::InputState& inputState,

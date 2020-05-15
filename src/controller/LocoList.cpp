@@ -25,7 +25,7 @@ void LocoList::advanceMenu(MenuItemIndex_t menuItem,
 
 void LocoList::loop(application::model::InputState& inputState,
                     MasterControl& masterControl) {
-  AbstractMenu::loop(inputState, masterControl);
+  application::controller::AbstractMenu::loop(inputState, masterControl);
   if (RR32Can::RR32Can.getConfigStreamState() ==
       RR32Can::ConfigDataStreamParser::StreamState::STREAM_DONE) {
     forceDisplayUpdate();

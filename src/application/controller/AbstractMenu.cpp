@@ -1,5 +1,6 @@
-#include "controller/AbstractMenu.h"
+#include "application/controller/AbstractMenu.h"
 
+namespace application {
 namespace controller {
 
 void AbstractMenu::begin() {
@@ -8,7 +9,7 @@ void AbstractMenu::begin() {
 };
 
 void AbstractMenu::loop(application::model::InputState& inputState,
-                        MasterControl& masterControl) {
+                        ::controller::MasterControl& masterControl) {
   if (inputState.isEncoderRisingEdge()) {
     if (inputState.isShiftPressed()) {
       printf("AbstractMenu: Abort Menu.\n");
@@ -105,3 +106,4 @@ void AbstractMenu::notifyEncoderMoved(MenuItemIndex_t newItem) {
 }
 
 }  // namespace controller
+}  // namespace application

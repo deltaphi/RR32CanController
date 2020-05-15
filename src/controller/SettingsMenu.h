@@ -1,7 +1,7 @@
 #ifndef __CONTROLLER__SETTINGSMENU_H__
 #define __CONTROLLER__SETTINGSMENU_H__
 
-#include "controller/AbstractMenu.h"
+#include "application/controller/AbstractMenu.h"
 #include "application/controller/SettingsStorageCbk.h"
 #include "application/model/InputState.h"
 #include "application/model/Settings.h"
@@ -10,17 +10,18 @@ namespace controller {
 
 class MasterControl;
 
-
 /*
  * \brief Class SettingsMenu
  */
-class SettingsMenu : public AbstractMenu {
+class SettingsMenu : public application::controller::AbstractMenu {
  public:
   static constexpr const uint8_t kNumMenuEntries = 3;
 
   void begin(application::controller::SettingsStorageCbk& storageCbk);
 
-  const application::model::Settings& getUserSettings() const { return settings; }
+  const application::model::Settings& getUserSettings() const {
+    return settings;
+  }
 
  protected:
   /// Callback when a menu item is selected.

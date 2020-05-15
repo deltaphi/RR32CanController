@@ -1,6 +1,7 @@
-#ifndef __CONTROLLER__ENCODERLIMITER_H__
-#define __CONTROLLER__ENCODERLIMITER_H__
+#ifndef __APPLICATION__CONTROLLER__ENCODERLIMITER_H__
+#define __APPLICATION__CONTROLLER__ENCODERLIMITER_H__
 
+namespace application {
 namespace controller {
 
 /*
@@ -21,5 +22,6 @@ class EncoderLimiter {
 };
 
 }  // namespace controller
+}  // namespace application
 
-#endif  // __CONTROLLER__ENCODERLIMITER_H__
+#endif  // __APPLICATION__CONTROLLER__ENCODERLIMITER_H__

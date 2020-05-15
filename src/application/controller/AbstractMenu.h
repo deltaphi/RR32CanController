@@ -1,15 +1,18 @@
-#ifndef __CONTROLLER__ABSTRACTMENU_H__
-#define __CONTROLLER__ABSTRACTMENU_H__
+#ifndef __APPLICATION__CONTROLLER__ABSTRACTMENU_H__
+#define __APPLICATION__CONTROLLER__ABSTRACTMENU_H__
 
 #include <cstdint>
 
-#include "controller/EncoderLimiter.h"
-#include "application/model/InputState.h"
+#include "application/controller/EncoderLimiter.h"
 #include "application/model/DisplayModel.h"
+#include "application/model/InputState.h"
 
 namespace controller {
-
 class MasterControl;
+}
+
+namespace application {
+namespace controller {
 
 /*
  * \brief Base Class AbstractMenu
@@ -26,7 +29,7 @@ class AbstractMenu {
 
   virtual void begin();
   virtual void loop(application::model::InputState& inputState,
-                    MasterControl& masterControl);
+                    ::controller::MasterControl& masterControl);
 
   void updateDisplay(application::model::DisplayModel& displayManager);
   /**
@@ -45,10 +48,10 @@ class AbstractMenu {
  protected:
   /// Callback when a menu item is selected.
   virtual void advanceMenu(MenuItemIndex_t menuItem,
-                           MasterControl& masterControl) = 0;
+                           ::controller::MasterControl& masterControl) = 0;
 
   /// Callback when the menu is aborted (shift+encoder)
-  virtual void abortMenu(MasterControl& masterControl) = 0;
+  virtual void abortMenu(::controller::MasterControl& masterControl) = 0;
 
   /**
    * \brief Callback to retrive an array of menuitems.
@@ -104,5 +107,6 @@ class AbstractMenu {
 };
 
 }  // namespace controller
+}  // namespace application
 
-#endif  // __CONTROLLER__ABSTRACTMENU_H__
+#endif  // __APPLICATION__CONTROLLER__ABSTRACTMENU_H__

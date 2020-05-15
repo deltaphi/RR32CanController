@@ -1,5 +1,6 @@
-#include "controller/EncoderLimiter.h"
+#include "application/controller/EncoderLimiter.h"
 
+namespace application {
 namespace controller {
 
 EncoderLimiter::EncoderValue_t EncoderLimiter::limitedValue(
@@ -14,3 +15,4 @@ EncoderLimiter::EncoderValue_t EncoderLimiter::limitedValue(
 }
 
 }  // namespace controller
+}  // namespace application
