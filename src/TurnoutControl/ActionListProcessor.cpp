@@ -40,7 +40,7 @@ void ActionListProcessor::loop() {
 }
 
 void ActionListProcessor::performAction() {
-  model::TurnoutAction& action = *(this->currentAction);
+  application::model::TurnoutAction& action = *(this->currentAction);
 #if (LOG_ACTIONLIST == STD_ON)
   printf("Action:");
   print(action);
@@ -76,7 +76,7 @@ void ActionListProcessor::printActionList(
   model::ActionListDB::DB_t::const_iterator dbIt = db.begin();
   std::advance(dbIt, index);
 
-  for (const model::TurnoutAction& action : *dbIt) {
+  for (const application::model::TurnoutAction& action : *dbIt) {
     print(action);
   }
 }
@@ -89,7 +89,7 @@ void ActionListProcessor::printActionLists(const char* serializedPrefix) const {
   while (dbIt != db.end()) {
     /* Human-readable */
     printf("Action List %i (%i elements):\n", dbIdx, dbIt->size());
-    for (const model::TurnoutAction& action : *dbIt) {
+    for (const application::model::TurnoutAction& action : *dbIt) {
       print(action);
     }
 
@@ -99,7 +99,7 @@ void ActionListProcessor::printActionLists(const char* serializedPrefix) const {
            RR32Can::HumanTurnoutAddress(RR32Can::MachineTurnoutAddress(dbIdx))
                .value());
 
-    for (const model::TurnoutAction& action : *dbIt) {
+    for (const application::model::TurnoutAction& action : *dbIt) {
       printf(" %i %i", RR32Can::HumanTurnoutAddress(action.address).value(),
              static_cast<uint8_t>(action.direction));
     }

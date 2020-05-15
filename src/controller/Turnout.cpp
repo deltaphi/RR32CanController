@@ -8,6 +8,8 @@
 #include "RR32Can/messages/Identifier.h"
 #include "RR32Can/messages/TurnoutPacket.h"
 
+#include "application/model/TurnoutTypes.h"
+
 namespace controller {
 
 void Turnout::begin() {
@@ -27,7 +29,7 @@ void Turnout::loop(application::model::InputState& inputState) {
   actionListProcessor.loop();
 }
 
-void Turnout::handleMultiturnout(model::TurnoutLookupResult result,
+void Turnout::handleMultiturnout(application::model::TurnoutLookupResult result,
                                  RR32Can::TurnoutDirection requestedDirection) {
   RR32Can::TurnoutAddressBase::value_type actionListAddr =
       result.address.value();
@@ -53,7 +55,7 @@ void Turnout::handleMultiturnout(model::TurnoutLookupResult result,
  */
 void Turnout::handleButton(uint8_t buttonIndex, uint8_t buttonState) {
   // There was an edge here, send out a message
-  model::TurnoutLookupResult turnoutIndex =
+  application::model::TurnoutLookupResult turnoutIndex =
       turnoutMap.lookupTurnout(buttonIndex);
 
 #if (LOG_BUTTON_PRESS == STD_ON)
@@ -62,7 +64,7 @@ void Turnout::handleButton(uint8_t buttonIndex, uint8_t buttonState) {
 #endif
 
   switch (turnoutIndex.mode) {
-    case model::TurnoutAddressMode::SingleTurnout: {
+    case application::model::TurnoutAddressMode::SingleTurnout: {
       // Single turnout - send out a packet right away.
       RR32Can::TurnoutDirection direction =
           buttonIndex % 2 == 0 ? RR32Can::TurnoutDirection::RED
@@ -78,7 +80,7 @@ void Turnout::handleButton(uint8_t buttonIndex, uint8_t buttonState) {
                                            (buttonState == HIGH ? 1 : 0));
       break;
     }
-    case model::TurnoutAddressMode::MultiTurnout: {
+    case application::model::TurnoutAddressMode::MultiTurnout: {
       // Only start multi-turnout actions on button press, not release.
       if (buttonState == HIGH) {
         handleMultiturnout(

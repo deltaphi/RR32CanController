@@ -19,14 +19,14 @@ void TurnoutMenu::loadCurrentKey(
 void TurnoutMenu::updateEncoderLimits(
     const model::ActionListDB::DB_t& actionListDb) {
   switch (currentResult.mode) {
-    case model::TurnoutAddressMode::SingleTurnout:
+    case application::model::TurnoutAddressMode::SingleTurnout:
       limiter.setMin(
           RR32Can::HumanTurnoutAddress(RR32Can::kTurnoutAddressMin).value());
       limiter.setMax(
           RR32Can::HumanTurnoutAddress(RR32Can::kTurnoutAddressMax).value());
       break;
 
-    case model::TurnoutAddressMode::MultiTurnout:
+    case application::model::TurnoutAddressMode::MultiTurnout:
       limiter.setMin(1);
       limiter.setMax(actionListDb.size());
       break;
@@ -96,7 +96,7 @@ void TurnoutMenu::updateDisplay(application::model::DisplayModel& displayManager
 
     snprintf(displayManager.getWritableBuffer(1), STRING_DATATYPE_LENGTH,
              "%s: %i",
-             (currentResult.mode == model::TurnoutAddressMode::SingleTurnout
+             (currentResult.mode == application::model::TurnoutAddressMode::SingleTurnout
                   ? "Turnout"
                   : "ActionL"),
              address.value());

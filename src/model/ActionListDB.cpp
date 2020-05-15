@@ -2,7 +2,7 @@
 
 #include "SPIFFS.h"
 
-#include "model/TurnoutTypes.h"
+#include "application/model/TurnoutTypes.h"
 
 namespace model {
 
@@ -48,7 +48,7 @@ bool load(DB_t& db) {
         ActionList_t newList;
 
         for (int j = 0; j < listHeader.listLength; ++j) {
-          TurnoutAction action;
+          application::model::TurnoutAction action;
 
           readBytes =
               f.read(reinterpret_cast<uint8_t*>(&action), sizeof(action));
@@ -88,7 +88,7 @@ void store(const DB_t& db) {
       writtenBytes +=
           f.write(reinterpret_cast<uint8_t*>(&listHeader), sizeof(listHeader));
 
-      for (const TurnoutAction& action : al) {
+      for (const application::model::TurnoutAction& action : al) {
         writtenBytes +=
             f.write(reinterpret_cast<const uint8_t*>(&action), sizeof(action));
       }

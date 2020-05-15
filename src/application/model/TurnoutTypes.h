@@ -1,10 +1,11 @@
-#ifndef __TURNOUT_TYPES_H__
-#define __TURNOUT_TYPES_H__
+#ifndef __APPLICATION__TURNOUT_TYPES_H__
+#define __APPLICATION__TURNOUT_TYPES_H__
 
 #include <Arduino.h>
 
 #include "RR32Can/Types.h"
 
+namespace application {
 namespace model {
 
 enum class TurnoutAddressMode { SingleTurnout = 0, MultiTurnout };
@@ -26,5 +27,6 @@ typedef struct {
 void print(const TurnoutAction&);
 
 } /* namespace model */
+}  // namespace application
 
-#endif
+#endif  // __APPLICATION__TURNOUT_TYPES_H__

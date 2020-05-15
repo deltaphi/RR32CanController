@@ -4,7 +4,7 @@
 #include <cstdint>
 
 #include "config.h"
-#include "model/TurnoutTypes.h"
+#include "application/model/TurnoutTypes.h"
 
 namespace model {
 
@@ -28,10 +28,10 @@ class TurnoutMap {
    * Converts a button index to a turnout number.
    * Uses bus numbering, not human-readable numbering.
    */
-  model::TurnoutLookupResult lookupTurnout(ButtonIndex_t buttonIndex) const;
+  application::model::TurnoutLookupResult lookupTurnout(ButtonIndex_t buttonIndex) const;
 
   void setLookupTurnout(ButtonIndex_t buttonIndex,
-                        model::TurnoutLookupResult newResult);
+                        application::model::TurnoutLookupResult newResult);
 
   void print() const;
 
@@ -45,12 +45,12 @@ class TurnoutMap {
     return button;
   }
 
-  model::TurnoutLookupResult& rangeCheckedMapAt(ButtonIndex_t button);
-  model::TurnoutLookupResult rangeCheckedMapAt(ButtonIndex_t button) const {
+  application::model::TurnoutLookupResult& rangeCheckedMapAt(ButtonIndex_t button);
+  application::model::TurnoutLookupResult rangeCheckedMapAt(ButtonIndex_t button) const {
     return const_cast<TurnoutMap*>(this)->rangeCheckedMapAt(button);
   }
 
-  using TurnoutMap_t = model::TurnoutLookupResult[TURNOUT_MAP_LENGTH];
+  using TurnoutMap_t = application::model::TurnoutLookupResult[TURNOUT_MAP_LENGTH];
 
   /**
    * \brief Maps from button index to turnout number.

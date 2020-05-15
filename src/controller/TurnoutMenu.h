@@ -31,7 +31,7 @@ class TurnoutMenu {
 
  private:
   TurnoutKeyIndex_t currentKey;
-  model::TurnoutLookupResult currentResult;
+  application::model::TurnoutLookupResult currentResult;
 
   void loadCurrentKey(application::model::InputState& inputState,
                       model::TurnoutMap& turnoutMap,

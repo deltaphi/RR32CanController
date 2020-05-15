@@ -1,6 +1,7 @@
 
-#include "model/TurnoutTypes.h"
+#include "application/model/TurnoutTypes.h"
 
+namespace application {
 namespace model {
 
 TurnoutAddressMode SwitchMode(TurnoutAddressMode mode) {
@@ -26,3 +27,4 @@ void print(const TurnoutAction& result) {
 }
 
 } /* namespace model */
+}  // namespace application

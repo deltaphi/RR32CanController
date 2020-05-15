@@ -115,7 +115,7 @@ int SetActionList(RR32Can::HumanTurnoutAddress humanListIndex,
   } else {
     printf("ActionList with %i parameters.\n", actions->count);
 
-    model::ActionListDB::DB_t& db = actionListProcessor->getDb();
+    ::model::ActionListDB::DB_t& db = actionListProcessor->getDb();
 
     // Find or create the ActionList to be edited.
 
@@ -124,7 +124,7 @@ int SetActionList(RR32Can::HumanTurnoutAddress humanListIndex,
       db.resize(listIndex.value() + 1);
     }
 
-    model::ActionListDB::DB_t::iterator dbIt = db.begin();
+    ::model::ActionListDB::DB_t::iterator dbIt = db.begin();
     std::advance(dbIt, listIndex.value());
 
     // Clear the list and fill it with new entries
@@ -145,7 +145,7 @@ int SetActionList(RR32Can::HumanTurnoutAddress humanListIndex,
 
 int SaveActionLists() {
   printf("Saving ActionLists to SPIFFS.\n");
-  model::ActionListDB::store(actionListProcessor->getDb());
+  ::model::ActionListDB::store(actionListProcessor->getDb());
   return 0;
 }
 

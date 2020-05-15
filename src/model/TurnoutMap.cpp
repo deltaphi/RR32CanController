@@ -8,7 +8,7 @@ const char* TurnoutMap::kTurnoutMapSettingsFile = "/turnoutmap.prefs";
 
 void TurnoutMap::begin() {
   for (int i = 0; i < TURNOUT_MAP_LENGTH; ++i) {
-    turnoutMap[i].mode = TurnoutAddressMode::SingleTurnout;
+    turnoutMap[i].mode = application::model::TurnoutAddressMode::SingleTurnout;
     turnoutMap[i].address = i;
   }
 
@@ -52,7 +52,7 @@ void TurnoutMap::print() const {
   printf("\n");
 }
 
-model::TurnoutLookupResult& TurnoutMap::rangeCheckedMapAt(
+application::model::TurnoutLookupResult& TurnoutMap::rangeCheckedMapAt(
     ButtonIndex_t button) {
   button = buttonToArrayIndex(button);
 
@@ -65,7 +65,7 @@ model::TurnoutLookupResult& TurnoutMap::rangeCheckedMapAt(
   return turnoutMap[button];
 }
 
-model::TurnoutLookupResult TurnoutMap::lookupTurnout(
+application::model::TurnoutLookupResult TurnoutMap::lookupTurnout(
     uint8_t buttonIndex) const {
 #if (LOG_BUTTON_MAPPING == STD_ON)
   printf("Mapping from %i to ", buttonIndex);
@@ -77,7 +77,7 @@ model::TurnoutLookupResult TurnoutMap::lookupTurnout(
 }
 
 void TurnoutMap::setLookupTurnout(ButtonIndex_t buttonIndex,
-                                  model::TurnoutLookupResult newResult) {
+                                  application::model::TurnoutLookupResult newResult) {
   rangeCheckedMapAt(buttonIndex) = newResult;
 }
 
