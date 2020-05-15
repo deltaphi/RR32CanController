@@ -1,9 +1,10 @@
-#include "controller/LocoControl.h"
-#include <controller/MasterControl.h>
+#include "application/controller/LocoControl.h"
+#include <application/controller/MasterControl.h>
 
 #include "RR32Can/RR32Can.h"
 #include "application/view/UIAssets.h"
 
+namespace application {
 namespace controller {
 
 void LocoControl::begin() { loco.reset(); }
@@ -205,3 +206,4 @@ void LocoControl::requestLocoData() {
 }
 
 }  // namespace controller
+}  // namespace application

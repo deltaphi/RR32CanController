@@ -1,5 +1,5 @@
-#ifndef __CONTROLLER__TURNOUTMENU_H__
-#define __CONTROLLER__TURNOUTMENU_H__
+#ifndef __APPLICATION__CONTROLLER__TURNOUTMENU_H__
+#define __APPLICATION__CONTROLLER__TURNOUTMENU_H__
 
 #include <cstdint>
 
@@ -11,6 +11,7 @@
 #include "application/controller/EncoderLimiter.h"
 
 
+namespace application {
 namespace controller {
 
 class MasterControl;
@@ -53,5 +54,6 @@ class TurnoutMenu {
 };
 
 }  // namespace controller
+}  // namespace application
 
-#endif  // __CONTROLLER__TURNOUTMENU_H__
+#endif  // __APPLICATION__CONTROLLER__TURNOUTMENU_H__

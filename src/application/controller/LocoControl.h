@@ -1,5 +1,5 @@
-#ifndef __CONTROLLER__LOCOCONTROL_H__
-#define __CONTROLLER__LOCOCONTROL_H__
+#ifndef __APPLICATION__CONTROLLER__LOCOCONTROL_H__
+#define __APPLICATION__CONTROLLER__LOCOCONTROL_H__
 
 #include <RR32Can/LocoConsumer.h>
 #include <RR32Can/Locomotive.h>
@@ -7,6 +7,7 @@
 #include "application/model/DisplayModel.h"
 
 
+namespace application {
 namespace controller {
 
 class MasterControl;
@@ -70,5 +71,6 @@ class LocoControl {
 };
 
 }  // namespace controller
+}  // namespace application
 
-#endif  // __CONTROLLER__LOCOCONTROL_H__
+#endif  // __APPLICATION__CONTROLLER__LOCOCONTROL_H__

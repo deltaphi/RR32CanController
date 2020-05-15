@@ -17,9 +17,9 @@
 #include "hal/wifiManager.h"
 #include "hal/Input.h"
 
-#include <controller/MasterControl.h>
+#include "application/controller/MasterControl.h"
 
-controller::MasterControl masterControl;
+application::controller::MasterControl masterControl;
 
 canManager canMgr;
 

@@ -1,9 +1,10 @@
-#include "controller/LocoList.h"
-#include <controller/MasterControl.h>
+#include "application/controller/LocoList.h"
+#include <application/controller/MasterControl.h>
 
 #include "RR32Can/RR32Can.h"
 #include "application/view/UIAssets.h"
 
+namespace application {
 namespace controller {
 
 void LocoList::begin() {
@@ -104,3 +105,4 @@ const RR32Can::LocomotiveShortInfo* LocoList::getSelectedEngine() {
 }
 
 }  // namespace controller
+}  // namespace application

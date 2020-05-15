@@ -1,17 +1,18 @@
-#ifndef __CONTROLLER__UICONTROL_H__
-#define __CONTROLLER__UICONTROL_H__
+#ifndef __APPLICATION__CONTROLLER__UICONTROL_H__
+#define __APPLICATION__CONTROLLER__UICONTROL_H__
 
 #include "application/model/DisplayModel.h"
-#include "controller/Idle.h"
-#include "controller/LocoControl.h"
-#include "controller/LocoList.h"
-#include "controller/SettingsMenu.h"
-#include "controller/Turnout.h"
-#include "controller/TurnoutMenu.h"
+#include "application/controller/Idle.h"
+#include "application/controller/LocoControl.h"
+#include "application/controller/LocoList.h"
+#include "application/controller/SettingsMenu.h"
+#include "application/controller/Turnout.h"
+#include "application/controller/TurnoutMenu.h"
 
 
 #include "RR32Can/StationCbk.h"
 
+namespace application {
 namespace controller {
 
 /*
@@ -101,5 +102,6 @@ class MasterControl : public RR32Can::StationCbk {
 };
 
 }  // namespace controller
+}  // namespace application
 
-#endif  // __CONTROLLER__UICONTROL_H__
+#endif  // __APPLICATION__CONTROLLER__UICONTROL_H__

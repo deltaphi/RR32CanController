@@ -1,8 +1,9 @@
-#include <controller/MasterControl.h>
+#include <application/controller/MasterControl.h>
 #include <cstring>
 
 #include "RR32Can/RR32Can.h"
 
+namespace application {
 namespace controller {
 
 void MasterControl::begin(
@@ -205,3 +206,4 @@ void MasterControl::setLocoVelocity(RR32Can::Velocity_t velocity) {
 }
 
 }  // namespace controller
+}  // namespace application

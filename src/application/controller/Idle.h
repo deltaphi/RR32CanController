@@ -1,9 +1,10 @@
-#ifndef __CONTROLLER__IDLE_H__
-#define __CONTROLLER__IDLE_H__
+#ifndef __APPLICATION__CONTROLLER__IDLE_H__
+#define __APPLICATION__CONTROLLER__IDLE_H__
 
 #include "application/model/InputState.h"
 #include "application/model/DisplayModel.h"
 
+namespace application {
 namespace controller {
 
 class MasterControl;
@@ -22,5 +23,6 @@ class Idle {
 };
 
 }  // namespace controller
+}  // namespace application
 
-#endif  // __CONTROLLER__IDLE_H__
+#endif  // __APPLICATION__CONTROLLER__IDLE_H__

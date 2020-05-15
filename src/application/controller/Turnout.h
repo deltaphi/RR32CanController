@@ -1,5 +1,5 @@
-#ifndef __CONTROLLER__TURNOUT_H__
-#define __CONTROLLER__TURNOUT_H__
+#ifndef __APPLICATION__CONTROLLER__TURNOUT_H__
+#define __APPLICATION__CONTROLLER__TURNOUT_H__
 
 #include "application/controller/ActionListControl.h"
 #include "application/controller/ActionlistStorageCbk.h"
@@ -8,6 +8,7 @@
 #include "application/model/TurnoutMap.h"
 #include "application/model/TurnoutTypes.h"
 
+namespace application {
 namespace controller {
 
 /*
@@ -42,5 +43,6 @@ class Turnout {
 };
 
 }  // namespace controller
+}  // namespace application
 
-#endif  // __CONTROLLER__TURNOUT_H__
+#endif  // __APPLICATION__CONTROLLER__TURNOUT_H__

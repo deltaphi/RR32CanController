@@ -7,12 +7,10 @@
 #include "application/model/DisplayModel.h"
 #include "application/model/InputState.h"
 
-namespace controller {
-class MasterControl;
-}
-
 namespace application {
 namespace controller {
+
+class MasterControl;
 
 /*
  * \brief Base Class AbstractMenu
@@ -29,7 +27,7 @@ class AbstractMenu {
 
   virtual void begin();
   virtual void loop(application::model::InputState& inputState,
-                    ::controller::MasterControl& masterControl);
+                    MasterControl& masterControl);
 
   void updateDisplay(application::model::DisplayModel& displayManager);
   /**
@@ -48,10 +46,10 @@ class AbstractMenu {
  protected:
   /// Callback when a menu item is selected.
   virtual void advanceMenu(MenuItemIndex_t menuItem,
-                           ::controller::MasterControl& masterControl) = 0;
+                           MasterControl& masterControl) = 0;
 
   /// Callback when the menu is aborted (shift+encoder)
-  virtual void abortMenu(::controller::MasterControl& masterControl) = 0;
+  virtual void abortMenu(MasterControl& masterControl) = 0;
 
   /**
    * \brief Callback to retrive an array of menuitems.

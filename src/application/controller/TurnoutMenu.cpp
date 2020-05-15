@@ -1,7 +1,8 @@
-#include "controller/TurnoutMenu.h"
+#include "application/controller/TurnoutMenu.h"
 
-#include "controller/MasterControl.h"
+#include "application/controller/MasterControl.h"
 
+namespace application {
 namespace controller {
 
 void TurnoutMenu::begin(
@@ -115,3 +116,4 @@ void TurnoutMenu::updateDisplay(
 }
 
 }  // namespace controller
+}  // namespace application

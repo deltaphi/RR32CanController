@@ -1,11 +1,12 @@
-#ifndef __CONTROLLER__SETTINGSMENU_H__
-#define __CONTROLLER__SETTINGSMENU_H__
+#ifndef __APPLICATION__CONTROLLER__SETTINGSMENU_H__
+#define __APPLICATION__CONTROLLER__SETTINGSMENU_H__
 
 #include "application/controller/AbstractMenu.h"
 #include "application/controller/SettingsStorageCbk.h"
 #include "application/model/InputState.h"
 #include "application/model/Settings.h"
 
+namespace application {
 namespace controller {
 
 class MasterControl;
@@ -61,5 +62,6 @@ class SettingsMenu : public application::controller::AbstractMenu {
 };
 
 }  // namespace controller
+}  // namespace application
 
-#endif  // __CONTROLLER__SETTINGSMENU_H__
+#endif  // __APPLICATION__CONTROLLER__SETTINGSMENU_H__

@@ -1,5 +1,5 @@
-#ifndef __CONTROLLER__LOCOLIST_H__
-#define __CONTROLLER__LOCOLIST_H__
+#ifndef __APPLICATION__CONTROLLER__LOCOLIST_H__
+#define __APPLICATION__CONTROLLER__LOCOLIST_H__
 
 #include <RR32Can/LocoListConsumer.h>
 #include <RR32Can/Locomotive.h>
@@ -7,6 +7,7 @@
 #include "application/model/InputState.h"
 #include "application/model/DisplayModel.h"
 
+namespace application {
 namespace controller {
 
 class MasterControl;
@@ -44,5 +45,6 @@ class LocoList : public application::controller::AbstractMenu {
 };
 
 }  // namespace controller
+}  // namespace application
 
-#endif  // __CONTROLLER__LOCOLIST_H__
+#endif  // __APPLICATION__CONTROLLER__LOCOLIST_H__

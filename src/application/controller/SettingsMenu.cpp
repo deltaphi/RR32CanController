@@ -1,7 +1,8 @@
-#include "controller/SettingsMenu.h"
+#include "application/controller/SettingsMenu.h"
 
-#include "controller/MasterControl.h"
+#include "application/controller/MasterControl.h"
 
+namespace application {
 namespace controller {
 
 const char* SettingsMenu::kTurnoutMapping = "Turnout mapping";
@@ -73,3 +74,4 @@ SettingsMenu::MenuItemIndex_t SettingsMenu::getTotalMenuLength() {
 }
 
 }  // namespace controller
+}  // namespace application

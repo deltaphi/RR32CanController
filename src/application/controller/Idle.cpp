@@ -1,8 +1,9 @@
-#include "controller/Idle.h"
-#include <controller/MasterControl.h>
+#include "application/controller/Idle.h"
+#include <application/controller/MasterControl.h>
 
 #include "application/view/UIAssets.h"
 
+namespace application {
 namespace controller {
 
 void Idle::loop(application::model::InputState& inputState, MasterControl& masterControl) {
@@ -21,3 +22,4 @@ void Idle::updateDisplayOnce(application::model::DisplayModel& displayManager) {
 }
 
 }  // namespace controller
+}  // namespace application

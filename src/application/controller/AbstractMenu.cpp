@@ -9,7 +9,7 @@ void AbstractMenu::begin() {
 };
 
 void AbstractMenu::loop(application::model::InputState& inputState,
-                        ::controller::MasterControl& masterControl) {
+                        MasterControl& masterControl) {
   if (inputState.isEncoderRisingEdge()) {
     if (inputState.isShiftPressed()) {
       printf("AbstractMenu: Abort Menu.\n");

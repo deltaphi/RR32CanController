@@ -1,4 +1,4 @@
-#include "controller/Turnout.h"
+#include "application/controller/Turnout.h"
 
 #include "config.h"
 
@@ -10,6 +10,7 @@
 
 #include "application/model/TurnoutTypes.h"
 
+namespace application {
 namespace controller {
 
 void Turnout::begin(application::controller::ActionlistStorageCbk& scbk,
@@ -97,3 +98,4 @@ void Turnout::handleButton(uint8_t buttonIndex, uint8_t buttonState) {
 }
 
 }  // namespace controller
+}  // namespace application
