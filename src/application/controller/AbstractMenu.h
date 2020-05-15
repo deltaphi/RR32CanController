@@ -68,7 +68,7 @@ class AbstractMenu {
    *
    * The length is not assumed to be constant for a given menu.
    */
-  virtual MenuItemIndex_t getTotalMenuLength();
+  virtual MenuItemIndex_t getTotalMenuLength() = 0;
 
   /**
    * \brief Callback to trigger updating the display with new data.
