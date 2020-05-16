@@ -25,7 +25,6 @@ jobs:
     - name: Find compilers
       run: |
         which gcc
-        which gcc8
         which gcc-8
 
     # Runs a single command using the runners shell
