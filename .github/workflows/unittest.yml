@@ -1,0 +1,11 @@
+# Workflow to run the GTest Unittests.
+
+name: action-gtest
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+uses: CyberZHG/github-action-gtest@0.0.1
