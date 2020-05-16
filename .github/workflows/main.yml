@@ -30,7 +30,7 @@ jobs:
         cmakeListsTxtPath: ${{ github.workspace }}/CMakeLists.txt
         cmakeBuildType: Release
         # buildWithCMakeArgs: "-DCMAKE_C_COMPILER=gcc-8 -DCMAKE_CXX_COMPILER=g++-8"
-        buildWithCMakeArgs: "-DCMAKE_C_COMPILER=clang-9 -DCMAKE_CXX_COMPILER=clang-9"
+        # buildWithCMakeArgs: "-DCMAKE_C_COMPILER=clang-9 -DCMAKE_CXX_COMPILER=clang-9"
         buildDirectory: ${{ runner.temp }}/build
         buildWithCMake: true
 
