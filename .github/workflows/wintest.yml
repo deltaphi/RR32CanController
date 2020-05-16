@@ -34,6 +34,11 @@ jobs:
         buildDirectory: ${{ runner.temp }}/build
         buildWithCMake: true
 
+
+    # Actual testing happening
+    - name: Examine Output
+      run: dir ${{ runner.temp }}\build\test\sil\
+
     # Actual testing happening
     - name: Run Unittest
-      run: ${{ runner.temp }}\build\test\sil\Releasegd\ApplicationSilTest.exe
+      run: ${{ runner.temp }}\build\test\sil\Release\ApplicationSilTest.exe
