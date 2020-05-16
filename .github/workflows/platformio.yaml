@@ -8,7 +8,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
+      with:
+        submodules: true
+
     - name: Set up Python
       uses: actions/setup-python@v1
     - name: Install dependencies
@@ -16,4 +19,4 @@ jobs:
         python -m pip install --upgrade pip
         pip install platformio
     - name: Run PlatformIO
-      run: platformio run ${{ github.workspace }} -e esp32dev
+      run: platformio run -d ${{ github.workspace }} -e esp32dev
