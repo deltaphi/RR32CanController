@@ -3,9 +3,8 @@
 
 #include <RR32Can/LocoConsumer.h>
 #include <RR32Can/Locomotive.h>
-#include "application/model/InputState.h"
 #include "application/model/DisplayModel.h"
-
+#include "application/model/InputState.h"
 
 namespace application {
 namespace controller {

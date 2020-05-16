@@ -3,13 +3,12 @@
 
 #include <cstdint>
 
+#include "application/controller/EncoderLimiter.h"
 #include "application/controller/TurnoutMapStorageCbk.h"
 #include "application/model/ActionListModel.h"
 #include "application/model/DisplayModel.h"
 #include "application/model/InputState.h"
 #include "application/model/TurnoutMap.h"
-#include "application/controller/EncoderLimiter.h"
-
 
 namespace application {
 namespace controller {

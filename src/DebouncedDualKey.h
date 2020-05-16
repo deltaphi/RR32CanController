@@ -106,14 +106,12 @@ class DebouncedKey {
 
   /**
    * \brief Returns whether this key currently has an edge.
-   * 
+   *
    * Does not reset the edge detection state.
-   * 
+   *
    * \return true if an edge was detected, false otherwise.
    */
-  bool hasEdge() const {
-    return edge;
-  }
+  bool hasEdge() const { return edge; }
 };
 
 #endif

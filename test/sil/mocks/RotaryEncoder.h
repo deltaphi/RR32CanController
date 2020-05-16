@@ -40,7 +40,6 @@ class RotaryEncoder {
   // Returns the time in milliseconds between the current observed
 
   MOCK_METHOD(unsigned long, getMillisBetweenRotations, (), (const));
-
 };
 
 #endif

@@ -8,10 +8,9 @@ namespace controller {
 
 /*
  * \brief Class SettingsStorageCbk
- */    
+ */
 class SettingsStorageCbk {
  public:
-
   virtual void store(const application::model::Settings* const data) = 0;
 
   virtual bool load(application::model::Settings* data) = 0;

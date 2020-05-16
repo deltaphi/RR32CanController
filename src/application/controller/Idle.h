@@ -1,8 +1,8 @@
 #ifndef __APPLICATION__CONTROLLER__IDLE_H__
 #define __APPLICATION__CONTROLLER__IDLE_H__
 
-#include "application/model/InputState.h"
 #include "application/model/DisplayModel.h"
+#include "application/model/InputState.h"
 
 namespace application {
 namespace controller {

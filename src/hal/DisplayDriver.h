@@ -15,12 +15,11 @@
 #include "SH1106Wire.h"
 #endif
 
-
 namespace hal {
 
 /*
  * \brief Class DisplayDriver
- */    
+ */
 class DisplayDriver {
   public:
   void begin();

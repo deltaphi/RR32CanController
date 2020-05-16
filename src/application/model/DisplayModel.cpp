@@ -3,7 +3,6 @@
 #include <cstdio>
 #include <cstring>
 
-
 namespace application {
 namespace model {
 

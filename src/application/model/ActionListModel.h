@@ -16,7 +16,6 @@ class ActionListModel {
   using ActionList_t = std::list<application::model::TurnoutAction>;
   using DB_t = std::list<ActionList_t>;
 
-
   uint8_t getNumActionLists() const { return db.size(); }
 
   std::size_t size() const { return db.size(); }
@@ -28,7 +27,6 @@ class ActionListModel {
 
  private:
   DB_t db;
-
 };
 
 }  // namespace model

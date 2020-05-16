@@ -42,9 +42,6 @@ const uint8_t DisplayDriver::baselineOffset[] = {
                          textLinePixelDistance),
     0};
 
-
-
-
 void DisplayDriver::begin() {
   printf("Starting Display Driver\n");
   // Initialize the Display
@@ -53,7 +50,6 @@ void DisplayDriver::begin() {
   display.flipScreenVertically();
 #endif
 }
-
 
 void DisplayDriver::loop(application::model::DisplayModel& displayModel) {
   if (displayModel.updateRequired) {

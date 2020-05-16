@@ -1,14 +1,13 @@
 #ifndef __APPLICATION__CONTROLLER__UICONTROL_H__
 #define __APPLICATION__CONTROLLER__UICONTROL_H__
 
-#include "application/model/DisplayModel.h"
 #include "application/controller/Idle.h"
 #include "application/controller/LocoControl.h"
 #include "application/controller/LocoList.h"
 #include "application/controller/SettingsMenu.h"
 #include "application/controller/Turnout.h"
 #include "application/controller/TurnoutMenu.h"
-
+#include "application/model/DisplayModel.h"
 
 #include "RR32Can/StationCbk.h"
 
@@ -51,11 +50,7 @@ class MasterControl : public RR32Can::StationCbk {
 
   UIMode getUIMode() const { return uiMode; }
 
-
-  application::model::InputState& getInputState() {
-    return inputState;
-  }
-
+  application::model::InputState& getInputState() { return inputState; }
 
   RR32Can::Locomotive* getLoco(RR32Can::Locomotive::Uid_t uid) override;
   void setLocoVelocity(RR32Can::Locomotive::Uid_t uid,
@@ -96,7 +91,6 @@ class MasterControl : public RR32Can::StationCbk {
 
   SettingsMenu settingsMenu;
   TurnoutMenu turnoutMenu;
-
 
   RR32Can::SystemState systemState = RR32Can::SystemState::UNKNOWN;
 };

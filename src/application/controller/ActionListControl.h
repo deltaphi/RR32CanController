@@ -3,18 +3,17 @@
 
 #include "RR32Can/Types.h"
 
-#include "application/model/ActionListModel.h"
 #include "application/controller/ActionlistStorageCbk.h"
+#include "application/model/ActionListModel.h"
 
 namespace application {
 namespace controller {
 
 /*
  * \brief Class ActionListControl
- */    
+ */
 class ActionListControl {
  public:
-
   void begin(application::model::ActionListModel& actionList) {
     this->db = &(actionList.getDb());
     setInactive();
@@ -31,9 +30,8 @@ class ActionListControl {
 
   void loop();
 
-
  private:
-  application::model::ActionListModel::DB_t * db;
+  application::model::ActionListModel::DB_t* db;
 
   void performAction();
 

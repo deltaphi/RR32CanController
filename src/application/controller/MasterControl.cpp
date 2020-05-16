@@ -27,7 +27,6 @@ void MasterControl::begin(
 }
 
 void MasterControl::loop() {
-
   // Always evaluate the STOP key with no SHIFT support
   loopStopKey();
 

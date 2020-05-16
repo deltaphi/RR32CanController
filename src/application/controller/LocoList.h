@@ -4,8 +4,8 @@
 #include <RR32Can/LocoListConsumer.h>
 #include <RR32Can/Locomotive.h>
 #include "application/controller/AbstractMenu.h"
-#include "application/model/InputState.h"
 #include "application/model/DisplayModel.h"
+#include "application/model/InputState.h"
 
 namespace application {
 namespace controller {

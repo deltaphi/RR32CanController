@@ -18,7 +18,7 @@ namespace ActionList {
 
 static application::model::ActionListModel* actionListModel;
 static application::controller::ActionListControl* actionListProcessor;
-static application::controller::ActionlistStorageCbk * storageCbk;
+static application::controller::ActionlistStorageCbk* storageCbk;
 
 static const char* programName = "actionList";
 
@@ -41,7 +41,7 @@ static void* argtable[] = {subcommand, actionListIndex, actions, argEnd};
 
 void Setup(application::model::ActionListModel& alm,
            application::controller::ActionListControl& alp,
-           application::controller::ActionlistStorageCbk & scbk) {
+           application::controller::ActionlistStorageCbk& scbk) {
   actionListModel = &alm;
   actionListProcessor = &alp;
   storageCbk = &scbk;

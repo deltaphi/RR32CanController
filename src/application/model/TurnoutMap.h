@@ -35,8 +35,8 @@ class TurnoutMap {
 
   void print() const;
 
-  TurnoutMap_t & getDb() { return turnoutMap; };
-  const TurnoutMap_t & getDb() const { return turnoutMap; };
+  TurnoutMap_t& getDb() { return turnoutMap; };
+  const TurnoutMap_t& getDb() const { return turnoutMap; };
 
  private:
   ButtonIndex_t buttonToArrayIndex(ButtonIndex_t button) const {

@@ -49,6 +49,5 @@ void TurnoutMap::setLookupTurnout(ButtonIndex_t buttonIndex,
   rangeCheckedMapAt(buttonIndex) = newResult;
 }
 
-
 }  // namespace model
 }  // namespace application

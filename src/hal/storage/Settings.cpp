@@ -7,7 +7,6 @@ namespace storage {
 
 const char* Settings::kSettingsFilename = "/settings.prefs";
 
-
 size_t Settings::loadData(application::model::Settings* data) {
   if (data == nullptr) {
     return 0;

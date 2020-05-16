@@ -8,10 +8,9 @@ namespace controller {
 
 /*
  * \brief Class ActionlistStorageCbk
- */    
+ */
 class ActionlistStorageCbk {
-  public:
-
+ public:
   virtual bool load(application::model::ActionListModel::DB_t& db) = 0;
   virtual void store(const application::model::ActionListModel::DB_t& db) = 0;
 };

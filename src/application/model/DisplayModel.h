@@ -10,9 +10,9 @@
 #define DISPLAY_LINES (2)
 
 namespace hal {
-  // Forward declaration for friend declaration
-  class DisplayDriver;
-}
+// Forward declaration for friend declaration
+class DisplayDriver;
+}  // namespace hal
 
 namespace application {
 namespace model {
@@ -22,6 +22,7 @@ namespace model {
  */
 class DisplayModel {
   friend class hal::DisplayDriver;
+
  public:
   using LineBuffer = char[STRING_DATATYPE_LENGTH];
 
@@ -29,9 +30,7 @@ class DisplayModel {
 
   void updateBuffer(const char* data, uint8_t dataLen, uint8_t lineNumber);
 
-  bool isUpdateRequired() const {
-    return updateRequired;
-  }
+  bool isUpdateRequired() const { return updateRequired; }
 
   /**
    * \brief Return a buffer to be written to and set the flag that a change
@@ -59,9 +58,7 @@ class DisplayModel {
     }
   }
 
-  bool isCursorEnabled() const {
-    return cursorEnabled;
-  }
+  bool isCursorEnabled() const { return cursorEnabled; }
 
   void setCursorLine(uint8_t line) {
     if (this->cursorLine != line) {
@@ -100,9 +97,7 @@ class DisplayModel {
     }
   }
 
-  bool isWifi() const {
-    return wifiOn;
-  }
+  bool isWifi() const { return wifiOn; }
 
   void setCan(bool onOff) {
     if (canOn != onOff) {
@@ -111,9 +106,7 @@ class DisplayModel {
     }
   }
 
-  bool isCan() const {
-    return canOn;
-  }
+  bool isCan() const { return canOn; }
 
   void setFunctionBits(uint8_t functionBits) {
     if (this->functionBits != functionBits) {

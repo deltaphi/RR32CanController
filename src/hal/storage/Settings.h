@@ -3,9 +3,8 @@
 
 #include <cstddef>
 
-#include "application/model/Settings.h"
 #include "application/controller/SettingsStorageCbk.h"
-
+#include "application/model/Settings.h"
 
 namespace hal {
 namespace storage {
@@ -15,7 +14,6 @@ namespace storage {
  */    
 class Settings: public application::controller::SettingsStorageCbk {
  public:
-
   void store(const application::model::Settings* const data) override;
 
   bool load(application::model::Settings* data) override;

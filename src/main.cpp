@@ -35,7 +35,6 @@ hal::storage::ActionListDB actionListStorage;
 
 hal::Input input;
 
-
 class TxCbk : public RR32Can::StationTxCbk {
   /**
    * \brief Send an arbitrary packet via CAN

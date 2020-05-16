@@ -31,7 +31,6 @@ unsigned long millis() {
   return mil.count();
 }
 
-
 void delay(uint32_t ms) {
   std::chrono::milliseconds chrono_ms(ms);
   std::this_thread::sleep_for(chrono_ms);
