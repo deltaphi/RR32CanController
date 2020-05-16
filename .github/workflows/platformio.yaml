@@ -12,6 +12,9 @@ jobs:
       with:
         submodules: true
 
+    - name: Copy WiFi configuration
+      run: cp ${{ github.workspace }}/src/hal/_wificonfig.h ${{ github.workspace }}/src/wificonfig.h
+
     - name: Set up Python
       uses: actions/setup-python@v1
     - name: Install dependencies
