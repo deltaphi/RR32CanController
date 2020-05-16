@@ -1,8 +1,15 @@
 # RR32CanSwitchboard
 Sketch for a Switchboard talking the Maerklin CAN protocol based on the ESP32 NodeMCU-Board.
 
-![](https://github.com/deltaphi/RR32CanController/workflows/.github/workflows/main.yml/badge.sv?event=push)
+## CI Status
+
+* Linux Unittest Build
+![](https://github.com/deltaphi/RR32CanController/workflows/.github/workflows/main.yml/badge.svg?event=push)
+
+* Embedded Build
 ![](https://github.com/deltaphi/RR32CanController/workflows/.github/workflows/platformio.yml/badge.svg?event=push)
+
+* Windows Unittest Build
 ![](https://github.com/deltaphi/RR32CanController/workflows/.github/workflows/wintest.yml/badge.svg?event=push)
 
 ## Software
