@@ -36,4 +36,4 @@ jobs:
 
     # Actual testing happening
     - name: Run Unittest
-      run: ${{ runner.temp }}/build/test/sil/ApplicationSilTest
+      run: ${{ runner.temp }}\build\test\sil\Releasegd\ApplicationSilTest.exe
