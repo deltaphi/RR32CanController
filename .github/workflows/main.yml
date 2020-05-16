@@ -22,6 +22,12 @@ jobs:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2
 
+    - name: Find compilers
+      run: |
+        which gcc
+        which gcc8
+        which gcc-8
+
     # Runs a single command using the runners shell
     - uses: lukka/run-cmake@v2.5
       with:
