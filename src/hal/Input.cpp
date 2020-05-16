@@ -11,7 +11,7 @@ static Input* inputPtr = nullptr;
 
 void Input::begin(application::model::InputState& inputState) {
   // Initialize data structure
-  inputState = inputState;
+  this->inputState = &inputState;
   inputPtr = this;
 
   // intialize shift register
