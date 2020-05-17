@@ -69,14 +69,6 @@ class InputState {
            keys[kStopKeyIndex].getDebouncedValue() == LOW;
   }
 
-  Key_t* getControlKeys() {
-#if (NUM_FBUTTONS == 0)
-    return nullptr;
-#else
-    return &keys[NUM_FBUTTONS];
-#endif
-  }
-
   Key_t* getFunctionKeys() { return keys; }
 
   Key_t* getTurnoutKeys() {

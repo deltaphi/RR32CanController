@@ -51,8 +51,8 @@
 #define ENCODER_A_PIN (35)
 #define ENCODER_B_PIN (32)
 #elif (HARDWARE_VERSION == 3)
-#define ENCODER_A_PIN (23)
-#define ENCODER_B_PIN (20)
+#define ENCODER_A_PIN (18)
+#define ENCODER_B_PIN (23)
 #endif
 
 // Should be 5

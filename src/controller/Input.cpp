@@ -66,13 +66,15 @@ void Input::loopButtons() {
 #endif
   }
 
+  int shiftOld = keys[model::InputState::kShiftKeyIndex].getDebouncedValue();
   keys[model::InputState::kShiftKeyIndex].forceDebounce(digitalRead(PIN_SHIFT));
 #if (LOG_BUTTON_PRESS == STD_ON)
   if (keys[model::InputState::kShiftKeyIndex].getAndResetEdgeFlag()) {
-    printf("Button SHIFT is %s\n",
+    printf("Button SHIFT is %s (was %s)\n",
            (keys[model::InputState::kShiftKeyIndex].getDebouncedValue() == HIGH
                 ? "HIGH"
-                : "LOW"));
+                : "LOW"),
+           (shiftOld == HIGH ? "HIGH" : "LOW"));
   }
 #endif
 
