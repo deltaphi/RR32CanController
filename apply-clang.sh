@@ -8,7 +8,7 @@ do
     "$CLANG_BINARY" -i "$filename"
 done
 
-for filename in `find test -iname "*.cpp" -o -iname "*.h"`
+for filename in `find test -name "argtable3" -prune -o -iname "*.cpp" -o -iname "*.h"`
 do
     echo "Formatting $filename"
     "$CLANG_BINARY" -i "$filename"
