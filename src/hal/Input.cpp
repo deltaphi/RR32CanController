@@ -1,5 +1,9 @@
 #include "hal/Input.h"
 
+#if (FUNCTION_KEY_MODE == KEY_MODE_GPIO)
+#include <Arduino.h>
+#endif
+
 #include "config.h"
 
 namespace hal {
@@ -8,6 +12,17 @@ namespace hal {
  * Used to reroute the callbacks from AsyncShiftIn to this class.
  */
 static Input* inputPtr = nullptr;
+
+/**
+ * Helper Function to set key values with the proper debouncing algorithm
+ */
+void setKey(application::model::InputState::Key_t& key, uint8_t state) {
+#if (KEYS_DEBOUNCE == STD_ON)
+  key.cycle(state);
+#else
+  key.forceDebounce(state);
+#endif
+}
 
 void Input::begin(application::model::InputState& inputState) {
   // Initialize data structure
@@ -51,29 +66,29 @@ void Input::loopGpio() {
 #if (FUNCTION_KEY_MODE == KEY_MODE_GPIO)
   uint8_t value;
 
-  value = digialRead(KEY_GPIO_ENCODER);
-  setKey(inputState->getEncoderKey(), value);
+  value = digitalRead(KEY_GPIO_ENCODER);
+  setKey(inputState->getEncoderKey(), !value);
 
-  value = digialRead(KEY_GPIO_SHIFT);
-  setKey(inputState->getShiftKey(), value);
+  value = digitalRead(KEY_GPIO_SHIFT);
+  setKey(inputState->getShiftKey(), !value);
 
-  value = digialRead(KEY_GPIO_STOP);
-  setKey(inputState->getStopKey(), value);
+  value = digitalRead(KEY_GPIO_STOP);
+  setKey(inputState->getStopKey(), !value);
 
-  value = digialRead(KEY_GPIO_F0);
-  setKey(inputState->getFunctionKeys()[0], value);
+  value = digitalRead(KEY_GPIO_F0);
+  setKey(inputState->getFunctionKeys()[0], !value);
 
-  value = digialRead(KEY_GPIO_F1);
-  setKey(inputState->getFunctionKeys()[1], value);
+  value = digitalRead(KEY_GPIO_F1);
+  setKey(inputState->getFunctionKeys()[1], !value);
 
-  value = digialRead(KEY_GPIO_F2);
-  setKey(inputState->getFunctionKeys()[2], value);
+  value = digitalRead(KEY_GPIO_F2);
+  setKey(inputState->getFunctionKeys()[2], !value);
 
-  value = digialRead(KEY_GPIO_F3);
-  setKey(inputState->getFunctionKeys()[3], value);
+  value = digitalRead(KEY_GPIO_F3);
+  setKey(inputState->getFunctionKeys()[3], !value);
 
-  value = digialRead(KEY_GPIO_F4);
-  setKey(inputState->getFunctionKeys()[4], value);
+  value = digitalRead(KEY_GPIO_F4);
+  setKey(inputState->getFunctionKeys()[4], !value);
 #endif
 }
 
@@ -105,17 +120,6 @@ void Input::shiftIn_reset(const AsyncShiftIn* asyncShiftIn) {
         (TurnoutControl::keyArray[i].getDebouncedValue() == HIGH ? ":HIGH/CLOSE " : ":LOW/PRESS "));
   }
   Serial.println();
-#endif
-}
-
-/**
- * Helper Function to set key values with the proper debouncing algorithm
- */
-void setKey(application::model::InputState::Key_t& key, uint8_t state) {
-#if (KEYS_DEBOUNCE == STD_ON)
-  key.cycle(state);
-#else
-  key.forceDebounce(state);
 #endif
 }
 

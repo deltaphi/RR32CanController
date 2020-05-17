@@ -104,7 +104,11 @@ bool canManager::isActive() const { return canEnabled && canBusActive; }
 #endif
 
 void canManager::loop() {
-// Check for new message
+  if (!canEnabled) {
+    return;
+  }
+
+  // Check for new message
 #if (CAN_DRIVER_ESP32IDF == STD_ON)
   can_status_info_t status_info;
   if (can_get_status_info(&status_info) != ESP_OK) {
