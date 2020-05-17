@@ -4,12 +4,11 @@
 #include <RotaryEncoder.h>
 
 #include <Arduino.h>
+#include <array>
 
 #include "DebouncedDualKey.h"
 
 #include "config.h"
-
-#define MODEL_INPUTSTATE_KEYARRAY_LENGTH (SHIFT_REGISTER_LENGTH)
 
 namespace application {
 namespace model {
@@ -28,19 +27,8 @@ class InputState {
 
   using Key_t = DebouncedKey<1, 1>;
 
-  /**
-   * \brief Contains all non-turnout button states.
-   *
-   * 0..n: Function keys
-   * n+1: encoder button
-   * n+2: stop button
-   * n+3: shift button
-   */
-  using KeyFullArray_t = Key_t[MODEL_INPUTSTATE_KEYARRAY_LENGTH];
-
-  constexpr static const uint8_t kShiftKeyIndex = NUM_FBUTTONS;
-  constexpr static const uint8_t kStopKeyIndex = NUM_FBUTTONS + 1;
-  constexpr static const uint8_t kEncoderKeyIndex = NUM_FBUTTONS + 2;
+  using FunctionKeyArray_t = std::array<Key_t, NUM_FBUTTONS>;
+  using TurnoutKeyArray_t = std::array<Key_t, TURNOUT_BUTTONS_COUNT>;
 
   void reset();
 
@@ -48,39 +36,24 @@ class InputState {
 
   /// Returns whether shift is currently held
   bool isShiftPressed() const {
-    return keys[kShiftKeyIndex].getDebouncedValue() ==
-           HIGH;  // For some reason, SHIFT has to be inverted.
+    return shift.getDebouncedValue() == HIGH;  // For some reason, SHIFT has to be inverted.
   }
 
   bool isEncoderRisingEdge() {
-    return keys[kEncoderKeyIndex].getAndResetEdgeFlag() &&
-           keys[kEncoderKeyIndex].getDebouncedValue() == LOW;
+    return encoderKey.getAndResetEdgeFlag() && encoderKey.getDebouncedValue() == LOW;
   }
 
   /// Returns whether there was a rising edge on the STOP button since the last
   /// check.
-  bool isStopRisingEdge() {
-    return keys[kStopKeyIndex].getAndResetEdgeFlag() &&
-           keys[kStopKeyIndex].getDebouncedValue() == LOW;
-  }
+  bool isStopRisingEdge() { return stop.getAndResetEdgeFlag() && stop.getDebouncedValue() == LOW; }
 
-  Key_t* getControlKeys() {
-#if (NUM_FBUTTONS == 0)
-    return nullptr;
-#else
-    return &keys[NUM_FBUTTONS];
-#endif
-  }
+  FunctionKeyArray_t& getFunctionKeys() { return functionKeys; }
 
-  Key_t* getFunctionKeys() { return keys; }
+  TurnoutKeyArray_t& getTurnoutKeys() { return turnoutKeys; }
 
-  Key_t* getTurnoutKeys() {
-#if (TURNOUT_BUTTONS_COUNT == 0)
-    return nullptr;
-#else
-    return &keys[TURNOUT_BUTTONS_OFFSET];
-#endif
-  };
+  Key_t& getEncoderKey() { return encoderKey; }
+  Key_t& getStopKey() { return stop; }
+  Key_t& getShiftKey() { return shift; }
 
   void loadEncoderPosition(EncoderPosition_t position) {
     lastEncoderState.position = position;
@@ -96,13 +69,16 @@ class InputState {
     lastEncoderState.direction = encoder.getDirection();
   }
 
-  KeyFullArray_t keys;
-
   /// Contains the last position read from the encoder.
   EncoderInfo_t lastEncoderState;
   RotaryEncoder encoder{ENCODER_A_PIN, ENCODER_B_PIN};
 
-  static const uint8_t kKeyGpio[MODEL_INPUTSTATE_KEYARRAY_LENGTH];
+ private:
+  Key_t encoderKey;
+  Key_t shift;
+  Key_t stop;
+  FunctionKeyArray_t functionKeys;
+  TurnoutKeyArray_t turnoutKeys;
 };
 
 }  // namespace model

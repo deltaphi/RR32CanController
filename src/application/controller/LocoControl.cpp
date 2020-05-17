@@ -28,7 +28,7 @@ void LocoControl::loop(application::model::InputState& inputState, MasterControl
 
   if (loco.isFullDetailsKnown()) {
     // Check function keys
-    application::model::InputState::Key_t* functionKeys = inputState.getFunctionKeys();
+    application::model::InputState::FunctionKeyArray_t& functionKeys = inputState.getFunctionKeys();
 
     for (uint8_t i = 0; i < NUM_FBUTTONS; ++i) {
       if (functionKeys[i].getAndResetRisingEdge()) {

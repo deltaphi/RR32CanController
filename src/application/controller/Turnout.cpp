@@ -22,7 +22,7 @@ void Turnout::begin(application::controller::ActionlistStorageCbk& scbk,
 }
 
 void Turnout::loop(application::model::InputState& inputState) {
-  application::model::InputState::Key_t* keys = inputState.getTurnoutKeys();
+  application::model::InputState::TurnoutKeyArray_t& keys = inputState.getTurnoutKeys();
 
   for (int i = 0; i < TURNOUT_BUTTONS_COUNT; ++i) {
     if (keys[i].getAndResetEdgeFlag()) {

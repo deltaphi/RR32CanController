@@ -47,7 +47,7 @@ void TurnoutMenu::loop(application::model::InputState& inputState, MasterControl
       turnoutMap.setLookupTurnout(currentKey, currentResult);
     }
   } else {
-    application::model::InputState::Key_t* functionKey = inputState.getFunctionKeys();
+    application::model::InputState::FunctionKeyArray_t& functionKey = inputState.getFunctionKeys();
     if (functionKey[0].getAndResetRisingEdge()) {
       currentResult.mode = SwitchMode(currentResult.mode);
       updateEncoderLimits(actionListDb);
@@ -74,7 +74,7 @@ void TurnoutMenu::loop(application::model::InputState& inputState, MasterControl
     }
 
     // On turnout button press, map another turnout.
-    application::model::InputState::Key_t* turnoutKeys = inputState.getTurnoutKeys();
+    application::model::InputState::TurnoutKeyArray_t& turnoutKeys = inputState.getTurnoutKeys();
     for (int i = 0; i < TURNOUT_BUTTONS_COUNT; ++i) {
       if (turnoutKeys[i].getAndResetRisingEdge()) {
         // Button was released, select the key.

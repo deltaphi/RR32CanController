@@ -16,6 +16,14 @@
 
 /// Initialize this class.
 void canManager::begin() {
+  canEnabled = false;
+  canBusActive = false;
+}
+
+/// Enable the CAN controller.
+void canManager::startCan() {
+  canEnabled = true;
+
 #if (CAN_DRIVER_ESP32IDF == STD_ON)
   // Initialize configuration structures using macro initializers
   can_general_config_t g_config = {
@@ -59,16 +67,29 @@ void canManager::begin() {
       ;
   }
 #endif
-
-  canEnabled = false;
-  canBusActive = false;
 }
 
-/// Enable the CAN controller.
-void canManager::startCan() { canEnabled = true; }
-
 /// Disable the CAN controller.
-void canManager::stopCan() { canEnabled = false; }
+void canManager::stopCan() {
+  canEnabled = false;
+#if (CAN_DRIVER_ESP32IDF == STD_ON)
+  // Stop CAN driver
+  if (can_stop() == ESP_OK) {
+    printf("CAN Driver stopped\n");
+  } else {
+    printf("Failed to stop CAN driver\n");
+    return;
+  }
+
+  // Uninstall CAN driver
+  if (can_driver_uninstall() == ESP_OK) {
+    printf("CAN Driver installed\n");
+  } else {
+    printf("Failed to uninstall CAN driver\n");
+    return;
+  }
+#endif
+}
 
 /// Whether the CAN controller is active and the bus is active.
 bool canManager::isActive() const { return canEnabled && canBusActive; }

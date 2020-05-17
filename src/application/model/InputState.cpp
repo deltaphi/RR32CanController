@@ -3,24 +3,38 @@
 namespace application {
 namespace model {
 
+void initKey(InputState::Key_t &key, uint8_t initialDebounce) {
+  key.forceDebounce(initialDebounce);
+  key.getAndResetEdgeFlag();
+}
+
 void InputState::reset() {
-  for (uint8_t i = TURNOUT_BUTTONS_OFFSET; i < TURNOUT_BUTTONS_COUNT + TURNOUT_BUTTONS_OFFSET;
-       ++i) {
-    keys[i].forceDebounce(LOW);
-    keys[i].getAndResetEdgeFlag();
+  initKey(encoderKey, LOW);
+  initKey(shift, LOW);
+  initKey(stop, LOW);
+
+  for (uint8_t i = 0; i < NUM_FBUTTONS; ++i) {
+    initKey(functionKeys[i], LOW);
   }
 
   for (uint8_t i = 0; i < TURNOUT_BUTTONS_OFFSET; ++i) {
-    keys[i].forceDebounce(HIGH);
-    keys[i].getAndResetEdgeFlag();
+    initKey(turnoutKeys[i], HIGH);
   }
 
   encoder.setPosition(0);
 }
 
 void InputState::resetAllEdges() {
-  for (uint8_t i = 0; i < MODEL_INPUTSTATE_KEYARRAY_LENGTH; ++i) {
-    keys[i].getAndResetEdgeFlag();
+  encoderKey.getAndResetEdgeFlag();
+  shift.getAndResetEdgeFlag();
+  stop.getAndResetEdgeFlag();
+
+  for (uint8_t i = 0; i < NUM_FBUTTONS; ++i) {
+    functionKeys[i].getAndResetEdgeFlag();
+  }
+
+  for (uint8_t i = 0; i < TURNOUT_BUTTONS_OFFSET; ++i) {
+    turnoutKeys[i].getAndResetEdgeFlag();
   }
 }
 

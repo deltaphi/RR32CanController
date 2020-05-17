@@ -7,12 +7,16 @@
 #define STD_OFF (0U)
 #define STD_ON (1U)
 
-// Use 0 for "manual settings", 1 for first prototype, 2 for second prototype
+// Use 0 for "manual settings", 1 for first prototype, 2 for second prototype, 3 for control only
 #define HARDWARE_VERSION (1)
 
 #ifndef HARDWARE_VERSION
 #error "You must set a Hardware verison. Use 0 if unsure."
 #endif
+
+/*
+ * Configuration of attached hardware
+ */
 
 #define DISPLAY_ATTACHED STD_ON
 #define ENCODER_ENABLED STD_ON
@@ -38,26 +42,27 @@
 #define CAN_TX_PIN (GPIO_NUM_5)
 #endif
 
-#if (ENCODER_ENABLED == STD_ON)
-#define ENCODER_A_PIN (35)
-#define ENCODER_B_PIN (32)
-
-// Should be 5
-#define NUM_FBUTTONS (5)
-
-#endif
-
+#if (HARDWARE_VERSION == 1 || HARDWARE_VERSION == 2)
 #define TWI_SCL_PIN (26)
 #define TWI_SDA_PIN (27)
+#elif (HARDWARE_VERSION == 3)
+#define TWI_SCL_PIN (25)
+#define TWI_SDA_PIN (26)
+#endif
 
 #if (DISPLAY_ATTACHED == STD_ON)
 #define DISPLAY_TWI_ADDRESS (0x3C)
+
+#if (HARDWARE_VERSION == 1 || HARDWARE_VERSION == 2)
 #define DISPLAY_FLIP_SCREEN STD_OFF
+#elif (HARDWARE_VERSION == 3)
+#define DISPLAY_FLIP_SCREEN STD_ON
+#endif
 
 #define DISPLAY_CONTROLLER_SH1106 (1)
 #define DISPLAY_CONTROLLER_SSD1306 (2)
 
-#if (HARDWARE_VERSION == 1)
+#if (HARDWARE_VERSION == 1 || HARDWARE_VERSION == 3)
 #define DISPLAY_CONTROLLER_TYPE DISPLAY_CONTROLLER_SSD1306
 #elif (HARDWARE_VERSION == 2)
 #define DISPLAY_CONTROLLER_TYPE DISPLAY_CONTROLLER_SH1106
@@ -69,7 +74,23 @@
 #ifndef DISPLAY_CONTROLLER_TYPE
 #error "Please define a display controller type"
 #endif
+#endif  // DISPLAY_ATTACHED
+
+/*
+ * Configuration of input buttons
+ */
+
+#if (ENCODER_ENABLED == STD_ON)
+#if (HARDWARE_VERSION == 1 || HARDWARE_VERSION == 2)
+#define ENCODER_A_PIN (35)
+#define ENCODER_B_PIN (32)
+#elif (HARDWARE_VERSION == 3)
+#define ENCODER_A_PIN (23)
+#define ENCODER_B_PIN (20)
 #endif
+
+#define NUM_FBUTTONS (5)
+#endif  // ENCODER_ENABLED
 
 #if (HARDWARE_VERSION == 1)
 #define SHIFT_REGISTER_LENGTH (48U)
@@ -79,12 +100,67 @@
 #define SHIFT_REGISTER_LENGTH (64U)
 #define TURNOUT_BUTTONS_OFFSET (8)
 #define TURNOUT_BUTTONS_COUNT (SHIFT_REGISTER_LENGTH - TURNOUT_BUTTONS_OFFSET)
+#elif (HARDWARE_VERSION == 3)
+#define SHIFT_REGISTER_LENGTH (0U)
+#define TURNOUT_BUTTONS_OFFSET (0)
+#define TURNOUT_BUTTONS_COUNT (0U)
 #else
 // Set manually here
 #define SHIFT_REGISTER_LENGTH (64U)
 #define TURNOUT_BUTTONS_OFFSET (8)
 #define TURNOUT_BUTTONS_COUNT (SHIFT_REGISTER_LENGTH - TURNOUT_BUTTONS_OFFSET)
 #endif
+
+/*
+ * Buttons are:
+ * Encoder
+ * Shift
+ * Stop
+ * Function Keys
+ *
+ * They can be mapped to a GPIO or to a shift register bit or not be mapped at all.
+ * Typically they are all mapped to GPIOs or all to shift registers.
+ *
+ * Make sure to set TURNOUT_BUTTONS_OFFSET accordingly!
+ */
+#define KEY_MODE_SHIFTREGISTER (1)
+#define KEY_MODE_GPIO (2)
+
+#if (HARDWARE_VERSION == 1 || HARDWARE_VERSION == 2)
+#define FUNCTION_KEY_MODE KEY_MODE_SHIFTREGISTER
+#elif (HARDWARE_VERION == 3)
+#define FUNCTION_KEY_MODE KEY_MODE_GPIO
+#else
+// Define your own
+#define FUNCTION_KEY_MODE KEY_MODE_GPIO
+#endif
+
+#if (FUNCTION_KEY_MODE == KEY_MODE_SHIFTREGISTER)
+#define KEY_BIT_ENCODER (7)
+#define KEY_BIT_SHIFT (5)
+#define KEY_BIT_STOP (6)
+#define KEY_BIT_F_OFFSET (0)
+#define KEY_BIT_F_COUNT (NUM_FBUTTONS)
+#endif
+
+#if (FUNCTION_KEY_MODE == KEY_MODE_GPIO)
+#define KEY_GPIO_ENCODER (16)
+#define KEY_GPIO_SHIFT (04)
+#define KEY_GPIO_STOP (0)
+#define KEY_GPIO_F0 (22)
+#define KEY_GPIO_F1 (05)
+#define KEY_GPIO_F2 (15)
+#define KEY_GPIO_F3 (21)
+#define KEY_GPIO_F4 (17)
+#endif
+
+#if (SHIFT_REGISTER_LENGTH < NUM_TURNOUT_BITS)
+#error "Shift Register is too short."
+#endif
+
+/*
+ * Logging Features
+ */
 
 #define LOG_S88_BITS STD_OFF
 #define LOG_BUTTON_PRESS STD_OFF
@@ -115,4 +191,4 @@ constexpr uint32_t RR32CanUUID = (RR32Can::enthusiastStationBaseUUID + 10);
 
 static constexpr const uint8_t kActionListMaxLength = 6;
 
-#endif
+#endif  // __CONFIG_H__

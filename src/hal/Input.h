@@ -19,15 +19,20 @@ class Input {
   void loop() {
     loopEncoder();
     loopShiftRegister();
+    loopGpio();
   }
 
+#if (SHIFT_REGISTER_LENGTH > 0)
   void shiftIn_reset(const AsyncShiftIn* shiftIn);
   void shiftIn_shift(const AsyncShiftIn* asyncShiftIn, unsigned int bitNumber, uint8_t state);
+#endif
 
  private:
   void loopEncoder();
   void loopShiftRegister();
+  void loopGpio();
 
+#if (SHIFT_REGISTER_LENGTH > 0)
   /**
    * \brief Variable stating whether the shift register has been initialized.
    */
@@ -37,6 +42,7 @@ class Input {
    * \brief The shift register.
    */
   AsyncShiftIn shiftRegister0;
+#endif
 
   application::model::InputState* inputState;
 };
