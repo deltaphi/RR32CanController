@@ -35,8 +35,7 @@ void Turnout::loop(application::model::InputState& inputState) {
 
 void Turnout::handleMultiturnout(application::model::TurnoutLookupResult result,
                                  RR32Can::TurnoutDirection requestedDirection) {
-  RR32Can::TurnoutAddressBase::value_type actionListAddr =
-      result.address.value();
+  RR32Can::TurnoutAddressBase::value_type actionListAddr = result.address.value();
 
   if (requestedDirection == RR32Can::TurnoutDirection::RED) {
     // Add offset into the green lists
@@ -59,26 +58,22 @@ void Turnout::handleMultiturnout(application::model::TurnoutLookupResult result,
  */
 void Turnout::handleButton(uint8_t buttonIndex, uint8_t buttonState) {
   // There was an edge here, send out a message
-  application::model::TurnoutLookupResult turnoutIndex =
-      turnoutMap.lookupTurnout(buttonIndex);
+  application::model::TurnoutLookupResult turnoutIndex = turnoutMap.lookupTurnout(buttonIndex);
 
 #if (LOG_BUTTON_PRESS == STD_ON)
-  printf("Button %i was %s.\n", buttonIndex,
-         (buttonState == HIGH ? "pressed" : "released"));
+  printf("Button %i was %s.\n", buttonIndex, (buttonState == HIGH ? "pressed" : "released"));
 #endif
 
   switch (turnoutIndex.mode) {
     case application::model::TurnoutAddressMode::SingleTurnout: {
       // Single turnout - send out a packet right away.
       RR32Can::TurnoutDirection direction =
-          buttonIndex % 2 == 0 ? RR32Can::TurnoutDirection::RED
-                               : RR32Can::TurnoutDirection::GREEN;
-      direction =
-          (direction == RR32Can::TurnoutDirection::RED
-               ? RR32Can::TurnoutDirection::GREEN
-               : RR32Can::TurnoutDirection::RED);  // invert, as my wires
-                                                   // are connected in the
-                                                   // opposite order
+          buttonIndex % 2 == 0 ? RR32Can::TurnoutDirection::RED : RR32Can::TurnoutDirection::GREEN;
+      direction = (direction == RR32Can::TurnoutDirection::RED
+                       ? RR32Can::TurnoutDirection::GREEN
+                       : RR32Can::TurnoutDirection::RED);  // invert, as my wires
+                                                           // are connected in the
+                                                           // opposite order
 
       RR32Can::RR32Can.SendAccessoryPacket(turnoutIndex.address, direction,
                                            (buttonState == HIGH ? 1 : 0));
@@ -87,10 +82,8 @@ void Turnout::handleButton(uint8_t buttonIndex, uint8_t buttonState) {
     case application::model::TurnoutAddressMode::MultiTurnout: {
       // Only start multi-turnout actions on button press, not release.
       if (buttonState == HIGH) {
-        handleMultiturnout(
-            turnoutIndex,
-            (buttonIndex % 2 == 0 ? RR32Can::TurnoutDirection::RED
-                                  : RR32Can::TurnoutDirection::GREEN));
+        handleMultiturnout(turnoutIndex, (buttonIndex % 2 == 0 ? RR32Can::TurnoutDirection::RED
+                                                               : RR32Can::TurnoutDirection::GREEN));
       }
       break;
     }

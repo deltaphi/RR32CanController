@@ -55,8 +55,7 @@ class LocoControl {
   void updateDisplayLoop(application::model::DisplayModel& displayManager);
 
   // Update the engine velocity and set the encoder appropriately.
-  void setReceivedVelocity(RR32Can::Velocity_t velocity,
-                           MasterControl& uiControl);
+  void setReceivedVelocity(RR32Can::Velocity_t velocity, MasterControl& uiControl);
 
   // Get outside access to the engine. Don't set the velocity this way!
   RR32Can::Locomotive& getLoco() { return loco; }

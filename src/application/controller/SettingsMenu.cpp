@@ -13,8 +13,7 @@ const char* SettingsMenu::kActionListMapping = "Action list mapping";
 const char* SettingsMenu::kWifiSettingsMapping = "WiFi Settings";
 const char* SettingsMenu::kConnectionSettingsMapping = "Connection Settings";
 
-const char* SettingsMenu::kMenuEntries[kNumMenuEntries] = {kTurnoutMapping,
-                                                           kUseCAN, kUseWifi};
+const char* SettingsMenu::kMenuEntries[kNumMenuEntries] = {kTurnoutMapping, kUseCAN, kUseWifi};
 
 void SettingsMenu::begin(application::controller::SettingsStorageCbk& storageCbk) {
   this->storageCbk = &storageCbk;
@@ -27,8 +26,7 @@ void SettingsMenu::abortMenu(MasterControl& masterControl) {
   masterControl.enterLocoControl();
 }
 
-void SettingsMenu::advanceMenu(MenuItemIndex_t menuItem,
-                               MasterControl& masterControl) {
+void SettingsMenu::advanceMenu(MenuItemIndex_t menuItem, MasterControl& masterControl) {
   switch (menuItem) {
     case 0:
       this->storageCbk->store(&settings);
@@ -36,13 +34,11 @@ void SettingsMenu::advanceMenu(MenuItemIndex_t menuItem,
       break;
     case 1:
       // disable WiFi, enable CAN
-      settings.communicationChannel =
-          application::model::Settings::CommunicationChannel_t::CAN;
+      settings.communicationChannel = application::model::Settings::CommunicationChannel_t::CAN;
       break;
     case 2:
       // disable CAN, enable WiFi
-      settings.communicationChannel =
-          application::model::Settings::CommunicationChannel_t::WIFI;
+      settings.communicationChannel = application::model::Settings::CommunicationChannel_t::WIFI;
       break;
     default:
       printf("SettingsMenu: Unknown menu item %li.\n", menuItem);
@@ -69,9 +65,7 @@ void SettingsMenu::getMenuItems(MenuItems_t& menuItems) {
   }
 }
 
-SettingsMenu::MenuItemIndex_t SettingsMenu::getTotalMenuLength() {
-  return kNumMenuEntries;
-}
+SettingsMenu::MenuItemIndex_t SettingsMenu::getTotalMenuLength() { return kNumMenuEntries; }
 
 }  // namespace controller
 }  // namespace application

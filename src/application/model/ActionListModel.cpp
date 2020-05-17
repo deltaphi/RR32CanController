@@ -5,8 +5,7 @@
 namespace application {
 namespace model {
 
-void ActionListModel::printActionList(
-    application::model::ActionListModel::Index_t index) const {
+void ActionListModel::printActionList(application::model::ActionListModel::Index_t index) const {
   application::model::ActionListModel::DB_t::const_iterator dbIt = db.begin();
   std::advance(dbIt, index);
 
@@ -30,8 +29,7 @@ void ActionListModel::printActionLists(const char* serializedPrefix) const {
     /* Serialized form */
     printf("ActionList compact:\n");
     printf("%s %i", serializedPrefix,
-           RR32Can::HumanTurnoutAddress(RR32Can::MachineTurnoutAddress(dbIdx))
-               .value());
+           RR32Can::HumanTurnoutAddress(RR32Can::MachineTurnoutAddress(dbIdx)).value());
 
     for (const application::model::TurnoutAction& action : *dbIt) {
       printf(" %i %i", RR32Can::HumanTurnoutAddress(action.address).value(),

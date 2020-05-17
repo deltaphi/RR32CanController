@@ -14,13 +14,12 @@ class DebouncedKey {
   using CyclesType = uint8_t;
 
  private:
-  KeyStateType
-      debouncedKeyState;  ///< Assumed state of the key after debouncing
+  KeyStateType debouncedKeyState;  ///< Assumed state of the key after debouncing
   // CyclesType lowCycles; ///< cycles a key needs to remain stable low to be
   // considered debounced-low CyclesType highCycles;  ///< cycles a key needs to
   // remain stable how to be considered debounced-low
-  KeyStateType lastStateRead;  ///< The last physical state before debouncing
-                               ///< that was read
+  KeyStateType lastStateRead;            ///< The last physical state before debouncing
+                                         ///< that was read
   CyclesType cyclesSinceLastTransition;  ///< The number of cycles since the
                                          ///< last transition
 
@@ -49,8 +48,7 @@ class DebouncedKey {
     }
 
     // check for value acceptance
-    if ((value != this->debouncedKeyState) &&
-        (this->cyclesSinceLastTransition == 0)) {
+    if ((value != this->debouncedKeyState) && (this->cyclesSinceLastTransition == 0)) {
       this->debouncedKeyState = value;
       edge = true;
       // Serial.println(F(" Accept value "));
@@ -100,9 +98,7 @@ class DebouncedKey {
    * \return true if an edge was observed and the button state is high, false
    * otherwise.
    */
-  bool getAndResetRisingEdge() {
-    return getAndResetEdgeFlag() && getDebouncedValue() == HIGH;
-  }
+  bool getAndResetRisingEdge() { return getAndResetEdgeFlag() && getDebouncedValue() == HIGH; }
 
   /**
    * \brief Returns whether this key currently has an edge.

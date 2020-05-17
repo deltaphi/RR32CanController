@@ -20,14 +20,11 @@ class SettingsMenu : public application::controller::AbstractMenu {
 
   void begin(application::controller::SettingsStorageCbk& storageCbk);
 
-  const application::model::Settings& getUserSettings() const {
-    return settings;
-  }
+  const application::model::Settings& getUserSettings() const { return settings; }
 
  protected:
   /// Callback when a menu item is selected.
-  void advanceMenu(MenuItemIndex_t menuItem,
-                   MasterControl& masterControl) override;
+  void advanceMenu(MenuItemIndex_t menuItem, MasterControl& masterControl) override;
 
   /// Callback when the menu is aborted (shift+encoder)
   void abortMenu(MasterControl& masterControl) override;

@@ -19,8 +19,6 @@ typedef struct {
   void* argtable;
 } esp_console_cmd_t;
 
-inline esp_err_t esp_console_cmd_register(const esp_console_cmd_t* cmd) {
-  return 0;
-};
+inline esp_err_t esp_console_cmd_register(const esp_console_cmd_t* cmd) { return 0; };
 
 #endif  // __ESP_CONSOLE_H__

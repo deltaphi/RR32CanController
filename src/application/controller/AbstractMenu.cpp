@@ -11,8 +11,7 @@ void AbstractMenu::begin() {
   limiter.setMax(getTotalMenuLength());
 };
 
-void AbstractMenu::loop(application::model::InputState& inputState,
-                        MasterControl& masterControl) {
+void AbstractMenu::loop(application::model::InputState& inputState, MasterControl& masterControl) {
   if (inputState.isEncoderRisingEdge()) {
     if (inputState.isShiftPressed()) {
       printf("AbstractMenu: Abort Menu.\n");
@@ -55,8 +54,7 @@ void AbstractMenu::updateDisplay(application::model::DisplayModel& displayManage
       // Move the menu *up* or *down*
 
       // Compute new menu item to be in the first line
-      menuItemInFirstDisplayLine =
-          (currentItem / kCountMenuItems) * kCountMenuItems;
+      menuItemInFirstDisplayLine = (currentItem / kCountMenuItems) * kCountMenuItems;
       // printf("Move menu. New Top: %i. ", menuItemInFirstDisplayLine);
 
       // Fetch the required strings
@@ -83,8 +81,7 @@ void AbstractMenu::updateDisplay(application::model::DisplayModel& displayManage
         for (int i = 0; i < itemsToCopy; ++i) {
           int stringIndex = (menuItemInFirstDisplayLine - menuItems.offset + i);
           // printf("From %i to %i. ", stringIndex, i);
-          displayManager.updateBuffer(menuItems.items[stringIndex],
-                                      STRING_CHAR_LENGTH, i);
+          displayManager.updateBuffer(menuItems.items[stringIndex], STRING_CHAR_LENGTH, i);
         }
 
         // Set remaining lines to be empty

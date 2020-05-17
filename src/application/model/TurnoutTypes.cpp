@@ -21,11 +21,9 @@ void print(const TurnoutLookupResult& result) {
 }
 
 void print(const TurnoutAction& result) {
-  printf(
-      "Address: %i, Direction: %i (%s)\n",
-      RR32Can::HumanTurnoutAddress(result.address).value(),
-      static_cast<uint8_t>(result.direction),
-      (result.direction == RR32Can::TurnoutDirection::RED ? "RED" : "GREEN"));
+  printf("Address: %i, Direction: %i (%s)\n", RR32Can::HumanTurnoutAddress(result.address).value(),
+         static_cast<uint8_t>(result.direction),
+         (result.direction == RR32Can::TurnoutDirection::RED ? "RED" : "GREEN"));
 }
 
 } /* namespace model */

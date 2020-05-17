@@ -17,7 +17,8 @@ size_t Settings::loadData(application::model::Settings* data) {
     printf("Opening '%s' for reading failed.\n", kSettingsFilename);
     return 0;
   } else {
-    size_t readBytes = f.read(reinterpret_cast<uint8_t*>(data), sizeof(application::model::Settings));
+    size_t readBytes =
+        f.read(reinterpret_cast<uint8_t*>(data), sizeof(application::model::Settings));
     f.close();
     printf("%s: Loaded %i bytes.\n", kSettingsFilename, readBytes);
     return readBytes;
@@ -30,7 +31,8 @@ void Settings::store(const application::model::Settings* const data) {
   application::model::Settings tmpData;
   size_t readBytes = loadData(&tmpData);
 
-  if (readBytes != sizeof(application::model::Settings) || memcmp(&data, &tmpData, sizeof(application::model::Settings) != 0)) {
+  if (readBytes != sizeof(application::model::Settings) ||
+      memcmp(&data, &tmpData, sizeof(application::model::Settings) != 0)) {
     // We need to store
     File f = SPIFFS.open(kSettingsFilename, "w");
 

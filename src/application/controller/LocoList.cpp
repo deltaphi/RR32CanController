@@ -18,14 +18,12 @@ void LocoList::abortMenu(MasterControl& masterControl) {
   masterControl.enterSettingsMenu();
 }
 
-void LocoList::advanceMenu(MenuItemIndex_t menuItem,
-                           MasterControl& masterControl) {
+void LocoList::advanceMenu(MenuItemIndex_t menuItem, MasterControl& masterControl) {
   // switch to download on encoder. This will commit the current engine.
   masterControl.enterLocoDownload();
 }
 
-void LocoList::loop(application::model::InputState& inputState,
-                    MasterControl& masterControl) {
+void LocoList::loop(application::model::InputState& inputState, MasterControl& masterControl) {
   application::controller::AbstractMenu::loop(inputState, masterControl);
   if (RR32Can::RR32Can.getConfigStreamState() ==
       RR32Can::ConfigDataStreamParser::StreamState::STREAM_DONE) {
@@ -59,12 +57,11 @@ void LocoList::getMenuItems(MenuItems_t& menuItems) {
       // Engine list is present. Update display.
       // Copy interesting entries to display
 
-      const RR32Can::LocoListConsumer::EngineInfoSet& locoInfo =
-          browser.getEngineInfos();
+      const RR32Can::LocoListConsumer::EngineInfoSet& locoInfo = browser.getEngineInfos();
 
-      int numItems = (RR32Can::kNumEngineNamesDownload < menuItems.numItems
-                          ? RR32Can::kNumEngineNamesDownload
-                          : menuItems.numItems);
+      int numItems =
+          (RR32Can::kNumEngineNamesDownload < menuItems.numItems ? RR32Can::kNumEngineNamesDownload
+                                                                 : menuItems.numItems);
 
       for (int i = 0; i < numItems; ++i) {
         menuItems.items[i] = locoInfo[i].getName();
@@ -84,16 +81,14 @@ void LocoList::getMenuItems(MenuItems_t& menuItems) {
 void LocoList::RequestDownloadAtCursor() {
   // Integer division to find the correct element to request for download
   MenuItemIndex_t cursorPosition = getCurrentItem();
-  MenuItemIndex_t offset =
-      cursorPosition - (cursorPosition % RR32Can::kNumEngineNamesDownload);
+  MenuItemIndex_t offset = cursorPosition - (cursorPosition % RR32Can::kNumEngineNamesDownload);
   browser.setStreamOffset(offset);
   browser.clearTable();
   RR32Can::RR32Can.RequestEngineList(offset, browser);
 }
 
 const RR32Can::LocomotiveShortInfo* LocoList::getSelectedEngine() {
-  const RR32Can::LocoListConsumer::EngineInfoSet& engineInfos =
-      browser.getEngineInfos();
+  const RR32Can::LocoListConsumer::EngineInfoSet& engineInfos = browser.getEngineInfos();
   uint8_t index = getCurrentItem() - browser.getStreamOffset();
   if (index > engineInfos.size()) {
     return nullptr;

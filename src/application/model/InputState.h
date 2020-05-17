@@ -88,9 +88,7 @@ class InputState {
     encoder.setPosition(position);
   }
 
-  bool isEncoderMoved() {
-    return lastEncoderState.position != encoder.getPosition();
-  }
+  bool isEncoderMoved() { return lastEncoderState.position != encoder.getPosition(); }
 
   // Sets the lastEncoderState to the current Encoder values.
   void consumeEncoderPosition() {

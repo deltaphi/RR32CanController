@@ -8,25 +8,21 @@ long map(long x, long in_min, long in_max, long out_min, long out_max) {
 }
 
 unsigned long micros() {
-  std::chrono::system_clock::time_point currently =
-      std::chrono::system_clock::now();
+  std::chrono::system_clock::time_point currently = std::chrono::system_clock::now();
 
   std::chrono::duration dura = currently.time_since_epoch();
 
-  std::chrono::microseconds mic =
-      std::chrono::duration_cast<std::chrono::microseconds>(dura);
+  std::chrono::microseconds mic = std::chrono::duration_cast<std::chrono::microseconds>(dura);
 
   return mic.count();
 }
 
 unsigned long millis() {
-  std::chrono::system_clock::time_point currently =
-      std::chrono::system_clock::now();
+  std::chrono::system_clock::time_point currently = std::chrono::system_clock::now();
 
   std::chrono::duration dura = currently.time_since_epoch();
 
-  std::chrono::milliseconds mil =
-      std::chrono::duration_cast<std::chrono::milliseconds>(dura);
+  std::chrono::milliseconds mil = std::chrono::duration_cast<std::chrono::milliseconds>(dura);
 
   return mil.count();
 }

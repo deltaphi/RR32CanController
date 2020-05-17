@@ -23,21 +23,19 @@ void ConsoleManager::initialize_console(void) {
   /* Configure UART. Note that REF_TICK is used so that the baud rate remains
    * correct while APB frequency is changing in light sleep mode.
    */
-  const uart_config_t uart_config = {
-      .baud_rate = 115200 /*CONFIG_ESP_CONSOLE_UART_BAUDRATE*/,
-      .data_bits = UART_DATA_8_BITS,
-      .parity = UART_PARITY_DISABLE,
-      .stop_bits = UART_STOP_BITS_1,
-      .flow_ctrl = UART_HW_FLOWCTRL_DISABLE,
-      .rx_flow_ctrl_thresh = 0,
-      .use_ref_tick = true};
+  const uart_config_t uart_config = {.baud_rate = 115200 /*CONFIG_ESP_CONSOLE_UART_BAUDRATE*/,
+                                     .data_bits = UART_DATA_8_BITS,
+                                     .parity = UART_PARITY_DISABLE,
+                                     .stop_bits = UART_STOP_BITS_1,
+                                     .flow_ctrl = UART_HW_FLOWCTRL_DISABLE,
+                                     .rx_flow_ctrl_thresh = 0,
+                                     .use_ref_tick = true};
 
-  ESP_ERROR_CHECK(uart_param_config(UART_NUM_0 /*CONFIG_ESP_CONSOLE_UART_NUM*/,
-                                    &uart_config));
+  ESP_ERROR_CHECK(uart_param_config(UART_NUM_0 /*CONFIG_ESP_CONSOLE_UART_NUM*/, &uart_config));
 
   /* Install UART driver for interrupt-driven reads and writes */
-  ESP_ERROR_CHECK(uart_driver_install(
-      UART_NUM_0 /*CONFIG_ESP_CONSOLE_UART_NUM*/, 256, 0, 0, NULL, 0));
+  ESP_ERROR_CHECK(
+      uart_driver_install(UART_NUM_0 /*CONFIG_ESP_CONSOLE_UART_NUM*/, 256, 0, 0, NULL, 0));
 
   /* Tell VFS to use UART driver */
   esp_vfs_dev_uart_use_driver(UART_NUM_0 /*CONFIG_ESP_CONSOLE_UART_NUM*/);
@@ -82,10 +80,9 @@ int commandDefaultHandler(int argc, char** argv) {
   return 0;
 }
 
-void ConsoleManager::setupCommands(
-    application::model::ActionListModel& actionListModel,
-    application::controller::ActionListControl& actionListProcessor,
-    application::controller::ActionlistStorageCbk& scbk) {
+void ConsoleManager::setupCommands(application::model::ActionListModel& actionListModel,
+                                   application::controller::ActionListControl& actionListProcessor,
+                                   application::controller::ActionlistStorageCbk& scbk) {
   {
     esp_console_cmd_t setParam{
       command : "setParam",
@@ -98,8 +95,7 @@ void ConsoleManager::setupCommands(
   }
 
   application::ConsoleApplications::SwitchTurnout::Setup();
-  application::ConsoleApplications::ActionList::Setup(
-      actionListModel, actionListProcessor, scbk);
+  application::ConsoleApplications::ActionList::Setup(actionListModel, actionListProcessor, scbk);
 }
 
 void ConsoleTask(void* parameter) {
@@ -139,8 +135,7 @@ void ConsoleTask(void* parameter) {
       } else if (err == ESP_ERR_INVALID_ARG) {
         // command was empty
       } else if (err == ESP_OK && ret != ESP_OK) {
-        printf("Command returned non-zero error code: 0x%x (%s)\n", ret,
-               esp_err_to_name(ret));
+        printf("Command returned non-zero error code: 0x%x (%s)\n", ret, esp_err_to_name(ret));
       } else if (err != ESP_OK) {
         printf("Internal error: %s\n", esp_err_to_name(err));
       }
@@ -151,6 +146,5 @@ void ConsoleTask(void* parameter) {
 }
 
 void ConsoleManager::StartTask() {
-  xTaskCreate(ConsoleTask, "ConsoleTask", 10000, nullptr, 0,
-              &consoleTaskHandle);
+  xTaskCreate(ConsoleTask, "ConsoleTask", 10000, nullptr, 0, &consoleTaskHandle);
 }

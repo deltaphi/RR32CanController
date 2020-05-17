@@ -11,8 +11,8 @@ namespace storage {
 
 /*
  * \brief Class Settings
- */    
-class Settings: public application::controller::SettingsStorageCbk {
+ */
+class Settings : public application::controller::SettingsStorageCbk {
  public:
   void store(const application::model::Settings* const data) override;
 

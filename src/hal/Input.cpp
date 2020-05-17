@@ -16,8 +16,8 @@ void Input::begin(application::model::InputState& inputState) {
 
   // intialize shift register
   initialized = false;
-  shiftRegister0.init(S88_DATA_IN_PIN, S88_CLOCK_OUT_PIN, S88_PS_OUT_PIN,
-                      S88_RESET_OUT_PIN, SHIFT_REGISTER_LENGTH, 90, 50);
+  shiftRegister0.init(S88_DATA_IN_PIN, S88_CLOCK_OUT_PIN, S88_PS_OUT_PIN, S88_RESET_OUT_PIN,
+                      SHIFT_REGISTER_LENGTH, 90, 50);
   Serial.println(F("Initialized Shift Register ingerface."));
 
   // Initialize Keys and perform a full sweep of the shift register
@@ -52,9 +52,8 @@ void Input::shiftIn_reset(const AsyncShiftIn* asyncShiftIn) {
   // Print the debounced Keys
   for (int i = 0; i < SHIFT_REGISTER_LENGTH; ++i) {
     Serial.print(i);
-    Serial.print((TurnoutControl::keyArray[i].getDebouncedValue() == HIGH
-                      ? ":HIGH/CLOSE "
-                      : ":LOW/PRESS "));
+    Serial.print(
+        (TurnoutControl::keyArray[i].getDebouncedValue() == HIGH ? ":HIGH/CLOSE " : ":LOW/PRESS "));
   }
   Serial.println();
 #endif
@@ -64,8 +63,7 @@ void Input::shiftIn_reset(const AsyncShiftIn* asyncShiftIn) {
  * \brief Callback called by AsyncShiftIn::loop() every time a bit has been
  * read.
  */
-void Input::shiftIn_shift(const AsyncShiftIn* asyncShiftIn,
-                          unsigned int bitNumber, uint8_t state) {
+void Input::shiftIn_shift(const AsyncShiftIn* asyncShiftIn, unsigned int bitNumber, uint8_t state) {
 #if (LOG_S88_BITS == STD_ON)
   // Serial.print(bitNumber);
   // Serial.print((state == HIGH ? ":HIGH " : ":LOW  "));
@@ -91,8 +89,7 @@ void AsyncShiftIn_reset(const AsyncShiftIn* asyncShiftIn) {
   }
 }
 
-void AsyncShiftIn_shift(const AsyncShiftIn* asyncShiftIn,
-                        unsigned int bitNumber, uint8_t state) {
+void AsyncShiftIn_shift(const AsyncShiftIn* asyncShiftIn, unsigned int bitNumber, uint8_t state) {
   if (hal::inputPtr != nullptr) {
     hal::inputPtr->shiftIn_shift(asyncShiftIn, bitNumber, state);
   }

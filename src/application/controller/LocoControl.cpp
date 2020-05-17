@@ -9,8 +9,7 @@ namespace controller {
 
 void LocoControl::begin() { loco.reset(); }
 
-void LocoControl::loop(application::model::InputState& inputState,
-                       MasterControl& masterControl) {
+void LocoControl::loop(application::model::InputState& inputState, MasterControl& masterControl) {
   // Check Encoder button
   if (inputState.isEncoderRisingEdge()) {
     if (inputState.isShiftPressed()) {
@@ -22,8 +21,7 @@ void LocoControl::loop(application::model::InputState& inputState,
         // Send emergency stop for engine
         RR32Can::RR32Can.SendEmergencyStop(loco);
         // Send direction reverse for engine
-        RR32Can::RR32Can.SendEngineDirection(
-            loco, switchDirection(loco.getDirection()));
+        RR32Can::RR32Can.SendEngineDirection(loco, switchDirection(loco.getDirection()));
       }
     }
   }
@@ -70,12 +68,10 @@ void LocoControl::checkEncoder(application::model::InputState& inputState) {
       // Encoder moved in bounds
 
       // evaluate acceleration...
-      RotaryEncoder::Direction currentDirection =
-          inputState.encoder.getDirection();
+      RotaryEncoder::Direction currentDirection = inputState.encoder.getDirection();
       if (currentDirection == inputState.lastEncoderState.direction &&
           currentDirection != RotaryEncoder::Direction::NOROTATION &&
-          inputState.lastEncoderState.direction !=
-              RotaryEncoder::Direction::NOROTATION) {
+          inputState.lastEncoderState.direction != RotaryEncoder::Direction::NOROTATION) {
         // ... but only of the direction of rotation matched and there
         // actually was a previous rotation.
         unsigned long deltat = inputState.encoder.getMillisBetweenRotations();
@@ -83,8 +79,7 @@ void LocoControl::checkEncoder(application::model::InputState& inputState) {
         // at 500ms, there should be no acceleration.
         constexpr const unsigned long kAccelerationLongCutoffMillis = 500;
         if (deltat < kAccelerationLongCutoffMillis) {
-          constexpr const unsigned long kAccelerationShortCutffMillis =
-              4;  // 50/12
+          constexpr const unsigned long kAccelerationShortCutffMillis = 4;  // 50/12
           if (deltat < kAccelerationShortCutffMillis) {
             // limit to maximum acceleration
             deltat = kAccelerationShortCutffMillis;
@@ -134,8 +129,7 @@ void LocoControl::checkEncoder(application::model::InputState& inputState) {
 void LocoControl::reset() { loco.reset(); }
 
 bool LocoControl::setLocoInfo(const RR32Can::LocomotiveShortInfo& locoInfo) {
-  if (strncmp(loco.getName(), locoInfo.getName(), RR32Can::kEngineNameLength) ==
-      0) {
+  if (strncmp(loco.getName(), locoInfo.getName(), RR32Can::kEngineNameLength) == 0) {
     return false;
   } else {
     loco.reset();
@@ -147,12 +141,10 @@ bool LocoControl::setLocoInfo(const RR32Can::LocomotiveShortInfo& locoInfo) {
 void LocoControl::updateDisplayOnce(application::model::DisplayModel& displayManager) {
   {
     constexpr static const uint8_t nameLengthLimit =
-        (STRING_CHAR_LENGTH > RR32Can::kEngineNameLength
-             ? STRING_CHAR_LENGTH
-             : RR32Can::kEngineNameLength);
+        (STRING_CHAR_LENGTH > RR32Can::kEngineNameLength ? STRING_CHAR_LENGTH
+                                                         : RR32Can::kEngineNameLength);
 
-    strncpy(displayManager.getWritableBuffer(0), loco.getName(),
-            nameLengthLimit);
+    strncpy(displayManager.getWritableBuffer(0), loco.getName(), nameLengthLimit);
     displayManager.disableCursor();
   }
 
@@ -165,16 +157,14 @@ void LocoControl::updateDisplayOnce(application::model::DisplayModel& displayMan
     snprintf(buf, STRING_CHAR_LENGTH, "%s %i", protocolString, address);
 
   } else {
-    strncpy(displayManager.getWritableBuffer(1), application::view::kFetching,
-            STRING_CHAR_LENGTH);
+    strncpy(displayManager.getWritableBuffer(1), application::view::kFetching, STRING_CHAR_LENGTH);
   }
 }
 
 void LocoControl::updateDisplayLoop(application::model::DisplayModel& displayManager) {
   if (loco.isFullDetailsKnown()) {
     displayManager.setDirection(loco.getDirection());
-    displayManager.setSpeedValue(
-        map(loco.getVelocity(), 0, RR32Can::kMaxEngineVelocity, 0, 100));
+    displayManager.setSpeedValue(map(loco.getVelocity(), 0, RR32Can::kMaxEngineVelocity, 0, 100));
     displayManager.setFunctionBits(loco.getFunctionBits());
   } else {
     displayManager.setDirection(RR32Can::EngineDirection::UNKNOWN);
@@ -183,8 +173,7 @@ void LocoControl::updateDisplayLoop(application::model::DisplayModel& displayMan
   }
 }
 
-void LocoControl::setReceivedVelocity(RR32Can::Velocity_t velocity,
-                                      MasterControl& uiControl) {
+void LocoControl::setReceivedVelocity(RR32Can::Velocity_t velocity, MasterControl& uiControl) {
   loco.setVelocity(velocity);
   if (uiControl.getUIMode() == MasterControl::UIMode::LOCOCONTROL) {
     application::model::InputState& inputState = uiControl.getInputState();

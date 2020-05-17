@@ -18,8 +18,7 @@ class TurnoutMap {
  public:
   using ButtonIndex_t = uint8_t;
 
-  using TurnoutMap_t =
-      application::model::TurnoutLookupResult[TURNOUT_MAP_LENGTH];
+  using TurnoutMap_t = application::model::TurnoutLookupResult[TURNOUT_MAP_LENGTH];
 
   void begin();
 
@@ -27,8 +26,7 @@ class TurnoutMap {
    * Converts a button index to a turnout number.
    * Uses bus numbering, not human-readable numbering.
    */
-  application::model::TurnoutLookupResult lookupTurnout(
-      ButtonIndex_t buttonIndex) const;
+  application::model::TurnoutLookupResult lookupTurnout(ButtonIndex_t buttonIndex) const;
 
   void setLookupTurnout(ButtonIndex_t buttonIndex,
                         application::model::TurnoutLookupResult newResult);
@@ -44,10 +42,8 @@ class TurnoutMap {
     return button;
   }
 
-  application::model::TurnoutLookupResult& rangeCheckedMapAt(
-      ButtonIndex_t button);
-  application::model::TurnoutLookupResult rangeCheckedMapAt(
-      ButtonIndex_t button) const {
+  application::model::TurnoutLookupResult& rangeCheckedMapAt(ButtonIndex_t button);
+  application::model::TurnoutLookupResult rangeCheckedMapAt(ButtonIndex_t button) const {
     return const_cast<TurnoutMap*>(this)->rangeCheckedMapAt(button);
   }
 

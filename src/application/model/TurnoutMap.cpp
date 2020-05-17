@@ -14,27 +14,23 @@ void TurnoutMap::begin() {
 
 void TurnoutMap::print() const {
   for (int i = 0; i < TURNOUT_MAP_LENGTH; ++i) {
-    printf("%i:%i ", i,
-           RR32Can::HumanTurnoutAddress(turnoutMap[i].address).value());
+    printf("%i:%i ", i, RR32Can::HumanTurnoutAddress(turnoutMap[i].address).value());
   }
   printf("\n");
 }
 
-application::model::TurnoutLookupResult& TurnoutMap::rangeCheckedMapAt(
-    ButtonIndex_t button) {
+application::model::TurnoutLookupResult& TurnoutMap::rangeCheckedMapAt(ButtonIndex_t button) {
   button = buttonToArrayIndex(button);
 
   if (button > TURNOUT_MAP_LENGTH) {
-    printf("ERROR: Accessing turnoutMap out of bounds (%i) at %i.\n",
-           TURNOUT_MAP_LENGTH, button);
+    printf("ERROR: Accessing turnoutMap out of bounds (%i) at %i.\n", TURNOUT_MAP_LENGTH, button);
     button = TURNOUT_MAP_LENGTH - 1;
   }
 
   return turnoutMap[button];
 }
 
-application::model::TurnoutLookupResult TurnoutMap::lookupTurnout(
-    uint8_t buttonIndex) const {
+application::model::TurnoutLookupResult TurnoutMap::lookupTurnout(uint8_t buttonIndex) const {
 #if (LOG_BUTTON_MAPPING == STD_ON)
   printf("Mapping from %i to ", buttonIndex);
   model::print(rangeCheckedMapAt(buttonIndex));

@@ -21,13 +21,13 @@ namespace hal {
  * \brief Class DisplayDriver
  */
 class DisplayDriver {
-  public:
+ public:
   void begin();
 
   void loop(application::model::DisplayModel& displayModel);
 
-  private:
-  #if (DISPLAY_CONTROLLER_TYPE == DISPLAY_CONTROLLER_SSD1306)
+ private:
+#if (DISPLAY_CONTROLLER_TYPE == DISPLAY_CONTROLLER_SSD1306)
   using DisplayController_t = SSD1306Wire;
 #endif
 #if (DISPLAY_CONTROLLER_TYPE == DISPLAY_CONTROLLER_SH1106)

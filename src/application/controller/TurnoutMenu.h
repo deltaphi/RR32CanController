@@ -22,10 +22,8 @@ class TurnoutMenu {
  public:
   using TurnoutKeyIndex_t = uint8_t;
 
-  void begin(
-      application::controller::TurnoutMapStorageCbk& turnoutMapStorageCbk);
-  void loop(application::model::InputState& inputState,
-            MasterControl& masterControl,
+  void begin(application::controller::TurnoutMapStorageCbk& turnoutMapStorageCbk);
+  void loop(application::model::InputState& inputState, MasterControl& masterControl,
             application::model::TurnoutMap& turnoutMap,
             const application::model::ActionListModel::DB_t& actionListDb);
 
@@ -38,13 +36,11 @@ class TurnoutMenu {
   application::model::TurnoutLookupResult currentResult;
   application::controller::TurnoutMapStorageCbk* turnoutMapStorageCbk;
 
-  void loadCurrentKey(
-      application::model::InputState& inputState,
-      application::model::TurnoutMap& turnoutMap,
-      const application::model::ActionListModel::DB_t& actionListDb);
+  void loadCurrentKey(application::model::InputState& inputState,
+                      application::model::TurnoutMap& turnoutMap,
+                      const application::model::ActionListModel::DB_t& actionListDb);
 
-  void updateEncoderLimits(
-      const application::model::ActionListModel::DB_t& actionListDb);
+  void updateEncoderLimits(const application::model::ActionListModel::DB_t& actionListDb);
 
   /// Whether an action was taken that requires an update to the display.
   bool displayUpdateNeeded;

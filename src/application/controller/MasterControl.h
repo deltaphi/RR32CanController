@@ -19,21 +19,13 @@ namespace controller {
  */
 class MasterControl : public RR32Can::StationCbk {
  public:
-  enum class UIMode {
-    IDLE = 0,
-    LOCOCONTROL,
-    LOCOLIST,
-    LOCODOWNLOAD,
-    SETTINGS,
-    TURNOUTMAPPING
-  };
+  enum class UIMode { IDLE = 0, LOCOCONTROL, LOCOLIST, LOCODOWNLOAD, SETTINGS, TURNOUTMAPPING };
 
   virtual ~MasterControl() = default;
 
-  void begin(
-      application::controller::SettingsStorageCbk& settingsCbk,
-      application::controller::TurnoutMapStorageCbk& turnoutMapStorageCallback,
-      application::controller::ActionlistStorageCbk& actionListCallback);
+  void begin(application::controller::SettingsStorageCbk& settingsCbk,
+             application::controller::TurnoutMapStorageCbk& turnoutMapStorageCallback,
+             application::controller::ActionlistStorageCbk& actionListCallback);
 
   void loop();
 
@@ -53,8 +45,7 @@ class MasterControl : public RR32Can::StationCbk {
   application::model::InputState& getInputState() { return inputState; }
 
   RR32Can::Locomotive* getLoco(RR32Can::Locomotive::Uid_t uid) override;
-  void setLocoVelocity(RR32Can::Locomotive::Uid_t uid,
-                       RR32Can::Velocity_t velocity) override;
+  void setLocoVelocity(RR32Can::Locomotive::Uid_t uid, RR32Can::Velocity_t velocity) override;
   void setLocoVelocity(RR32Can::Velocity_t velocity) override;
 
   void setSystemState(bool onOff) override { displayModel.setSystem(onOff); }

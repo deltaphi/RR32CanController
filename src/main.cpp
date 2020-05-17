@@ -39,10 +39,8 @@ class TxCbk : public RR32Can::StationTxCbk {
   /**
    * \brief Send an arbitrary packet via CAN
    */
-  void SendPacket(const RR32Can::Identifier& id,
-                  const RR32Can::Data& data) override {
-    if (activeCommunicationChannel ==
-            application::model::Settings::CommunicationChannel_t::CAN &&
+  void SendPacket(const RR32Can::Identifier& id, const RR32Can::Data& data) override {
+    if (activeCommunicationChannel == application::model::Settings::CommunicationChannel_t::CAN &&
         canMgr.isActive()) {
       canMgr.SendPacket(id, data);
     } else if (activeCommunicationChannel ==
@@ -57,8 +55,7 @@ class TxCbk : public RR32Can::StationTxCbk {
 
 TxCbk txCbk;
 
-void activateCommunicationChannel(
-    application::model::Settings::CommunicationChannel_t channel);
+void activateCommunicationChannel(application::model::Settings::CommunicationChannel_t channel);
 
 void setup() {
   // Start serial and wait for its initialization
@@ -77,8 +74,7 @@ void setup() {
   displayDriver.begin();
   input.begin(masterControl.getInputState());
 
-  const application::model::Settings& userSettings =
-      masterControl.getUserSettings();
+  const application::model::Settings& userSettings = masterControl.getUserSettings();
 
   canMgr.begin();
   setupWifi();
@@ -89,8 +85,7 @@ void setup() {
   RR32Can::RR32Can.begin(RR32CanUUID, masterControl, txCbk);
 
   consoleMgr.setupCommands(masterControl.getActionListModel(),
-                           masterControl.getActionListProcessor(),
-                           actionListStorage);
+                           masterControl.getActionListProcessor(), actionListStorage);
 
   consoleMgr.StartTask();
 }
@@ -120,8 +115,7 @@ void loop() {
   displayDriver.loop(displayModel);
 }
 
-void activateCommunicationChannel(
-    application::model::Settings::CommunicationChannel_t channel) {
+void activateCommunicationChannel(application::model::Settings::CommunicationChannel_t channel) {
   switch (channel) {
     case application::model::Settings::CommunicationChannel_t::CAN:
       stopWifi();

@@ -22,8 +22,7 @@ class Input {
   }
 
   void shiftIn_reset(const AsyncShiftIn* shiftIn);
-  void shiftIn_shift(const AsyncShiftIn* asyncShiftIn, unsigned int bitNumber,
-                     uint8_t state);
+  void shiftIn_shift(const AsyncShiftIn* asyncShiftIn, unsigned int bitNumber, uint8_t state);
 
  private:
   void loopEncoder();

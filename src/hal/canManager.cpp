@@ -94,8 +94,7 @@ void canManager::loop() {
 
     if (status_info.msgs_to_rx > 0) {
 #if (LOG_CAN_IN_MSG == STD_ON)
-      printf("RMC: %i, Missed: %i, ", status_info.msgs_to_rx,
-             status_info.rx_missed_count);
+      printf("RMC: %i, Missed: %i, ", status_info.msgs_to_rx, status_info.rx_missed_count);
 #endif
     } else {
       // nohting to do
@@ -191,22 +190,19 @@ void canManager::loop() {
 #if (CAN_DRIVER_SJA1000 == STD_ON)
   maerklinData.dlc = packetSize;
   CAN.readBytes(maerklinData.data, 8);
-  RR32Can::Identifier maerklinIdentifier =
-      RR32Can::Identifier::GetIdentifier(packetId);
+  RR32Can::Identifier maerklinIdentifier = RR32Can::Identifier::GetIdentifier(packetId);
 #endif
 
 #if (CAN_DRIVER_ESP32IDF == STD_ON)
   maerklinData.dlc = message.data_length_code;
   memcpy(maerklinData.data, message.data, message.data_length_code);
-  RR32Can::Identifier maerklinIdentifier =
-      RR32Can::Identifier::GetIdentifier(message.identifier);
+  RR32Can::Identifier maerklinIdentifier = RR32Can::Identifier::GetIdentifier(message.identifier);
 #endif
 
   RR32Can::RR32Can.HandlePacket(maerklinIdentifier, maerklinData);
 }
 
-void canManager::SendPacket(const RR32Can::Identifier& id,
-                            const RR32Can::Data& data) {
+void canManager::SendPacket(const RR32Can::Identifier& id, const RR32Can::Data& data) {
 #if (CAN_DRIVER_ESP32IDF == STD_ON)
   can_message_t message;
 

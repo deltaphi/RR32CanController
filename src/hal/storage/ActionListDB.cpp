@@ -29,16 +29,14 @@ bool ActionListDB::load(application::model::ActionListModel::DB_t& db) {
     size_t readBytes = 0;
     size_t totalReadBytes;
     FileHeader_t fileHeader;
-    readBytes =
-        f.read(reinterpret_cast<uint8_t*>(&fileHeader), sizeof(fileHeader));
+    readBytes = f.read(reinterpret_cast<uint8_t*>(&fileHeader), sizeof(fileHeader));
     totalReadBytes += readBytes;
 
     if (readBytes >= sizeof(fileHeader)) {
       for (int i = 0; i < fileHeader.numLists; ++i) {
         ListHeader_t listHeader;
 
-        readBytes =
-            f.read(reinterpret_cast<uint8_t*>(&listHeader), sizeof(listHeader));
+        readBytes = f.read(reinterpret_cast<uint8_t*>(&listHeader), sizeof(listHeader));
         totalReadBytes += readBytes;
 
         if (readBytes < sizeof(listHeader)) {
@@ -49,8 +47,7 @@ bool ActionListDB::load(application::model::ActionListModel::DB_t& db) {
         for (int j = 0; j < listHeader.listLength; ++j) {
           application::model::TurnoutAction action;
 
-          readBytes =
-              f.read(reinterpret_cast<uint8_t*>(&action), sizeof(action));
+          readBytes = f.read(reinterpret_cast<uint8_t*>(&action), sizeof(action));
           totalReadBytes += readBytes;
 
           if (readBytes < sizeof(action)) {
@@ -76,20 +73,21 @@ void ActionListDB::store(const application::model::ActionListModel::DB_t& db) {
   if (!f) {
     printf("Opening '%s' for writing failed.\n", kActionListFilename);
   } else {
-    FileHeader_t fileHeader = {numLists : static_cast<application::model::ActionListModel::Index_t>(db.size())};
+    FileHeader_t fileHeader = {
+      numLists : static_cast<application::model::ActionListModel::Index_t>(db.size())
+    };
 
-    size_t writtenBytes =
-        f.write(reinterpret_cast<uint8_t*>(&fileHeader), sizeof(fileHeader));
+    size_t writtenBytes = f.write(reinterpret_cast<uint8_t*>(&fileHeader), sizeof(fileHeader));
 
     for (const application::model::ActionListModel::ActionList_t& al : db) {
-      ListHeader_t listHeader = {listLength : static_cast<application::model::ActionListModel::Index_t>(al.size())};
+      ListHeader_t listHeader = {
+        listLength : static_cast<application::model::ActionListModel::Index_t>(al.size())
+      };
 
-      writtenBytes +=
-          f.write(reinterpret_cast<uint8_t*>(&listHeader), sizeof(listHeader));
+      writtenBytes += f.write(reinterpret_cast<uint8_t*>(&listHeader), sizeof(listHeader));
 
       for (const application::model::TurnoutAction& action : al) {
-        writtenBytes +=
-            f.write(reinterpret_cast<const uint8_t*>(&action), sizeof(action));
+        writtenBytes += f.write(reinterpret_cast<const uint8_t*>(&action), sizeof(action));
       }
     }
     printf("%s: Wrote %i bytes.\n", kActionListFilename, writtenBytes);

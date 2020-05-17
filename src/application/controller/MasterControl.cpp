@@ -6,10 +6,9 @@
 namespace application {
 namespace controller {
 
-void MasterControl::begin(
-    application::controller::SettingsStorageCbk& settingsCbk,
-    application::controller::TurnoutMapStorageCbk& turnoutMapStorageCallback,
-    application::controller::ActionlistStorageCbk& actionListCallback) {
+void MasterControl::begin(application::controller::SettingsStorageCbk& settingsCbk,
+                          application::controller::TurnoutMapStorageCbk& turnoutMapStorageCallback,
+                          application::controller::ActionlistStorageCbk& actionListCallback) {
   systemState = RR32Can::SystemState::UNKNOWN;
 
   inputState.reset();
@@ -180,8 +179,7 @@ void MasterControl::loopStopKey() {
   }
 }
 
-RR32Can::Locomotive* MasterControl::getLoco(
-    RR32Can::Locomotive::Uid_t engineUid) {
+RR32Can::Locomotive* MasterControl::getLoco(RR32Can::Locomotive::Uid_t engineUid) {
   RR32Can::Locomotive& loco = locoControl.getLoco();
   if (!loco.isFullDetailsKnown()) {
     return nullptr;
@@ -193,8 +191,7 @@ RR32Can::Locomotive* MasterControl::getLoco(
   return &loco;
 }
 
-void MasterControl::setLocoVelocity(RR32Can::Locomotive::Uid_t uid,
-                                    RR32Can::Velocity_t velocity) {
+void MasterControl::setLocoVelocity(RR32Can::Locomotive::Uid_t uid, RR32Can::Velocity_t velocity) {
   if (getLoco(uid) != 0) {
     locoControl.setReceivedVelocity(velocity, *this);
   }

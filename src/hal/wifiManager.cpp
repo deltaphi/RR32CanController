@@ -90,8 +90,7 @@ void WifiInputLoop() {
       uint8_t identifierBits[] = {0, 0, 0, 0};
 
       tcpSocket.readBytes(identifierBits, 4);
-      RR32Can::Identifier id =
-          RR32Can::Identifier::GetIdentifier(identifierBits);
+      RR32Can::Identifier id = RR32Can::Identifier::GetIdentifier(identifierBits);
 
       RR32Can::Data data;
       data.dlc = tcpSocket.read();
@@ -120,8 +119,7 @@ void WiFiSendPacket(const RR32Can::Identifier& id, const RR32Can::Data& data) {
   }
 }
 
-void WiFiSendPacketUDP(const RR32Can::Identifier& id,
-                       const RR32Can::Data& data) {
+void WiFiSendPacketUDP(const RR32Can::Identifier& id, const RR32Can::Data& data) {
   if (!wifiConnected) {
     printf("Wifi not connected. Not sending packet.\n");
     return;
@@ -142,8 +140,7 @@ void WiFiSendPacketUDP(const RR32Can::Identifier& id,
   udpSendSocket.endPacket();
 }
 
-void WiFiSendPacketTCP(const RR32Can::Identifier& id,
-                       const RR32Can::Data& data) {
+void WiFiSendPacketTCP(const RR32Can::Identifier& id, const RR32Can::Data& data) {
   if (!wifiConnected) {
     Serial.println("Wifi not connected. Not sending packet.");
     return;

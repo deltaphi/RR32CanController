@@ -14,10 +14,8 @@ void Idle::loop(application::model::InputState& inputState, MasterControl& maste
 }
 
 void Idle::updateDisplayOnce(application::model::DisplayModel& displayManager) {
-  strncpy(displayManager.getWritableBuffer(0), application::view::kNoEngine,
-          STRING_CHAR_LENGTH);
-  strncpy(displayManager.getWritableBuffer(1), application::view::kRR32Can,
-          STRING_CHAR_LENGTH);
+  strncpy(displayManager.getWritableBuffer(0), application::view::kNoEngine, STRING_CHAR_LENGTH);
+  strncpy(displayManager.getWritableBuffer(1), application::view::kRR32Can, STRING_CHAR_LENGTH);
   displayManager.disableCursor();
 }
 

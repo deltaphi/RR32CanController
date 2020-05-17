@@ -18,12 +18,10 @@ class MasterControl;
 class LocoList : public application::controller::AbstractMenu {
  public:
   void begin();
-  void loop(application::model::InputState& inputState,
-            MasterControl& masterControl) override;
+  void loop(application::model::InputState& inputState, MasterControl& masterControl) override;
 
   /// Callback when a menu item is selected.
-  void advanceMenu(MenuItemIndex_t menuItem,
-                   MasterControl& masterControl) override;
+  void advanceMenu(MenuItemIndex_t menuItem, MasterControl& masterControl) override;
 
   /// Callback when the menu is aborted (shift+encoder)
   void abortMenu(MasterControl& masterControl) override;
@@ -34,9 +32,7 @@ class LocoList : public application::controller::AbstractMenu {
 
   void notifyEncoderMoved(MenuItemIndex_t newItem) override;
 
-  MenuItemIndex_t getTotalMenuLength() override {
-    return browser.getNumEnginesKnownByMaster();
-  }
+  MenuItemIndex_t getTotalMenuLength() override { return browser.getNumEnginesKnownByMaster(); }
 
   void RequestDownloadAtCursor();
 

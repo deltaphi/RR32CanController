@@ -27,13 +27,11 @@ static const char* kExecute = "execute";
 static const char* kSet = "set";
 static const char* kSave = "save";
 
-static arg_str* subcommand = arg_str1(nullptr, nullptr, "list|execute|set|save",
-                                      "Subcommand to execute");
-static arg_int* actionListIndex =
-    arg_int1(nullptr, nullptr, "uint8_t", "Index of ActionList");
-static arg_int* actions =
-    arg_intn(nullptr, nullptr, "TunoutAddr/Direction", 0,
-             kActionListMaxLength * 2, "List of turnouts to set");
+static arg_str* subcommand =
+    arg_str1(nullptr, nullptr, "list|execute|set|save", "Subcommand to execute");
+static arg_int* actionListIndex = arg_int1(nullptr, nullptr, "uint8_t", "Index of ActionList");
+static arg_int* actions = arg_intn(nullptr, nullptr, "TunoutAddr/Direction", 0,
+                                   kActionListMaxLength * 2, "List of turnouts to set");
 
 struct arg_end* argEnd = arg_end(5);
 
@@ -46,13 +44,11 @@ void Setup(application::model::ActionListModel& alm,
   actionListProcessor = &alp;
   storageCbk = &scbk;
 
-  esp_console_cmd_t actuateTurnout{
-    .command = programName,
-    .help = "Actuate a turnout on request",
-    .hint = nullptr,
-    .func = ActionListMain,
-    .argtable = argtable
-  };
+  esp_console_cmd_t actuateTurnout{.command = programName,
+                                   .help = "Actuate a turnout on request",
+                                   .hint = nullptr,
+                                   .func = ActionListMain,
+                                   .argtable = argtable};
   ESP_ERROR_CHECK(esp_console_cmd_register(&actuateTurnout));
 }
 
@@ -73,8 +69,7 @@ int ActionListMain(int argc, char** argv) {
     } else if (strncmp(subcommand->sval[0], kExecute, strlen(kExecute)) == 0) {
       return ExecuteActionList(actionListIndex->ival[0]);
     } else if (strncmp(subcommand->sval[0], kSet, strlen(kSet)) == 0) {
-      printf("%i %i %i\n", subcommand->count, actionListIndex->count,
-             actions->count);
+      printf("%i %i %i\n", subcommand->count, actionListIndex->count, actions->count);
       return SetActionList(actionListIndex->ival[0], actions);
     } else if (strncmp(subcommand->sval[0], kSave, strlen(kSave)) == 0) {
       return SaveActionLists();
@@ -116,8 +111,7 @@ int ExecuteActionList(RR32Can::HumanTurnoutAddress humanListIndex) {
   }
 }
 
-int SetActionList(RR32Can::HumanTurnoutAddress humanListIndex,
-                  arg_int* actions) {
+int SetActionList(RR32Can::HumanTurnoutAddress humanListIndex, arg_int* actions) {
   RR32Can::MachineTurnoutAddress listIndex{humanListIndex};
 
   if (actions->count % 2 != 0) {
@@ -144,8 +138,7 @@ int SetActionList(RR32Can::HumanTurnoutAddress humanListIndex,
     for (int i = 0; i < actions->count; i += 2) {
       model::TurnoutAction action;
       action.address = RR32Can::HumanTurnoutAddress(actions->ival[i]);
-      action.direction =
-          RR32Can::TurnoutDirectionFromIntegral(actions->ival[i + 1]);
+      action.direction = RR32Can::TurnoutDirectionFromIntegral(actions->ival[i + 1]);
       dbIt->push_back(action);
     }
 

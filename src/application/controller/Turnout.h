@@ -16,16 +16,13 @@ namespace controller {
  */
 class Turnout {
  public:
-  void begin(
-      application::controller::ActionlistStorageCbk& scbk,
-      application::controller::TurnoutMapStorageCbk& turnoutMapStorageCallback);
+  void begin(application::controller::ActionlistStorageCbk& scbk,
+             application::controller::TurnoutMapStorageCbk& turnoutMapStorageCallback);
   void loop(application::model::InputState& inputState);
 
   application::model::TurnoutMap& getTurnoutMap() { return turnoutMap; };
 
-  application::model::ActionListModel& getActionListModel() {
-    return actionList;
-  }
+  application::model::ActionListModel& getActionListModel() { return actionList; }
 
   application::controller::ActionListControl& getActionListProcessor() {
     return actionListProcessor;

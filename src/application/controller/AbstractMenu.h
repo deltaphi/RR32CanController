@@ -26,8 +26,7 @@ class AbstractMenu {
   static constexpr const uint8_t kCountMenuItems = DISPLAY_LINES;
 
   virtual void begin();
-  virtual void loop(application::model::InputState& inputState,
-                    MasterControl& masterControl);
+  virtual void loop(application::model::InputState& inputState, MasterControl& masterControl);
 
   void updateDisplay(application::model::DisplayModel& displayManager);
   /**
@@ -45,8 +44,7 @@ class AbstractMenu {
 
  protected:
   /// Callback when a menu item is selected.
-  virtual void advanceMenu(MenuItemIndex_t menuItem,
-                           MasterControl& masterControl) = 0;
+  virtual void advanceMenu(MenuItemIndex_t menuItem, MasterControl& masterControl) = 0;
 
   /// Callback when the menu is aborted (shift+encoder)
   virtual void abortMenu(MasterControl& masterControl) = 0;
@@ -84,9 +82,7 @@ class AbstractMenu {
   ~AbstractMenu() = default;
 
  protected:
-  MenuItemIndex_t getMenuItemInFirstDisplayLine() const {
-    return menuItemInFirstDisplayLine;
-  }
+  MenuItemIndex_t getMenuItemInFirstDisplayLine() const { return menuItemInFirstDisplayLine; }
 
   EncoderLimiter limiter;
 

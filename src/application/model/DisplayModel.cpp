@@ -16,8 +16,7 @@ void DisplayModel::begin() {
   updateRequired = true;
 }
 
-void DisplayModel::updateBuffer(const char* data, uint8_t dataLen,
-                                uint8_t lineNumber) {
+void DisplayModel::updateBuffer(const char* data, uint8_t dataLen, uint8_t lineNumber) {
   char* buffer = getWritableBuffer(lineNumber);
 
   if (dataLen > STRING_DATATYPE_LENGTH) {

@@ -4,8 +4,8 @@ namespace application {
 namespace model {
 
 void InputState::reset() {
-  for (uint8_t i = TURNOUT_BUTTONS_OFFSET;
-       i < TURNOUT_BUTTONS_COUNT + TURNOUT_BUTTONS_OFFSET; ++i) {
+  for (uint8_t i = TURNOUT_BUTTONS_OFFSET; i < TURNOUT_BUTTONS_COUNT + TURNOUT_BUTTONS_OFFSET;
+       ++i) {
     keys[i].forceDebounce(LOW);
     keys[i].getAndResetEdgeFlag();
   }
