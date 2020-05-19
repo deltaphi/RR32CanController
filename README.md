@@ -4,13 +4,13 @@ Sketch for a Switchboard talking the Maerklin CAN protocol based on the ESP32 No
 ## CI Status
 
 * Linux Unittest Build
-![](https://github.com/deltaphi/RR32CanController/workflows/.github/workflows/main.yml/badge.svg?event=push)
+![CI](https://github.com/deltaphi/RR32CanController/workflows/CI/badge.svg?branch=master&event=push)
 
 * Embedded Build
-![](https://github.com/deltaphi/RR32CanController/workflows/.github/workflows/platformio.yml/badge.svg?event=push)
+![PlatformIO CI](https://github.com/deltaphi/RR32CanController/workflows/PlatformIO%20CI/badge.svg?branch=master&event=push)
 
 * Windows Unittest Build
-![](https://github.com/deltaphi/RR32CanController/workflows/.github/workflows/wintest.yml/badge.svg?event=push)
+![Windows CI](https://github.com/deltaphi/RR32CanController/workflows/Windows%20CI/badge.svg?branch=master&event=push)
 
 ## Software
 
