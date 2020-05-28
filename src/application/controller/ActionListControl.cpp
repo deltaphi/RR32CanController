@@ -4,6 +4,8 @@
 
 #include "Arduino.h"
 
+#include <cstdio>
+
 namespace application {
 namespace controller {
 
