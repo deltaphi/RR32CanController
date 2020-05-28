@@ -90,7 +90,7 @@ void LocoList::RequestDownloadAtCursor() {
 const RR32Can::LocomotiveShortInfo* LocoList::getSelectedEngine() {
   const RR32Can::LocoListConsumer::EngineInfoSet& engineInfos = browser.getEngineInfos();
   uint8_t index = getCurrentItem() - browser.getStreamOffset();
-  if (index > engineInfos.size()) {
+  if (index >= RR32Can::kEngineBrowserEntries) {
     return nullptr;
   } else if (!engineInfos[index].isNameKnown()) {
     return nullptr;
