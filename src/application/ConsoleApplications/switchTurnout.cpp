@@ -26,11 +26,11 @@ struct arg_end* argEnd = arg_end(5);
 static void* argtable[] = {turnoutNum, direction, argEnd};
 
 void Setup() {
-  esp_console_cmd_t actuateTurnout{.command = programName,
-                                   .help = "Actuate a turnout on request",
-                                   .hint = nullptr,
-                                   .func = TurnoutMain,
-                                   .argtable = argtable};
+  esp_console_cmd_t actuateTurnout{/*.command =*/ programName,
+                                   /*.help =*/ "Actuate a turnout on request",
+                                   /*.hint =*/ nullptr,
+                                   /*.func =*/ TurnoutMain,
+                                   /*.argtable =*/ argtable};
   ESP_ERROR_CHECK(esp_console_cmd_register(&actuateTurnout));
 }
 

@@ -44,11 +44,11 @@ void Setup(application::model::ActionListModel& alm,
   actionListProcessor = &alp;
   storageCbk = &scbk;
 
-  esp_console_cmd_t actuateTurnout{.command = programName,
-                                   .help = "Actuate a turnout on request",
-                                   .hint = nullptr,
-                                   .func = ActionListMain,
-                                   .argtable = argtable};
+  esp_console_cmd_t actuateTurnout{/*.command =*/ programName,
+                                   /*.help =*/ "Actuate a turnout on request",
+                                   /*.hint =*/ nullptr,
+                                   /*.func =*/ ActionListMain,
+                                   /*.argtable =*/ argtable};
   ESP_ERROR_CHECK(esp_console_cmd_register(&actuateTurnout));
 }
 

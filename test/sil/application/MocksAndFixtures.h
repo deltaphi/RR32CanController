@@ -1,3 +1,6 @@
+#include "gmock/gmock.h"
+#include "gtest/gtest.h"
+
 #include "RR32Can/StationTxCbk.h"
 
 #include "application/controller/ActionlistStorageCbk.h"
@@ -7,26 +10,26 @@
 
 class SettingsStorageCbkMock : public application::controller::SettingsStorageCbk {
  public:
-  MOCK_METHOD(void, store, (const application::model::Settings* const data));
-  MOCK_METHOD(bool, load, (application::model::Settings * data));
-  MOCK_METHOD(size_t, loadData, (application::model::Settings * data));
+  MOCK_METHOD(void, store, (const application::model::Settings* const data), (override));
+  MOCK_METHOD(bool, load, (application::model::Settings * data), (override));
+  MOCK_METHOD(size_t, loadData, (application::model::Settings * data), (override));
 };
 
 class TurnoutMapStorageCbkMock : public application::controller::TurnoutMapStorageCbk {
  public:
-  MOCK_METHOD(bool, load, (application::model::TurnoutMap & turnoutMap));
-  MOCK_METHOD(void, store, (const application::model::TurnoutMap& turnoutMap));
+  MOCK_METHOD(bool, load, (application::model::TurnoutMap & turnoutMap), (override));
+  MOCK_METHOD(void, store, (const application::model::TurnoutMap& turnoutMap), (override));
 };
 
 class ActionlistStorageCbkMock : public application::controller::ActionlistStorageCbk {
  public:
-  MOCK_METHOD(bool, load, (application::model::ActionListModel::DB_t & db));
-  MOCK_METHOD(void, store, (const application::model::ActionListModel::DB_t& db));
+  MOCK_METHOD(bool, load, (application::model::ActionListModel::DB_t & db), (override));
+  MOCK_METHOD(void, store, (const application::model::ActionListModel::DB_t& db), (override));
 };
 
 class StationTxCbkMock : public RR32Can::StationTxCbk {
  public:
-  MOCK_METHOD(void, SendPacket, (const RR32Can::Identifier&, const RR32Can::Data&));
+  MOCK_METHOD(void, SendPacket, (const RR32Can::Identifier&, const RR32Can::Data&), (override));
 };
 
 class MainFixture : public ::testing::Test {
