@@ -1,9 +1,6 @@
 [submodule "lib/AsyncShiftIn"]
 	path = lib/AsyncShiftIn
 	url = https://github.com/deltaphi/AsyncShiftIn.git
-[submodule "lib/esp8266-oled-ssd1306"]
-	path = lib/esp8266-oled-ssd1306
-	url = https://github.com/ThingPulse/esp8266-oled-ssd1306.git
 [submodule "lib/RR32CanLibrary"]
 	path = lib/RR32CanLibrary
 	url = https://github.com/deltaphi/RR32CanLibrary.git
