@@ -10,17 +10,17 @@ enum class TurnoutAddressMode { SingleTurnout = 0, MultiTurnout };
 
 TurnoutAddressMode SwitchMode(TurnoutAddressMode mode);
 
-typedef struct {
+struct TurnoutLookupResult {
   TurnoutAddressMode mode = TurnoutAddressMode::SingleTurnout;
   RR32Can::MachineTurnoutAddress address = 0;
-} TurnoutLookupResult;
+};
 
 void print(const TurnoutLookupResult&);
 
-typedef struct {
+struct TurnoutAction {
   RR32Can::MachineTurnoutAddress address;
   RR32Can::TurnoutDirection direction;
-} TurnoutAction;
+};
 
 void print(const TurnoutAction&);
 
