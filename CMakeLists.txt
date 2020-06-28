@@ -39,6 +39,8 @@ endif()
 
 FILE(GLOB_RECURSE applicationSources src/application/*.cpp)
 
+include_directories(include)
+
 file(GLOB_RECURSE RR32CAN_SOURCES "${PROJECT_SOURCE_DIR}/lib/RR32CanLibrary/lib/*.cpp")
 # list(APPEND ROTARYENCODER_SOURCES "${PROJECT_SOURCE_DIR}/lib/RotaryEncoder/RotaryEncoder.cpp")
 
