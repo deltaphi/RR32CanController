@@ -53,6 +53,8 @@ _autosave-*
 *.launch
 .settings
 
+## Visual Studio Code
+build
 
 ## Visual Studio 2019
 out
