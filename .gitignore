@@ -1,5 +1,6 @@
 ## Project
 src/wificonfig.h
+src/CMakeLists.txt
 Hardware/ControllerTHT/fp-lib-table
 Hardware/ControllerTHT/sym-lib-table
 .vscode/settings.json
