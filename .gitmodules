@@ -1,6 +1,3 @@
-[submodule "lib/RR32CanLibrary"]
-	path = lib/RR32CanLibrary
-	url = https://github.com/deltaphi/RR32CanLibrary.git
 [submodule "test/sil/argtable3"]
 	path = test/sil/argtable3
 	url = https://github.com/argtable/argtable3
