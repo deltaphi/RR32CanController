@@ -1,6 +1,6 @@
 # Now simply link against gtest or gtest_main as needed. Eg
 include_directories("${PROJECT_SOURCE_DIR}/src")
-include_directories("${PROJECT_SOURCE_DIR}/lib/RR32CanLibrary/lib")
+include_directories("${PROJECT_SOURCE_DIR}/.pio/libdeps/esp32dev/RR32CanLibrary/lib/")
 #include_directories("${PROJECT_SOURCE_DIR}/lib/RotaryEncoder")
 include_directories("${PROJECT_SOURCE_DIR}/test/sil/application")
 include_directories("${PROJECT_SOURCE_DIR}/test/sil/mocks")
