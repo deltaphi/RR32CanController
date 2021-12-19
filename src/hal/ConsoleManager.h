@@ -1,7 +1,7 @@
 #ifndef __HAL_CONSOLEMANAGER_H__
 #define __HAL_CONSOLEMANAGER_H__
 
-#include "FreeRTOS.h"
+#include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 
 #include "application/controller/ActionListControl.h"

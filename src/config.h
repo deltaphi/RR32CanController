@@ -24,6 +24,8 @@
 #define S88_PS_OUT_PIN (22)
 #define S88_RESET_OUT_PIN (21)
 
+#define CAN_MAX_DATA_LEN (8)
+
 #define CAN_DRIVER_SJA1000 STD_OFF
 #define CAN_DRIVER_ESP32IDF STD_ON
 

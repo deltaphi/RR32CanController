@@ -1,6 +1,8 @@
 # RR32CanSwitchboard
 Sketch for a Switchboard talking the Maerklin CAN protocol based on the ESP32 NodeMCU-Board.
 
+Special Note: This sketch uses an experimental release of Arduino-ESP32. If you get errors from the compiler or the linker, make sure to (1) clean out as much of PlatformIO as you can without actually uninstalling it and (2) get a fresh checkout of this project.
+
 ## CI Status
 
 * Linux Unittest Build
