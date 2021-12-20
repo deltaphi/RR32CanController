@@ -12,7 +12,7 @@ TurnoutAddressMode SwitchMode(TurnoutAddressMode mode);
 
 struct TurnoutLookupResult {
   TurnoutAddressMode mode = TurnoutAddressMode::SingleTurnout;
-  RR32Can::MachineTurnoutAddress address = 0;
+  RR32Can::MachineTurnoutAddress address;
 };
 
 void print(const TurnoutLookupResult&);

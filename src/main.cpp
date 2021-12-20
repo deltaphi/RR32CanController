@@ -7,7 +7,7 @@
 #include "hal/canManager.h"
 
 #include <RR32Can/RR32Can.h>
-#include "RR32Can/StationTxCbk.h"
+#include "RR32Can/callback/TxCbk.h"
 
 #include "hal/ConsoleManager.h"
 #include "hal/DisplayDriver.h"
@@ -35,18 +35,18 @@ hal::storage::ActionListDB actionListStorage;
 
 hal::Input input;
 
-class TxCbk : public RR32Can::StationTxCbk {
+class TxCbk : public RR32Can::callback::TxCbk {
   /**
    * \brief Send an arbitrary packet via CAN
    */
-  void SendPacket(const RR32Can::Identifier& id, const RR32Can::Data& data) override {
+  void SendPacket(const RR32Can::CanFrame& canFrame) override {
     if (activeCommunicationChannel == application::model::Settings::CommunicationChannel_t::CAN &&
         canMgr.isActive()) {
-      canMgr.SendPacket(id, data);
+      canMgr.SendPacket(canFrame.id, canFrame.data);
     } else if (activeCommunicationChannel ==
                    application::model::Settings::CommunicationChannel_t::WIFI &&
                isWifiAvailable()) {
-      WiFiSendPacket(id, data);
+      WiFiSendPacket(canFrame.id, canFrame.data);
     } else {
       printf("No active communication channels available.\n");
     }
@@ -82,7 +82,12 @@ void setup() {
   activeCommunicationChannel = userSettings.communicationChannel;
   activateCommunicationChannel(userSettings.communicationChannel);
 
-  RR32Can::RR32Can.begin(RR32CanUUID, masterControl, txCbk);
+  RR32Can::Station::CallbackStruct callbacks;
+  callbacks.tx = &txCbk;
+  callbacks.system = &masterControl;
+  callbacks.engine = &masterControl;
+
+  RR32Can::RR32Can.begin(RR32CanUUID, callbacks);
 
   consoleMgr.setupCommands(masterControl.getActionListModel(),
                            masterControl.getActionListProcessor(), actionListStorage);

@@ -52,12 +52,14 @@ void ActionListControl::performAction() {
 
   if (!buttonPressed) {
     // Generate a power on message.
-    RR32Can::RR32Can.SendAccessoryPacket(action.address, action.direction, 1);
+    RR32Can::RR32Can.SendAccessoryPacket(action.address, RR32Can::RailProtocol::MM2,
+                                         action.direction, 1);
 
     buttonPressed = true;
   } else {
     // Generate a button release
-    RR32Can::RR32Can.SendAccessoryPacket(action.address, action.direction, 0);
+    RR32Can::RR32Can.SendAccessoryPacket(action.address, RR32Can::RailProtocol::MM2,
+                                         action.direction, 0);
 
     buttonPressed = false;
   }

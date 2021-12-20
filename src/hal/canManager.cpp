@@ -210,21 +210,21 @@ void canManager::loop() {
 
   // Read the data bytes into a local buffer.
   // Maerklin does not use remote frames, so we don't care about them.
-  RR32Can::Data maerklinData;
-  maerklinData.reset();
+  RR32Can::CanFrame frame;
+  frame.data.reset();
 #if (CAN_DRIVER_SJA1000 == STD_ON)
-  maerklinData.dlc = packetSize;
-  CAN.readBytes(maerklinData.data, 8);
-  RR32Can::Identifier maerklinIdentifier = RR32Can::Identifier::GetIdentifier(packetId);
+  frame.data.dlc = packetSize;
+  CAN.readBytes(frame.data.data, 8);
+  frame.id = RR32Can::Identifier::GetIdentifier(packetId);
 #endif
 
 #if (CAN_DRIVER_ESP32IDF == STD_ON)
-  maerklinData.dlc = message.data_length_code;
-  memcpy(maerklinData.data, message.data, message.data_length_code);
-  RR32Can::Identifier maerklinIdentifier = RR32Can::Identifier::GetIdentifier(message.identifier);
+  frame.data.dlc = message.data_length_code;
+  memcpy(frame.data.data, message.data, message.data_length_code);
+  frame.id = RR32Can::Identifier::GetIdentifier(message.identifier);
 #endif
 
-  RR32Can::RR32Can.HandlePacket(maerklinIdentifier, maerklinData);
+  RR32Can::RR32Can.HandlePacket(frame);
 }
 
 void canManager::SendPacket(const RR32Can::Identifier& id, const RR32Can::Data& data) {

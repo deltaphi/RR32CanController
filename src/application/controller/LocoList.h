@@ -1,8 +1,8 @@
 #ifndef __APPLICATION__CONTROLLER__LOCOLIST_H__
 #define __APPLICATION__CONTROLLER__LOCOLIST_H__
 
-#include <RR32Can/LocoListConsumer.h>
 #include <RR32Can/Locomotive.h>
+#include <RR32CanEngineDb/LocoListConsumer.h>
 #include "application/controller/AbstractMenu.h"
 #include "application/model/DisplayModel.h"
 #include "application/model/InputState.h"

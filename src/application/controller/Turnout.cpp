@@ -75,8 +75,8 @@ void Turnout::handleButton(uint8_t buttonIndex, uint8_t buttonState) {
                                                            // are connected in the
                                                            // opposite order
 
-      RR32Can::RR32Can.SendAccessoryPacket(turnoutIndex.address, direction,
-                                           (buttonState == HIGH ? 1 : 0));
+      RR32Can::RR32Can.SendAccessoryPacket(turnoutIndex.address, RR32Can::RailProtocol::MM2,
+                                           direction, (buttonState == HIGH ? 1 : 0));
       break;
     }
     case application::model::TurnoutAddressMode::MultiTurnout: {

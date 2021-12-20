@@ -9,7 +9,8 @@
 #include "application/controller/TurnoutMenu.h"
 #include "application/model/DisplayModel.h"
 
-#include "RR32Can/StationCbk.h"
+#include "RR32Can/callback/EngineCbk.h"
+#include "RR32Can/callback/SystemCbk.h"
 
 namespace application {
 namespace controller {
@@ -17,7 +18,7 @@ namespace controller {
 /*
  * \brief Class UIControl
  */
-class MasterControl : public RR32Can::StationCbk {
+class MasterControl : public RR32Can::callback::EngineCbk, public RR32Can::callback::SystemCbk {
  public:
   enum class UIMode { IDLE = 0, LOCOCONTROL, LOCOLIST, LOCODOWNLOAD, SETTINGS, TURNOUTMAPPING };
 
@@ -44,11 +45,10 @@ class MasterControl : public RR32Can::StationCbk {
 
   application::model::InputState& getInputState() { return inputState; }
 
-  RR32Can::Locomotive* getLoco(RR32Can::Locomotive::Uid_t uid) override;
   void setLocoVelocity(RR32Can::Locomotive::Uid_t uid, RR32Can::Velocity_t velocity) override;
   void setLocoVelocity(RR32Can::Velocity_t velocity) override;
 
-  void setSystemState(bool onOff) override { displayModel.setSystem(onOff); }
+  void setSystemState(bool onOff, bool response) override { displayModel.setSystem(onOff); }
 
   const application::model::Settings& getUserSettings() const {
     return settingsMenu.getUserSettings();
@@ -69,8 +69,7 @@ class MasterControl : public RR32Can::StationCbk {
 
   void loopStopKey();
 
-  void OnAccessoryPacket(RR32Can::TurnoutPacket&) override{
-      /* Nothing done with turnout packets. */};
+  RR32Can::Locomotive* getLoco(RR32Can::Locomotive::Uid_t uid);
 
   application::model::InputState inputState;
 

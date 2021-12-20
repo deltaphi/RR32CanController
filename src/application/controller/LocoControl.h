@@ -1,8 +1,8 @@
 #ifndef __APPLICATION__CONTROLLER__LOCOCONTROL_H__
 #define __APPLICATION__CONTROLLER__LOCOCONTROL_H__
 
-#include <RR32Can/LocoConsumer.h>
 #include <RR32Can/Locomotive.h>
+#include <RR32CanEngineDb/LocoConsumer.h>
 #include "application/model/DisplayModel.h"
 #include "application/model/InputState.h"
 

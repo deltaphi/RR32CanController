@@ -90,11 +90,12 @@ void WifiInputLoop() {
       uint8_t identifierBits[] = {0, 0, 0, 0};
 
       tcpSocket.readBytes(identifierBits, 4);
-      RR32Can::Identifier id = RR32Can::Identifier::GetIdentifier(identifierBits);
+      RR32Can::CanFrame frame;
+      frame.id = RR32Can::Identifier::GetIdentifier(identifierBits);
 
-      RR32Can::Data data;
-      data.dlc = tcpSocket.read();
-      tcpSocket.readBytes(data.data, RR32Can::CanDataMaxLength);
+      frame.data.reset();
+      frame.data.dlc = tcpSocket.read();
+      tcpSocket.readBytes(frame.data.data, RR32Can::CanDataMaxLength);
 
 #if (LOG_CAN_IN_MSG == STD_ON)
       printf("Wifi Packet: ");
@@ -105,13 +106,13 @@ void WifiInputLoop() {
       printf("\n");
 #endif
 
-      RR32Can::RR32Can.HandlePacket(id, data);
+      RR32Can::RR32Can.HandlePacket(frame);
     }
   }
 }
 
 void WiFiSendPacket(const RR32Can::Identifier& id, const RR32Can::Data& data) {
-  if (id.command == 0x20) {
+  if (id.getCommand() == RR32Can::Command::REQUEST_CONFIG_DATA) {
     // Send configuration requests via UDP, as can2lan mangles them on TCP.
     WiFiSendPacketUDP(id, data);
   } else {

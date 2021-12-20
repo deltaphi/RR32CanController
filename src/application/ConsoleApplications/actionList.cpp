@@ -44,11 +44,11 @@ void Setup(application::model::ActionListModel& alm,
   actionListProcessor = &alp;
   storageCbk = &scbk;
 
-  esp_console_cmd_t actuateTurnout{/*.command =*/ programName,
-                                   /*.help =*/ "Actuate a turnout on request",
-                                   /*.hint =*/ nullptr,
-                                   /*.func =*/ ActionListMain,
-                                   /*.argtable =*/ argtable};
+  esp_console_cmd_t actuateTurnout{/*.command =*/programName,
+                                   /*.help =*/"Actuate a turnout on request",
+                                   /*.hint =*/nullptr,
+                                   /*.func =*/ActionListMain,
+                                   /*.argtable =*/argtable};
   ESP_ERROR_CHECK(esp_console_cmd_register(&actuateTurnout));
 }
 
@@ -67,10 +67,10 @@ int ActionListMain(int argc, char** argv) {
     if (strncmp(subcommand->sval[0], kList, strlen(kList)) == 0) {
       return DumpActionLists();
     } else if (strncmp(subcommand->sval[0], kExecute, strlen(kExecute)) == 0) {
-      return ExecuteActionList(actionListIndex->ival[0]);
+      return ExecuteActionList(RR32Can::HumanTurnoutAddress{actionListIndex->ival[0]});
     } else if (strncmp(subcommand->sval[0], kSet, strlen(kSet)) == 0) {
       printf("%i %i %i\n", subcommand->count, actionListIndex->count, actions->count);
-      return SetActionList(actionListIndex->ival[0], actions);
+      return SetActionList(RR32Can::HumanTurnoutAddress{actionListIndex->ival[0]}, actions);
     } else if (strncmp(subcommand->sval[0], kSave, strlen(kSave)) == 0) {
       return SaveActionLists();
     } else {
