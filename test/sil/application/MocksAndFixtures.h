@@ -1,7 +1,7 @@
 #include "gmock/gmock.h"
 #include "gtest/gtest.h"
 
-#include "RR32Can/StationTxCbk.h"
+#include "RR32Can/callback/TxCbk.h"
 
 #include "application/controller/ActionlistStorageCbk.h"
 #include "application/controller/MasterControl.h"
@@ -27,9 +27,9 @@ class ActionlistStorageCbkMock : public application::controller::ActionlistStora
   MOCK_METHOD(void, store, (const application::model::ActionListModel::DB_t& db), (override));
 };
 
-class StationTxCbkMock : public RR32Can::StationTxCbk {
+class StationTxCbkMock : public RR32Can::callback::TxCbk {
  public:
-  MOCK_METHOD(void, SendPacket, (const RR32Can::Identifier&, const RR32Can::Data&), (override));
+  MOCK_METHOD(void, SendPacket, (const RR32Can::CanFrame&), (override));
 };
 
 class MainFixture : public ::testing::Test {
@@ -41,7 +41,12 @@ class MainFixture : public ::testing::Test {
     EXPECT_CALL(actionListCallback, load(::testing::_));
 
     masterControl.begin(settingsCbk, turnoutMapStorageCbk, actionListCallback);
-    RR32Can::RR32Can.begin(0, masterControl, txCbk);
+    RR32Can::Station::CallbackStruct callbacks;
+    callbacks.system = &masterControl;
+    callbacks.engine = &masterControl;
+    callbacks.tx = &txCbk;
+
+    RR32Can::RR32Can.begin(0, callbacks);
   };
   void TearDown(){};
 

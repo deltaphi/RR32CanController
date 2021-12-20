@@ -67,10 +67,14 @@ int ActionListMain(int argc, char** argv) {
     if (strncmp(subcommand->sval[0], kList, strlen(kList)) == 0) {
       return DumpActionLists();
     } else if (strncmp(subcommand->sval[0], kExecute, strlen(kExecute)) == 0) {
-      return ExecuteActionList(RR32Can::HumanTurnoutAddress{actionListIndex->ival[0]});
+      return ExecuteActionList(RR32Can::HumanTurnoutAddress{
+          static_cast<RR32Can::HumanTurnoutAddress::value_type>(actionListIndex->ival[0])});
     } else if (strncmp(subcommand->sval[0], kSet, strlen(kSet)) == 0) {
       printf("%i %i %i\n", subcommand->count, actionListIndex->count, actions->count);
-      return SetActionList(RR32Can::HumanTurnoutAddress{actionListIndex->ival[0]}, actions);
+      return SetActionList(
+          RR32Can::HumanTurnoutAddress{
+              static_cast<RR32Can::HumanTurnoutAddress::value_type>(actionListIndex->ival[0])},
+          actions);
     } else if (strncmp(subcommand->sval[0], kSave, strlen(kSave)) == 0) {
       return SaveActionLists();
     } else {

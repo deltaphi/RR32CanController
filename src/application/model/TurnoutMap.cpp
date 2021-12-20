@@ -6,7 +6,7 @@ namespace application {
 namespace model {
 
 void TurnoutMap::begin() {
-  for (int i = 0; i < TURNOUT_MAP_LENGTH; ++i) {
+  for (RR32Can::MachineTurnoutAddress::value_type i = 0; i < TURNOUT_MAP_LENGTH; ++i) {
     turnoutMap[i].mode = application::model::TurnoutAddressMode::SingleTurnout;
     turnoutMap[i].address = RR32Can::MachineTurnoutAddress{i};
   }
