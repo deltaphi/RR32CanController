@@ -185,7 +185,9 @@ void LocoControl::setReceivedVelocity(RR32Can::Velocity_t velocity, MasterContro
 
 void LocoControl::requestLocoFile() {
   locoDataConsumer.setEngine(&loco);
-  RR32Can::RR32Can.RequestEngine(loco, locoDataConsumer);
+  streamParser.reset();
+  streamParser.startStream(&locoDataConsumer);
+  RR32Can::RR32Can.RequestEngine(loco, &streamParser);
 }
 
 void LocoControl::requestLocoData() {

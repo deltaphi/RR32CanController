@@ -3,6 +3,8 @@
 
 #include <RR32Can/Locomotive.h>
 #include <RR32CanEngineDb/LocoListConsumer.h>
+#include <RR32CanEngineDb/util/ConfigDataStreamParser.h>
+
 #include "application/controller/AbstractMenu.h"
 #include "application/model/DisplayModel.h"
 #include "application/model/InputState.h"
@@ -38,6 +40,7 @@ class LocoList : public application::controller::AbstractMenu {
 
  private:
   RR32Can::LocoListConsumer browser;
+  RR32Can::ConfigDataStreamParser streamParser;
 };
 
 }  // namespace controller

@@ -9,6 +9,7 @@ namespace controller {
 
 void LocoList::begin() {
   browser.reset();
+  streamParser.reset();
   limiter.setMin(0);
   limiter.setMax(DISPLAY_LINES + 1);
 }
@@ -25,8 +26,7 @@ void LocoList::advanceMenu(MenuItemIndex_t menuItem, MasterControl& masterContro
 
 void LocoList::loop(application::model::InputState& inputState, MasterControl& masterControl) {
   application::controller::AbstractMenu::loop(inputState, masterControl);
-  if (RR32Can::RR32Can.getConfigStreamState() ==
-      RR32Can::ConfigDataStreamParser::StreamState::STREAM_DONE) {
+  if (streamParser.getStreamState() == RR32Can::ConfigDataStreamParser::StreamState::STREAM_DONE) {
     forceDisplayUpdate();
   }
 }
@@ -42,7 +42,7 @@ void LocoList::notifyEncoderMoved(MenuItemIndex_t newItem) {
 }
 
 void LocoList::getMenuItems(MenuItems_t& menuItems) {
-  switch (RR32Can::RR32Can.getConfigStreamState()) {
+  switch (streamParser.getStreamState()) {
     case RR32Can::ConfigDataStreamParser::StreamState::IDLE:
     case RR32Can::ConfigDataStreamParser::StreamState::WAITING_FIRST_PACKET:
     case RR32Can::ConfigDataStreamParser::StreamState::WAITING_DATA_PACKET: {
@@ -84,7 +84,9 @@ void LocoList::RequestDownloadAtCursor() {
   MenuItemIndex_t offset = cursorPosition - (cursorPosition % RR32Can::kNumEngineNamesDownload);
   browser.setStreamOffset(offset);
   browser.clearTable();
-  RR32Can::RR32Can.RequestEngineList(offset, browser);
+  streamParser.reset();
+  streamParser.startStream(&browser);
+  RR32Can::RR32Can.RequestEngineList(offset, &streamParser);
 }
 
 const RR32Can::LocomotiveShortInfo* LocoList::getSelectedEngine() {

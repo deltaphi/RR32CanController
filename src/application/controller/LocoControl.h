@@ -3,6 +3,8 @@
 
 #include <RR32Can/Locomotive.h>
 #include <RR32CanEngineDb/LocoConsumer.h>
+#include <RR32CanEngineDb/util/ConfigDataStreamParser.h>
+
 #include "application/model/DisplayModel.h"
 #include "application/model/InputState.h"
 
@@ -66,6 +68,7 @@ class LocoControl {
   RR32Can::Locomotive loco;
 
   RR32Can::LocoConsumer locoDataConsumer;
+  RR32Can::ConfigDataStreamParser streamParser;
 };
 
 }  // namespace controller
