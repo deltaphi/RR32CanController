@@ -45,9 +45,16 @@ class MasterControl : public RR32Can::callback::EngineCbk, public RR32Can::callb
 
   application::model::InputState& getInputState() { return inputState; }
 
+  // from EngineCbk
   void setLocoVelocity(RR32Can::Locomotive::Uid_t uid, RR32Can::Velocity_t velocity) override;
   void setLocoVelocity(RR32Can::Velocity_t velocity) override;
+  void setLocoFunction(const RR32Can::Locomotive::Uid_t uid, uint8_t functionIdx,
+                       bool functionOn) override;
+  void setLocoDirection(const RR32Can::Locomotive::Uid_t uid,
+                        const RR32Can::EngineDirection direction) override;
+  void changeLocoDirection(const RR32Can::Locomotive::Uid_t uid) override;
 
+  // from SystemCbk
   void setSystemState(bool onOff, bool response) override { displayModel.setSystem(onOff); }
 
   const application::model::Settings& getUserSettings() const {

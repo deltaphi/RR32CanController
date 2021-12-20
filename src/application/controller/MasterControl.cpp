@@ -201,5 +201,28 @@ void MasterControl::setLocoVelocity(RR32Can::Velocity_t velocity) {
   locoControl.setReceivedVelocity(velocity, *this);
 }
 
+void MasterControl::setLocoFunction(const RR32Can::Locomotive::Uid_t uid, uint8_t functionIdx,
+                                    bool functionOn) {
+  RR32Can::Locomotive* const loco = getLoco(uid);
+  if (loco != 0) {
+    loco->setFunction(functionIdx, functionOn);
+  }
+}
+
+void MasterControl::setLocoDirection(const RR32Can::Locomotive::Uid_t uid,
+                                     const RR32Can::EngineDirection direction) {
+  RR32Can::Locomotive* const loco = getLoco(uid);
+  if (loco != 0) {
+    loco->setDirection(direction);
+  }
+}
+
+void MasterControl::changeLocoDirection(const RR32Can::Locomotive::Uid_t uid) {
+  RR32Can::Locomotive* const loco = getLoco(uid);
+  if (loco != 0) {
+    loco->changeDirection();
+  }
+}
+
 }  // namespace controller
 }  // namespace application
