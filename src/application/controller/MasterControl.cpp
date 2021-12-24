@@ -206,6 +206,7 @@ void MasterControl::setLocoFunction(const RR32Can::Locomotive::Uid_t uid, uint8_
   RR32Can::Locomotive* const loco = getLoco(uid);
   if (loco != 0) {
     loco->setFunction(functionIdx, functionOn);
+    locoControl.notifyFunctionReceived(functionIdx);
   }
 }
 

@@ -62,6 +62,8 @@ class LocoControl {
   // Get outside access to the engine. Don't set the velocity this way!
   RR32Can::Locomotive& getLoco() { return loco; }
 
+  void notifyFunctionReceived(uint8_t functionIdx);
+
  private:
   void checkEncoder(application::model::InputState& inputState);
 
@@ -69,6 +71,12 @@ class LocoControl {
 
   RR32Can::LocoConsumer locoDataConsumer;
   RR32Can::ConfigDataStreamParser streamParser;
+
+  void startRequestEngineFunctions();
+
+  constexpr static uint8_t kMaxFunctions = 16;
+  constexpr static uint8_t kNoFunctionRequested = 0xFF;
+  uint8_t lastRequestedFunction = kNoFunctionRequested;
 };
 
 }  // namespace controller

@@ -193,7 +193,24 @@ void LocoControl::requestLocoFile() {
 void LocoControl::requestLocoData() {
   RR32Can::RR32Can.RequestEngineVelocity(loco);
   RR32Can::RR32Can.RequestEngineDirection(loco);
-  RR32Can::RR32Can.RequestEngineAllFunctions(loco);
+  startRequestEngineFunctions();
+}
+
+void LocoControl::startRequestEngineFunctions() {
+  lastRequestedFunction = 0;
+  RR32Can::RR32Can.RequestEngineFunction(loco, lastRequestedFunction);
+}
+
+void LocoControl::notifyFunctionReceived(uint8_t functionIndex) {
+  if (functionIndex == lastRequestedFunction) {
+    if (lastRequestedFunction < kMaxFunctions) {
+      ++lastRequestedFunction;
+      RR32Can::RR32Can.RequestEngineFunction(loco, lastRequestedFunction);
+
+    } else {
+      lastRequestedFunction = kNoFunctionRequested;
+    }
+  }
 }
 
 }  // namespace controller
