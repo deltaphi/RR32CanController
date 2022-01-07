@@ -23,5 +23,5 @@ add_executable(ApplicationSilTest
     ${applicationSources}
      )
 target_link_libraries(ApplicationSilTest gtest_main gmock)
-target_compile_definitions(ApplicationSilTest PUBLIC -DHARDWARE_REVISION=0)
+target_compile_definitions(ApplicationSilTest PUBLIC -DHARDWARE_VERSION=1)
 add_test(NAME gtest_ApplicationSil_test COMMAND ApplicationSilTest)
