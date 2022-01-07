@@ -29,7 +29,7 @@ jobs:
     - name: Run PlatformIO to fetch libraries for Bluepill
       run: |
         cd ${{ github.workspace }}
-        platformio lib -e esp32dev install
+        platformio lib install
 
     # Runs a single command using the runners shell
     - uses: lukka/run-cmake@v2.5

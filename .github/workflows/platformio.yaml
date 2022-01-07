@@ -22,4 +22,4 @@ jobs:
         python -m pip install --upgrade pip
         pip install platformio
     - name: Run PlatformIO
-      run: platformio run -d ${{ github.workspace }} -e esp32dev
+      run: platformio run -d ${{ github.workspace }}
