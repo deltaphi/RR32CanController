@@ -6,7 +6,7 @@
 #include "RR32Can_config.h"
 
 // Use 0 for "manual settings", 1 for first prototype, 2 for second prototype, 3 for control only
-#define HARDWARE_VERSION (1)
+//#define HARDWARE_VERSION (2)
 
 #ifndef HARDWARE_VERSION
 #error "You must set a Hardware verison. Use 0 if unsure."
