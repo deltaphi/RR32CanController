@@ -1,6 +1,6 @@
 # Now simply link against gtest or gtest_main as needed. Eg
 include_directories("${PROJECT_SOURCE_DIR}/src")
-include_directories("${PROJECT_SOURCE_DIR}/.pio/libdeps/esp32dev/RR32CanLibrary/lib/")
+include_directories("${PROJECT_SOURCE_DIR}/.pio/libdeps/hwrev1/RR32CanLibrary/lib/")
 #include_directories("${PROJECT_SOURCE_DIR}/lib/RotaryEncoder")
 include_directories("${PROJECT_SOURCE_DIR}/test/sil/application")
 include_directories("${PROJECT_SOURCE_DIR}/test/sil/mocks")
@@ -23,4 +23,5 @@ add_executable(ApplicationSilTest
     ${applicationSources}
      )
 target_link_libraries(ApplicationSilTest gtest_main gmock)
+target_compile_definitions(ApplicationSilTest PUBLIC -DHARDWARE_REVISION=0)
 add_test(NAME gtest_ApplicationSil_test COMMAND ApplicationSilTest)
