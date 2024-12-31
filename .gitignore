@@ -47,6 +47,8 @@ fp-info-cache
 # Autosave files
 _autosave-*
 
+# OSX
+.DS_Store
 
 ## Eclipse
 .project
