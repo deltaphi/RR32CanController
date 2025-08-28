@@ -5363,7 +5363,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "S88_In_Plug"
+		(property "Value" "S88_In"
 			(at 262.382 101.5746 0)
 			(effects
 				(font
@@ -5443,7 +5443,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "S88_Out_Plug"
+		(property "Value" "S88_Out"
 			(at 262.382 137.1346 0)
 			(effects
 				(font

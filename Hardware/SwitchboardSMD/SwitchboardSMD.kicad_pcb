@@ -104,7 +104,7 @@
 	(net 26 "Net-(U3-P5)")
 	(net 27 "unconnected-(U3-Q6-Pad12)")
 	(net 28 "unconnected-(U3-Q5-Pad2)")
-	(net 29 "Net-(Q1-C)")
+	(net 29 "Net-(Q1-B)")
 	(net 30 "Net-(C1-Pad1)")
 	(net 31 "Net-(C2-Pad1)")
 	(net 32 "Net-(C3-Pad1)")
@@ -319,7 +319,7 @@
 		(descr "Generic 6mm SW tactile push button")
 		(tags "tact sw push 6mm")
 		(property "Reference" "SW8"
-			(at 3.25 -2 90)
+			(at 8.5 2.25 180)
 			(layer "F.SilkS")
 			(uuid "f402c8f0-f48d-497c-8920-0b7476084332")
 			(effects
@@ -1468,7 +1468,7 @@
 		(descr "Capacitor SMD 1206 (3216 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 76, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf), generated with kicad-footprint-generator")
 		(tags "capacitor")
 		(property "Reference" "C4"
-			(at 0 -1.85 90)
+			(at 3.5 0 90)
 			(layer "F.SilkS")
 			(uuid "7f614327-6fad-4bc3-85b6-eadb170ad73a")
 			(effects
@@ -1667,7 +1667,7 @@
 		(descr "Capacitor SMD 1206 (3216 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 76, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf), generated with kicad-footprint-generator")
 		(tags "capacitor")
 		(property "Reference" "C7"
-			(at 0 -1.85 90)
+			(at 3.25 0 90)
 			(layer "F.SilkS")
 			(uuid "573e39d5-e76b-48cf-9626-6bc4253c0686")
 			(effects
@@ -2275,7 +2275,7 @@
 		(descr "Generic 6mm SW tactile push button")
 		(tags "tact sw push 6mm")
 		(property "Reference" "SW5"
-			(at 3.25 -2 90)
+			(at 8 2.25 180)
 			(layer "F.SilkS")
 			(uuid "e9dd9417-f6c7-4b9b-aa94-9d38d9468383")
 			(effects
@@ -3444,7 +3444,7 @@
 		(descr "Capacitor SMD 1206 (3216 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 76, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf), generated with kicad-footprint-generator")
 		(tags "capacitor")
 		(property "Reference" "C2"
-			(at 0 -1.85 90)
+			(at 3.5 0 90)
 			(layer "F.SilkS")
 			(uuid "9ee5a9c6-2b92-48f7-a78d-574fc5717abe")
 			(effects
@@ -4848,7 +4848,7 @@
 		(descr "Generic 6mm SW tactile push button")
 		(tags "tact sw push 6mm")
 		(property "Reference" "SW7"
-			(at 3.25 -2 90)
+			(at -1.5 2.25 180)
 			(layer "F.SilkS")
 			(uuid "c260c3df-a78b-45dd-a0a0-5e649ab390db")
 			(effects
@@ -5394,7 +5394,7 @@
 		(descr "Generic 6mm SW tactile push button")
 		(tags "tact sw push 6mm")
 		(property "Reference" "SW6"
-			(at 3.25 -2 90)
+			(at -2 2.5 180)
 			(layer "F.SilkS")
 			(uuid "ed8de14b-1692-4ec4-9090-d2ee0f7e1185")
 			(effects
@@ -6106,7 +6106,7 @@
 			(size 1.3 1.75)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.192308)
-			(net 29 "Net-(Q1-C)")
+			(net 29 "Net-(Q1-B)")
 			(pintype "passive")
 			(uuid "740f5a87-5ba1-4aaa-b82f-9c1c9eb76839")
 		)
@@ -6341,7 +6341,7 @@
 		(descr "Capacitor SMD 1206 (3216 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 76, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf), generated with kicad-footprint-generator")
 		(tags "capacitor")
 		(property "Reference" "C8"
-			(at 0 -1.85 90)
+			(at 3.5 0 90)
 			(layer "F.SilkS")
 			(uuid "32160788-fc67-4215-9936-65d055df17bf")
 			(effects
@@ -6540,7 +6540,7 @@
 		(descr "Generic 6mm SW tactile push button")
 		(tags "tact sw push 6mm")
 		(property "Reference" "SW4"
-			(at 3.25 -2 90)
+			(at 8.5 2 180)
 			(layer "F.SilkS")
 			(uuid "a7cd5aaa-18a4-4e16-86f6-6e76f3cdf93e")
 			(effects
@@ -7086,9 +7086,9 @@
 		(descr "Capacitor SMD 1206 (3216 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 76, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf), generated with kicad-footprint-generator")
 		(tags "capacitor")
 		(property "Reference" "C3"
-			(at 0 -1.85 90)
+			(at 3.5 0 90)
 			(layer "F.SilkS")
-			(uuid "19f5de97-8e65-4da0-9da6-dfc9e25a143e")
+			(uuid "9ea6bfc5-67ff-4258-a673-71cde057af3b")
 			(effects
 				(font
 					(size 1 1)
@@ -7099,7 +7099,7 @@
 		(property "Value" "10n"
 			(at 0 1.85 90)
 			(layer "F.Fab")
-			(uuid "2554da6a-3f6c-4018-b830-4b4115ca9c70")
+			(uuid "f920cc5d-9bc7-4b52-93d6-6c3089ff35c4")
 			(effects
 				(font
 					(size 1 1)
@@ -7111,7 +7111,7 @@
 			(at 0 0 90)
 			(layer "F.Fab")
 			(hide yes)
-			(uuid "61862221-355a-4a93-ada6-9f41b1a63d6a")
+			(uuid "27339d77-77d6-4306-b4db-37808f99c4de")
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7123,7 +7123,7 @@
 			(at 0 0 90)
 			(layer "F.Fab")
 			(hide yes)
-			(uuid "7ae51165-fbe8-44c9-b619-cb717450b194")
+			(uuid "a7ae65fa-38d0-434b-9b46-0973682ebd35")
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7285,7 +7285,7 @@
 		(descr "Generic 6mm SW tactile push button")
 		(tags "tact sw push 6mm")
 		(property "Reference" "SW1"
-			(at 3.25 -2 90)
+			(at 8 2.25 180)
 			(layer "F.SilkS")
 			(uuid "022e9795-93f6-4cd2-8de7-43679dd7f45b")
 			(effects
@@ -7831,9 +7831,9 @@
 		(descr "Capacitor SMD 1206 (3216 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 76, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf), generated with kicad-footprint-generator")
 		(tags "capacitor")
 		(property "Reference" "C1"
-			(at 0 -1.85 90)
+			(at 3.5 0 90)
 			(layer "F.SilkS")
-			(uuid "3213a0de-be9e-473f-93cb-cfb71262fe35")
+			(uuid "0065ea2e-99b3-41e7-a3af-ffcb4175f335")
 			(effects
 				(font
 					(size 1 1)
@@ -7844,7 +7844,7 @@
 		(property "Value" "10n"
 			(at 0 1.85 90)
 			(layer "F.Fab")
-			(uuid "7c6693c1-43cf-4f43-ae37-424051d5a007")
+			(uuid "c4a5becf-23d8-4721-8f79-9666c82635cd")
 			(effects
 				(font
 					(size 1 1)
@@ -7856,7 +7856,7 @@
 			(at 0 0 90)
 			(layer "F.Fab")
 			(hide yes)
-			(uuid "6e288956-1ad1-4923-a8b6-f932b0c60118")
+			(uuid "9432d7c1-023a-4091-b551-2252a1c50acc")
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7868,7 +7868,7 @@
 			(at 0 0 90)
 			(layer "F.Fab")
 			(hide yes)
-			(uuid "58edb730-7374-433e-b17a-724fe3e21de9")
+			(uuid "f5f9de75-312b-4839-9e51-11c64e780b86")
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8032,7 +8032,7 @@
 		(property "Reference" "C9"
 			(at 0 -1.85 90)
 			(layer "F.SilkS")
-			(uuid "d80f8b52-8351-471f-b394-aeb2a811748c")
+			(uuid "ed69c029-95d9-4acc-98bd-28f74fe71eef")
 			(effects
 				(font
 					(size 1 1)
@@ -8043,7 +8043,7 @@
 		(property "Value" "100n"
 			(at 0 1.85 90)
 			(layer "F.Fab")
-			(uuid "85ca59b8-c2d0-4daf-bb0a-d924b3019518")
+			(uuid "db32dae3-5f27-4ea4-9428-27c956c19e74")
 			(effects
 				(font
 					(size 1 1)
@@ -8055,7 +8055,7 @@
 			(at 0 0 90)
 			(layer "F.Fab")
 			(hide yes)
-			(uuid "42f555f9-33d2-4bab-9531-0e65b1fd7be3")
+			(uuid "5e4e671d-e991-4bf0-b739-91e522acbd2d")
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8067,7 +8067,7 @@
 			(at 0 0 90)
 			(layer "F.Fab")
 			(hide yes)
-			(uuid "3fe9ec63-ea94-484d-b975-d3bb4ecc5d08")
+			(uuid "8800b01b-1024-4abe-a0be-69ad77094839")
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8428,7 +8428,7 @@
 		(descr "Generic 6mm SW tactile push button")
 		(tags "tact sw push 6mm")
 		(property "Reference" "SW3"
-			(at 3.25 -2 90)
+			(at -1.5 2.25 180)
 			(layer "F.SilkS")
 			(uuid "a7214750-f92c-4b42-8f66-3c486b3141c3")
 			(effects
@@ -9173,7 +9173,7 @@
 		(descr "Capacitor SMD 1206 (3216 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 76, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf), generated with kicad-footprint-generator")
 		(tags "capacitor")
 		(property "Reference" "C5"
-			(at 0 -1.85 90)
+			(at 3.225 0 90)
 			(layer "F.SilkS")
 			(uuid "a436eb5f-5d6b-4132-bb60-7b07d49bd7c7")
 			(effects
@@ -9622,7 +9622,7 @@
 			(size 1.475 0.6)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
-			(net 29 "Net-(Q1-C)")
+			(net 29 "Net-(Q1-B)")
 			(pinfunction "B")
 			(pintype "input")
 			(uuid "8fa987a7-0fdf-4057-bb85-52b3a6f969ff")
@@ -9868,6 +9868,7 @@
 		(property "Reference" "J2"
 			(at -4.38 -2.77 0)
 			(layer "F.SilkS")
+			(hide yes)
 			(uuid "d3c7e1da-6fda-497c-828f-1008e8e61061")
 			(effects
 				(font
@@ -9876,9 +9877,9 @@
 				)
 			)
 		)
-		(property "Value" "S88_In_Plug"
-			(at -4.38 15.47 0)
-			(layer "F.Fab")
+		(property "Value" "S88_In"
+			(at -2.75 16.821282 0)
+			(layer "F.SilkS")
 			(uuid "0f3c327d-c841-419c-b09f-90003c6be27a")
 			(effects
 				(font
@@ -10723,7 +10724,7 @@
 		(descr "Generic 6mm SW tactile push button")
 		(tags "tact sw push 6mm")
 		(property "Reference" "SW2"
-			(at 3.25 -2 90)
+			(at -2 2.5 180)
 			(layer "F.SilkS")
 			(uuid "3ec57a97-d4ae-4cfa-b93d-0d48ae69f335")
 			(effects
@@ -11269,7 +11270,7 @@
 		(descr "Capacitor SMD 1206 (3216 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 76, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf), generated with kicad-footprint-generator")
 		(tags "capacitor")
 		(property "Reference" "C6"
-			(at 0 -1.85 90)
+			(at 3.5 0 90)
 			(layer "F.SilkS")
 			(uuid "bcda2c44-9cdb-4264-b9e4-82c9cee8ae4c")
 			(effects
@@ -11470,7 +11471,8 @@
 		(property "Reference" "J4"
 			(at 4.385 -2.27 0)
 			(layer "F.SilkS")
-			(uuid "61952f31-2a82-460c-8d36-9f62ba3295b7")
+			(hide yes)
+			(uuid "51337ffe-655a-479f-8b7a-4e8c35a593b3")
 			(effects
 				(font
 					(size 1 1)
@@ -11478,10 +11480,10 @@
 				)
 			)
 		)
-		(property "Value" "S88_Out_Plug"
-			(at 4.385 14.97 0)
-			(layer "F.Fab")
-			(uuid "acbe1262-2db3-4063-8e33-6206fc7c8566")
+		(property "Value" "S88_Out"
+			(at 1.75 15.321282 0)
+			(layer "F.SilkS")
+			(uuid "ff2ec0c0-8cd6-43d7-847f-def3b4ff2304")
 			(effects
 				(font
 					(size 1 1)
@@ -11493,7 +11495,7 @@
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
-			(uuid "74c3b23b-3d91-4801-bb6d-778d2a90dc54")
+			(uuid "7f0b744a-f1d7-43fa-a5e5-d77bf20ec1d5")
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11505,7 +11507,7 @@
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
-			(uuid "4a35fd9e-d22a-47a7-97e7-c6d0e307d81d")
+			(uuid "8389bcfc-65dc-47dd-a914-21028d3d171d")
 			(effects
 				(font
 					(size 1.27 1.27)
