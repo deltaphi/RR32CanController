@@ -2490,16 +2490,6 @@
 	)
 	(wire
 		(pts
-			(xy 133.35 91.44) (xy 133.35 81.28)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "081fa4e7-d958-4ba5-b9f8-eb5d76241d2a")
-	)
-	(wire
-		(pts
 			(xy 67.31 93.98) (xy 67.31 104.14)
 		)
 		(stroke
@@ -3050,26 +3040,6 @@
 	)
 	(wire
 		(pts
-			(xy 137.16 41.91) (xy 129.54 41.91)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "44108ea6-2a83-4da6-a9f7-42ac0564cf87")
-	)
-	(wire
-		(pts
-			(xy 129.54 87.63) (xy 137.16 87.63)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "442f2dd4-1fad-4730-a3bd-0659ecd119eb")
-	)
-	(wire
-		(pts
 			(xy 104.14 86.36) (xy 110.49 86.36)
 		)
 		(stroke
@@ -3117,16 +3087,6 @@
 			(type default)
 		)
 		(uuid "4658dcaa-4605-4350-ad33-f550ba975d79")
-	)
-	(wire
-		(pts
-			(xy 133.35 45.72) (xy 133.35 38.1)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "468cdbbf-7e5c-441a-8f76-00366f5f60f6")
 	)
 	(wire
 		(pts
@@ -3620,6 +3580,16 @@
 	)
 	(wire
 		(pts
+			(xy 129.54 124.46) (xy 129.54 125.73)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "8519bbc3-442c-40eb-a618-583a51408171")
+	)
+	(wire
+		(pts
 			(xy 241.3 49.53) (xy 241.3 41.91)
 		)
 		(stroke
@@ -3777,6 +3747,16 @@
 			(type default)
 		)
 		(uuid "960f2ef9-c5fb-47a5-9aa7-e5e42ef169a5")
+	)
+	(wire
+		(pts
+			(xy 129.54 78.74) (xy 129.54 80.01)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "97c3341d-2fae-41fd-89ab-c9d5926508a5")
 	)
 	(wire
 		(pts
@@ -7733,7 +7713,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 137.16 87.63 0)
+		(at 129.54 125.73 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -7741,7 +7721,7 @@
 		(dnp no)
 		(uuid "00000000-0000-0000-0000-00005e56fe8f")
 		(property "Reference" "#PWR0101"
-			(at 137.16 93.98 0)
+			(at 129.54 132.08 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7750,7 +7730,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 137.287 92.0242 0)
+			(at 129.667 130.1242 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7758,7 +7738,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 137.16 87.63 0)
+			(at 129.54 125.73 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7767,7 +7747,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 137.16 87.63 0)
+			(at 129.54 125.73 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7776,7 +7756,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 137.16 87.63 0)
+			(at 129.54 125.73 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7797,7 +7777,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 137.16 41.91 0)
+		(at 129.54 80.01 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -7805,7 +7785,7 @@
 		(dnp no)
 		(uuid "00000000-0000-0000-0000-00005e581010")
 		(property "Reference" "#PWR0102"
-			(at 137.16 48.26 0)
+			(at 129.54 86.36 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7814,7 +7794,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 137.287 46.3042 0)
+			(at 129.667 84.4042 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7822,7 +7802,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 137.16 41.91 0)
+			(at 129.54 80.01 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7831,7 +7811,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 137.16 41.91 0)
+			(at 129.54 80.01 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7840,7 +7820,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 137.16 41.91 0)
+			(at 129.54 80.01 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7861,7 +7841,7 @@
 	)
 	(symbol
 		(lib_id "power:VCC")
-		(at 133.35 81.28 0)
+		(at 129.54 87.63 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -7869,7 +7849,7 @@
 		(dnp no)
 		(uuid "00000000-0000-0000-0000-00005e592736")
 		(property "Reference" "#PWR0103"
-			(at 133.35 85.09 0)
+			(at 129.54 91.44 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7878,7 +7858,7 @@
 			)
 		)
 		(property "Value" "VCC"
-			(at 133.7818 76.8858 0)
+			(at 129.9718 83.2358 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7886,7 +7866,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 133.35 81.28 0)
+			(at 129.54 87.63 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7895,7 +7875,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 133.35 81.28 0)
+			(at 129.54 87.63 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7904,7 +7884,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 133.35 81.28 0)
+			(at 129.54 87.63 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7925,7 +7905,7 @@
 	)
 	(symbol
 		(lib_id "power:VCC")
-		(at 133.35 38.1 0)
+		(at 129.54 41.91 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -7933,7 +7913,7 @@
 		(dnp no)
 		(uuid "00000000-0000-0000-0000-00005e592a48")
 		(property "Reference" "#PWR0104"
-			(at 133.35 41.91 0)
+			(at 129.54 45.72 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7942,7 +7922,7 @@
 			)
 		)
 		(property "Value" "VCC"
-			(at 133.7818 33.7058 0)
+			(at 129.9718 37.5158 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7950,7 +7930,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 133.35 38.1 0)
+			(at 129.54 41.91 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7959,7 +7939,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 133.35 38.1 0)
+			(at 129.54 41.91 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7968,7 +7948,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 133.35 38.1 0)
+			(at 129.54 41.91 0)
 			(effects
 				(font
 					(size 1.27 1.27)
