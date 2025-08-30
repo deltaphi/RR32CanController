@@ -5028,7 +5028,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "MountingHole:MountingHole_2.2mm_M2_Pad_Via"
+		(property "Footprint" "MountingHole:MountingHole_2.2mm_M2"
 			(at 246.38 39.37 0)
 			(effects
 				(font
@@ -5093,7 +5093,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "MountingHole:MountingHole_2.2mm_M2_Pad_Via"
+		(property "Footprint" "MountingHole:MountingHole_2.2mm_M2"
 			(at 246.38 46.99 0)
 			(effects
 				(font
@@ -5158,7 +5158,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "MountingHole:MountingHole_2.2mm_M2_Pad_Via"
+		(property "Footprint" "MountingHole:MountingHole_2.2mm_M2"
 			(at 246.38 54.61 0)
 			(effects
 				(font
@@ -5223,7 +5223,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "MountingHole:MountingHole_2.2mm_M2_Pad_Via"
+		(property "Footprint" "MountingHole:MountingHole_2.2mm_M2"
 			(at 246.38 62.23 0)
 			(effects
 				(font

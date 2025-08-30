@@ -7,10 +7,10 @@ Comment,Designator,Footprint,LCSC,Quantity
 MMBT5551L,Q1,SOT-23,C41095,1
 4044,"U1,U2",TSSOP-16_4.4x5mm_P0.65mm,C74801,2
 SW_Push,SW1,SW_PUSH_6mm,,1
-MountingHole_Pad,H1,MountingHole_2.2mm_M2_Pad_Via,,1
-MountingHole_Pad,H2,MountingHole_2.2mm_M2_Pad_Via,,1
-MountingHole_Pad,H3,MountingHole_2.2mm_M2_Pad_Via,,1
-MountingHole_Pad,H4,MountingHole_2.2mm_M2_Pad_Via,,1
+MountingHole_Pad,H1,MountingHole_2.2mm_M2,,1
+MountingHole_Pad,H2,MountingHole_2.2mm_M2,,1
+MountingHole_Pad,H3,MountingHole_2.2mm_M2,,1
+MountingHole_Pad,H4,MountingHole_2.2mm_M2,,1
 SW_Push,SW2,SW_PUSH_6mm,,1
 SW_Push,SW3,SW_PUSH_6mm,,1
 SW_Push,SW5,SW_PUSH_6mm,,1
