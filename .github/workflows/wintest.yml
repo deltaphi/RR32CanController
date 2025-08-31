@@ -38,11 +38,9 @@ jobs:
         configurePreset: "Windows"
         buildPreset: "Windows"
 
-
-    # Actual testing happening
     - name: Examine Output
-      run: dir ${{ runner.temp }}\build\test\sil\
+      run: dir ${{ github.workspace }}\..\RR32CanController-build-windows\
 
     # Actual testing happening
     - name: Run Unittest
-      run: ${{ runner.temp }}\build\test\sil\Release\ApplicationSilTest.exe
+      run: ${{ github.workspace }}\..\RR32CanController-build-windows\test\sil\Release\ApplicationSilTest.exe
