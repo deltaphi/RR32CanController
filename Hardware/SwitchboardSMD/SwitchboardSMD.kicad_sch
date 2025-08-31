@@ -2087,6 +2087,12 @@
 		(uuid "00e9fd8f-5262-4463-8c32-410d50bf3b6e")
 	)
 	(junction
+		(at 241.3 41.91)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "10d29a13-79eb-4bde-a110-700252be7ec5")
+	)
+	(junction
 		(at 67.31 114.3)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -3367,6 +3373,16 @@
 			(type default)
 		)
 		(uuid "68bf6b97-ab6d-4bfc-9122-70953aa1bdbc")
+	)
+	(wire
+		(pts
+			(xy 219.71 41.91) (xy 241.3 41.91)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "69f6afdc-ca79-4f74-9de6-a16b86e83467")
 	)
 	(wire
 		(pts
@@ -8692,6 +8708,71 @@
 			(project "SwitchboardSMD"
 				(path "/ac4976cf-0d78-436d-a3bb-0ec53681a8b4"
 					(reference "R17")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Mechanical:MountingHole_Pad")
+		(at 219.71 39.37 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "6d407ff3-80ad-4ec9-a4c8-24b1c8af2d2e")
+		(property "Reference" "H5"
+			(at 222.25 38.1254 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "MountingHole_Pad"
+			(at 222.25 40.4368 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "MountingHole:MountingHole_3.2mm_M3_Pad_Via"
+			(at 219.71 39.37 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 219.71 39.37 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 219.71 39.37 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "8b3a63ec-79b3-4d43-b11f-f6bb2614924d")
+		)
+		(instances
+			(project "SwitchboardSMD"
+				(path "/ac4976cf-0d78-436d-a3bb-0ec53681a8b4"
+					(reference "H5")
 					(unit 1)
 				)
 			)

@@ -20,3 +20,4 @@ SW_Push,SW8,SW_PUSH_6mm,,1
 SW_Push,SW4,SW_PUSH_6mm,,1
 S88_In,J2,PinSocket_1x06_P2.54mm_Horizontal,,1
 S88_Out,J4,PinHeader_1x06_P2.54mm_Horizontal,,1
+MountingHole_Pad,H5,MountingHole_3.2mm_M3_Pad_Via,,1
