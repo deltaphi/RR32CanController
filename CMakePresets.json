@@ -9,12 +9,12 @@
         {
             "name": "Linux",
             "generator": "Unix Makefiles",
-            "binaryDir": "${sourceDir}/../../c6021light-build-linux"
+            "binaryDir": "${sourceDir}/../../RR32CanController-build-linux"
         },
         {
             "name": "Windows",
             "generator": "Visual Studio 17 2022",
-            "binaryDir": "${sourceDir}/../../c6021light-build-windows"
+            "binaryDir": "${sourceDir}/../../RR32CanController-build-windows"
         }
     ],
     "buildPresets": [
