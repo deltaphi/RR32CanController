@@ -1,0 +1,78 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:recommended"],
+  "git-submodules": {
+    "enabled": true
+  },
+  "customDatasources": {
+    "platformio": {
+      "defaultRegistryUrlTemplate": "https://api.registry.platformio.org/v3/packages/{{{packageName}}}",
+      "format": "json",
+      "transformTemplates": [
+        "{\"releases\": versions.{\"version\": name, \"releaseTimestamp\": released_at}}"
+      ]
+    }
+  },
+  "customManagers": [
+    {
+      "customType": "regex",
+      "description": "Update the ESP32 PlatformIO platform",
+      "managerFilePatterns": ["/^platformio\\.ini$/"],
+      "matchStrings": [
+        "(?:^|\\n)platform\\s*=\\s*espressif32@(?<currentValue>[^\\s;]+)"
+      ],
+      "depNameTemplate": "espressif32",
+      "packageNameTemplate": "platformio/platform/espressif32",
+      "datasourceTemplate": "custom.platformio",
+      "versioningTemplate": "semver"
+    },
+    {
+      "customType": "regex",
+      "description": "Update RotaryEncoder from the PlatformIO registry",
+      "managerFilePatterns": ["/^platformio\\.ini$/"],
+      "matchStrings": [
+        "(?:^|\\n)[ \\t]*mathertel/RotaryEncoder@(?<currentValue>[^\\s;]+)"
+      ],
+      "depNameTemplate": "mathertel/RotaryEncoder",
+      "packageNameTemplate": "mathertel/library/RotaryEncoder",
+      "datasourceTemplate": "custom.platformio",
+      "versioningTemplate": "semver"
+    },
+    {
+      "customType": "regex",
+      "description": "PlatformIO library ID 2978 is the ThingPulse SSD1306 OLED driver",
+      "managerFilePatterns": ["/^platformio\\.ini$/"],
+      "matchStrings": [
+        "(?:^|\\n)[ \\t]*2978@(?<currentValue>[^\\s;]+)"
+      ],
+      "depNameTemplate": "thingpulse/ESP8266 and ESP32 OLED driver for SSD1306 displays",
+      "packageNameTemplate": "thingpulse/library/ESP8266%20and%20ESP32%20OLED%20driver%20for%20SSD1306%20displays",
+      "datasourceTemplate": "custom.platformio",
+      "versioningTemplate": "semver"
+    },
+    {
+      "customType": "regex",
+      "description": "Update AsyncShiftIn from the PlatformIO registry",
+      "managerFilePatterns": ["/^platformio\\.ini$/"],
+      "matchStrings": [
+        "(?:^|\\n)[ \\t]*AsyncShiftIn@(?<currentValue>[^\\s;]+)"
+      ],
+      "depNameTemplate": "deltaphi/AsyncShiftIn",
+      "packageNameTemplate": "deltaphi/library/AsyncShiftIn",
+      "datasourceTemplate": "custom.platformio",
+      "versioningTemplate": "semver"
+    },
+    {
+      "customType": "regex",
+      "description": "Keep the RR32CanLibrary commit pin up to date",
+      "managerFilePatterns": ["/^platformio\\.ini$/"],
+      "matchStrings": [
+        "https://github\\.com/(?<depName>deltaphi/RR32CanLibrary)\\.git#(?<currentDigest>[a-f0-9]{40})"
+      ],
+      "packageNameTemplate": "https://github.com/{{{depName}}}.git",
+      "currentValueTemplate": "HEAD",
+      "datasourceTemplate": "git-refs",
+      "versioningTemplate": "git"
+    }
+  ]
+}
