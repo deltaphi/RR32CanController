@@ -1,0 +1,26 @@
+{
+    "version": 4,
+    "configurePresets": [
+        {
+            "name": "Windows",
+            "generator": "Visual Studio 18 2026",
+            "architecture": "x64",
+            "binaryDir": "build"
+        },
+        {
+            "name": "Linux",
+            "binaryDir": "build"
+        }
+    ],
+    "buildPresets": [
+        {
+            "name": "build-Windows",
+            "configurePreset": "Windows",
+            "configuration": "Release"
+        },
+        {
+            "name": "build-Linux",
+            "configurePreset": "Linux"
+        }
+    ]
+}
