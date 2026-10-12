@@ -9,7 +9,7 @@
       "defaultRegistryUrlTemplate": "https://api.registry.platformio.org/v3/packages/{{{packageName}}}",
       "format": "json",
       "transformTemplates": [
-        "{\"releases\": versions.{\"version\": name, \"releaseTimestamp\": released_at}}"
+        "{\"releases\": [versions.{\"version\": name, \"releaseTimestamp\": released_at}]}"
       ]
     }
   },
@@ -70,7 +70,7 @@
         "https://github\\.com/(?<depName>deltaphi/RR32CanLibrary)\\.git#(?<currentDigest>[a-f0-9]{40})"
       ],
       "packageNameTemplate": "https://github.com/{{{depName}}}.git",
-      "currentValueTemplate": "HEAD",
+      "currentValueTemplate": "master",
       "datasourceTemplate": "git-refs",
       "versioningTemplate": "git"
     }
