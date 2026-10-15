@@ -1,15 +1,9 @@
 #!/bin/sh
 
-CLANG_BINARY="/c/Program Files/LLVM/bin/clang-format.exe"
+set -eu
 
-for filename in `find src include -iname "*.cpp" -o -iname "*.h"`
-do
-    echo "Formatting $filename"
-    "$CLANG_BINARY" -i "$filename"
-done
-
-for filename in `find test -name "argtable3" -prune -o -iname "*.cpp" -o -iname "*.h"`
-do
-    echo "Formatting $filename"
-    "$CLANG_BINARY" -i "$filename"
-done
+git ls-files -z -- \
+  '*.c' '*.h' '*.cc' '*.hh' '*.cpp' '*.hpp' '*.cxx' '*.hxx' \
+  ':!c6021light/lib/freertos/**' \
+  ':!c6021light/lib/microrl/**' \
+  | xargs -0 uvx --from clang-format==23.1.3 clang-format --style=file -i
