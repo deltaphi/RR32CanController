@@ -73,6 +73,17 @@
       "currentValueTemplate": "master",
       "datasourceTemplate": "git-refs",
       "versioningTemplate": "git"
+    },
+    {
+      "customType": "regex",
+      "description": "Update the clang-format version shared by local formatting and CI.",
+      "managerFilePatterns": ["/^apply-clang\\.sh$/"],
+      "matchStrings": [
+        "uvx\\s+--from\\s+clang-format==(?<currentValue>\\d+\\.\\d+\\.\\d+)"
+      ],
+      "depNameTemplate": "clang-format",
+      "datasourceTemplate": "pypi",
+      "versioningTemplate": "pep440"
     }
   ]
 }

@@ -63,8 +63,7 @@ void canManager::startCan() {
     Serial.println("Starting CAN failed!");
     // Go into an endless loop if this failed.
     // TODO: Use the on-board LED of the esp32 to signal a failure
-    while (1)
-      ;
+    while (1);
   }
 #endif
 }
