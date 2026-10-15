@@ -43,7 +43,7 @@ class MainFixture : public ::testing::Test {
     masterControl.begin(settingsCbk, turnoutMapStorageCbk, actionListCallback);
     RR32Can::RR32Can.begin(0, masterControl, txCbk);
   };
-  void TearDown(){};
+  void TearDown() {};
 
   SettingsStorageCbkMock settingsCbk;
   TurnoutMapStorageCbkMock turnoutMapStorageCbk;

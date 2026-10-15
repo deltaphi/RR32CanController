@@ -69,8 +69,9 @@ class MasterControl : public RR32Can::StationCbk {
 
   void loopStopKey();
 
-  void OnAccessoryPacket(RR32Can::TurnoutPacket&) override{
-      /* Nothing done with turnout packets. */};
+  void OnAccessoryPacket(RR32Can::TurnoutPacket&) override {
+    /* Nothing done with turnout packets. */
+  };
 
   application::model::InputState inputState;
 

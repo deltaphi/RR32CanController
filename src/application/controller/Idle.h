@@ -14,7 +14,7 @@ class MasterControl;
  */
 class Idle {
  public:
-  void begin(){};
+  void begin() {};
   void loop(application::model::InputState& inputState, MasterControl& uiControl);
 
   void updateDisplayOnce(application::model::DisplayModel& displayManager);
