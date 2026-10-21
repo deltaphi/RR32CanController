@@ -23,13 +23,15 @@ void ConsoleManager::initialize_console(void) {
   /* Configure UART. Note that REF_TICK is used so that the baud rate remains
    * correct while APB frequency is changing in light sleep mode.
    */
-  const uart_config_t uart_config = {.baud_rate = 115200 /*CONFIG_ESP_CONSOLE_UART_BAUDRATE*/,
-                                     .data_bits = UART_DATA_8_BITS,
-                                     .parity = UART_PARITY_DISABLE,
-                                     .stop_bits = UART_STOP_BITS_1,
-                                     .flow_ctrl = UART_HW_FLOWCTRL_DISABLE,
-                                     .rx_flow_ctrl_thresh = 0,
-                                     .use_ref_tick = true};
+  const uart_config_t uart_config = {
+    .baud_rate = 115200 /*CONFIG_ESP_CONSOLE_UART_BAUDRATE*/,
+    .data_bits = UART_DATA_8_BITS,
+    .parity = UART_PARITY_DISABLE,
+    .stop_bits = UART_STOP_BITS_1,
+    .flow_ctrl = UART_HW_FLOWCTRL_DISABLE,
+    .rx_flow_ctrl_thresh = 0,
+    .use_ref_tick = true
+  };
 
   ESP_ERROR_CHECK(uart_param_config(UART_NUM_0 /*CONFIG_ESP_CONSOLE_UART_NUM*/, &uart_config));
 

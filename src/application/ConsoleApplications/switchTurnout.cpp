@@ -43,7 +43,8 @@ int TurnoutMain(int argc, char** argv) {
     returncode = -1;
   } else {
     RR32Can::MachineTurnoutAddress machineTurnoutAddress{RR32Can::HumanTurnoutAddress{
-        static_cast<RR32Can::TurnoutAddressBase::value_type>(turnoutNum->ival[0])}};
+      static_cast<RR32Can::TurnoutAddressBase::value_type>(turnoutNum->ival[0])
+    }};
 
     RR32Can::TurnoutDirection turnoutDirection =
         RR32Can::TurnoutDirectionFromIntegral(direction->ival[0]);

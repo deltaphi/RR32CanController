@@ -15,7 +15,7 @@ enum class RR32SymbolNames : char {
 
 // Font generated or edited with the glyphEditor
 constexpr const uint8_t RR32Symbols_8[] PROGMEM = {
-    // clang-format off
+  // clang-format off
     0x08,  // Width: 8
     0x08,  // Height: 8
     0x01,  // First char: 1
@@ -32,12 +32,12 @@ constexpr const uint8_t RR32Symbols_8[] PROGMEM = {
     0x3C, 0x24, 0x24, 0xE7, 0x42, 0x24, 0x18,        // 3
     0x3C, 0x3C, 0x3C, 0xFF, 0x7E, 0x3C, 0x18,        // 4
     0x0A, 0x25, 0x15, 0xD5, 0xD5, 0x15, 0x25, 0x0A,  // 5
-    // clang-format on
+  // clang-format on
 };
 
 // Font generated or edited with the glyphEditor
 constexpr const uint8_t RR32Symbols_10[] PROGMEM = {
-    // clang-format off
+  // clang-format off
     0x0A,  // Width: 10
     0x0A,  // Height: 10
     0x01,  // First char: 1
@@ -59,7 +59,7 @@ constexpr const uint8_t RR32Symbols_10[] PROGMEM = {
     0x78, 0x00, 0x30,  // 4
     0x08, 0x00, 0x24, 0x00, 0x92, 0x00, 0x52, 0x00, 0x49, 0x03, 0x49, 0x03, 0x52, 0x00, 0x92, 0x00,
     0x24, 0x00, 0x08,  // 5
-    // clang-format on
+  // clang-format on
 };
 
 }  // namespace hal

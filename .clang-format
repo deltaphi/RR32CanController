@@ -55,7 +55,10 @@ CompactNamespaces: false
 ConstructorInitializerAllOnOneLineOrOnePerLine: true
 ConstructorInitializerIndentWidth: 4
 ContinuationIndentWidth: 4
-Cpp11BracedListStyle: true
+Cpp11BracedListStyle: AlignFirstComment
+BreakAfterOpenBracketBracedList: true
+BreakBeforeCloseBracketBracedList: true
+BracedInitializerIndentWidth: 2
 DeriveLineEnding: true
 DerivePointerAlignment: true
 DisableFormat:   false

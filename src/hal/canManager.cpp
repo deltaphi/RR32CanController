@@ -27,15 +27,15 @@ void canManager::startCan() {
 #if (CAN_DRIVER_ESP32IDF == STD_ON)
   // Initialize configuration structures using macro initializers
   can_general_config_t g_config = {
-      .mode = CAN_MODE_NORMAL,
-      .tx_io = CAN_TX_PIN,
-      .rx_io = CAN_RX_PIN,
-      .clkout_io = GPIO_NUM_MAX,
-      .bus_off_io = GPIO_NUM_MAX,
-      .tx_queue_len = 5,
-      .rx_queue_len = 100,
-      .alerts_enabled = CAN_ALERT_NONE,
-      .clkout_divider = 0,
+    .mode = CAN_MODE_NORMAL,
+    .tx_io = CAN_TX_PIN,
+    .rx_io = CAN_RX_PIN,
+    .clkout_io = GPIO_NUM_MAX,
+    .bus_off_io = GPIO_NUM_MAX,
+    .tx_queue_len = 5,
+    .rx_queue_len = 100,
+    .alerts_enabled = CAN_ALERT_NONE,
+    .clkout_divider = 0,
   };
   can_timing_config_t t_config = CAN_TIMING_CONFIG_250KBITS();
   can_filter_config_t f_config = CAN_FILTER_CONFIG_ACCEPT_ALL();
