@@ -30,15 +30,17 @@ constexpr const uint8_t textLinePixelDistance = 2;
 constexpr const uint8_t textLineFirst = 1;
 constexpr const uint8_t textLineLast = 2;
 
-const uint8_t DisplayDriver::voffset[] = {0, 0 + statusFontHeight + statusLinePixelDistance,
-                                          static_cast<uint8_t>(FONT_HEIGHT) +
-                                              textLinePixelDistance + statusFontHeight +
-                                              statusLinePixelDistance,
-                                          63 - statusFontHeight};
+const uint8_t DisplayDriver::voffset[] = {
+  0, 0 + statusFontHeight + statusLinePixelDistance,
+  static_cast<uint8_t>(FONT_HEIGHT) + textLinePixelDistance + statusFontHeight +
+      statusLinePixelDistance,
+  63 - statusFontHeight
+};
 
 const uint8_t DisplayDriver::baselineOffset[] = {
-    0, static_cast<uint8_t>(FONT_HEIGHT + voffset[1]),
-    static_cast<uint8_t>((2u * FONT_HEIGHT) + voffset[1] + textLinePixelDistance), 0};
+  0, static_cast<uint8_t>(FONT_HEIGHT + voffset[1]),
+  static_cast<uint8_t>((2u * FONT_HEIGHT) + voffset[1] + textLinePixelDistance), 0
+};
 
 void DisplayDriver::begin() {
   printf("Starting Display Driver\n");

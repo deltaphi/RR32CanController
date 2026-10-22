@@ -26,11 +26,13 @@ struct arg_end* argEnd = arg_end(5);
 static void* argtable[] = {turnoutNum, direction, argEnd};
 
 void Setup() {
-  esp_console_cmd_t actuateTurnout{/*.command =*/ programName,
-                                   /*.help =*/ "Actuate a turnout on request",
-                                   /*.hint =*/ nullptr,
-                                   /*.func =*/ TurnoutMain,
-                                   /*.argtable =*/ argtable};
+  esp_console_cmd_t actuateTurnout{
+    .command = programName,
+    .help = "Actuate a turnout on request",
+    .hint = nullptr,
+    .func = TurnoutMain,
+    .argtable = argtable
+  };
   ESP_ERROR_CHECK(esp_console_cmd_register(&actuateTurnout));
 }
 
@@ -43,7 +45,8 @@ int TurnoutMain(int argc, char** argv) {
     returncode = -1;
   } else {
     RR32Can::MachineTurnoutAddress machineTurnoutAddress{RR32Can::HumanTurnoutAddress{
-        static_cast<RR32Can::TurnoutAddressBase::value_type>(turnoutNum->ival[0])}};
+      static_cast<RR32Can::TurnoutAddressBase::value_type>(turnoutNum->ival[0])
+    }};
 
     RR32Can::TurnoutDirection turnoutDirection =
         RR32Can::TurnoutDirectionFromIntegral(direction->ival[0]);

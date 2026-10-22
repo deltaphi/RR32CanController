@@ -17,7 +17,7 @@ class MasterControl;
  */
 class LocoList : public application::controller::AbstractMenu {
  public:
-  void begin();
+  void begin() override;
   void loop(application::model::InputState& inputState, MasterControl& masterControl) override;
 
   /// Callback when a menu item is selected.
